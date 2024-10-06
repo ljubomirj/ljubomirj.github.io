@@ -4,56 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Personal Blog of Ljubomir Josifovski</title>
-    <style>
-        body {
-            display: flex;
-            margin: 0;
-            font-family: Arial, sans-serif;
-        }
-
-        /* Sidebar on the left */
-        #sidebar {
-            width: 250px;
-            background-color: #007bff; /* #007bff (blue), #0056b3 (darker blue), #4a90e2 (light blue) */
-            color: white;
-            height: 100vh;
-            position: fixed;
-            padding-top: 20px;
-        }
-
-        #sidebar a {
-            padding: 10px 15px;
-            text-decoration: none;
-            color: white;
-            display: block;
-        }
-
-        #sidebar a:hover {
-            background-color: #575757;
-        }
-
-        /* Main content area on the right */
-        #content {
-            margin-left: 250px;
-            padding: 20px;
-            flex-grow: 1;
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <div id="sidebar">
-        <h2><a href="index.html">Blog Entries</a></h2>
-<!-- This is blocked for file:/// scheme, so just put plain links */
-index.html#:1 Access to fetch at 'file:///home/ljubomir/ljubomirj.github.io/post1.html' from origin 'null' has been blocked by CORS policy: Cross origin requests are only supported for protocol schemes: chrome, chrome-extension, chrome-untrusted, data, http, https, isolated-app.
--->
-<!--
-        <a href="#" onclick="loadContent('post1')">Post 1</a>
-        <a href="#" onclick="loadContent('post2')">Post 2</a>
--->
-        <a href="post1.html">Post 1</a>
-        <a href="post2.html">Post 2</a>
-    </div>
+    <!-- Sidebar is loaded dynamically -->
+    <div id="sidebar"></div>
 
     <div id="content">
         <h1>Welcome to the personal blog of Ljubomir Josifovski</h1>
@@ -68,21 +24,17 @@ index.html#:1 Access to fetch at 'file:///home/ljubomir/ljubomirj.github.io/post
         <p>Select a post from the left to read.</p>
     </div>
 
-<!--
     <script>
-        function loadContent(post) {
-            fetch(post + '.html')
-                .then(response => response.text())
-                .then(data => {
-                    document.getElementById('content').innerHTML = data;
-                })
-                .catch(error => {
-                    document.getElementById('content').innerHTML = "<p>Error loading content.</p>";
-                });
-        }
+        // Load the sidebar from the external file
+        fetch('sidebar.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('sidebar').innerHTML = data;
+            })
+            .catch(error => {
+                console.error('Error loading sidebar:', error);
+            });
     </script>
--->
 
 </body>
 </html>
-
