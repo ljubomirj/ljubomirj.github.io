@@ -1,1 +1,88 @@
-Hello World
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personal Blog of Ljubomir Josifovski</title>
+    <style>
+        body {
+            display: flex;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        /* Sidebar on the left */
+        #sidebar {
+            width: 250px;
+            background-color: #007bff; /* #007bff (blue), #0056b3 (darker blue), #4a90e2 (light blue) */
+            color: white;
+            height: 100vh;
+            position: fixed;
+            padding-top: 20px;
+        }
+
+        #sidebar a {
+            padding: 10px 15px;
+            text-decoration: none;
+            color: white;
+            display: block;
+        }
+
+        #sidebar a:hover {
+            background-color: #575757;
+        }
+
+        /* Main content area on the right */
+        #content {
+            margin-left: 250px;
+            padding: 20px;
+            flex-grow: 1;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="sidebar">
+        <h2><a href="index.html">Blog Entries</a></h2>
+<!-- This is blocked for file:/// scheme, so just put plain links */
+index.html#:1 Access to fetch at 'file:///home/ljubomir/ljubomirj.github.io/post1.html' from origin 'null' has been blocked by CORS policy: Cross origin requests are only supported for protocol schemes: chrome, chrome-extension, chrome-untrusted, data, http, https, isolated-app.
+-->
+<!--
+        <a href="#" onclick="loadContent('post1')">Post 1</a>
+        <a href="#" onclick="loadContent('post2')">Post 2</a>
+-->
+        <a href="post1.html">Post 1</a>
+        <a href="post2.html">Post 2</a>
+    </div>
+
+    <div id="content">
+        <h1>Welcome to the personal blog of Ljubomir Josifovski</h1>
+        <p>Now - systematic trading, research and development.</p>
+        <p>Prior - automatic speech recognition (ASR) in noise, speech synthesis, machine learning (ML).</p>
+        <p>In Harpenden UK, from Skopje MK.</p>
+        <p>Online coordinates</p>
+        <p>X/Twitter @ljupc0 <a href="https://x.com/ljupc0">https://x.com/ljupc0</a></p>
+        <p>Bsky @ljupco.bsky.social <a href="https://bsky.app/profile/ljupco.bsky.social">https://bsky.app/profile/ljupco.bsky.social</a></p>
+        <p>Mastodon @ljupco <a href="https://mstdn.io/@ljupco">https://mstdn.io/@ljupco</a></p>
+        <p>GitHub ljubomirj <a href="https://github.com/ljubomirj">https://github.com/ljubomirj</a></p>
+        <p>Select a post from the left to read.</p>
+    </div>
+
+<!--
+    <script>
+        function loadContent(post) {
+            fetch(post + '.html')
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('content').innerHTML = data;
+                })
+                .catch(error => {
+                    document.getElementById('content').innerHTML = "<p>Error loading content.</p>";
+                });
+        }
+    </script>
+-->
+
+</body>
+</html>
+
