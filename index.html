@@ -1,1 +1,74 @@
-Hello World
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personal Blog of Ljubomir Josifovski</title>
+    <style>
+        body {
+            display: flex;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        /* Sidebar on the left */
+        #sidebar {
+            width: 250px;
+            background-color: #007bff; /* #007bff (blue), #0056b3 (darker blue), #4a90e2 (light blue) */
+            color: white;
+            height: 100vh;
+            position: fixed;
+            padding-top: 20px;
+        }
+
+        #sidebar a {
+            padding: 10px 15px;
+            text-decoration: none;
+            color: white;
+            display: block;
+        }
+
+        #sidebar a:hover {
+            background-color: #575757;
+        }
+
+        /* Main content area on the right */
+        #content {
+            margin-left: 250px;
+            padding: 20px;
+            flex-grow: 1;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="sidebar">
+        <h2>Blog Entries</h2>
+        <a href="#" onclick="loadContent('post1')">Post 1</a>
+        <a href="#" onclick="loadContent('post2')">Post 2</a>
+        <a href="#" onclick="loadContent('post3')">Post 3</a>
+    </div>
+
+    <div id="content">
+        <h1>Welcome to the personal blog of Ljubomir Josifovski</h1>
+        <p>Now - systematic trading, research and development.</p>
+        <p>Prior - automatic speech recognition (ASR) in noise, speech synthesis, machine learning (ML).</p>
+        <p>In Harpenden UK, from Skopje MK.</p>
+        <p>Select a post from the left to read.</p>
+    </div>
+
+    <script>
+        const posts = {
+            post1: `<h1>Post 1 Title</h1><p>This is the content of Post 1. You can edit this in a text editor.</p>`,
+            post2: `<h1>Post 2 Title</h1><p>This is the content of Post 2. It's easy to add more posts this way.</p>`,
+            post3: `<h1>Post 3 Title</h1><p>This is the content of Post 3. Simple and editable in any text editor.</p>`
+        };
+
+        function loadContent(post) {
+            document.getElementById('content').innerHTML = posts[post];
+        }
+    </script>
+
+</body>
+</html>
+
