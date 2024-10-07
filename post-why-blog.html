@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Why Blog</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Sidebar is loaded dynamically -->
+    <div id="sidebar"></div>
+
+    <div id="content">
+        <h1>Why Blog</h1>
+<p>
+Q: Why write in public when you can write in private?
+</p>
+<p>
+A: Yes I have a plain text file ~/logBook for simple note taking. That works without fuss.<br>
+I do minimal extra work to have it versioned in $HOME/.git, and structured in sections FIXME / TODO / DONE / DONTDO.
+</p>
+<p>
+However. I catch myself bothering people close to me, family and friends, with things I find interesting to talk abt and or discuss, that they find less interesting even boring. :-)
+</p>
+<p>
+So this blog is to take that out of my system, while not bothering the above. Only people that will read will be online randoms that stumble on this by their own volition - so fine.
+</p>
+<p>
+Q: Why not use social network?
+</p>
+<p>
+A: Yes I do use social networks - most often X/Twitter <a href="https://x.com/ljupc0">@ljupc0</a>, sometimes Bsky <a href="https://bsky.app/profile/ljupco.bsky.social">@ljupco.bsky.social</a>, and rarely Mastodon <a href="https://mstdn.io/@ljupco">@ljupco</a>.<br>
+There is tons of interesting stuff there, mostly on X/Twitter due to its user size and "the Iron Law of public N^2 square". I post there, but it seems mostly replies and comments to what other post. Rarely I have something super interesting and urgent that I want to communicate to the world by having the algofeed stuff it into people's timelines.
+</p>
+<p>
+Then I saw -
+</p>
+<p>
+<a href="https://x.com/CJHandmer/status/1839816029473779775">https://x.com/CJHandmer/status/1839816029473779775</a><br>
+Casey Handmer, PhD @CJHandmer<br>
+This is your periodic reminder that you should write a blog. It doesn't have to be fancy, it doesn't have to be well-edited. It just has to be something you can cumulatively add to over time. It's easiest to write about stuff you like, and ignore your non-existent audience.<br>
+12:54 AM · Sep 28, 2024<br>
+</p>
+<p>
+My initial thoughts were around - why do it, when there are (a) logBook for things private; (b) X/Twitter for things public; and even (c) ChatGPT when audience of &gt;1 is needed while not exactly needing to share with the whole world.
+But then again: seems all that doesn't quite suffice, as evidenced by me still talking (see above). So there.
+</p>
+<p>Sun  6 Oct 22:50:39 BST 2024</p>
+    </div>
+
+    <script>
+        // Load the sidebar from the external file
+        fetch('sidebar.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('sidebar').innerHTML = data;
+            })
+            .catch(error => {
+                console.error('Error loading sidebar:', error);
+            });
+    </script>
+
+</body>
+</html>

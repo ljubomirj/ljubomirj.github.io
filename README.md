@@ -1,1 +1,1 @@
-Ljubomir Josifovski personal blog
+Ljubomir Josifovski personal blog at ljubomirj.github.io
