@@ -60,9 +60,22 @@ giho()                  { local -; set -x; githome "$@"; }
 giho-fetch-hostA()      { local -; set -x; githome fetch "$@" hostA master:hostA; }
 giho-merge-hostA()      { local -; set -x; githome merge "$@" hostA; }
 giho-push-hostA()       { local -; set -x; githome push --follow-tags "$@" hostA master:$(hostname -s); }
-giho-status()           { local -; set -x; githome status "$@"; }
-giho-diff()             { local -; set -x; githome diff "$@"; }
-giho-commit-a-m()       { local -; set -x; githome commit -a -m "$@"; }
+</code></pre>
+
+        <p>Other canned common git commands look like:</p>
+
+<pre><code>
+# Git shortcuts. Take the "git" command from the environment via GIT var to allow for goodies:
+#   - use with githome: $ GIT=githome gist
+#   - color terminal (off by default): $ GIT="git -c color.status=always" gist |m
+gi() { ${GIT:-git} "$@"; }
+gist() { ${GIT:-git} status "$@"; }
+gidf() { ${GIT:-git} diff "$@"; }
+gilg() { ${GIT:-git} log -C --name-status --pretty="%h %ae %ai : %s" "$@"; }
+gilgt() { ${GIT:-git} log -C --oneline --stat --decorate "$@"; }
+gi-fetch-hostA() { local GIM=${GIM:-master}; local -; set -x; ${GIT:-git} fetch "$@" hostA ${GIM}:hostA/${GIM}; }
+gi-merge-hostA() { local GIM=${GIM:-master}; local -; set -x; ${GIT:-git} merge "$@" refs/heads/hostA/${GIM}; }
+gi-push-hostA() { local GIM=${GIM:-master}; local -; set -x; ${GIT:-git} push --follow-tags "$@" hostA ${GIM}:"$(hostname -s)"/${GIM}; }
 </code></pre>
 
         <p>I like and use .bashrc search-previous-command all the time via .inputrc:</p>
@@ -99,9 +112,8 @@ PS1='${debian_chroot:+($debian_chroot)}\[\033[01;34m\]\u@\h\[\033[00m\](${STY}:$
 PROMPT_COMMAND='echo -ne "\033]0;${XUSER} (${STY:-$$}) ${VIRTUAL_ENV_PROMPT} ${USER}@${HOSTNAME}:${PWD}\007"'
 </code></pre>
 
-        <p>
-A researcher, an explorer - usually they need a log book. At work as a researcher I always keept a log book, usually would use 2 facing pages per 1 week. At $HOME have settled for a ~/logBook that's plain ascii text file under git. Love git for versioning so I don't worry that I will delete destroy something by mistake. Also great for synchronisation and replication to various boxes - git fetch/merge/push. I have FIXME TODO DONE DONTDO sections, that are easily ^searchable in vim. The entries are short, sentence or 2 or 5, separated by empty line. I start entries with "- " so to search easily with /^- in vim. Entries move whole sale between sections. Entry that spends enough time in TODO without moving to DONE is moved to DONTDO after some time.
-</p>
+        <p>A researcher, an explorer - usually they need a log book. At work as a researcher I always kept a log book, usually using 2 facing pages per 1 week.</p>
+        <p>At $HOME have settled for a ~/logBook that's plain ascii text file under git. Love git for versioning so I don't worry that I will delete destroy something by mistake. Also great for synchronisation and replication to various boxes - done easily with $ git fetch/merge/push. I have FIXME TODO DONE DONTDO sections. They are easily ^searchable in vim, e.g. /^TODO (enter). The entries are short-ish, sentence or 2 or 5, separated by empty line. I start entries with "- " so to search easily with /^- in vim. Entries move whole sale between sections. I move entries readily beteen sections, the idea is to move them around without further editing. Entry that spends enough time in TODO without moving to DONE is moved to DONTDO after some time.</p>
         <p></p>
         <p>I have spent most of my adult life with and around computers. The 1st home computer I saw was ZX-Spectrum 16K that my school <a href="https://www.youtube.com/@AlojzRop">friend</a> got before me in the last year in elementary school probably 1982-83. Remember the prices still: ZX-Spectrum 16K was £100, 48K model was £130. Commodore C64 was £200. Latter I managed to persuade my parents to buy me a C64 probably around 1985. I learned Basic and 6502 assembler on it, mostly from the <a href="https://www.racunari.com">Racunari u vasoj kuci</a> (Computers in Your Home) magazine.</p>
         <p>In 1987 I finished High school and enrolled undergrad studies in Electrical Engineering, that turned into Computer Science starting from year 3. The studies were 4.5 years + a diploma work. Had to do national service between High School and University in 1987-88 for 1 year, and there I worked with pocket computers HP-71B, Sharp PC-1500 (with the tiny printer), Apple II clone with a Z80 CP/M board and a hard disk(!) that had partitions but not directories? Once back home and at university from 1988, I finally got my PC (don't recall the year) that had Intel 80286 CPU, 1MB RAM, Hercules graphics card, and probably run MS-DOS 5 or similar. I squeezed a 2400bps modem in the budget too. Without any error correction or compression like MNP5 - that was outside the budget. All that was financed bought paid for by my generous parents. :-)</p>
