@@ -6,12 +6,12 @@ body {
 
 /* Sidebar on the left */
 #sidebar {
-	width: 250px;
+	width: 200px;
 	background-color: #007bff; /* #007bff (blue), #0056b3 (darker blue), #4a90e2 (light blue) */
 	color: white;
 	height: 100vh;
 	position: fixed;
-	padding-top: 20px;
+	padding-top: 8px;
 }
 
 #sidebar a {
@@ -30,4 +30,14 @@ body {
 	margin-left: 250px;
 	padding: 20px;
 	flex-grow: 1;
+}
+/* Ensures <pre> and <code> wrap properly */
+pre, code {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+
+/* Avoids horizontal scrolling */
+body, html {
+    overflow-x: hidden;
 }
