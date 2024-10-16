@@ -24,27 +24,23 @@
 
 <pre><code>
 # Keep dot files and other config in git (https://news.ycombinator.com/item?id=11070797).
-
 # Step 1: $ git init --bare $HOME/.githome.
-
 # Step 2: make function (rather than alias to allow for composition like $ GIT=githome gilg; change dir so paths work independent of the current dir):
 githome() { (cd "$HOME" && git --git-dir="$HOME"/.githome/ --work-tree="$HOME" "$@";) }
-
 # Step 3: disregard files by default, only track explicitly added files: $ githome config status.showUntrackedFiles no.
-
 # Now use the usual git commands prefixed by githome: $ githome status; githome add .vimrc; githome commit -m "Add vimrc".
-
 # Issue 1: Can not commit links. For host specific dirs, woraround: 1) move dir to dir-host; 2) link dir to dir-host; 3) add dir-host to git. Example with ~/.config dir:
 #   ljubomir@hostA:~$ l -d .config*
 #     lrwxrwxrwx  1 ljubomir ljubomir   14 Mar 24 14:26 .config -> .config-hostA/
 #     drwx------ 34 ljubomir ljubomir 4.0K Mar 29 12:24 .config-hostA/
 #     drwx------  3 ljubomir ljubomir 4.0K Mar 24 14:52 .config-hostB/
-
 # Issue 2: To pull from host with temporary IP edit $ vi .githome/config, change the IP below:
 #   [remote "hostC"]
 #   	url = ljubomir@192.168.1.117:.githome
 #   	fetch = +refs/heads/*:refs/remotes/hostC/*
+</code></pre>
 
+<pre><code>
 # List all files under management and pretty print if run without args, githome otherwise. (https://mitxela.com/projects/dotfiles_management)
 giho-ls() {
   (cd /
@@ -54,7 +50,6 @@ giho-ls() {
   done
   ) | column -t -s¬
 }
-
 # Have "local -" to make option "set -x" local to the function only
 giho()                  { local -; set -x; githome "$@"; }
 giho-fetch-hostA()      { local -; set -x; githome fetch "$@" hostA master:hostA; }
@@ -85,11 +80,9 @@ $if Bash
   # Filename completion/expansion
   set completion-ignore-case on
   set show-all-if-ambiguous on
-
   # Append "/" to all dirnames
   set mark-directories on
   set mark-symlinked-directories on
-
   # Match all files
   set match-hidden-files on
 $endif
@@ -98,7 +91,6 @@ $endif
 "\e[1;5D": backward-word
 # Ctrl-Right
 "\e[1;5C": forward-word
-
 # Up
 "\e[A": history-search-backward
 # Down
@@ -113,14 +105,23 @@ PROMPT_COMMAND='echo -ne "\033]0;${XUSER} (${STY:-$$}) ${VIRTUAL_ENV_PROMPT} ${U
 </code></pre>
 
         <p>A researcher, an explorer - usually they need a log book. At work as a researcher I always kept a log book, usually using 2 facing pages per 1 week.</p>
-        <p>At $HOME have settled for a ~/logBook that's plain ascii text file under git. Love git for versioning so I don't worry that I will delete destroy something by mistake. Also great for synchronisation and replication to various boxes - done with $ git fetch/merge/push. I have FIXME TODO DONE DONTDO sections. They are ^searchable in vim, e.g. /^TODO (enter). The entries are short-ish, sentence or 2 or 5, separated by empty line. I start entries with "- " so to search easily with /^- in vim. Entries move wholesale between sections, the idea is to move them around without further editing. Entry that spends enough time in TODO without moving to DONE is moved to DONTDO after some time.</p>
-        <p>I have spent most of my adult life with and around computers. The 1st home computer I saw was ZX-Spectrum 16K that my school <a href="https://www.youtube.com/@AlojzRop">friend</a> got before me in the last year in elementary school probably 1982-83. Remember the prices still: ZX-Spectrum 16K was £100, 48K model was £130. Commodore C64 was £200. Latter I managed to persuade my parents to buy me a C64 probably around 1985. I learned Basic and 6502 assembler on it, mostly from the <a href="https://www.racunari.com">Racunari u vasoj kuci</a> (Computers in Your Home) <a href="#" onclick="showImage()">magazine</a>.</p>
-        <p>In 1987 I finished High school and enrolled BSc undergraduate studies in Electrical Engineering, that turned into Computer Science from year 3 onwards. (studies were 4.5yrs+diploma work) Did 1yr National service in-between High School and University, and there I programmed pocket computers HP-71B, Sharp PC-1500 (with the tiny printer), Apple II clone with a Z80 CP/M board and a hard disk (!! remember CP/M had partitions, but no directories?). Once back home and at uni from 1988, I finally got my 1st PC (don't recall the year exactly) with Intel 80286 CPU, 1MB RAM, Hercules graphics card, 20MB HDD, that probably run MS-DOS 5 or similar. I squeezed a 2400bps modem in the budget too (without any error correction or compression like MNP5 - that was outside the budget). The modem proved an excellent decision as it got me into the online world of BBS and latter Internet. All that was financed bought paid for by my generous parents.</p>
-        <p>Since - I've never been too far from a computer for any significant time. Nowdays it's mostly Linux (Xubuntu, CentOS, Ubuntu), for a long time earlier it was MS-DOS/Windows (3.1-95-XP-10, cygwin), various Unix too (Solaris, HP-UX, Ultrix, AIX), as well as VAX VMS. And of course - we all carry a magical shiny slabs in our pocekts that are super-computers of the old. Mostly varous Android for me, but it's looking like I'll be switching over to iPhone for the AI NN hardware.</p>
-        <p></p>
-        <p>LJ HPD Thu 10 Oct 23:00:52 BST 2024</p>
 
-        <img id="zoomableImage" src="racunari-at-40yrs.jpg" style="display: none; width: 100%; height: auto;" onclick="zoomImage(this)">
+        <p>At $HOME have settled for a ~/logBook that's plain ascii text file under git. Love git for versioning so I don't worry that I will delete destroy something by mistake. Also great for synchronisation and replication to various boxes - done with $ git fetch/merge/push. I have FIXME TODO DONE DONTDO sections. They are ^searchable in vim, e.g. /^TODO (enter). The entries are short-ish, sentence or 2 or 5, separated by empty line. I start entries with "- " so to search easily with /^- in vim. Entries move wholesale between sections, the idea is to move them around without further editing. Entry that spends enough time in TODO without moving to DONE is moved to DONTDO after some time.</p>
+
+        <p>I have spent most of my adult life with and around computers. The 1st home computer I saw was ZX-Spectrum 16K that my school <a href="https://www.youtube.com/@AlojzRop">friend</a> got before me in the last year in elementary school probably 1982-83. Remember the prices still: ZX-Spectrum 16K was £100, 48K model was £130. Commodore C64 was £200. Latter I managed to persuade my parents to buy me a C64 probably around 1985. I learned Basic and 6502 assembler on it, mostly from the <a href="https://www.racunari.com">Racunari u vasoj kuci</a> (Computers in Your Home) magazine (<a href="#" onclick="toggleShowImage('racunari-at-40yrs')">recent 40 years anniversary reprint</a>; click to zoom).</p>
+        <img id="racunari-at-40yrs" src="racunari-at-40yrs.jpg" style="display: none; width: 100%; height: auto;" onclick="zoomImage(this)">
+
+        <p>In 1987 I finished High school and enrolled BSc undergraduate studies in Electrical Engineering, that turned into Computer Science from year 3 onwards. (studies were 4.5yrs+diploma work) Did 1yr National service in-between High School and University, and there I programmed pocket computers HP-71B, Sharp PC-1500 (with the tiny printer), Apple II clone with a Z80 CP/M board and a hard disk (!! remember CP/M had partitions, but no directories?). Once back home and at uni from 1988, I finally got my 1st PC (don't recall the year exactly) AT with Intel 80286 CPU, 1MB RAM, Hercules graphics card, 20MB HDD, that probably run MS-DOS 5 or similar. I squeezed a 2400bps modem in the budget too (without MNP5 error correction or compression). The modem proved an excellent decision as it got me into the online world of BBS (e.g. <a href="http://pc.pcpress.rs/tekst.php?id=15834">Sezam</a>) and latter Internet. All that was financed bought paid for by my generous parents.</p>
+
+        <p>Since - I've never been too far from a computer for any significant time. Nowdays it's mostly Linux (Xubuntu, CentOS, Ubuntu), for a long time earlier it was MS-DOS/Windows (3.1-95-XP-10, cygwin), various Unix too (Solaris, HP-UX, Ultrix, AIX), as well as VAX VMS. And of course - we all carry a magical shiny slabs in our pockets that are super-computers of the old. Mostly varous Android for me, but it's looking like I'll be switching over to iPhone for the AI Neural Nets hardware.</p>
+
+        <p>These days I 'm mostly at my <a href="#" onclick="toggleShowImage('garden-office-desk')">desk</a>, in a <a href="#" onclick="toggleShowImage('garden-office')">garden office</a>. Sometimes I get a <a href="#" onclick="toggleShowImage('garden-office-visitor')">visitor</a> or <a href="#" onclick="toggleShowImage('garden-visitor2')">two</a> or <a href="#" onclick="toggleShowImage('garden-visitor3')">three</a>. (click to zoom)</p>
+        <img id="garden-office-desk" src="garden-office-desk.jpg" style="display: none; width: 100%; height: auto;" onclick="zoomImage(this)">
+        <img id="garden-office" src="garden-office.jpg" style="display: none; width: 100%; height: auto;" onclick="zoomImage(this)">
+        <img id="garden-office-visitor" src="garden-office-visitor.jpg" style="display: none; width: 100%; height: auto;" onclick="zoomImage(this)">
+        <img id="garden-visitor2" src="garden-visitor2.jpg" style="display: none; width: 100%; height: auto;" onclick="zoomImage(this)">
+        <img id="garden-visitor3" src="garden-visitor3.jpg" style="display: none; width: 100%; height: auto;" onclick="zoomImage(this)">
+        <p>LJ HPD Thu 10 Oct 23:00:52 BST 2024</p>
 
     </div>
 

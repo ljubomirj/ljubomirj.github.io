@@ -35,9 +35,20 @@ body {
 pre, code {
     white-space: pre-wrap;
     word-wrap: break-word;
+    font-size: 0.85em; /* Adjusts the font size to 85% of the base text size */
+    line-height: 1.2; /* Optional: Adjusts line spacing to improve readability */
 }
 
 /* Avoids horizontal scrolling */
 body, html {
     overflow-x: hidden;
+}
+
+p, pre {
+    margin-bottom: 0; /* Removes the default bottom margin */
+    padding-bottom: 0; /* Removes any extra padding if present */
+}
+
+pre {
+    margin-top: 0; /* Removes the top margin of <pre> to eliminate extra space */
 }
