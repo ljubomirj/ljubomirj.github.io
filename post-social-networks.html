@@ -89,21 +89,26 @@ The medium shapes the message applied to current social media - examples.
 </p>
 
         <p>LJ HPD Tue 15 Oct 08:21:21 BST 2024</p>
-<p>
-</p>
-        <p>XPro decks setup for X Lists - click to zoom</p>
-        <img src="LJ-XPro-decks-Screenshot_2024-09-23.png" width="100%" height="auto" onclick="zoomImage(this)">
+
+<p><a href="#" onclick="showImage()">XPro decks setup for X Lists</a> - click to zoom</p>
+<img id="zoomableImage" src="Xpro-decks.png" style="display: none; width: 100%; height: auto;" onclick="zoomImage(this)">
+
 <script>
+function showImage() {
+    var img = document.getElementById('zoomableImage');
+    img.style.display = 'block'; // Show the image
+}
+
 function zoomImage(img) {
     // Check the current width to toggle between states
-    if (img.style.width === '100%' || img.style.width === '') {
+    if (img.style.width === '100%' || img.style.width === '') { 
         // Zoom in
         img.style.imageRendering = 'pixelated';
         img.style.width = 'auto';
         img.style.height = 'auto';
     } else {
         // Reset to original state
-        img.style.imageRendering = 'auto';
+        img.style.imageRendering = 'auto'; 
         img.style.width = '100%';
         img.style.height = 'auto';
     }
