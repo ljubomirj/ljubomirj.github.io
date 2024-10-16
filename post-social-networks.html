@@ -92,9 +92,18 @@ The medium shapes the message applied to current social media - examples.
         <img src="LJ-XPro-decks-Screenshot_2024-09-23.png" width="100%" height="auto" onclick="zoomImage(this)">
 <script>
 function zoomImage(img) {
-    img.style.imageRendering = 'pixelated';
-    img.style.width = 'auto';
-    img.style.height = 'auto';
+    // Check the current width to toggle between states
+    if (img.style.width === '100%' || img.style.width === '') {
+        // Zoom in
+        img.style.imageRendering = 'pixelated';
+        img.style.width = 'auto';
+        img.style.height = 'auto';
+    } else {
+        // Reset to original state
+        img.style.imageRendering = 'auto';
+        img.style.width = '100%';
+        img.style.height = 'auto';
+    }
 }
 </script>
 
