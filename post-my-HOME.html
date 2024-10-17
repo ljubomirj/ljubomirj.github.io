@@ -15,7 +15,7 @@
 
         <h1>My computer $HOME</h1>
 
-        <p>I spend most of my time typing into a computer, reading on the computer screen, watching videos or listening to audio playing on a computer, talking and seeing other people through a computer screen. I mostly live in the text world of a terminal <a ref="https://gnome-terminator.org/">emulator</a>, <a href="https://www.gnu.org/software/bash/">bash</a> command line and the <a href="https://www.vim.org/">vim editor</a>, with <a href="https://www.mozilla.org/en-GB/firefox/">Firefox</a> a window to the world.</p>
+        <p>I spend most of my time typing into a computer, reading on the computer screen, watching videos or listening to audio playing on a computer, talking and seeing other people through a computer screen. I mostly live in the text world of a terminal <a href="https://gnome-terminator.org/">emulator</a>, <a href="https://www.gnu.org/software/bash/">bash</a> command line and the <a href="https://www.vim.org/">vim editor</a>, with <a href="https://www.mozilla.org/en-GB/firefox/">Firefox</a> a window to the world.</p>
 
         <p>Nowdays I use <a href="https://xubuntu.org">Xubuntu</a> <a href="https://ubuntu.com/about/release-cycle">LTS</a>, on the desktop and on my laptops. I update every 3-4 years to the new version, but other than that - it's completely uneventful. The <a href="https://www.xfce.org">Xfce</a> GUI changes only slowly if ever - and that's how I like it.</p>
 
@@ -25,7 +25,7 @@
 
         <p>In my daily job I write quant trading systems and frameworks. I use mix of C/C++, matlab in the past now octave and python with numpy (and pandas), scripting in bash, awk, plotting in gnuplot, data fetching in sql, kdb.</p>
 
-        <p>Everything that I do more then few times on the command line, I "can" it into a bash alias or function, and put in my .bashrc. In part to document and not forget. I love that commnad search works, I can type $ xyz<TAB> and bash will seek to complete for commands starting with xyz.</p>
+        <p>Everything that I do more then few times on the command line, I "can" it into a bash alias or function, and put in my .bashrc. In part to document and not forget. I love that commnad search works, I can type $ xyz then press (TAB) and bash will seek to complete for commands starting with xyz. And bash will keep cycling through the completitions for as long as I keep pressing the (TAB) key.</p>
 
         <p>I keep my dot rc files under git and that's worked without fuss. Looks like this:</p>
 
@@ -38,13 +38,13 @@ githome() { (cd "$HOME" && git --git-dir="$HOME"/.githome/ --work-tree="$HOME" "
 # Now use the usual git commands prefixed by githome: $ githome status; githome add .vimrc; githome commit -m "Add vimrc".
 # Issue 1: Can not commit links. For host specific dirs, woraround: 1) move dir to dir-host; 2) link dir to dir-host; 3) add dir-host to git. Example with ~/.config dir:
 #   ljubomir@hostA:~$ l -d .config*
-#     lrwxrwxrwx  1 ljubomir ljubomir   14 Mar 24 14:26 .config -> .config-hostA/
-#     drwx------ 34 ljubomir ljubomir 4.0K Mar 29 12:24 .config-hostA/
-#     drwx------  3 ljubomir ljubomir 4.0K Mar 24 14:52 .config-hostB/
+#   lrwxrwxrwx  1 ljubomir ljubomir   14 Mar 24 14:26 .config -> .config-hostA/
+#   drwx------ 34 ljubomir ljubomir 4.0K Mar 29 12:24 .config-hostA/
+#   drwx------  3 ljubomir ljubomir 4.0K Mar 24 14:52 .config-hostB/
 # Issue 2: To pull from host with temporary IP edit $ vi .githome/config, change the IP below:
 #   [remote "hostC"]
-#   	url = ljubomir@192.168.1.117:.githome
-#   	fetch = +refs/heads/*:refs/remotes/hostC/*
+#   url = ljubomir@192.168.1.117:.githome
+#   fetch = +refs/heads/*:refs/remotes/hostC/*
 </code></pre>
 
 <pre><code>
