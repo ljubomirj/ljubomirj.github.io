@@ -35,7 +35,7 @@ body {
 pre, code {
     white-space: pre-wrap;
     word-wrap: break-word;
-    font-size: 0.85em; /* Adjusts the font size to 85% of the base text size */
+    font-size: 0.9em; /* Adjusts the font size to 90% of the base text size */
     line-height: 1.2; /* Optional: Adjusts line spacing to improve readability */
 }
 

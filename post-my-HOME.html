@@ -12,14 +12,21 @@
     <div id="sidebar"></div>
 
     <div id="content">
+
         <h1>My computer $HOME</h1>
-        <p>I spend most of my time typing into a computer, reading on the computer screen, watching videos or listening to audio playing on a computer, talking and seeing other poeple through a computer screen.</p>
+
+        <p>I spend most of my time typing into a computer, reading on the computer screen, watching videos or listening to audio playing on a computer, talking and seeing other people through a computer screen. I mostly live in the text world of a terminal <a ref="https://gnome-terminator.org/">emulator</a>, <a href="https://www.gnu.org/software/bash/">bash</a> command line and the <a href="https://www.vim.org/">vim editor</a>, with <a href="https://www.mozilla.org/en-GB/firefox/">Firefox</a> a window to the world.</p>
+
         <p>Nowdays I use <a href="https://xubuntu.org">Xubuntu</a> <a href="https://ubuntu.com/about/release-cycle">LTS</a>, on the desktop and on my laptops. I update every 3-4 years to the new version, but other than that - it's completely uneventful. The <a href="https://www.xfce.org">Xfce</a> GUI changes only slowly if ever - and that's how I like it.</p>
+
         <p>On the computers used by rest of the family I put Ubuntu as it's better looking. They also use Windows desktops and Macbooks for laptops. The Macbooks with the M1-M4 ARM CPU-s have spectacular battery life in addition to great screens. I am looking forward to the day when I add an <a href="https://www.perplexity.ai/search/arm-thinkpads-wtf0g0o0REahidqJVzJs5w#0">ARM Thinkpad</a> to my daily use. Have couple of <a href="https://www.reddit.com/r/thinkpad">Thinkpads</a> for the RAM I need. The RAM keeps me away from the Macbooks - otherwise I would have switched my now. Initially I had 32GB, but now that has grown to 64GB. Can't imagine to have less and would like to move to 128GB on the laptop. Have had that much on the desktop for 10 years now. That's my first need: get as much RAM as I can. And the 2nd - get as fast an SSD and better NVME as I can. My daily job involves lots of data, and keeping all data needed in memory is the best UI for me. And when not in memory - then on ssd drives and preferably nvme ones.</p>
+
         <p>Daily I ive in bash and vim mostly inside screen (the multiplexer) inside terminator (the terminal emulator). I use the shell tools, incl awk (that I like) and the rest of the gnu shell tools (grep, sed), git, gcc and g++, make, ssh, rsync, rcopy, Spyder, python, Visual Studio Editor, Cursor (ai), Firefox, Thunderbird, Chrome, Edge, Double commander, Evince, VLC player. I like them all - my life would be worse if these free software tools didn't exist. Thank you <a href="https://www.gnu.org">GNU</a> <a href="https://www.gnu.org/software/software.en.html">software</a>, thank you <a href="https://www.linuxfoundation.org">Linux</a>, thank you <a href="https://www.fsf.org">FSF</a>.</p>
-        <p></p>
+
         <p>In my daily job I write quant trading systems and frameworks. I use mix of C/C++, matlab in the past now octave and python with numpy (and pandas), scripting in bash, awk, plotting in gnuplot, data fetching in sql, kdb.</p>
+
         <p>Everything that I do more then few times on the command line, I "can" it into a bash alias or function, and put in my .bashrc. In part to document and not forget. I love that commnad search works, I can type $ xyz<TAB> and bash will seek to complete for commands starting with xyz.</p>
+
         <p>I keep my dot rc files under git and that's worked without fuss. Looks like this:</p>
 
 <pre><code>
@@ -109,18 +116,27 @@ PROMPT_COMMAND='echo -ne "\033]0;${XUSER} (${STY:-$$}) ${VIRTUAL_ENV_PROMPT} ${U
         <p>At $HOME have settled for a ~/logBook that's plain ascii text file under git. Love git for versioning so I don't worry that I will delete destroy something by mistake. Also great for synchronisation and replication to various boxes - done with $ git fetch/merge/push. I have FIXME TODO DONE DONTDO sections. They are ^searchable in vim, e.g. /^TODO (enter). The entries are short-ish, sentence or 2 or 5, separated by empty line. I start entries with "- " so to search easily with /^- in vim. Entries move wholesale between sections, the idea is to move them around without further editing. Entry that spends enough time in TODO without moving to DONE is moved to DONTDO after some time.</p>
 
         <p>I have spent most of my adult life with and around computers. The 1st home computer I saw was ZX-Spectrum 16K that my school <a href="https://www.youtube.com/@AlojzRop">friend</a> got before me in the last year in elementary school probably 1982-83. Remember the prices still: ZX-Spectrum 16K was £100, 48K model was £130. Commodore C64 was £200. Latter I managed to persuade my parents to buy me a C64 probably around 1985. I learned Basic and 6502 assembler on it, mostly from the <a href="https://www.racunari.com">Racunari u vasoj kuci</a> (Computers in Your Home) magazine (<a href="#" onclick="toggleShowImage('racunari-at-40yrs')">recent 40 years anniversary reprint</a>; click to zoom).</p>
+
         <img id="racunari-at-40yrs" src="racunari-at-40yrs.jpg" style="display: none; width: 100%; height: auto;" onclick="zoomImage(this)">
 
-        <p>In 1987 I finished High school and enrolled BSc undergraduate studies in Electrical Engineering, that turned into Computer Science from year 3 onwards. (studies were 4.5yrs+diploma work) Did 1yr National service in-between High School and University, and there I programmed pocket computers HP-71B, Sharp PC-1500 (with the tiny printer), Apple II clone with a Z80 CP/M board and a hard disk (!! remember CP/M had partitions, but no directories?). Once back home and at uni from 1988, I finally got my 1st PC (don't recall the year exactly) AT with Intel 80286 CPU, 1MB RAM, Hercules graphics card, 20MB HDD, that probably run MS-DOS 5 or similar. I squeezed a 2400bps modem in the budget too (without MNP5 error correction or compression). The modem proved an excellent decision as it got me into the online world of BBS (e.g. <a href="http://pc.pcpress.rs/tekst.php?id=15834">Sezam</a>) and latter Internet. All that was financed bought paid for by my generous parents.</p>
+        <p>By 1987 I finished High school and enrolled BSc undergraduate studies in Electrical Engineering, that turned into Computer Science from year 3 onwards. (studies were 4.5yrs+diploma work) Did 1yr National service in-between High School and University, and there I programmed pocket computers HP-71B, Sharp PC-1500 (with the tiny printer), Apple II clone with a Z80 CP/M board and a hard disk (!! remember that CP/M had partitions, but no directories?). Once back home and at Uni from 1988, I finally got my 1st PC (don't recall the year exactly) - AT with Intel 80286 CPU, 1MB RAM, Hercules graphics card, 20MB HDD, that probably run MS-DOS 5 or similar. I squeezed a 2400bps modem in the budget too (without MNP5 error correction or compression). The modem proved an excellent decision as it got me into the online world of BBS (e.g. <a href="http://pc.pcpress.rs/tekst.php?id=15834">Sezam</a>) and latter Internet. All that financed paid for by my ever kind and generous parents - thank you mum and dad!</p>
 
-        <p>Since - I've never been too far from a computer for any significant time. Nowdays it's mostly Linux (Xubuntu, CentOS, Ubuntu), for a long time earlier it was MS-DOS/Windows (3.1-95-XP-10, cygwin), various Unix too (Solaris, HP-UX, Ultrix, AIX), as well as VAX VMS. And of course - we all carry a magical shiny slabs in our pockets that are super-computers of the old. Mostly varous Android for me, but it's looking like I'll be switching over to iPhone for the AI Neural Nets hardware.</p>
+        <p>Since - I've never been too far from a computer for any significant time. Nowdays it's mostly Linux (Xubuntu, CentOS, Ubuntu), for a long time earlier it was MS-DOS/Windows (3.1-95-XP-10, cygwin), various Unix too (Solaris, HP-UX, Ultrix, AIX), as well as VAX VMS. And of course - we all carry a magical shiny slabs in our pockets that are super-computers of the old. Mostly varous Android for me, but it's looking like I'll be switching over to iPhone for the AI NPU (Neural nets Processing Units) hardware.</p>
 
-        <p>These days I 'm mostly at my <a href="#" onclick="toggleShowImage('garden-office-desk')">desk</a>, in a <a href="#" onclick="toggleShowImage('garden-office')">garden office</a>. Sometimes I get a <a href="#" onclick="toggleShowImage('garden-office-visitor')">visitor</a> or <a href="#" onclick="toggleShowImage('garden-visitor2')">two</a> or <a href="#" onclick="toggleShowImage('garden-visitor3')">three</a>. (click to zoom)</p>
+        <p>These days I 'm mostly at my <a href="#" onclick="toggleShowImage('garden-office-desk')">desk</a>, in a <a href="#" onclick="toggleShowImage('garden-office')">garden office</a> (at <a href="#" onclick="toggleShowImage('garden-office-end-day')">end of the work day</a>). Sometimes I get a <a href="#" onclick="toggleShowImage('garden-office-visitor')">visitor</a> or <a href="#" onclick="toggleShowImage('garden-visitor2')">two</a> or <a href="#" onclick="toggleShowImage('garden-visitor3')">three</a>. (click to zoom)</p>
+
         <img id="garden-office-desk" src="garden-office-desk.jpg" style="display: none; width: 100%; height: auto;" onclick="zoomImage(this)">
+
         <img id="garden-office" src="garden-office.jpg" style="display: none; width: 100%; height: auto;" onclick="zoomImage(this)">
+
+        <img id="garden-office-end-day" src="garden-office-end-day.jpg" style="display: none; width: 100%; height: auto;" onclick="zoomImage(this)">
+
         <img id="garden-office-visitor" src="garden-office-visitor.jpg" style="display: none; width: 100%; height: auto;" onclick="zoomImage(this)">
+
         <img id="garden-visitor2" src="garden-visitor2.jpg" style="display: none; width: 100%; height: auto;" onclick="zoomImage(this)">
+
         <img id="garden-visitor3" src="garden-visitor3.jpg" style="display: none; width: 100%; height: auto;" onclick="zoomImage(this)">
+
         <p>LJ HPD Thu 10 Oct 23:00:52 BST 2024</p>
 
     </div>
