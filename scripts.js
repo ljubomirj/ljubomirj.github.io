@@ -1,5 +1,17 @@
 // File: scripts.js
 
+// Load the sidebar from the external file
+function loadSidebar() {
+    fetch('sidebar.html')
+        .then(response => response.text())
+        .then(data => {
+            document.getElementById('sidebar').innerHTML = data;
+        })
+        .catch(error => {
+            console.error('Error loading sidebar:', error);
+        });
+}
+
 // Show image
 function showImage(imageId) {
     var img = document.getElementById(imageId);
