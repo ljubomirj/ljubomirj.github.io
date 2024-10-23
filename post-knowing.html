@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Knowing</title>
     <link rel="stylesheet" href="style.css">
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
 <body>
 
@@ -15,7 +17,11 @@
 
         <h1>Knowing - what do I mean when I say I know something</h1>
 
-        <p>Was told "joint probability (density) function between two variables X Y captures all there is ever to be known between them" 25yrs ago (¡Hola! <a href="https://faculty.ucmerced.edu/mcarreira-perpinan/">Miguel</a> :-)), and it's been a blessing and a curse. Blessing - yeah f_X_Y(x,y) does capture everything. Curse - oft I read sth & think of the author "wish someone told you too".</p>
+        <p>I was told "the joint probability density function between two variables X and Y captures all there is ever to be known about the relation between them" 25 years ago (¡Hola! <a href="https://faculty.ucmerced.edu/mcarreira-perpinan/">Miguel</a> :-)), and it's been a blessing and a curse. Blessing - yeah joint pdf \( f_{X,Y}(x,y) \) does capture everything. Curse - often I read an article and think of the author "wish someone told you too".</p>
+
+        <p>Example below illustrates the point on the example of a joint pdf \( p = f_{X,Y}(x,y) \) that is a mix of two Gaussians in 2D space \( (x,y) \). Then we observe the variable \( X \) and the observations is \( x=1 \). That is equivalent to the joint pdf being cut by the plane \( x=1 \).</p>
+        <p>The intersection of the joint pdf \( p = f_{X,Y}(x,y) \) and the plane \( x=1 \) is \( f_{X,Y}(x=1,y) \) and is the best description of how the model \( f_{X,Y})(x,y) \) is affected by the observation \( x=1 \). That intersection \( f_{X,Y}(x=1,y) \) is outlined below. It is a function that is a scaled conditional \( f_{X,Y}(x=1,y) = f_Y(y|x)f_X(x=1) \), where the the conditional pdf is \( f_Y(y|x) \), and the scaler \( f_X(x=1) \) is the marginal pdf \( f_X(x) \) of \( X \) at point \( x=1 \).</p>
+        <p>The marginal pdf \( f_X(x) \) is computed from the joint pdf \( f_{X,Y}(x,y) \) by marginalization, by integrating out \( Y \) as \( f_X(x) = \int f_{X,Y}(x,y)\,dy \) and then plugging in \( x=1 \).</p>
 
         <p><a href="#" onclick="toggleShowImage('pdf-joint-cond-marg-1of3')">Joint marginal conditional pdf 1 of 3</a>. (click to zoom)
         <img id="pdf-joint-cond-marg-1of3" src="pdf-joint-cond-marg-1of3.png" style="display: none; width: 100%; height: auto;" onclick="zoomImage(this)"></p>
@@ -26,16 +32,16 @@
         <p><a href="#" onclick="toggleShowImage('pdf-joint-cond-marg-3of3')">Marginal pdf is derived from the joint pdf 3 of 3</a>. (click to zoom)
         <img id="pdf-joint-cond-marg-3of3" src="pdf-joint-cond-marg-3of3.png" style="display: none; width: 100%; height: auto;" onclick="zoomImage(this)"></p>
 
+        <p></p>
+        <p></p>
+        <p></p>
+        <p></p>
+        <p></p>
+        <p></p>
+
         <p>TODO TBD</p>
 
-        <p></p>
-        <p></p>
-        <p></p>
-        <p></p>
-        <p></p>
-        <p></p>
-
-        <p>LJ HPD Sun 20 Oct 07:31:04 BST 2024</p>
+        <p>-- <br>LJ HPD Sun 20 Oct 07:31:04 BST 2024</p>
 
     </div>
 
