@@ -22,9 +22,8 @@
 
         <p>Below I illustrate this point on the example of a joint pdf \( p = f_{X,Y}(x,y) \) that is a mix of two Gaussians in 2D space \( (x,y) \). We observe the variable \( X \), and that observations is \( x=1 \). The question is - what do we now know about the variable \( Y \), having observed the variable \( X \) (to be \( x=1 \)).</p>
         <p>The observation \(x=1 \) is equivalent to the joint pdf being cut by the plane \( x=1 \). The intersection of the joint pdf \( f_{X,Y}(x,y) \) and the plane \( x=1 \) is \( f_{X,Y}(x=1,y) \). This curve is the best description of what we now know about the distribution of the unobserved variable \( Y \).</p>
-        <p>The starting model that was \( f_{X,Y})(x,y) \) is affected by the observation \( x=1 \). The effect is the intersection \( f_{X,Y}(x=1,y) \), and is outlined below. It is a function of \( y \), that is a scaled conditional \( f_{X,Y}(x=1,y) = f_Y(y|x)f_X(x=1) \).</p>
-        <p>The conditional pdf is \( f_Y(y|x) \). The scaler \( f_X(x=1) \) is the marginal pdf \( f_X(x) \) of \( X \) at point \( x=1 \).</p>
-        <p>The marginal pdf \( f_X(x) \) is computed from the joint pdf \( f_{X,Y}(x,y) \) by marginalization, by integrating out \( Y \) as \( f_X(x) = \int f_{X,Y}(x,y)\,dy \) and then plugging in \( x=1 \).</p>
+        <p>The starting model that was \( f_{X,Y})(x,y) \) is affected by the observation \( x=1 \). The effect is the intersection \( f_{X,Y}(x=1,y) \), and is outlined below. It is a function of \( y \), that is a scaled conditional \( f_Y(y|x=1) = \frac{f_{X,Y}(x=1,y)}{f_X(x=1)} \). The conditional pdf is \( f_Y(y|x) \).</p>
+        <p>The scaler \( f_X(x=1) \) is the marginal pdf \( f_X(x) \) of \( X \) at point \( x=1 \). The marginal pdf \( f_X(x) \) is computed from the joint pdf \( f_{X,Y}(x,y) \) by marginalization, by integrating out \( Y \) as \( f_X(x) = \int f_{X,Y}(x,y)\,dy \) and then plugging in \( x=1 \).</p>
 
         <p><a href="#" onclick="toggleShowImage('pdf-joint-cond-marg-1of3')">Joint marginal conditional pdf 1 of 3</a>. (click to zoom)
         <img id="pdf-joint-cond-marg-1of3" src="pdf-joint-cond-marg-1of3.png" style="display: none; width: 100%; height: auto;" onclick="zoomImage(this)"></p>
