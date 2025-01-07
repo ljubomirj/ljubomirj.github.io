@@ -15,6 +15,8 @@
 
         <h1>ML LLM Dev Links and Notes of resources of interest</h1>
 
+        <h2>Models - open source, open weights, open thoughts, code, documentation</h2>
+
         <p>Meta Llama models <a href="https://www.llama.com/">https://www.llama.com/</a><br>
         Meta Llama-3.3-70B-Instruct Hugging Face <a href="https://huggingface.co/meta-llama/Llama-3.3-70B-Instruct">https://huggingface.co/meta-llama/Llama-3.3-70B-Instruct</a></p>
 
@@ -63,6 +65,55 @@
         <p>Scaling Test Time Compute with Open Models <a href="https://huggingface.co/spaces/HuggingFaceH4/blogpost-scaling-test-time-compute">https://huggingface.co/spaces/HuggingFaceH4/blogpost-scaling-test-time-compute</a></p>
 
         <p>The Complexity Dynamics of Grokking <a href="https://brantondemoss.com/research/grokking/">https://brantondemoss.com/research/grokking/</a></p>
+
+        <h2>Dev, LLM code writing</h2>
+
+        <p>
+1. Start with ChatGPT copy&pasta - works but limited & manual, little time saved.
+2. Onto Cursor - nice but not much gained, not even wrong.
+3. Over to aider cmd line - some result there, even if cr*p result... but looks like it could be improved?
+4. Current VSCode gui + Cline addon + OpenRouter payg credits + Claude model. Well hello!! Finally produced something not obviously wrong.
+        </p>
+
+        <p>
+Until today the best I got was: in ChatGPT-o4/o1- etc, copy & paste code snippet(s), ask a Question, then incorporate the Answer in the soluton. So this was a replacement for 1) googling and reading web pages 2) search through Stackoverflow Q&A.
+        </p>
+
+        <p>
+This is the 1st time I got code inserted in 3 files. That required AI to 1) read through 5-6 files 2) compare and contrast, reason by analogy 3) take my requirement Q in considerion 4) edit 3 files, delete some code, insert some other code.
+        </p>
+
+        <p>
+I have my main codebase, about 200K LoC in an array/matrix language mostly, with some C/C++/bash/awk/sql too.
+        </p>
+
+        <p>
+I'm agnostic Re: tools. Fallback always available is bash/vim/Makefile/gcc/g++/gdb/ddd/shell/... tools. But if IDE like VSCode/Spyder/CLion/Matlab/DBeaver is available - I'm happy to use. As long as it's not exlcusive, and one can edit/setup outside the IDE too. And esp important version contol - git now, prev hg, cvs, Teams. If that works - then all is good.
+        </p>
+
+        <p>
+I tried Cursor. That looked hopeful, but did not get me results. I didn't like not being able to use existing API subscriptions in it. Also them using some kind of LLM in-house undocumented bodge. (I maybe wrong/maybe possible - didn't try too hard)
+        </p>
+
+        <p>
+I then tried aider, a command line tool. That managed mutiple edits, but to not too good results. Waste of time wrt results, but: it was a good learning curve for me. I PAYG subscribed OpenAI -> DeepSeek -> OpenRouter.
+        </p>
+
+        <p>
+OpenRouter leader board led me to Cline VSCode addon. Latest-greatest setup atm 1) VSCode 2) with Cline Addon 3) OpenRouter API key (payg credits) 4) select Claude 3.5 via openrouter/anthropic/claude-3.5-sonnet.
+        </p>
+
+        <p>
+The dev task was as follows. Functionality A/B/C needs implementong. Look at existing wrapper X implementing A/B/C, while using Y external library for A/B. Create new wrapper U, to use external library W, in the same way X is using Y, to do the similar A/B. (C is done in X and U respectivelly) E.g. - see how the data is passed X-to-Y, then do it the same way U-to-W. Look at examples code in the W library, figure how to do A/B.
+        </p>
+
+        <p>
+This to avoid doing the reading abt W and figuring A/B myself. I can do it myself, have done it half a dozen times already, for U/W equivalents, but: bit boring, and wanted to find out if I can make AI do it for me.
+        </p>
+
+        <p>
+Have yet to finish the full loop, the code does not run yet. But - before it was laughably obviously bad and wrong. Now - the 1st time where the code looks plausable. Need to do a harness to test finally. To be continued.
+        </p>
 
         <p><a href=""></a></p>
 
