@@ -17,12 +17,16 @@
 
         <h2>Models - open source, open weights, open thoughts, code, documentation</h2>
 
-        <p>Meta Llama models <a href="https://www.llama.com/">https://www.llama.com/</a><br>
-        Meta Llama-3.3-70B-Instruct Hugging Face <a href="https://huggingface.co/meta-llama/Llama-3.3-70B-Instruct">https://huggingface.co/meta-llama/Llama-3.3-70B-Instruct</a></p>
-
         <p>llama.cpp<br>
         Inference of Meta's LLaMA model (and others) in pure C/C++<br>
         <a href="https://github.com/ggerganov/llama.cpp">https://github.com/ggerganov/llama.cpp</a></p>
+
+        <p>DeepSeek R1<br>
+        Unsloth <a href="https://unsloth.ai/blog/deepseekr1-dynamic">dynamic</a>
+        HuggingFace <a href="https://huggingface.co/collections/unsloth/deepseek-r1-all-versions-678e1c48f5d2fce87892ace5">quants, incl distillations</a></p>
+
+        <p>Meta Llama models <a href="https://www.llama.com/">https://www.llama.com/</a><br>
+        Meta Llama-3.3-70B-Instruct Hugging Face <a href="https://huggingface.co/meta-llama/Llama-3.3-70B-Instruct">https://huggingface.co/meta-llama/Llama-3.3-70B-Instruct</a></p>
 
         <p>Ollama<br>
         Get up and running with large language models.<br>
@@ -68,6 +72,53 @@
 
         <h2>Dev, LLM code writing</h2>
 
+        <h3>Update #2</h3>
+        <p>
+Current work flow is:<br><br>
+
+<pre>
+# An Architect model is asked to describe how to solve the coding problem. Thinking/reasoning models often work well in this role.
+# An Editor model is given the Architect’s solution and asked to produce specific code editing instructions to apply those changes to existing source files.
+# https://aider.chat/2025/01/24/r1-sonnet.html
+aider-openrouter-best() {
+  local -; set -x; env AIDER_START="$(date)";
+  aider --architect --model openrouter/deepseek/deepseek-r1 --editor-model openrouter/anthropic/claude-3.5-sonnet;
+}
+</pre><br>
+
+Atm waiting on a glitch to resolve -<br><br>
+
+<pre>
+architect> litellm.APIError: APIError: OpenrouterException - 
+Retrying in 0.2 seconds...
+litellm.APIError: APIError: OpenrouterException - 
+</pre><br>
+
+...and so I'm realising now I more often then not now I have it write code for me.
+        </p>
+
+        <p>
+It's not even that much faster atm tbh! By the time I have thought through, explained in detail in INSTRUCTIONS.md — I could have read up the sources, the docs, and done it myself.
+        </p>
+
+        <p>
+The only explanation I have to offer, that I only now—waiting on the OR api to come back—have, is: it's **much more fun**!! 😍 
+        </p>
+
+        <p>
+It's much more fun to have someone else write the code, and even if need be talk them into "no no—not that way, change this, change that", than to do everything myself solo and in silence!! 😆
+        </p>
+
+        <p>
+Ok—this I did not expect. 😛 That the most entertaining—wins. 🙃
+        </p>
+
+        <p>
+Is <a href="#" onclick="toggleShowImage('vibe-coding-ftw-2025')">vibing</a> the way code wring will scale x10, x100 next??
+        </p>
+        <img id="vibe-coding-ftw-2025" src="picmem/vibe-coding-ftw-2025.png" style="display: none; width: 100%; height: auto;" onclick="zoomImage(this)">
+
+        <h3>Update #1</h3>
         <p>
 1. Start with ChatGPT copy&pasta - works but limited & manual, little time saved.
 2. Onto Cursor - nice but not much gained, not even wrong.
