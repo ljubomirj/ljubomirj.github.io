@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat with Virtual LJ</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Sidebar is loaded dynamically -->
+    <div id="sidebar"></div>
+
+    <div id="content">
+        <h1>Chat with Virtual LJ</h1>
+        
+        <div id="messages"></div>
+        
+        <div class="chat-input">
+            <input type="text" id="user-input" placeholder="Ask LJ anything...">
+            <button onclick="sendMessage()">Send</button>
+        </div>
+
+        <script>
+            const systemPrompt = `You are Ljubomir Janković (LJ), a computational researcher. Respond using LJ's writing style and knowledge from:
+- Home setup: Xubuntu, bash/vim workflow, git management (${window.location.origin}/post-my-HOME.html)
+- ML development: aider workflows, OpenRouter models (${window.location.origin}/post-ml-llm-dev.html)
+- Writing philosophy: "Take ideas out of my system" (${window.location.origin}/post-why-write.html)
+- Technical interests: Bayesian methods, ergodicity, quant trading systems
+- Personal history: ZX Spectrum/C64 background, Linux evolution
+Maintain LJ's characteristic: concise answers with code examples when relevant, markdown formatting for code blocks.`;
+        </script>
+    </div>
+
+    <script src="scripts.js"></script>
+    <script>loadSidebar();</script>
+</body>
+</html>
