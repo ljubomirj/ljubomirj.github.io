@@ -45,3 +45,52 @@ function zoomImage(img) {
         img.style.height = 'auto';
     }
 }
+
+// Chat functions
+function addMessage(text, isUser) {
+    const messagesDiv = document.getElementById('messages');
+    const msgDiv = document.createElement('div');
+    msgDiv.className = isUser ? 'user-msg' : 'ai-msg';
+    msgDiv.innerHTML = text.replace(/\n/g, '<br>');
+    messagesDiv.appendChild(msgDiv);
+    messagesDiv.scrollTop = messagesDiv.scrollHeight;
+}
+
+async function sendMessage() {
+    const input = document.getElementById('user-input');
+    const text = input.value.trim();
+    if (!text) return;
+
+    addMessage(text, true);
+    input.value = '';
+    input.disabled = true;
+
+    try {
+        const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+            method: 'POST',
+            headers: {
+                'Authorization': 'Bearer YOUR_API_KEY',
+                'HTTP-Referer': window.location.href,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                model: 'deepseek/deepseek-chat',
+                messages: [
+                    {"role": "system", "content": systemPrompt},
+                    {"role": "user", "content": text}
+                ],
+                temperature: 0.7,
+                max_tokens: 1000
+            })
+        });
+
+        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+        const data = await response.json();
+        addMessage(data.choices[0].message.content, false);
+    } catch (error) {
+        console.error('Chat error:', error);
+        addMessage(`Error: ${error.message}`, false);
+    } finally {
+        input.disabled = false;
+    }
+}

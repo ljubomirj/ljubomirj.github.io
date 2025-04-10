@@ -52,3 +52,70 @@ p, pre {
 pre {
     margin-top: 0; /* Removes the top margin of <pre> to eliminate extra space */
 }
+
+/* Chat styles */
+#messages {
+    overflow-y: auto;
+    max-height: 60vh;
+    background: #f8f9fa;
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+}
+
+.user-msg {
+    background: #e3f2fd;
+    padding: 10px;
+    margin: 5px 0;
+    border-radius: 5px;
+    max-width: 80%;
+    margin-left: auto;
+}
+
+.ai-msg {
+    background: #fff;
+    padding: 10px;
+    margin: 5px 0;
+    border-radius: 5px;
+    max-width: 80%;
+}
+
+.ai-msg pre {
+    background: #fff;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    overflow-x: auto;
+}
+
+.ai-msg code {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 0.9em;
+}
+
+.chat-input {
+    display: flex;
+    margin-top: 20px;
+}
+
+#user-input {
+    width: calc(100% - 120px);
+    padding: 12px;
+    border: 2px solid #007bff;
+    border-radius: 25px;
+    margin-right: 10px;
+}
+
+button {
+    padding: 12px 25px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
