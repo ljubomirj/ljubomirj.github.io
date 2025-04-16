@@ -1,24 +1,44 @@
 const fetch = require('node-fetch');
 
 module.exports = async (req, res) => {
-  const { message } = JSON.parse(req.body);
 
-  const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
-    method: 'POST',
-    headers: {
-      'Authorization': `Bearer ${process.env.OPENROUTER_API_KEY}`,
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      //model: 'mistralai/mistral-7b-instruct', // Use a free model
-      //model: 'openrouter/deepseek/deepseek-chat:free', // Use a free model
-      model: 'openrouter/google/gemini-2.5-pro-exp-03-25:free', // Use a free model
-      messages: [{ role: 'user', content: message }],
-    }),
-  });
+    try { // Add try...catch for fetch errors
 
-  const data = await response.json();
-  res.json(data);
+		// Assuming frontend sends: { userMessage: "..." }
+		//const { message } = JSON.parse(req.body);
+		// Assuming frontend sends: { userMessage: "...", systemPrompt: "..." }
+		const { userMessage, systemPrompt } = JSON.parse(req.body);
+
+    } catch (error) {
+        console.error("Error during JSON.parse:", error);
+		res.status(500).json({ error: 'Failed to contact AI service' })
+    }
+
+  	const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+    	method: 'POST',
+    	headers: {
+      		'Authorization': `Bearer ${process.env.OPENROUTER_API_KEY}`,
+      		'Content-Type': 'application/json',
+    	},
+		// Just userMessage
+//     	body: JSON.stringify({
+//       		//model: 'mistralai/mistral-7b-instruct', // Use a free model
+//       		//model: 'openrouter/deepseek/deepseek-chat:free', // Use a free model
+//       		model: 'openrouter/google/gemini-2.5-pro-exp-03-25:free', // Use a free model
+//       		messages: [{ role: 'user', content: message }],
+//     	}),
+		// Both userMessage and systemPrompt
+		body: JSON.stringify({
+  			model: 'openrouter/google/gemini-2.5-pro-exp-03-25:free',
+  			messages: [
+    			{ role: 'system', content: systemPrompt }, // Add system prompt
+    			{ role: 'user', content: userMessage }     // Add user message
+  			],
+		}),
+  	});
+
+	const data = await response.json();
+  	res.json(data);
 };
 
 // Steps to Set Up a Vercel Serverless Function
