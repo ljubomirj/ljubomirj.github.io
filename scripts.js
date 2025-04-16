@@ -56,7 +56,14 @@ function addMessage(text, isUser) {
     messagesDiv.scrollTop = messagesDiv.scrollHeight;
 }
 
-async function sendMessage(message) {
+function triggerSendMessage() {
+    const inputElement = document.getElementById('user-input');
+    const messageText = inputElement.value;
+    sendMessage(messageText);
+    inputElement.value = ''; // Clear input after sending
+}
+
+async function sendMessage_NOLOGGING(message) {
   const response = await fetch('https://ljubomirj-github-io.vercel.app/api/proxy', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -64,6 +71,40 @@ async function sendMessage(message) {
   });
   const data = await response.json();
   console.log(data);
+}
+
+async function sendMessage(message) { // Make sure 'message' is actually the text from the input
+    console.log("Sending message:", message); // Add this line
+    // Check if 'message' contains the user's text here
+    if (!message || message.trim() === '') {
+         console.error("Message is empty");
+         return; // Don't send empty messages
+    }
+
+    try { // Add try...catch for fetch errors
+        const response = await fetch('https://ljubomirj-github-io.vercel.app/api/proxy', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ message: message }), // Make sure this structure matches what your proxy expects
+        });
+
+        console.log("Response status:", response.status); // Log status
+
+        if (!response.ok) { // Check for HTTP errors (like 404, 500)
+            console.error("Fetch failed with status:", response.status);
+            const errorText = await response.text(); // Try to get error message from response body
+            console.error("Error response body:", errorText)
+            // Handle the error appropriately in the UI
+            return;
+        }
+
+        const data = await response.json();
+        console.log("Received data:", data);
+        // Add code here to display the 'data' (AI response) in your #messages div
+    } catch (error) {
+        console.error("Error during fetch:", error);
+        // Handle network errors, etc. in the UI
+    }
 }
 
 async function sendMessage_DIRECT() {
