@@ -51,97 +51,85 @@ function addMessage(text, isUser) {
     const messagesDiv = document.getElementById('messages');
     const msgDiv = document.createElement('div');
     msgDiv.className = isUser ? 'user-msg' : 'ai-msg';
-    msgDiv.innerHTML = text.replace(/\n/g, '<br>');
+    // Basic sanitation to prevent raw HTML injection, consider a proper library for production
+    const safeText = text.replace(/</g, "<").replace(/>/g, ">");
+    msgDiv.innerHTML = safeText.replace(/\n/g, '<br>'); // Replace newlines after sanitizing
     messagesDiv.appendChild(msgDiv);
     messagesDiv.scrollTop = messagesDiv.scrollHeight;
 }
 
 function triggerSendMessage() {
     const inputElement = document.getElementById('user-input');
-    const messageText = inputElement.value;
-    sendMessage(messageText);
-    inputElement.value = ''; // Clear input after sending
-}
+    const messageText = inputElement.value.trim(); // Trim whitespace
 
-async function sendMessage_NOLOGGING(message) {
-  const response = await fetch('https://ljubomirj-github-io.vercel.app/api/proxy', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ message }),
-  });
-  const data = await response.json();
-  console.log(data);
-}
-
-async function sendMessage(message) { // Make sure 'message' is actually the text from the input
-    console.log("Sending message:", message); // Add this line
-    // Check if 'message' contains the user's text here
-    if (!message || message.trim() === '') {
+    if (!messageText) {
          console.error("Message is empty");
          return; // Don't send empty messages
     }
 
-    try { // Add try...catch for fetch errors
+    // Display user message immediately
+    addMessage(messageText, true);
+
+    // Disable input and button while waiting
+    inputElement.disabled = true;
+    const sendButton = inputElement.nextElementSibling; // Assumes button is right after input
+    if (sendButton) sendButton.disabled = true;
+
+    // Call the async function to send message and handle response
+    sendMessage(messageText, inputElement, sendButton);
+
+    inputElement.value = ''; // Clear input after initiating send
+}
+
+async function sendMessage(userMessage, inputElement, sendButton) { // Pass input/button for disabling
+    console.log("Sending message to proxy:", userMessage);
+    // systemPrompt is available globally from post-chat-LJ.html script block
+
+    try {
         const response = await fetch('https://ljubomirj-github-io.vercel.app/api/proxy', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ message: message }), // Make sure this structure matches what your proxy expects
+            body: JSON.stringify({
+                userMessage: userMessage,
+                systemPrompt: typeof systemPrompt !== 'undefined' ? systemPrompt : 'You are a helpful assistant.' // Fallback if systemPrompt isn't loaded
+            }),
         });
 
-        console.log("Response status:", response.status); // Log status
+        console.log("Response status:", response.status);
 
-        if (!response.ok) { // Check for HTTP errors (like 404, 500)
+        if (!response.ok) {
             console.error("Fetch failed with status:", response.status);
-            const errorText = await response.text(); // Try to get error message from response body
-            console.error("Error response body:", errorText)
-            // Handle the error appropriately in the UI
-            return;
+            let errorText = await response.text(); // Try to get error message from response body
+            try {
+                // Attempt to parse error as JSON for more details from proxy
+                const errorJson = JSON.parse(errorText);
+                errorText = errorJson.error || errorText; // Use specific error if available
+                console.error("Error response body (JSON):", errorJson);
+            } catch (e) {
+                // If it's not JSON, use the raw text
+                console.error("Error response body (Text):", errorText);
+            }
+            addMessage(`Sorry, an error occurred (${response.status}): ${errorText}`, false); // Display error to user
+            return; // Stop processing
         }
 
         const data = await response.json();
         console.log("Received data:", data);
-        // Add code here to display the 'data' (AI response) in your #messages div
+
+        if (data && data.choices && data.choices.length > 0 && data.choices[0].message && data.choices[0].message.content) {
+            addMessage(data.choices[0].message.content, false);
+        } else {
+            console.error("Unexpected response structure:", data);
+            addMessage("Sorry, I received an unexpected response from the AI.", false);
+        }
+
     } catch (error) {
-        console.error("Error during fetch:", error);
-        // Handle network errors, etc. in the UI
-    }
-}
-
-async function sendMessage_DIRECT() {
-    const input = document.getElementById('user-input');
-    const text = input.value.trim();
-    if (!text) return;
-
-    addMessage(text, true);
-    input.value = '';
-    input.disabled = true;
-
-    try {
-        const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
-            method: 'POST',
-            headers: {
-                'Authorization': 'Bearer YOUR_API_KEY',
-                'HTTP-Referer': window.location.href,
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                model: 'deepseek/deepseek-chat',
-                messages: [
-                    {"role": "system", "content": systemPrompt},
-                    {"role": "user", "content": text}
-                ],
-                temperature: 0.7,
-                max_tokens: 1000
-            })
-        });
-
-        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-        const data = await response.json();
-        addMessage(data.choices[0].message.content, false);
-    } catch (error) {
-        console.error('Chat error:', error);
-        addMessage(`Error: ${error.message}`, false);
+        console.error("Error during fetch/processing:", error);
+        addMessage("Sorry, a network error occurred. Please try again.", false); // Display error to user
     } finally {
-        input.disabled = false;
+        if (inputElement) inputElement.disabled = false;
+        if (sendButton) sendButton.disabled = false;
+        if (inputElement) inputElement.focus(); // Set focus back to input
     }
 }
+
