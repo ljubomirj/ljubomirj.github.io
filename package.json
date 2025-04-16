@@ -1,0 +1,15 @@
+{
+  "name": "ljubomirj-github-io",
+  "version": "1.0.0",
+  "description": "API proxy for ljubomirj.github.io",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Ljubomir Josifovski",
+  "license": "ISC",
+  "dependencies": {
+    "node-fetch": "^2.7.0"
+  }
+}
