@@ -1,26 +1,49 @@
+
 const fetch = require('node-fetch');
 
 module.exports = async (req, res) => {
 
-    // --- Assume it's a POST request and proceed ---
-    // The rest of your try/catch block remains the same
     try {
-        // 1. Parse Request Body
-        let userMessage, systemPrompt;
-        try {
-            const body = typeof req.body === 'string' ? JSON.parse(req.body) : req.body;
-            userMessage = body.userMessage;
-            systemPrompt = body.systemPrompt;
-        } catch (parseError) {
-            console.error("Error parsing request body:", parseError);
-            return res.status(400).json({ error: 'Invalid request format. Ensure body is valid JSON with userMessage and systemPrompt.' });
+        // *** Log the raw request body and its type ***
+        console.log("Received req.body:", req.body);
+        console.log("Type of req.body:", typeof req.body);
+
+        // 1. Extract and Parse Request Body More Robustly
+        let body;
+        if (req.body) { // Check if req.body exists
+            if (typeof req.body === 'string') {
+                try {
+                    body = JSON.parse(req.body);
+                } catch (parseError) {
+                    console.error("Error parsing req.body string:", parseError);
+                    // Send specific error for bad JSON format
+                    return res.status(400).json({ error: 'Invalid JSON format in request body.' });
+                }
+            } else if (typeof req.body === 'object') {
+                // Assume Vercel already parsed it if it's an object
+                body = req.body;
+            } else {
+                // Handle unexpected type
+                 console.error("Unexpected type for req.body:", typeof req.body);
+                 return res.status(400).json({ error: 'Unexpected request body type.' });
+            }
+        } else {
+            // Handle case where req.body is null or undefined
+            console.error("Request body (req.body) is missing or empty.");
+            return res.status(400).json({ error: 'Request body is missing.' });
         }
 
-        // 2. Basic Validation (Still useful)
+        // Now 'body' should be a valid object if we reached here
+        const userMessage = body.userMessage;
+        const systemPrompt = body.systemPrompt;
+
+        // 2. Basic Validation (Check if properties exist on the parsed body)
         if (!userMessage || typeof userMessage !== 'string' || !systemPrompt || typeof systemPrompt !== 'string') {
-            console.error("Validation failed: Missing or invalid userMessage/systemPrompt");
+            console.error("Validation failed: Missing or invalid userMessage/systemPrompt in parsed body.", body); // Log the parsed body for inspection
             return res.status(400).json({ error: 'Missing or invalid userMessage or systemPrompt in request body.' });
         }
+
+        // --- Rest of your code remains the same ---
 
         // 3. Call OpenRouter API
         console.log("Forwarding request to OpenRouter with system prompt...");
@@ -60,7 +83,9 @@ module.exports = async (req, res) => {
         res.status(200).json(data);
 
     } catch (error) {
+        // Catch unexpected errors during processing (not related to parsing/validation handled above)
         console.error("Unhandled Proxy Error:", error);
         res.status(500).json({ error: 'An internal server error occurred.' });
     }
 };
+
