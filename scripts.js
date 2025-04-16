@@ -57,7 +57,7 @@ function addMessage(text, isUser) {
 }
 
 async function sendMessage(message) {
-  const response = await fetch('https://your-vercel-app.vercel.app/api/proxy', {
+  const response = await fetch('https://ljubomirj-github-io.vercel.app/api/proxy', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ message }),
