@@ -56,7 +56,17 @@ function addMessage(text, isUser) {
     messagesDiv.scrollTop = messagesDiv.scrollHeight;
 }
 
-async function sendMessage() {
+async function sendMessage(message) {
+  const response = await fetch('https://your-vercel-app.vercel.app/api/proxy', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ message }),
+  });
+  const data = await response.json();
+  console.log(data);
+}
+
+async function sendMessage_DIRECT() {
     const input = document.getElementById('user-input');
     const text = input.value.trim();
     if (!text) return;
