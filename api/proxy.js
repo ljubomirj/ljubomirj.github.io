@@ -1,14 +1,9 @@
-
 const fetch = require('node-fetch');
 
 module.exports = async (req, res) => {
 
-    // Only allow POST requests for the actual API call
-    if (req.method !== 'POST') {
-        res.setHeader('Allow', ['POST']); // Allow only POST now
-        return res.status(405).json({ error: `Method ${req.method} Not Allowed` });
-    }
-
+    // --- Assume it's a POST request and proceed ---
+    // The rest of your try/catch block remains the same
     try {
         // 1. Parse Request Body
         let userMessage, systemPrompt;
@@ -21,7 +16,7 @@ module.exports = async (req, res) => {
             return res.status(400).json({ error: 'Invalid request format. Ensure body is valid JSON with userMessage and systemPrompt.' });
         }
 
-        // 2. Basic Validation
+        // 2. Basic Validation (Still useful)
         if (!userMessage || typeof userMessage !== 'string' || !systemPrompt || typeof systemPrompt !== 'string') {
             console.error("Validation failed: Missing or invalid userMessage/systemPrompt");
             return res.status(400).json({ error: 'Missing or invalid userMessage or systemPrompt in request body.' });
@@ -69,4 +64,3 @@ module.exports = async (req, res) => {
         res.status(500).json({ error: 'An internal server error occurred.' });
     }
 };
-
