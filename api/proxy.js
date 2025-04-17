@@ -39,7 +39,7 @@ module.exports = async (req, res) => {
         console.log("Forwarding request to OpenRouter with system prompt...");
         const openRouterResponse = await fetch('https://openrouter.ai/api/v1/chat/completions', {
             method: 'POST',
-            headers: {
+            headers: { /* ... headers ... */
                 'Authorization': `Bearer ${process.env.OPENROUTER_API_KEY}`,
                 'Content-Type': 'application/json',
             },
@@ -76,14 +76,23 @@ module.exports = async (req, res) => {
             });
         }
 
-        // 5. Process and Return Success Response from OpenRouter
+        // *** LOG THE ACTUAL DATA RECEIVED FROM OPENROUTER ***
         const data = await openRouterResponse.json();
-        console.log("Successfully received response from OpenRouter.");
-        // **Important:** Ensure CORS headers are also set for the actual POST response
-        // Although vercel.json *should* do this, let's add it here for belt-and-suspenders
+        console.log("Successfully received response body from OpenRouter:", JSON.stringify(data, null, 2)); // Log the parsed data structure
+
+        // Add a check here: Is the structure what we expect?
+        if (!(data && data.choices && data.choices.length > 0 && data.choices[0].message && data.choices[0].message.content)) {
+             console.error("OpenRouter returned unexpected structure:", data);
+             // Decide how to handle: forward it anyway, or return an error? Let's return an error for now.
+             res.setHeader('Access-Control-Allow-Origin', 'https://ljubomirj.github.io');
+             res.setHeader('Access-Control-Allow-Credentials', 'true');
+             return res.status(502).json({ error: 'Received unexpected response structure from AI service.'}); // 502 Bad Gateway seems appropriate
+        }
+
+        console.log("Data structure looks good. Sending back to frontend.");
         res.setHeader('Access-Control-Allow-Origin', 'https://ljubomirj.github.io');
         res.setHeader('Access-Control-Allow-Credentials', 'true');
-        res.status(200).json(data);
+        res.status(200).json(data); // Send the valid data
 
     } catch (error) {
         console.error("Unhandled Proxy Error:", error);
