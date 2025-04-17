@@ -43,8 +43,17 @@ module.exports = async (req, res) => {
                 'Authorization': `Bearer ${process.env.OPENROUTER_API_KEY}`,
                 'Content-Type': 'application/json',
             },
+			// Option free openrouter models
+			// + aider --list-models openrouter/
+			// - openrouter/deepseek/deepseek-chat-v3-0324:free
+			// - openrouter/deepseek/deepseek-chat:free
+			// - openrouter/deepseek/deepseek-r1:free
+			// - openrouter/google/gemini-2.0-flash-exp:free
+			// - openrouter/google/gemini-2.5-pro-exp-03-25:free
+			// - openrouter/meta-llama/llama-3-8b-instruct:free
+			// - openrouter/mistralai/mistral-7b-instruct:free
             body: JSON.stringify({
-                model: 'openrouter/google/gemini-2.5-pro-exp-03-25:free',
+                model: 'google/gemini-2.5-pro-exp-03-25:free',
                 messages: [
                     { role: 'system', content: systemPrompt },
                     { role: 'user', content: userMessage }
