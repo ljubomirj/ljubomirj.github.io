@@ -55,11 +55,12 @@ module.exports = async (req, res) => {
             body: JSON.stringify({
                 //model: 'google/gemini-2.0-flash-exp:free',
                 //model: 'google/gemini-2.5-pro-exp-03-25:free',
+                model: 'google/gemini-2.5-flash-preview',
                 //model: 'deepseek/deepseek-chat:free',
                 //model: 'deepseek/deepseek-chat-v3-0324:free',
                 //model: 'deepseek/deepseek-r1:free',
                 //model: 'deepseek/deepseek-r1',
-                model: 'qwen/qwq-32b:free',
+                //model: 'qwen/qwq-32b:free',
                 messages: [
                     { role: 'system', content: systemPrompt },
                     { role: 'user', content: userMessage }
