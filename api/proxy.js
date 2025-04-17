@@ -57,7 +57,8 @@ module.exports = async (req, res) => {
                 //model: 'google/gemini-2.5-pro-exp-03-25:free',
                 //model: 'deepseek/deepseek-chat:free',
                 //model: 'deepseek/deepseek-chat-v3-0324:free',
-                model: 'deepseek/deepseek-r1:free',
+                //model: 'deepseek/deepseek-r1:free',
+                model: 'deepseek/deepseek-r1',
                 messages: [
                     { role: 'system', content: systemPrompt },
                     { role: 'user', content: userMessage }
