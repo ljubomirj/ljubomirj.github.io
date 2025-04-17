@@ -58,7 +58,8 @@ module.exports = async (req, res) => {
                 //model: 'deepseek/deepseek-chat:free',
                 //model: 'deepseek/deepseek-chat-v3-0324:free',
                 //model: 'deepseek/deepseek-r1:free',
-                model: 'deepseek/deepseek-r1',
+                //model: 'deepseek/deepseek-r1',
+                model: 'qwen/qwq-32b:free',
                 messages: [
                     { role: 'system', content: systemPrompt },
                     { role: 'user', content: userMessage }
