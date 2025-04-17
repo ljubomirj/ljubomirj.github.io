@@ -55,7 +55,8 @@ module.exports = async (req, res) => {
             body: JSON.stringify({
                 //model: 'google/gemini-2.5-pro-exp-03-25:free',
                 //model: 'deepseek/deepseek-chat:free',
-                model: 'deepseek/deepseek-chat-v3-0324:free',
+                //model: 'deepseek/deepseek-chat-v3-0324:free',
+                model: 'openrouter/quasar-alpha',
                 messages: [
                     { role: 'system', content: systemPrompt },
                     { role: 'user', content: userMessage }
