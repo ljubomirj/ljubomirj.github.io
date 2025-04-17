@@ -2,21 +2,37 @@ const fetch = require('node-fetch');
 
 module.exports = async (req, res) => {
 
-    try {
-        // *** Log headers to double-check Content-Type ***
-        console.log("Received request headers:", req.headers);
+    // *** Explicitly handle OPTIONS requests first ***
+    if (req.method === 'OPTIONS') {
+        console.log("Handling OPTIONS request explicitly.");
+        // Set CORS headers manually *just for the OPTIONS response*
+        // These should ideally match vercel.json if it were working for OPTIONS
+        res.setHeader('Access-Control-Allow-Origin', 'https://ljubomirj.github.io');
+        res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS'); // Specify allowed methods
+        res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization'); // Specify allowed headers (Content-Type is crucial)
+        res.setHeader('Access-Control-Allow-Credentials', 'true');
+        res.setHeader('Access-Control-Max-Age', '86400'); // Optional: Cache preflight response for 1 day
+        res.status(204).end(); // Use 204 No Content for OPTIONS success is standard practice
+        return; // Stop processing further for OPTIONS request
+    }
 
-        // 1. Directly access req.body (assuming Vercel parsed it)
+    // If it's not OPTIONS, assume POST and continue
+    try {
+        console.log("Handling POST request.");
+        // Log headers for POST request to confirm Content-Type
+        console.log("Received POST request headers:", req.headers);
+
+        // Directly access req.body (assuming Vercel parsed it for POST)
         const body = req.body;
 
-        // 2. Check if body exists AND has the required properties
         // Use optional chaining (?.) for safer access
         const userMessage = body?.userMessage;
         const systemPrompt = body?.systemPrompt;
 
+        // Check if body exists AND has the required properties for POST
         if (!body || !userMessage || typeof userMessage !== 'string' || !systemPrompt || typeof systemPrompt !== 'string') {
-            console.error("Validation failed: req.body is missing, or userMessage/systemPrompt invalid/missing.", body); // Log the body we received
-            return res.status(400).json({ error: 'Invalid or missing request body. Expected JSON with userMessage and systemPrompt.' });
+            console.error("Validation failed for POST: req.body is missing, or userMessage/systemPrompt invalid/missing.", body);
+            return res.status(400).json({ error: 'Invalid or missing request body for POST. Expected JSON with userMessage and systemPrompt.' });
         }
 
         // 3. Call OpenRouter API
@@ -54,10 +70,17 @@ module.exports = async (req, res) => {
         // 5. Process and Return Success Response from OpenRouter
         const data = await openRouterResponse.json();
         console.log("Successfully received response from OpenRouter.");
+        // **Important:** Ensure CORS headers are also set for the actual POST response
+        // Although vercel.json *should* do this, let's add it here for belt-and-suspenders
+        res.setHeader('Access-Control-Allow-Origin', 'https://ljubomirj.github.io');
+        res.setHeader('Access-Control-Allow-Credentials', 'true');
         res.status(200).json(data);
 
     } catch (error) {
         console.error("Unhandled Proxy Error:", error);
+        // Add CORS headers to error responses too
+        res.setHeader('Access-Control-Allow-Origin', 'https://ljubomirj.github.io');
+        res.setHeader('Access-Control-Allow-Credentials', 'true');
         res.status(500).json({ error: 'An internal server error occurred.' });
     }
 };
