@@ -3,43 +3,20 @@ const fetch = require('node-fetch');
 module.exports = async (req, res) => {
 
     try {
-        // *** Log the raw request body and its type ***
-        console.log("Received req.body:", req.body);
-        console.log("Type of req.body:", typeof req.body);
+        // *** Log headers to double-check Content-Type ***
+        console.log("Received request headers:", req.headers);
 
-        // 1. Extract and Parse Request Body More Robustly
-        let body;
-        if (req.body) { // Check if req.body exists
-            if (typeof req.body === 'string') {
-                try {
-                    body = JSON.parse(req.body);
-                } catch (parseError) {
-                    console.error("Error parsing req.body string:", parseError);
-                    // Send specific error for bad JSON format
-                    return res.status(400).json({ error: 'Invalid JSON format in request body.' });
-                }
-            } else if (typeof req.body === 'object') {
-                // Assume Vercel already parsed it if it's an object
-                body = req.body;
-            } else {
-                // Handle unexpected type
-                 console.error("Unexpected type for req.body:", typeof req.body);
-                 return res.status(400).json({ error: 'Unexpected request body type.' });
-            }
-        } else {
-            // Handle case where req.body is null or undefined
-            console.error("Request body (req.body) is missing or empty.");
-            return res.status(400).json({ error: 'Request body is missing.' });
-        }
+        // 1. Directly access req.body (assuming Vercel parsed it)
+        const body = req.body;
 
-        // Now 'body' should be a valid object if we reached here
-        const userMessage = body.userMessage;
-        const systemPrompt = body.systemPrompt;
+        // 2. Check if body exists AND has the required properties
+        // Use optional chaining (?.) for safer access
+        const userMessage = body?.userMessage;
+        const systemPrompt = body?.systemPrompt;
 
-        // 2. Basic Validation (Check if properties exist on the parsed body)
-        if (!userMessage || typeof userMessage !== 'string' || !systemPrompt || typeof systemPrompt !== 'string') {
-            console.error("Validation failed: Missing or invalid userMessage/systemPrompt in parsed body.", body); // Log the parsed body for inspection
-            return res.status(400).json({ error: 'Missing or invalid userMessage or systemPrompt in request body.' });
+        if (!body || !userMessage || typeof userMessage !== 'string' || !systemPrompt || typeof systemPrompt !== 'string') {
+            console.error("Validation failed: req.body is missing, or userMessage/systemPrompt invalid/missing.", body); // Log the body we received
+            return res.status(400).json({ error: 'Invalid or missing request body. Expected JSON with userMessage and systemPrompt.' });
         }
 
         // 3. Call OpenRouter API
@@ -51,7 +28,7 @@ module.exports = async (req, res) => {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                model: 'openrouter/google/gemini-2.5-pro-exp-03-25:free', // Make sure this model identifier is correct
+                model: 'openrouter/google/gemini-2.5-pro-exp-03-25:free',
                 messages: [
                     { role: 'system', content: systemPrompt },
                     { role: 'user', content: userMessage }
@@ -80,7 +57,6 @@ module.exports = async (req, res) => {
         res.status(200).json(data);
 
     } catch (error) {
-        // Catch unexpected errors during processing (not related to parsing/validation handled above)
         console.error("Unhandled Proxy Error:", error);
         res.status(500).json({ error: 'An internal server error occurred.' });
     }
