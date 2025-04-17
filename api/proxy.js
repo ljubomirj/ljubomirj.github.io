@@ -1,4 +1,3 @@
-
 const fetch = require('node-fetch');
 
 module.exports = async (req, res) => {
@@ -43,8 +42,6 @@ module.exports = async (req, res) => {
             return res.status(400).json({ error: 'Missing or invalid userMessage or systemPrompt in request body.' });
         }
 
-        // --- Rest of your code remains the same ---
-
         // 3. Call OpenRouter API
         console.log("Forwarding request to OpenRouter with system prompt...");
         const openRouterResponse = await fetch('https://openrouter.ai/api/v1/chat/completions', {
@@ -88,4 +85,3 @@ module.exports = async (req, res) => {
         res.status(500).json({ error: 'An internal server error occurred.' });
     }
 };
-
