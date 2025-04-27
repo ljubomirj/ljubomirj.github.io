@@ -53,6 +53,15 @@ pre {
     margin-top: 0; /* Removes the top margin of <pre> to eliminate extra space */
 }
 
+/* tweets in archive */
+.tweet {
+    background-color: #f9f9f9; /* Light gray background */
+    padding: 15px; /* Add some space inside the box */
+    margin-bottom: 20px; /* Add space between tweet boxes */
+    border-radius: 5px; /* Optional: slightly rounded corners */
+    border: 1px solid #eee; /* Optional: a light border */
+}
+
 /* Chat styles */
 #messages {
     overflow-y: auto;
