@@ -39,10 +39,11 @@ pre, code {
     line-height: 1.2; /* Optional: Adjusts line spacing to improve readability */
 }
 
-/* Avoids horizontal scrolling */
+/* Avoids horizontal scrolling - DO NOT TURN THIS ON
 body, html {
     overflow-x: hidden;
 }
+*/
 
 p, pre {
     margin-bottom: 0; /* Removes the default bottom margin */
@@ -53,13 +54,19 @@ pre {
     margin-top: 0; /* Removes the top margin of <pre> to eliminate extra space */
 }
 
-/* tweets in archive */
+/* tweets in archive, tags <div class="tweet">...</div> */
 .tweet {
     background-color: #f9f9f9; /* Light gray background */
     padding: 15px; /* Add some space inside the box */
     margin-bottom: 20px; /* Add space between tweet boxes */
     border-radius: 5px; /* Optional: slightly rounded corners */
     border: 1px solid #eee; /* Optional: a light border */
+}
+
+/* specifically targets the <p> tags within the .tweet divs */
+.tweet p {
+    word-break: break-word; /* Ensures long words break to prevent overflow */
+    overflow-wrap: break-word; /* Alternative/newer property for the same purpose */
 }
 
 /* Chat styles */
