@@ -30,6 +30,7 @@ body {
 	margin-left: 250px;
 	padding: 20px;
 	flex-grow: 1;
+    min-width: 0;
 }
 /* Ensures <pre> and <code> wrap properly */
 pre, code {
