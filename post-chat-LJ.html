@@ -70,7 +70,8 @@
                     systemPrompt = initialInstruction
                                  + "\n\n--- START OF LJ CONTEXT ---\n"
                                  + promptTextFromFile
-                                 + "\n--- END OF LJ CONTEXT ---";
+                                 + "\n--- END OF LJ CONTEXT ---\n\n"
+                                 + initialInstruction;
 
                     console.log("System prompt loaded successfully.");
                     if (loadingMsgElement) loadingMsgElement.remove(); // Remove loading message
