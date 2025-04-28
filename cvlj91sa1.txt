@@ -1,0 +1,42 @@
+Ljubomir JOSIFOVSKI
+Summary
+Quantitative researcher, analyst, developer, portfolio manager with extensive experience building and
+trading systematic equity/FX models at hedge funds, proprietary trading desk, and as an independent
+PM. Advanced skills in maths, statistics, machine learning, regression and classification, neural
+networks, hidden Markov models, and programming. Track record in modelling, forecasting, portfolio
+optimization, and risk management. Self-sufficient systems and network administrator.
+Skills
+Programming: C/C++, Python, SQL, MATLAB, C#, R, Java, shell, awk, make
+Platforms: Linux (Ubuntu, CentOS), Windows, MacOS
+Tools: Vim, Git, Slurm, Cursor, CLion, Jupyter, Spyder, VSEditor, Bloomberg
+Experience
+F9 Research, Director (2016–Present)
+Managed a market-neutral book (~$350M gross, ~$35M daily trading) in EU and US markets.
+Leading quant research and development for short-horizon strategies using Python, C++, cluster and
+cloud resources. Consulting on advanced R&D pipelines and machine learning applications.
+Marshall Wace, Senior Quantitative Researcher (2010–2016)
+Developed and scaled market-neutral portfolios from $100M to $10B+.
+Pioneered unified R&D framework for data ingestion, signal extraction, portfolio optimization, and
+simulation. Mentored junior researchers and implemented reproducible research workflows.
+Credit Suisse, Quantitative Analyst (2007–2009)
+Independently traded equity market-neutral portfolios systematically, achieving 18% lifetime returns
+with Sharpe 3.1. Built and operated a complete trading platform for multi-market European equities.
+G-Research (DPFMG), Quantitative Analyst (2004–2007)
+Designed and implemented systematic trading models for global equities and FX, contributing to fund
+profitability. Modelling, forecasting, risk management and multi-period optimization for mid- and
+high- frequency trading strategies.
+Canon Research Europe, Researcher (2001-2004)
+Embedded Automatic Speech Recognition, indexing, and retrieval of spoken documents with speech.
+Education
+Ph.D., Computer Science – University of Sheffield, UK (2000)
+Thesis: Robust Speech Recognition with Missing and Unreliable Data
+M.Phil. (1997), Electrical Engineering – University Sv. Kiril i Metodij, Skopje, MK
+Thesis: System for text-to-speech conversion for Macedonian language
+B.S. (1993), Electrical Engineering – University Sv. Kiril i Metodij, Skopje, MK
+Additional
+UK and Macedonian nationality, multilingual (English-fluent, Macedonian-native, Croatian, Serbian)
+Married, two grown up children, UK and MK driving licenses
+Hobbies include reading on machine learning research, various non-fiction, quantitative finance, and
+mentoring
+
+
