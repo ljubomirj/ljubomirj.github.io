@@ -8,6 +8,13 @@
 </head>
 <body>
 
+<!--
+
+Search and replace special html characters like < > &
+
+:s/[<>&"']/\=submatch(0) == '<' ? '&lt;' : (submatch(0) == '>' ? '&gt;' : (submatch(0) == '&' ? '&amp;' : (submatch(0) == '"' ? '&quot;' : '&apos;'))) /ge
+
+-->
     <!-- Sidebar is loaded dynamically -->
     <div id="sidebar"></div>
 
@@ -42,121 +49,143 @@
 
         <ol type="1">
         <li>
-       Accounts to follow: any that seem interesting, notable, authors of books, videos, blog posts, podcasts etc you have already read, heard, watched.<br>
-       If recognize the name or the face => follow. Those that are real people - select +Notify on them to be reminded of their existing.
+        Accounts to follow: any that seem interesting, notable, authors of books, videos, blog posts, podcasts etc you have already read, heard, watched.&lt;br&gt;
+        If recognize the name or the face =&gt; follow. Those that are real people - select +Notify on them to be reminded of their existing.
         </li><br>
 
         <li>
-       Follow back everyone that follows you as a default, to start with. Give the possibility of interaction a chance (even if it's a small one).
-       Exceptions are obvious spam accounts: elonmuskXXX, phishingXXX, celebrityXXX, influencerXXX, cryptoXXX, tradeXXX, casinoXXX, girlXXX, motivationalXXX.
-       Don't follow obvious trolls, fakes, pseudoanons that are high volume general posters unless thematic (technology, science) that is of personal interest.
-       When deciding - "should I follow or not?" - the question asked is: will I like to see this user posts in the future? Have a best guess - yes or no?
-       Look at the combined total of info available to you, forecast a) is the user a real human? b) will I want to read posts from them?
+        Follow back everyone that follows you as a default to start with. Take a chance on the possibility of interaction. (even if it&apos;s a small one.)
+        Exceptions obvious spam accounts: elonmuskXXX, phishingXXX, celebrityXXX, influencerXXX, cryptoXXX, tradeXXX, casinoXXX, girlXXX, motivationalXXX.
+        Don&apos;t follow obvious trolls, fakes, pseudoanons that are high volume general posters unless thematic (technology, science) that is of personal interest.
+        </li><br>
+
+        <li>
+        When deciding should I follow or not, the question asked is: will I like to see this user posts in the future? Have your best guess - yes or no?
+        Look holistically at the combined total of info available, forecast a) is the user a real human? b) will I want to read posts from them?
 
 <pre><code>
-       Info:      1-pic   2-namesurname     3-bluecheck                \     / Scan for "thick" pic/name/bio, "thin" is a "unfollow" signal as default;
-                          4-@nick           5-followsyou                +---+  look at follows/followers>5 ratio, last post/reply months or years ago;
-                          6-bio personal intro presentation hashtags   /     \ look of the number of posts or replies on their page, is it >100?
+        Info:      1-pic   2-namesurname     3-bluecheck                \     / Scan for &quot;thick&quot; pic/name/bio, &quot;thin&quot; is a &quot;unfollow&quot; signal as default;
+                           4-@nick           5-followsyou                +---+  look at follows/followers&gt;5 ratio, last post/reply months or years ago;
+                           6-bio personal intro presentation hashtags   /     \ look of the number of posts or replies on their page, is it &gt;100?
 
-       Up/Down:   1-pic presentce/absence, girlpic no/yes; 2-namesurname human like yes/no; 3-bluecheck yes/no; 4-@nick {girly12345,crypto,trading,engagement} bad;
-       weight     5-followsyou yes/no; 6-bio missing or bad words - motivational, spammy, political, slogans, tags, politician/name, current/campaign moras.
-       Filtering: red flags - no pic, bad name namesurname12345, bad nick girl12345 (except where name and nick match), bad bio missing, bad words "travel love crypto animals
-                  countries flags trading politics god christ orphan", acc ratio follows/followers>5; look for collaborating up/down yes/no decide if to Un/follow.
+        Up/Down:   1-pic presence/absence, girlpic no/yes; 2-namesurname human like yes/no; 3-bluecheck yes/no; 4-@nick {girly12345,crypto,trading,engagement} bad;
+        weight     5-followsyou yes/no; 6-bio missing or bad words - motivational, spammy, political, slogans, tags, politician/name, current/campaign morass.
+        Filtering: red flags - no pic, bad name namesurname12345, bad nick girl12345 (except where name and nick match), bad bio missing;
+                   bad words - &quot;travel love crypto animals countries flags trading politics god christ orphan&quot;, acc ratio follows/followers&gt;5;
+                   net evidence good/bad flags/words - look for collaborating up/down yes/no decide if to Un/follow.
 </code></pre>
         </li><br>
 
-    <li>
-       Prominent accounts of interest add to Lists (independent of following/follow status). Be generous add to >1 list. Create new lists and split existing lists at will.
-       Lists: Bio-logy, CEEu-Central Eastern Europe, Chem-istry, Comp-uting, Cul-ture, Data, Econ-omy, Edu-cation, Fin-ance, Hist-ory, HPD-en, Int-elligence, Law, MKD-onia,
-       ML-Machine Learning, Phi-losophy, Pol-itics, QT-Quant Trading, Sci-ence, Tech-nology, Urb-anism, Med-ia, NIL (sink list).
-       Assign account to list relative to the significance meaning of that account to yourself. Don't be objective - be very subjective.
-       Depending of how special/general/distinct the list v.s. other TL feeds, do/don't set at list level "Don't show these posts in For You".
-       Use "Not interested in this post" and "Show fewer posts from XXX" in the "For you" TL to shape the "For you" TL X provides.
-    </li><br>
+        <li>
+        Prominent accounts of interest add to Lists. (independent of following/follow status.) Be generous add to &gt;1 list, but don&apos;t overdo it:
+        don&apos;t want too many list to look like the personal @acc. Create new lists and split existing lists at will. Lists (ordered, 22):
+        Tech-nology, ML-Machine Learning, QT-Quant Trading, Comp-uting, Data, Sci-ence, Chem-istry, Bio-logy, Phi-losophy, Edu-cation, Fin-ance,
+        Econ-omy, Hist-ory, Cul-ture, Med-ia, Law, Pol-itics, Urb-anism, HPD-Harpenden, MKD-Macedonia, CEEu-Central Eastern Europe, Int-elligence.
+        Assign account to list relative to the significance/meaning of that account to yourself - be very subjective.
+        Depending of how special/general/distinct v.s. other feeds, do/don&apos;t set at list level &quot;Don&apos;t show these posts in For You&quot;.
+        Accounts followed that are high volume so there is 0 interaction - use Lists, add to list then Unfollow.
+        Use &quot;Not interested in this post&quot; and &quot;Show fewer posts from&quot; in the &quot;For you&quot; to shape the feed.
+        </li><br>
 
-    <li>
-       Assign accounts that are prolific but boring, silly, propagandists, low SNR, low quality, crazies etc that X algo pushes into sink (/dev/null like) list NIL.
-       Then tick "Do not show these posts in For You" for that list in the individual list settings.
-    </li><br>
+        <li>
+        Accounts prolific posters, but boring, silly, propagandists, low SNR, low quality, crazies etc that X algos pushe - add to sink (/dev/null like) list NIL.
+        Then tick "Do not show these posts in For You" for that list in the individual list settings.
+        Block is now uni-directional - be free to use more. Avoid Mute as it's another chore to go through the list in the future to un-Mute.
+        </li><br>
 
-    <li>
-       If something is worth forwarding, then follow the account. If after a time turns out no synergy - simply unfollow. Give people chance, find out.
-       New follow account - try add to a list. Look their bio, keywords matching a list - e.g. Tech-nology, Phi-losophy - honour & add to that list.
-       Unfollowing. Favour doers, avoid acc known for being known, non-human, #SLOGAN-s, nick123, marketeers, crypto, girlface, neuro, flags, bolded.
-       Take a look at acc photo-name-nick-bio, ask yourself: do I recognize, can I recall of anything about this acc? If NO => then Unfollow.
-       If you recognize the acc profile, then: do I recall their posts, will I want to read again tomorrow? If NO => then Unfollow.
-       Don't spend time checking list membership - just Unfollow. Accounts that follow your lists - also follow them, look for synergy.
-       Scan the Follows list, keep Follows&le;Followers, both &lt;4K accounts, ~4K is about max that's sane & can be manually maintained.
-    </li><br>
+        <li>
+        If something is worth forwarding, then follow the account. If after a time turns out no synergy - simply unfollow. Give people chance, find out.
+        Exceptions—big accounts with HUGE following: like mass-media of old 1:N boradcasting, zero interaction. Or acc X had showed them to you already,
+        you followed, then no interaction, and so unfollowed latter. Pass on those acc—X feed will showe them in your TL anyway, no loss.
+        New follow account - try add to a list. Look their bio, keywords matching a list - e.g. Tech-nology, Phi-losophy - honour &amp; add to that list.
+        </li><br>
 
-    <li>
-    Your own posts. Use delete more than you are using now.<br>
-    Reread after posting, maybe again latter if there is further interaction. Doesn't read as good now as it did then? Delete now. Reduce further detracting from the global SNR.<br>
-    Like your post on posting - reasons:
-        <ol type="a">
-            <li>To remind yourself that you should really like what you post, never be ashamed of it. If you can't bring yourself to click Like - delete the post.</li>
-            <li>Keeps you honest and on your toes not sloppy. Don't be lazy - make that extra effort, spend 30 sec more, google that link or that claim you are making, avoid obvious lazy errors that decrease the general SNR of the convo. Don't hide behind irony, allusions and other plausible-deniability cowardliness. (jesters at King's court, unfortunates in a totalitarian regime - they need those tools; but not you; you suffer no ill consequences, while being given a megaphone to the world)</li>
-            <li>Reddit and Hacker News automatically credit one uptick to a post to start with, just for posting. Even if a post turns rubbish:
-                for the chance taken & effort put in writing something, in preference to not writing/keeping quiet - a small reward is deserved.</li>
-            <li>Symbolic poetic gives it small good luck push, as if a departing boat, a reminder - once posted, posts start a life of their own.</li>
-            <li>So they show in the Liked tab, in context with all the other things read at the time and assumed liked and making an impression enough to post.</li>
+        <li>
+        Unfollowing. Read the &quot;Following&quot; feed, find a posts you dislike, check @acc, if not a mutual - then Unfollow. In general-favour doers.
+        Don&apos;t follow acc known for being known, non-human, #SLOGAN-s, nick123, marketeers, crypto, girlface, neuro, flags, bolded.
+        Take a look at acc photo-name-nick-bio, ask yourself: do I recognize, can I recall of anything about this acc? If NO =&gt; then Unfollow.
+        If you recognize the acc profile, then: do I recall their posts, will I want to read again tomorrow? If NO =&gt; then Unfollow.
+        Don&apos;t spend time checking list membership - just Unfollow. Accounts that follow your lists - also follow them, look for synergy.
+        </li><br>
+
+        <li>
+        Manual "Activity Feed". When @acc appers in Notifications, use the opportunity to check their posts. Scan the Follows list, check-
+        Go throught the top pages of their Posts, Replies, Highlights. Read posts, like and re-post, reply to any of interest.
+        Keep Follows&lt;=Followers, both &lt;5K accounts, ~4K is about max that&apos;s sane &amp; can be manually maintained.
+        Keep in mind un/follow decision is a low-regret one! Be proactive, un-follow if Algofeed is too pushy, re-follow to check back after a time.
+        </li><br>
+
+        <li>
+        Your own posts. Like your own posts on posting - or not! Use AI to spruce them up - or not!<br>
+        Reasons for:
+        <ol type="a" start="1">
+            <li>To remind self that you should really like what you post, to never be ashamed of it. If you don&apos;t like what you post—how is anyone else to?<br>
+            Keeps you honest on your toes. Don&apos;t get sloppy. Don&apos;t hide behind irony, allusions and other plausible-deniability cowardess.</li>
+            <li>Reddit and Hacker News automatically credit one uptick to a post to start with, just for posting. Even if a post turns rubbish:<br>
+            for the chance taken &amp; effort put in writing/doing, in preference to not writing/keeping quiet, a small reward is deserved.</li>
+            <li>Symbolic poetic gives it small good luck push. As if a departing boat. A reminder—once posted, post starts a life, a journey, of their own.</li>
+            <li>So they show in the Liked tab, in context with all the other things read at the time and assumed like for making an impression enough to post.</li>
         </ol>
-    ChatGPT massage and make more readable longer posts. Try indicate to a knowing user that ChatGPT was used without being explicit:
-    <ol type="i">
-        <li>Use <b>**bold**</b> and <i>*italic*</i> formatting as is ChatGPT default, both for that but also b/c longer posts will warrant some markup.</li>
-        <li>Don't explicitly disclaim - not only would the space used be inelegant, but may give credence to the "naturalistic" fallacy.<br>
-           (e.g. we don't ack the keyboard/computer used to type it either)</li>
-    </ol>
-    </li><br>
+        Reasons against liking your own:
+        <ol type="a" start="5">
+            <li>It&apos;s a bit pathetic, looks needy.</li>
+        </ol>
+        Use ChatGPT to massage and make more palatable longer posts. Try indicate to a knowing user that ChatGPT was used without being explicit:
+        <ol type="a" start="7">
+            <li>Use **<b>bold</b>** and *<i>italic</i>* formatting as is ChatGPT default, both for that but also b/c longer posts will warant some markup.</li>
+            <li>Don&apos;t explicitly disclaim: wastes space, is inelegant, gives credence to the &quot;naturalistic&quot; fallacy. (we don&apos;t ack keyboard/computer either)</li>
+        </ol>
+        </li><br>
 
-    <li>
-        Mutuals - accounts where we mutually follow each other. Unfollow mutual iif to significant extent, one of, or both (a)+(b) below, happen:
+        <li>
+         Mutuals - accounts where we mutually follow each other. Unfollow mutual iif to significant extent, one of, or both (a)+(b) below, happen:
         <ol type="a">
         <li>No interaction, no synergy. They don't like or reply to your posts, or your replies to their posts, never repost anything you post.</li>
-        <li>Suspected Gell-Mann amnesia: stuff you know for sure, you see them post untrue/silly takes. Assume similarly clueless about stuff you don't know.</li>
+        <li>Suspected Gell-Mann Amnesia: stuff you know for sure, see them post untrue/silly takes. Assume similarly clueless abt stuff you don't know.</li>
         </ol>
-       That opens a slot - that would've been taken by their posts - for the Algofeed to put some other post, also from a mutual account, in that slot.
-       Don't spam, don't bother people indifferent to you. Maybe they have muted you. Maybe X for does not show your posts to them b/c there's no mutual interests' match.
-       No one's at fault - tried, didn't pan out. Chances are low to start with, it's to be expected, this will be the norm not the exception.
-       The aim is bi-directional interaction of high SNR b/c that's *multiplicative*: 100 good connections outweighs 1000 poor connections.
-    </li><br>
+        That opens a slot - that would've been taken by their posts - for the Algofeed to put some other post, also from a mutual account, in that slot.
+        Don't spam bother accounts indifferent to you. Maybe they have muted you, or X for does not show them your posts b/c no mutual interests' match.
+        No one's at fault - tried, didn't pan out, move on. Chances are low to start with, it's to be expected, the norm not the exception.
+        The aim is bi-directional interaction of high SNR b/c that's *multiplicative*: 100 good connections outweigh 1000 poor connections.
+        </li><br>
 
-    <li>
-       Accounts that blocked you - block back too no exceptions. The tit-for-tat is paradoxically way for better cooperation.
-       Otherwise prefer (a) NIL sink list shunting; or (b) temporary turn off reposts or mute accounts X is too keen on. But periodically do scan list and unmute.
-    </li><br>
+        <li>
+        Accounts that blocked you - block back too no exceptions. The tit-for-tat is paradoxically good means for better cooperation.
+        Otherwise prefer (a) NIL sink list shunting; or (b) temporary turn off reposts X is too keen on. (avoid Mute - keep the Mute list clean)
+        </li><br>
 
-    <li>
-       Increase the chance of interaction. Keep active - post, quote, reply, repost, like. Heed X "Who to follow" - follow accounts, unfollow if no traction.
-       Add interesting posts on Highlights. Periodically scan, find topical or interesting post, repost if still relevance not expired with the time passing.
-       There are 8e9 humans, 1e8 on X. Chance to match interests 1:1 is low 1e-16. Keep looking for high SNR interactions. Keep trying to improve the 1% hit rate.
-       X/Twitter user moderation is manual, there are no automated tools => seems the physical limit is about 4K accounts: 4K follows, 4K followers.
-    </li>
+        <li>
+        Increase the chance of interaction. Keep active - post, quote, reply, repost, like. Heed X "Who to follow" - follow accounts, unfollow if no traction.
+        Add interesting posts on Highlights. Periodically scan, find topical or interesting post, repost if still relevance not expired with the time passing.
+        There are 8e9 humans, 1e8 on X. Chance to match interests 1:1 is low 1e-16. Keep looking for high SNR interactions. Keep trying to improve the 1% hit rate.
+        X/Twitter user moderation is manual, there are no automated tools, seems the physical limit is about 4K acc: 4K follows, 4K followers.
+        </li><br>
+
     </ol>
 
-        <p>
-        X algofeed is moderated every second of the time. Stats as follows. You follow 5000 accounts. Each one writes 1 post a day = 5000 posts a day. You login to X, X algofeed
-        serves 50 posts on one screen full. Check X 10 times per day = 500 posts X will show you daily. That is 500 out of possible 5000 to be shown, and 4500 to not be shown.
-        X must decide which 500, out of 5000 possible, to show you. Any one post has probability 0.1 to be shown. You will see 1 post from 1 account once in 10 days.
-        X algo is non-random, tilts towards factors like accounts interaction, engagement via {Like,Forward,Quote,Reply} of posts, bio check. Prob decayed by time with half-life. Link(s) in post penalize post ranking.
-        </p>
+    <p>
+    X algofeed is moderated every second of the time. Stats as follows. You follow 5000 accounts. Each one writes 1 post a day = 5000 posts a day. You login to X, X algofeed
+    serves 50 posts on one screen full. Check X 10 times per day = 500 posts X will show you daily. That is 500 out of possible 5000 to be shown, and 4500 to not be shown.
+    X must decide which 500, out of 5000 possible, to show you. Any one post has probability 0.1 to be shown. You will see 1 post from 1 account once in 10 days.
+    X algo is non-random, tilts towards factors like accounts interaction, engagement via {Like,Forward,Quote,Reply} of posts, bio check. Prob decayed by time with half-life.
+    </p>
 
-        <p>
-        XPro Tweetdeck (TLDR: for every list in Lists, add Deck==list; add Deck==list-of-Lists; add Deck==Personal, add Deck==Communities):
-        <ol type="i">
-            <li>Have List==Deck, add important frequent prominent posters from a List into the Deck.</li>
-            <li>Where account belongs to multiple List-s, chose one List only and add it to that one list Deck only.</li>
-            <li>Have a separate deck LISTS for all lists, and add all your X Lists in it.</li>
-            <li>Have a separate deck for Personal feeds: Search from:ljupc0, @ljupc0 Notifications, Home For you, Home Following, @ljupc0 Grok, Profile My Profile, @ljupc0 My Bookmarks, @ljupc0 Messages, @ljupc0 Explore.</li>
-            <li>Have a separate deck for Communities you have joined - add deck Communities and add a selection of joined communities in it.</li>
-        </ol>
-        </p>
+    <p>
+    XPro tweetdeck (TLDR: for every list in Lists, add Deck==list; add Deck==list-of-Lists; add Deck==Personal, add Deck==Communities):
+    <ol type="i">
+    <li>Have List==Deck, add important frequent prominent posters from a List into the Deck.</li>
+    <li>Where account belongs to multiple List-s, chose one List only and add it to that one list Deck only.</li>
+    <li>Have a separate deck LISTS for all lists, and add all your X Lists in it.</li>
+    <li>Have a separate deck for Personal feeds: Search from:ljupc0, @ljupc0 Notifications, Home For you, Home Following, @ljupc0 Grok, Profile My Profile, @ljupc0 My Bookmarks, @ljupc0 Messages, @ljupc0 Explore.</li>
+    <li>Have a separate deck for Communities you have joined - add deck Communities and add a selection of joined communities in it.</li>
+    </ol>
+    </p>
 
-        <p>Archives of my posts are <a href="twitter-history.html">linked</a> below. It's a text dump without much organisation. TBD TODO</p>
-        <p></p>
-        <p></p>
+    <p><a href="twitter-history.html">Archive of my posts is linked here.</a> It's a text dump without much organisation. TBD TODO</p>
+    <p></p>
+    <p></p>
 
-        <p><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>-- <br>LJ HPD Sun 24 Nov 18:40:24 GMT 2024</p>
+    <p><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>-- <br>LJ HPD Sun 24 Nov 18:40:24 GMT 2024</p>
 
     </div>
 

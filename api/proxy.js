@@ -98,6 +98,7 @@ module.exports = async (req, res) => {
             // - openrouter/deepseek/deepseek-chat-v3-0324:free
             // - openrouter/deepseek/deepseek-chat:free
             // - openrouter/deepseek/deepseek-r1:free
+            // - openrouter/tngtech/deepseek-r1t-chimera:free
             // - openrouter/google/gemini-2.0-flash-exp:free
             // - openrouter/google/gemini-2.5-pro-exp-03-25:free
             // - openrouter/meta-llama/llama-3-8b-instruct:free
@@ -105,10 +106,11 @@ module.exports = async (req, res) => {
             body: JSON.stringify({
                 //model: 'google/gemini-2.0-flash-exp:free',
                 //model: 'google/gemini-2.5-pro-exp-03-25:free',
-                model: 'google/gemini-2.5-flash-preview',
+                //model: 'google/gemini-2.5-flash-preview',
                 //model: 'deepseek/deepseek-chat:free',
                 //model: 'deepseek/deepseek-chat-v3-0324:free',
                 //model: 'deepseek/deepseek-r1:free',
+                model: 'openrouter/tngtech/deepseek-r1t-chimera:free',
                 //model: 'deepseek/deepseek-r1',
                 //model: 'qwen/qwq-32b:free',
                 //model: 'google/gemini-2.5-pro-exp-03-25:free', // Or your preferred model
