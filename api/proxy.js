@@ -111,8 +111,8 @@ module.exports = async (req, res) => {
                 //model: 'deepseek/deepseek-chat-v3-0324:free',
                 //model: 'deepseek/deepseek-r1:free',
                 //model: 'openrouter/tngtech/deepseek-r1t-chimera:free',
-                //model: 'deepseek/deepseek-r1',
-                model: 'deepseek/deepseek-chat-v3-0324',
+                model: 'deepseek/deepseek-r1',
+                //model: 'deepseek/deepseek-chat-v3-0324',
                 //model: 'qwen/qwq-32b:free',
                 //model: 'google/gemini-2.5-pro-exp-03-25:free', // Or your preferred model
                 messages: messages,
