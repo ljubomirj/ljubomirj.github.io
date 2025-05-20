@@ -104,17 +104,18 @@ module.exports = async (req, res) => {
             // - openrouter/meta-llama/llama-3-8b-instruct:free
             // - openrouter/mistralai/mistral-7b-instruct:free
             body: JSON.stringify({
+                //model: 'google/gemini-2.5-pro-exp-03-25:free', // Or your preferred model
                 //model: 'google/gemini-2.0-flash-exp:free',
                 //model: 'google/gemini-2.5-pro-exp-03-25:free',
                 //model: 'google/gemini-2.5-flash-preview',
+                model: 'google/gemma-3-27b-it',
                 //model: 'deepseek/deepseek-chat:free',
                 //model: 'deepseek/deepseek-chat-v3-0324:free',
                 //model: 'deepseek/deepseek-r1:free',
-                //model: 'tngtech/deepseek-r1t-chimera:free',
-                model: 'deepseek/deepseek-r1',
+                //model: 'deepseek/deepseek-r1',
                 //model: 'deepseek/deepseek-chat-v3-0324',
+                //model: 'tngtech/deepseek-r1t-chimera:free',
                 //model: 'qwen/qwq-32b:free',
-                //model: 'google/gemini-2.5-pro-exp-03-25:free', // Or your preferred model
                 //model: 'qwen/qwen3-235b-a22b',
                 messages: messages,
             }),

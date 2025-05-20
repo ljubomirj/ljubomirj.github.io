@@ -136,3 +136,66 @@ button {
 button:hover {
     background-color: #0056b3;
 }
+
+/* --- Media Query for Mobile --- */
+
+/* Adjust 768px to whatever breakpoint you prefer. This is a common tablet portrait breakpoint. */
+@media (max-width: 768px) {
+    body {
+        flex-direction: column; /* Stack sidebar and content vertically */
+    }
+
+    #sidebar {
+        width: 100%; /* Sidebar takes full width */
+        height: auto; /* Height adjusts to content */
+        position: static; /* No longer fixed, flows with document */
+        padding-top: 0;
+        /* Optional: Add a bottom border to separate from content */
+        /* border-bottom: 2px solid #0056b3; */
+    }
+
+    #sidebar h2 { /* Optional: Center title on mobile */
+        text-align: center;
+    }
+    #sidebar a { /* Optional: Make links slightly more prominent */
+        padding: 12px 15px;
+        /* text-align: center; */ /* If you want links centered too */
+    }
+
+
+    #content {
+        margin-left: 0; /* Remove the left margin */
+        padding: 15px; /* Maybe slightly less padding on mobile */
+    }
+
+    /* If you want a hamburger menu to toggle the sidebar instead of stacking: */
+    /*
+    #sidebar {
+        position: fixed;
+        left: -200px; // Start hidden
+        transition: left 0.3s ease-in-out;
+        // Add box-shadow, etc.
+    }
+    #sidebar.open {
+        left: 0;
+    }
+    #content {
+        margin-left: 0; // Sidebar no longer pushes content by default
+    }
+    // You would then need a JavaScript-controlled button to add/remove the 'open' class
+    */
+}
+
+/* Even smaller screens adjustments, if needed */
+@media (max-width: 480px) {
+    #content {
+        padding: 10px;
+    }
+    #user-input {
+        /* Example: make chat input stack if it's too cramped */
+    }
+    button {
+        /* Example: make chat button full width below input */
+    }
+}
+
