@@ -64,7 +64,7 @@
         <p>TBD link to entropy and average information, specific <a href="DeWeese_Meister_-_How_to_measure_the_information_gained_from_one_symbol_-_ne9403.pdf">information from one symbol</a> -<br>
         Michael R DeWeese and Markus Meister (1999), <a href="DeWeese_Meister_-_How_to_measure_the_information_gained_from_one_symbol_-_ne9403.pdf">"How to measure the information gained from one symbol"</a>, <a href="https://www.tandfonline.com/doi/abs/10.1088/0954-898X_10_4_303">Network: Computation in Neural Systems, 10:4, 325-340</A>, <a href="https://iopscience.iop.org/article/10.1088/0954-898X/10/4/303">DOI: 10.1088/0954-898X_10_4_303</a> [[excellent paper; introduces the idea that more information can make the entropy higher, thus reducing our knowledge if the knowledge measure is the spikiness of the probability density function; after we have additional observation (information), the posterior p.d.f. given the observation, maybe flatter then before =&gt; our knowledge decreased ]]</p>
         
-        <p>TBD Knowing and knowledge put into an even wider context.</p>
+        <p><b>TBD wider context</b> to Knowing and knowledge, even ideology?</p>
         <ol>
             <li>Known Knowns. Deterministic knowledge - we know exactly which one. (<a href="#know-dirac">deterministic knowledge</a> above)</li>
             <li>Known Unknowns. We don't know which one, but we know how many of which type; i.e. the distribution. (<a href="#know-pdf">known pdf</a>, <a href="#aleo-pdf">aleatoric uncertainty</a> above)</li>
@@ -72,10 +72,32 @@
             <li>Unknown Knowns. Ideology. Fish swimming in water never knowing anything else but water.Possibly thus being unable to perceive the water too? Not sure - that maybe a step too far. Just not knowing anything outside water, but knowing water suffices imo. (Zizek @ YT; self-reflective, I using the framework described above by the 3 cases {pdf-yes-Dirac,pdf-yes-non-Dirac,pdf-no} am like the fish, and the framework is my water, in the sense that's my entire knowledge and I know not outside of it)</li>
         </ol>
 
-        <p>TBD Quantity and quality. Dimensions \( (X,Y) \) are qualities, and we quantify them each too. When do we add new quality and obversely when do we lose a quality (dimension)?</p>
+        <p><b>TBD Time.</b> Mechanistic pedestrian treatment of time (past/now/future) in the same framework where all is knowns is a p.d.f. So we have past and future separated by the now that marks the present for us. Say X=past, Y=future in our \( (X,Y) \) and we have the p.d.f. \( f_{X,Y}(x,y) \) .
+        </p>
+
+<p>
+The past has already hapenned, there is only one of it, it's certain and deterministic. Translated in p.d.f. language that means and \( f_X(x) \) or \( f_{X|Y}(x|y) \) distribution <b>**must**</b> be a Dirac delat impulse. The \( f_X(x) \) can not be any other functions shape than a Dirac delta.<br>
+The future has not happened yet. We know there two or more options for the future, it is never a single one. Translated in p.d.f. language that means and \( f_Y(y) \) or \( f_{Y|X}(y|x) \) distribution <b>**can NOT**</b> be a Dirac delta impulse. The \( f_Y(y) \) can  be any other function shape than a Dirac delta. But not a Dirac delta.
+</p>
+
+<p>
+  Time is a moving Now barrier. Now is the point that separates the p.d.f.s of the past, and the future.<br>
+  The p.d.f. of the past is <b>**always**</b> a Dirac impulse. The past is always certain, having already happened, the uncertainty is 0%. In fact, a definition of the past maybe "that what is known with 100% certainty."<br>
+  The p.d.f. of the future is <b>**never**</b> a Dirac impulse. The future is always uncertain, it's never 100% certain. In fact, one definition of the future is "that what can't be known with 100% certainty."
+</p>
+
+<p>
+<b>TBD Everything is a computer now atm.</b> (2025) Information theory is the most general theory we got.<br>
+  Knowledge is a p.d.f. Learning is acquiring a p.d.f. where we previously lacked one. Acquiring p.d.f. is figuring out what-s, and how many-s of those what-s.<br>
+  Computing is taking our knowledge, the learned p.d.f.s we got, then manipulating those p.d.f.s, by either marginalisation, or conditioning, to create new p.d.f.s.<br>
+  These new p.d.f.s then tell us something about what what we care about but we can't observe, having observed things that are easy for us to observe, but we don't care about.<br>
+  The general model of computation is one of discrete states. Every state is characterised by a different p.d.f. function. Transitions between states occure too. Those are also characterised by their own p.d.f.s. Markov assumption is that transitions depend on the current state, but don't depend on the path we took to get to the current state. So The future states are independent of the past state, only on the present state.
+</p>
+
+        <p><b>TBD Quantity and Quality.</b> Dimensions \( (X,Y) \) are qualities, and we quantify them each too. When do we add new quality and obversely when do we lose a quality (dimension)?</p>
         <p>(<a href="https://news.ycombinator.com/item?id=38261719">LJ @ HN</a>) There is a spin on the same idea when working with data (maths/stats/comp/ML) and having to skirt around the curse of dimensionality. Suppose I have a 5-dimensional observation and I'm wondering if it's really only 4 dimensions there. One way I check is - do a PCA, then look at the size of the remaining variance along the axis that is the smallest component (the one at the tail end, when sorting the PCA components by size). If the remaining variance is 0 - that's easy, I can say: well, it was only ever a 4-dimensional observation that I had after all. However, in the real world it's never going to be exactly 0. What if it is 1e-10? 1e-2? 0.1? At what size does the variance along that smallest PCA axis count as an additional dimension in my data? The thresholds are domain dependent - I can for sure say that enough quantity in the extra dimension gives a rise to that new dimension, adds a new quality. Obversely - diminishing the (variance) quantity in the extra dimension removes that dimension eventually (and with total certainty at the limit of 0). I can extend the logic from this simplest case of linear dependency (where PCA suffices) all the way to to the most general case where I have a general program (instead of PCA) and the criterion is predicting the values in the extra dimension (with the associated error having the role of the variance in the PCA case). At some error quantity \( \gt 0 \) I have to admit I have a new dimension (quality). TBD</p>
 
-        <p>TBD Ndim space. Ratio of Ncube/Nball. Does our intuition fail us about the representative values of a distribution when we go from low \( N \) \( (N = 2) \) to high(er) \( N \) \( (N \gt 10) \)? For large N, Nspace in Ndim: (a) moves into the edges (b) every observation is an outlier (in some dimension). Does that mean the space becomes discrete, it discretizes?</p>
+        <p><b>TBD Ndim Space.</b> Ratio of Ncube/Nball. Does our intuition fail us about the representative values of a distribution when we go from low \( N \) \( (N = 2) \) to high(er) \( N \) \( (N \gt 10) \)? For large N, Nspace in Ndim: (a) moves into the edges (b) every observation is an outlier (in some dimension). Does that mean the space becomes discrete, it discretizes?</p>
         <p>TBD Sparse representation, moving to symbolics and rules. Once the Ndim vector becomes sparse, we move from continuous representations to discrete symbolic rules?</p>
 
         <p></p>
