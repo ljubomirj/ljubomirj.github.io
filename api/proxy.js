@@ -84,71 +84,96 @@ module.exports = async (req, res) => {
             return res.status(400).json({ error: 'Invalid or missing request body for POST. Expected JSON with a non-empty messages array.' });
         }
 
-        // 3. Call OpenRouter API
-        console.log(`Forwarding request to OpenRouter with ${messages.length} messages in history...`);
-        const openRouterResponse = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+        // 3. Choice of API
+        // 3a. Call OpenRouter API
+        // 3b. Call KlusterAI API
+
+//        // 3a. Call OpenRouter API
+//        console.log(`Forwarding request to OpenRouter with ${messages.length} messages in history...`);
+//        const routerResponse = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+//            method: 'POST',
+//            headers: {
+//                'Authorization': `Bearer ${process.env.OPENROUTER_API_KEY}`,
+//                'Content-Type': 'application/json',
+//            },
+//            // *** Pass the received messages array directly to OpenRouter ***
+//            // Option free openrouter models
+//            // + aider --list-models openrouter/
+//            // - openrouter/deepseek/deepseek-chat-v3-0324:free
+//            // - openrouter/deepseek/deepseek-chat:free
+//            // - openrouter/deepseek/deepseek-r1:free
+//            // - openrouter/tngtech/deepseek-r1t-chimera:free
+//            // - openrouter/google/gemini-2.0-flash-exp:free
+//            // - openrouter/google/gemini-2.5-pro-exp-03-25:free
+//            // - openrouter/meta-llama/llama-3-8b-instruct:free
+//            // - openrouter/mistralai/mistral-7b-instruct:free
+//            body: JSON.stringify({
+//                //model: 'google/gemini-2.5-pro-exp-03-25:free', // Or your preferred model
+//                //model: 'google/gemini-2.0-flash-exp:free',
+//                //model: 'google/gemini-2.5-pro-exp-03-25:free',
+//                //model: 'google/gemini-2.5-flash-preview',
+//                model: 'google/gemma-3-27b-it',
+//                //model: 'deepseek/deepseek-chat:free',
+//                //model: 'deepseek/deepseek-chat-v3-0324:free',
+//                //model: 'deepseek/deepseek-r1:free',
+//                //model: 'deepseek/deepseek-r1',
+//                //model: 'deepseek/deepseek-chat-v3-0324',
+//                //model: 'tngtech/deepseek-r1t-chimera:free',
+//                //model: 'qwen/qwq-32b:free',
+//                //model: 'qwen/qwen3-235b-a22b',
+//                messages: messages,
+//            }),
+//        });
+
+        // 3b. Call KlusterAI API
+        console.log(`Forwarding request to KlusterAI with ${messages.length} messages in history...`);
+        const routerResponse = await fetch('https://api.kluster.ai/v1/chat/completions', {
             method: 'POST',
             headers: {
-                'Authorization': `Bearer ${process.env.OPENROUTER_API_KEY}`,
+                'Authorization': `Bearer ${process.env.KLUSTERAI_API_KEY}`,
                 'Content-Type': 'application/json',
             },
-            // *** Pass the received messages array directly to OpenRouter ***
-            // Option free openrouter models
-            // + aider --list-models openrouter/
-            // - openrouter/deepseek/deepseek-chat-v3-0324:free
-            // - openrouter/deepseek/deepseek-chat:free
-            // - openrouter/deepseek/deepseek-r1:free
-            // - openrouter/tngtech/deepseek-r1t-chimera:free
-            // - openrouter/google/gemini-2.0-flash-exp:free
-            // - openrouter/google/gemini-2.5-pro-exp-03-25:free
-            // - openrouter/meta-llama/llama-3-8b-instruct:free
-            // - openrouter/mistralai/mistral-7b-instruct:free
+            // *** Pass the received messages array directly to KlusterAI ***
+            // Option klusterai models
+            // - deepseek-ai/DeepSeek-V3-0324
+            // - deepseek-ai/DeepSeek-R1
+            // - Qwen/Qwen3-235B-A22B-FP8
             body: JSON.stringify({
-                //model: 'google/gemini-2.5-pro-exp-03-25:free', // Or your preferred model
-                //model: 'google/gemini-2.0-flash-exp:free',
-                //model: 'google/gemini-2.5-pro-exp-03-25:free',
-                //model: 'google/gemini-2.5-flash-preview',
-                model: 'google/gemma-3-27b-it',
-                //model: 'deepseek/deepseek-chat:free',
-                //model: 'deepseek/deepseek-chat-v3-0324:free',
-                //model: 'deepseek/deepseek-r1:free',
-                //model: 'deepseek/deepseek-r1',
-                //model: 'deepseek/deepseek-chat-v3-0324',
-                //model: 'tngtech/deepseek-r1t-chimera:free',
-                //model: 'qwen/qwq-32b:free',
-                //model: 'qwen/qwen3-235b-a22b',
+                //model: 'deepseek-ai/DeepSeek-V3-0324',
+                //model: 'deepseek-ai/DeepSeek-R1',
+                model: 'Qwen/Qwen3-235B-A22B-FP8',
                 messages: messages,
             }),
         });
 
-        // 4. Check OpenRouter Response Status
-        if (!openRouterResponse.ok) {
-            // ... (Error handling for failed OpenRouter fetch) ...
+        // 4. Check Router Response Status
+        if (!routerResponse.ok) {
+            // ... (Error handling for failed Router fetch) ...
             let errorBody = {};
             try {
-                 errorBody = await openRouterResponse.json();
+                 errorBody = await routerResponse.json();
             } catch(e){
-                 errorBody = await openRouterResponse.text().catch(()=> 'Could not read error body');
+                 errorBody = await routerResponse.text().catch(()=> 'Could not read error body');
             }
-            console.error(`OpenRouter API Error: ${openRouterResponse.status} ${openRouterResponse.statusText}`, errorBody);
+            console.error(`Router API Error: ${routerResponse.status} ${routerResponse.statusText}`, errorBody);
              // Set CORS headers for error response if origin was allowed initially
              if (isOriginAllowed) {
                  res.setHeader('Access-Control-Allow-Origin', requestOrigin);
                  res.setHeader('Access-Control-Allow-Credentials', 'true');
              }
-            return res.status(openRouterResponse.status || 502).json({
-                error: `AI service request failed with status ${openRouterResponse.status}`,
+            return res.status(routerResponse.status || 502).json({
+                error: `AI service request failed with status ${routerResponse.status}`,
                 details: errorBody
             });
         }
 
-        // 5. Process and Return Success Response from OpenRouter
-        const data = await openRouterResponse.json();
-        console.log("Successfully received response body from OpenRouter:", JSON.stringify(data, null, 2));
+        // 5. Process and Return Success Response from Router
+        const data = await routerResponse.json();
+        console.log("Successfully received response body from Router:", JSON.stringify(data, null, 2));
 
         // Optional: You could still add the backend check for expected structure here if desired
         if (!(data && data.choices && data.choices.length > 0 && data.choices[0].message && data.choices[0].message.content)) {
-             console.error("OpenRouter returned unexpected structure:", data);
+             console.error("Router returned unexpected structure:", data);
               // Set CORS headers for error response if origin was allowed initially
              if (isOriginAllowed) {
                  res.setHeader('Access-Control-Allow-Origin', requestOrigin);
