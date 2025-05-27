@@ -138,10 +138,12 @@ module.exports = async (req, res) => {
             // - deepseek-ai/DeepSeek-V3-0324
             // - deepseek-ai/DeepSeek-R1
             // - Qwen/Qwen3-235B-A22B-FP8
+            // - google/gemma-3-27b-it
             body: JSON.stringify({
                 //model: 'deepseek-ai/DeepSeek-V3-0324',
                 //model: 'deepseek-ai/DeepSeek-R1',
-                model: 'Qwen/Qwen3-235B-A22B-FP8',
+                //model: 'Qwen/Qwen3-235B-A22B-FP8',
+                model: 'google/gemma-3-27b-it',
                 messages: messages,
             }),
         });
