@@ -146,8 +146,8 @@ module.exports = async (req, res) => {
                 //model: 'deepseek-ai/DeepSeek-R1',
                 //model: 'Qwen/Qwen3-235B-A22B-FP8',
                 //model: 'google/gemma-3-27b-it',
-				//model: 'mistralai/Mistral-Nemo-Instruct-2407', // 128K context
-				model: 'deepseek-ai/DeepSeek-R1-0528', // 150K context
+				model: 'mistralai/Mistral-Nemo-Instruct-2407', // 128K context
+				//model: 'deepseek-ai/DeepSeek-R1-0528', // 150K context
                 messages: messages,
             }),
         });
