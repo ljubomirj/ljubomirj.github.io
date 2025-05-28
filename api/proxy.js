@@ -140,12 +140,14 @@ module.exports = async (req, res) => {
             // - Qwen/Qwen3-235B-A22B-FP8
             // - google/gemma-3-27b-it
 			// - mistralai/Mistral-Nemo-Instruct-2407 // 128K context
+			// - deepseek-ai/DeepSeek-R1-0528 // 150K context
             body: JSON.stringify({
                 //model: 'deepseek-ai/DeepSeek-V3-0324',
                 //model: 'deepseek-ai/DeepSeek-R1',
                 //model: 'Qwen/Qwen3-235B-A22B-FP8',
                 //model: 'google/gemma-3-27b-it',
-				model: 'mistralai/Mistral-Nemo-Instruct-2407', // 128K context
+				//model: 'mistralai/Mistral-Nemo-Instruct-2407', // 128K context
+				model: 'deepseek-ai/DeepSeek-R1-0528', // 150K context
                 messages: messages,
             }),
         });
