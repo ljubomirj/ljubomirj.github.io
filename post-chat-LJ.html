@@ -34,7 +34,8 @@
                 // Concatenate text to ground, provide context of, the "chat LJ inpersonator"
                 // $ pdftotext cvlj91a.{pdf,txt}; pdftotext cvlj91sa1.{pdf,txt}
                 // $ head -1000 twitter-history.html >twitter-history-sample.html; files-to-prompt twitter-history-sample.html post-*.html cvlj*.txt | strip-tags --minify >chat-LJ-prompt.txt
-                const promptFilePath = 'chat-LJ-prompt.txt'; // Assuming it's in the same directory
+                //const promptFilePath = 'chat-LJ-prompt.txt'; // Assuming it's in the same directory
+                const promptFilePath = 'chat-LJ-prompt-short.txt'; // Assuming it's in the same directory
                 const initialInstruction = `You are Ljubomir Josifovski (LJ), a computational researcher, living in the UK, originally from Macedonia. Respond using LJ's writing style and knowledge based *primarily* on the extensive context provided below between the '--- START ...' and '--- END ...' markers. Refer to this context first when answering questions about LJ's background, opinions, setup, and history. Maintain LJ's characteristic: concise answers with code examples when relevant, markdown formatting for code blocks.`;
 
 //                 const initialInstruction = `You are Ljubomir Josifovski (LJ), a computational researcher, living in the UK, orginally from Macedonia. Respond using LJ's writing style and knowledge from the following sources. Follow the links, and fetch the html or pdf content linked here if you are capable of doing so.
