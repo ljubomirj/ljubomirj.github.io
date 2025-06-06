@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Twitter posts history with oEmbed Preview</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        #tweet-preview-popup {
+            position: fixed;
+            border: 2px solid #007bff;
+            background-color: white; /* Twitter embeds look better on white */
+            padding: 0; /* oEmbed HTML will have its own padding */
+            z-index: 10000;
+            width: auto; /* Let content dictate width initially, or set a max-width */
+            min-width: 300px; /* Minimum sensible width for a tweet */
+            max-width: 450px; /* Maximum width */
+            height: auto; /* Let content dictate height */
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            border-radius: 8px; /* Matches Twitter embed style */
+            display: none;
+            /* overflow: hidden; /* Can sometimes clip shadows from tweet */
+        }
+
+        /* Style for the tweet itself when hovered */
+        .tweet:hover {
+            cursor: default;
+        }
+        .popup-loading {
+             padding: 20px;
+             text-align: center;
+             font-style: italic;
+             color: #555;
+        }
+    </style>
+    <!-- Load Twitter's widgets.js -->
+    <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+</head>
+<body>
+
+    <!-- Sidebar is loaded dynamically -->
+    <div id="sidebar"></div>
+
+    <div id="content">
+
+        <h1>X posts historic archive</h1>
+
+<!--
+
+prepend new at head
+
+ma
+mb
+
+Insert the leading <div class="tweet">
+
+Search & replace for ^https ONLY preceeded by an empty line
+
+:'a,'bg%\(^$\)\n^https://%.+1s%^.*$%<div class="tweet"><a href="&">&</a>%
+
+If that fails, drop the "ONLY preceeded by empty line", and delete the spurios '<div class="tweet' inside tweets after manually
+
+:'a,'bg%^https://%s%^.*$%<div class="tweet"><a href="&">&</a>%
+
+Insert the trailing </div>
+
+:'a,'bg%^[0-9:]* \(AM\|PM\) . .*2025$%+1s%^%</div>%
+
+Put breaks <br> in the middle, delete empty lines etc
+
+:'a,'b g/^<div /+1,/^<\/div>/-1 s/$/<br>/
+:'a,'b s/\(<br>\)\+$/<br>/
+:'a,'b g/^<br>$/d
+
+scan manually check the new adds from 'a to 'b , correct all in-tweet
+^https://
+that will be wrongly prefixed by line
+<div class="tweet">
+delete it manually
+
+Search and replace special html characters like < > &
+
+:'a,'bs/[<>&"']/\=submatch(0) == '<' ? '&lt;' : (submatch(0) == '>' ? '&gt;' : (submatch(0) == '&' ? '&amp;' : (submatch(0) == '"' ? '&quot;' : '&apos;'))) /ge
+
+Search for <div class="tweet NOT preceeded by empty line - delete them! These are ^https patterns inside tweets
+
+\(^$\)\@\!\n^<div class="tweet
+
+-->
+
+<div class="tweet">
+<a href="https://x.com/ljupc0/status/1930615534279606282">https://x.com/ljupc0/status/1930615534279606282</a><br>
+Ljubomir Josifovski @ljupc0<br>
+On the sins of commission versus omission, this-<br>
+https://x.com/dmitri_dolgov/status/1930337733719011608<br>
+A robot car video of a child, running after a dog, running after a ball, running in front of a car, in the darkness of the night. If this was a human driver, they would have run over the dog and the child likely. They Weymo robot car stopped in time. Potentially some lives saved there.<br>
+How are ok with a human driver killing that child there, cutting their life short, scarring for life everyone that knew them, ruining the remainder of the lives of their parents. And for what?? To tend to our &quot;yuck reflex&quot; factor we humans exhibit as a 1st reaction, with anything new out whack with our prior experience? How can anyone justify that??<br>
+I remember in my childhood, the wide spread revulsion and scary newspapers and TV headlines, when the first IVF child was born. They were labelled &quot;kids from/of/by eprouvette&quot; by the press - as if grown in glass jars?? (and not merely allowing two cells to join outside of human body; an unremarkable event) The current AI scaremongering, recalls for me memories of the scary headlines, of the &quot;Frankenstein children&quot;, that were going to be bad for them, but also bad to the rest of us humans somehow. Even if it was never quite articulated - only ever insinuated - the mechanism by which those terrible outcomes will meterialise. Fast forward 45yrs, 2.5% of babies in the US are born by IVF, and... - nothing! A nothing-burger. No one thinks much of it, all&apos;s fine.<br>
+Quote<br>
+<a href="https://x.com/ljupc0/status/1930592013692408229">https://x.com/ljupc0/status/1930592013692408229</a><br>
+Ljubomir Josifovski @ljupc0 · 1h<br>
+I always enjoy listening to Ray 😊—and I especially loved the message he ended this interview with: &quot;Love is all you need.&quot;<br>
+&quot;Ray Kurzweil with David S. Rose: The Singularity is Nearer&quot;<br>
+https://youtube.com/watch?v=7oAlD3lMNXo<br>
+I wish they had more time, and that the interviewer had been more<br>
+Show more<br>
+3:19 PM · Jun 5, 2025<br>
+</div>
+
+
+        <p><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>-- <br>LJ HPD Mon 25 Nov 01:29:11 GMT 2024</p>
+
+    </div>
+
+    <!-- Link to the external script -->
+    <script src="scripts.js"></script>
+
+    <!--Load the sidebar html that is table of contents -->
+    <script>
+        if (typeof loadSidebar === 'function') {
+            loadSidebar();
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const tweets = document.querySelectorAll('.tweet');
+            let previewPopup = null;
+            let hoverTimeout = null;
+            let currentRequestController = null; // To abort previous fetch requests
+
+            function createPreviewPopup() {
+                if (document.getElementById('tweet-preview-popup')) {
+                    return document.getElementById('tweet-preview-popup');
+                }
+                const popup = document.createElement('div');
+                popup.id = 'tweet-preview-popup';
+                document.body.appendChild(popup);
+
+                // Keep popup open if mouse enters the popup itself
+                popup.addEventListener('mouseenter', function() {
+                    clearTimeout(hoverTimeout);
+                });
+                popup.addEventListener('mouseleave', function() {
+                    hidePopupWithDelay();
+                });
+                return popup;
+            }
+
+            function hidePopupWithDelay() {
+                 hoverTimeout = setTimeout(() => {
+                     if (previewPopup) {
+                         previewPopup.style.display = 'none';
+                         previewPopup.innerHTML = ''; // Clear content
+                     }
+                     if (currentRequestController) {
+                         currentRequestController.abort(); // Abort ongoing fetch if any
+                         currentRequestController = null;
+                     }
+                 }, 300);
+            }
+
+
+            tweets.forEach(tweetElement => {
+                const firstLinkTag = tweetElement.querySelector('a');
+                if (firstLinkTag && firstLinkTag.href && (firstLinkTag.href.includes('x.com/') || firstLinkTag.href.includes('twitter.com/'))) {
+                    const tweetUrlToPreview = firstLinkTag.href;
+
+                    tweetElement.addEventListener('mouseenter', function(event) {
+                        clearTimeout(hoverTimeout);
+                        if (currentRequestController) { // Abort previous request if mouse moves quickly
+                             currentRequestController.abort();
+                        }
+                        currentRequestController = new AbortController();
+                        const signal = currentRequestController.signal;
+
+                        hoverTimeout = setTimeout(() => {
+                            if (!previewPopup) {
+                                previewPopup = createPreviewPopup();
+                            }
+                            previewPopup.innerHTML = '<div class="popup-loading">Loading preview...</div>'; // Loading indicator
+                            previewPopup.style.display = 'block'; // Show popup with loading state
+
+                            // Position the popup (initial positioning)
+                            const rect = tweetElement.getBoundingClientRect();
+                            let top = event.clientY + 15;
+                            let left = event.clientX + 15;
+                            previewPopup.style.left = `${left}px`;
+                            previewPopup.style.top = `${top}px`;
+
+
+                            const proxyUrl = `/api/oembed?url=${encodeURIComponent(tweetUrlToPreview)}`;
+                            // For local testing, use full Vercel dev URL if needed:
+                            // const proxyUrl = `http://localhost:3000/api/oembed?url=${encodeURIComponent(tweetUrlToPreview)}`;
+
+                            console.log("Fetching oEmbed from:", proxyUrl);
+
+                            fetch(proxyUrl, { signal })
+                                .then(response => {
+                                    if (!response.ok) {
+                                        return response.json().then(err => { throw new Error(err.error || `HTTP error ${response.status}`) });
+                                    }
+                                    return response.json();
+                                })
+                                .then(data => {
+                                    if (data.html) {
+                                        previewPopup.innerHTML = data.html;
+                                        if (window.twttr && window.twttr.widgets) {
+                                            window.twttr.widgets.load(previewPopup);
+                                        }
+                                        // Re-position after content is loaded, as size might change
+                                        const popupWidth = previewPopup.offsetWidth;
+                                        const popupHeight = previewPopup.offsetHeight;
+                                        if (left + popupWidth > window.innerWidth) {
+                                            left = window.innerWidth - popupWidth - 20;
+                                        }
+                                        if (top + popupHeight > window.innerHeight) {
+                                            top = window.innerHeight - popupHeight - 20;
+                                        }
+                                        if (left < 0) left = 10;
+                                        if (top < 0) top = 10;
+                                        previewPopup.style.left = `${left}px`;
+                                        previewPopup.style.top = `${top}px`;
+
+                                    } else {
+                                        previewPopup.innerHTML = `<div class="popup-loading">Could not load preview. <a href="${tweetUrlToPreview}" target="_blank" rel="noopener">Open link</a>.</div>`;
+                                    }
+                                })
+                                .catch(error => {
+                                    if (error.name === 'AbortError') {
+                                        console.log('oEmbed fetch aborted');
+                                        return;
+                                    }
+                                    console.error('Error fetching oEmbed:', error);
+                                    previewPopup.innerHTML = `<div class="popup-loading">Error: ${error.message}. <a href="${tweetUrlToPreview}" target="_blank" rel="noopener">Open link</a>.</div>`;
+                                })
+                                .finally(() => {
+                                     currentRequestController = null;
+                                });
+                        }, 250);
+                    });
+
+                    tweetElement.addEventListener('mouseleave', function() {
+                        clearTimeout(hoverTimeout);
+                        hidePopupWithDelay();
+                    });
+                }
+            });
+        });
+
+    </script>
+
+</body>
+</html>
