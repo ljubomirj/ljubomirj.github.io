@@ -70,6 +70,21 @@ pre {
     overflow-wrap: break-word; /* Alternative/newer property for the same purpose */
 }
 
+/* substacks in archive, tags <div class="substack">...</div> */
+.substack {
+    background-color: #f9f9f9; /* Light gray background */
+    padding: 15px; /* Add some space inside the box */
+    margin-bottom: 20px; /* Add space between substack boxes */
+    border-radius: 5px; /* Optional: slightly rounded corners */
+    border: 1px solid #eee; /* Optional: a light border */
+}
+
+/* specifically targets the <p> tags within the .substack divs */
+.substack p {
+    word-break: break-word; /* Ensures long words break to prevent overflow */
+    overflow-wrap: break-word; /* Alternative/newer property for the same purpose */
+}
+
 /* Chat styles */
 #messages {
     overflow-y: auto;
