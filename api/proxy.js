@@ -88,69 +88,67 @@ module.exports = async (req, res) => {
         // 3a. Call OpenRouter API
         // 3b. Call KlusterAI API
 
-//        // 3a. Call OpenRouter API
-//        console.log(`Forwarding request to OpenRouter with ${messages.length} messages in history...`);
-//        const routerResponse = await fetch('https://openrouter.ai/api/v1/chat/completions', {
-//            method: 'POST',
-//            headers: {
-//                'Authorization': `Bearer ${process.env.OPENROUTER_API_KEY}`,
-//                'Content-Type': 'application/json',
-//            },
-//            // *** Pass the received messages array directly to OpenRouter ***
-//            // Option free openrouter models
-//            // + aider --list-models openrouter/
-//            // - openrouter/deepseek/deepseek-chat-v3-0324:free
-//            // - openrouter/deepseek/deepseek-chat:free
-//            // - openrouter/deepseek/deepseek-r1:free
-//            // - openrouter/tngtech/deepseek-r1t-chimera:free
-//            // - openrouter/google/gemini-2.0-flash-exp:free
-//            // - openrouter/google/gemini-2.5-pro-exp-03-25:free
-//            // - openrouter/meta-llama/llama-3-8b-instruct:free
-//            // - openrouter/mistralai/mistral-7b-instruct:free
-//            body: JSON.stringify({
-//                //model: 'google/gemini-2.5-pro-exp-03-25:free', // Or your preferred model
-//                //model: 'google/gemini-2.0-flash-exp:free',
-//                //model: 'google/gemini-2.5-pro-exp-03-25:free',
-//                //model: 'google/gemini-2.5-flash-preview',
-//                model: 'google/gemma-3-27b-it',
-//                //model: 'deepseek/deepseek-chat:free',
-//                //model: 'deepseek/deepseek-chat-v3-0324:free',
-//                //model: 'deepseek/deepseek-r1:free',
-//                //model: 'deepseek/deepseek-r1',
-//                //model: 'deepseek/deepseek-chat-v3-0324',
-//                //model: 'tngtech/deepseek-r1t-chimera:free',
-//                //model: 'qwen/qwq-32b:free',
-//                //model: 'qwen/qwen3-235b-a22b',
-//                messages: messages,
-//            }),
-//        });
-
-        // 3b. Call KlusterAI API
-        console.log(`Forwarding request to KlusterAI with ${messages.length} messages in history...`);
-        const routerResponse = await fetch('https://api.kluster.ai/v1/chat/completions', {
+        // 3a. Call OpenRouter API
+        console.log(`Forwarding request to OpenRouter with ${messages.length} messages in history...`);
+        const routerResponse = await fetch('https://openrouter.ai/api/v1/chat/completions', {
             method: 'POST',
             headers: {
-                'Authorization': `Bearer ${process.env.KLUSTERAI_API_KEY}`,
+                'Authorization': `Bearer ${process.env.OPENROUTER_API_KEY}`,
                 'Content-Type': 'application/json',
             },
-            // *** Pass the received messages array directly to KlusterAI ***
-            // Option klusterai models
-            // - deepseek-ai/DeepSeek-V3-0324
-            // - deepseek-ai/DeepSeek-R1
-            // - Qwen/Qwen3-235B-A22B-FP8
-            // - google/gemma-3-27b-it
-			// - mistralai/Mistral-Nemo-Instruct-2407 // 128K context
-			// - deepseek-ai/DeepSeek-R1-0528 // 150K context
+            // *** Pass the received messages array directly to OpenRouter ***
+            // Option free openrouter models
+            // + aider --list-models openrouter/
+            // - openrouter/deepseek/deepseek-chat-v3-0324:free
+            // - openrouter/deepseek/deepseek-chat:free
+            // - openrouter/deepseek/deepseek-r1:free
+            // - openrouter/tngtech/deepseek-r1t-chimera:free
+            // - openrouter/google/gemini-2.0-flash-exp:free
+            // - openrouter/google/gemini-2.5-pro-exp-03-25:free
+            // - openrouter/meta-llama/llama-3-8b-instruct:free
+            // - openrouter/mistralai/mistral-7b-instruct:free
             body: JSON.stringify({
-                //model: 'deepseek-ai/DeepSeek-V3-0324',
-                //model: 'deepseek-ai/DeepSeek-R1',
-                //model: 'Qwen/Qwen3-235B-A22B-FP8',
+                //model: 'google/gemini-2.5-pro', // Or your preferred model
+                //model: 'google/gemini-2.5-flash',
                 //model: 'google/gemma-3-27b-it',
-				model: 'mistralai/Mistral-Nemo-Instruct-2407', // 128K context
-				//model: 'deepseek-ai/DeepSeek-R1-0528', // 150K context
+                //model: 'deepseek/deepseek-r1-0528',
+                //model: 'tngtech/deepseek-r1t2-chimera',
+                //model: 'qwen/qwq-32b:free',
+                //model: 'qwen/qwen3-235b-a22b',
+                model: 'moonshotai/kimi-k2',
+                //model: 'moonshotai/kimi-k2:free',
+                //model: 'baidu/ernie-4.5-300b-a47b',
+                //model: 'arliai/qwq-32b-arliai-rpr-v1',
                 messages: messages,
             }),
         });
+
+//        // 3b. Call KlusterAI API
+//        console.log(`Forwarding request to KlusterAI with ${messages.length} messages in history...`);
+//        const routerResponse = await fetch('https://api.kluster.ai/v1/chat/completions', {
+//            method: 'POST',
+//            headers: {
+//                'Authorization': `Bearer ${process.env.KLUSTERAI_API_KEY}`,
+//                'Content-Type': 'application/json',
+//            },
+//            // *** Pass the received messages array directly to KlusterAI ***
+//            // Option klusterai models
+//            // - deepseek-ai/DeepSeek-V3-0324
+//            // - deepseek-ai/DeepSeek-R1
+//            // - Qwen/Qwen3-235B-A22B-FP8
+//            // - google/gemma-3-27b-it
+//			// - mistralai/Mistral-Nemo-Instruct-2407 // 128K context
+//			// - deepseek-ai/DeepSeek-R1-0528 // 150K context
+//            body: JSON.stringify({
+//                //model: 'deepseek-ai/DeepSeek-V3-0324',
+//                //model: 'deepseek-ai/DeepSeek-R1',
+//                //model: 'Qwen/Qwen3-235B-A22B-FP8',
+//                model: 'google/gemma-3-27b-it',
+//				//model: 'mistralai/Mistral-Nemo-Instruct-2407', // 128K context
+//				//model: 'deepseek-ai/DeepSeek-R1-0528', // 150K context
+//                messages: messages,
+//            }),
+//        });
 
         // 4. Check Router Response Status
         if (!routerResponse.ok) {
