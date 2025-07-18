@@ -63,8 +63,21 @@
 
         <p>TBD link to entropy and average information, specific <a href="DeWeese_Meister_-_How_to_measure_the_information_gained_from_one_symbol_-_ne9403.pdf">information from one symbol</a> -<br>
         Michael R DeWeese and Markus Meister (1999), <a href="DeWeese_Meister_-_How_to_measure_the_information_gained_from_one_symbol_-_ne9403.pdf">"How to measure the information gained from one symbol"</a>, <a href="https://www.tandfonline.com/doi/abs/10.1088/0954-898X_10_4_303">Network: Computation in Neural Systems, 10:4, 325-340</A>, <a href="https://iopscience.iop.org/article/10.1088/0954-898X/10/4/303">DOI: 10.1088/0954-898X_10_4_303</a> [[excellent paper; introduces the idea that more information can make the entropy higher, thus reducing our knowledge if the knowledge measure is the spikiness of the probability density function; after we have additional observation (information), the posterior p.d.f. given the observation, maybe flatter then before =&gt; our knowledge decreased ]]</p>
+
+        <p><b>Chain of Thought (CoT), Chain of reasoning (CoR)</b>
+
+        <p>Extension to Type 2 intelligence: guided search through discrete space where reward is unknown in time and onnly becomes known after the last step in the sequence. Next step from Type 1 intelligence: pattern recognition single 1:1 input:output, reward known at every step.</p>
         
-        <p><b>TBD wider context</b> to Knowing and knowledge, even ideology?</p>
+        <p>If p.d.f. \( f_{Y|X}(y|x=a) = P(Y|X) \) is not very informative, we can undertake chain of reasoining (CoR). We can find a resoning step Z, that is \( P(Z|X) \), such that the conditional \( P(Y|Z,X) \) brings us closer to our end answer that \( P(Y|X) \) can bring us.</p>
+
+        <p>One can undertake motivated slicing via \( Z \). For slicing by \( x=a \) the \( P(X,Y) = f_{X,Y}(x,y) \) to get \( f_{X,Y}(x=a,y) \) (and then renormalised by marginal \( P(X) = f_X(x) \) at \( x = a \) into \( f_{X,Y}(x=a,y)/f_X(x=a) = f_{Y|X}(y|x=a) \) call it conditional \( P(Y|X) \)) - we undertake that b/c we hope \( P(Y|X) \) is going to be sharper, more informative that a presumed wide un-informative \( P(Y) \). So we could be selecting such \( Z \), that \( P(Y|Z,X) \) is even sharper. And we have the \( P(Z|X) \) to judge how justified we are to undertake our motivated reasoning \( Z \) step. This is the CoR Chain or Reasoning thinking models undertake now (Jul-2025) afaik.</p>
+
+        <p>There are infinite numberof \( Z \)-s we can slice-condition on. The trick is chosing "the right \( Z \) -s". They can't be too divorced from \( X \), as then \( P(Z|X) \) will be very flat. The \( Z \) chosen also can't be too divorced from \( Y \) - then it will not add anything over and above \( X \), which is already too far from \( Y \) for any useful guide, \( P(Y|Z,X) \) will be as good (bad) as \( P(Y|X) \). (even if \( P(Z|X) \) may show relation to X) Looks like the size of the step when moving X-&gt;Y can be max ~20% in "interestingness", but not more, to keep it true.</p>
+
+        <p>Further. This how/what hierarchies are made/of. Already \( P(Y|X) \) is a hierarchical relationship. typically, \( X \) by sheer number/size/ordinality is much larger than \( Y \). Now conditioning on \( Z \) too \( P(Y|Z,X) \) is another brick in the wall of a hierarchical relationship. Conditioning on \( X \) takes general \( N \)-dim \( P(X,Y) \), and reduces it down to at most \( (N-1) \)-dim space of \( P(Y|X) \). Conditioning even more on \( Z \) to \( P(Y|Z,X) \) does another slicing down, to at most \( (N-2) \)-space. From widest most detailed \( N \)-dim \( P(X,Y) \), to more general less specific \( P(Y|Z,X) \) at most \( (N-2) \)-dim.</p>
+
+
+        <p><b>TBD Wider context</b> to Knowing and knowledge, even ideology?</p>
         <ol>
             <li>Known Knowns. Deterministic knowledge - we know exactly which one. (<a href="#know-dirac">deterministic knowledge</a> above)</li>
             <li>Known Unknowns. We don't know which one, but we know how many of which type; i.e. the distribution. (<a href="#know-pdf">known pdf</a>, <a href="#aleo-pdf">aleatoric uncertainty</a> above)</li>
