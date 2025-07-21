@@ -76,6 +76,12 @@
 
         <p>Further. This how/what hierarchies are made/of. Already \( P(Y|X) \) is a hierarchical relationship. typically, \( X \) by sheer number/size/ordinality is much larger than \( Y \). Now conditioning on \( Z \) too \( P(Y|Z,X) \) is another brick in the wall of a hierarchical relationship. Conditioning on \( X \) takes general \( N \)-dim \( P(X,Y) \), and reduces it down to at most \( (N-1) \)-dim space of \( P(Y|X) \). Conditioning even more on \( Z \) to \( P(Y|Z,X) \) does another slicing down, to at most \( (N-2) \)-space. From widest most detailed \( N \)-dim \( P(X,Y) \), to more general less specific \( P(Y|Z,X) \) at most \( (N-2) \)-dim.</p>
 
+        <p><b>Relation to current models</b></p>
+
+        <p>Non-reasoning autoregressive LLM-s: compute \( P(Y|X) \), then they sample from that distribution. Hence parameters like temp-erature, top_K, min_p, top_p.</p>
+        <p>Diffusion models image denoisers: learn the first derivative of \( log(P(Y|X)) \), use that to get from the current sample, to a better sample, and they iterate. They add noise to in every step, and that serves to sample the whole distribution, rather than pick and converge to a single one point.</p>
+        <p>Afaics the reasoning models add only one step extra. Assume there is no good choice \( Y \) for the \( X \) - say \( P(Y|X) \) is flat uninformative, there is no good guess for Y. So let's figure out intermediate step Z. Then instead of \( P(Y|X) \), go after \( P(Y|Z,X)P(Z|X) \). NB summing over Z will recover exactly \( P(Y|X) \). The step \( Z \) is such that \( P(Y|Z,X) \) is informative, where \( P(Y|X) \) was not. So \( P(Y|Z,X) \) brings us closer to a better guess for \( Y \), in a way that \( P(Y|X) \) does not. Of course, what functions, and how they are fit, and  how to chose bazillion of \( Z \)-s, and how to aggregate while searching - makes a world of difference.</p>
+
         <p><b>TBD Wider context</b> to Knowing and knowledge, even ideology?</p>
         <ol>
             <li>Known Knowns. Deterministic knowledge - we know exactly which one. (<a href="#know-dirac">deterministic knowledge</a> above)</li>
