@@ -78,11 +78,11 @@
 
         <p><b>Relation to current models</b></p>
 
-        <p>Non-reasoning autoregressive LLM-s: compute \( P(Y|X) \), then they sample from that distribution. Hence parameters like temp-erature, top_K, min_p, top_p.</p>
+        <p>Non-reasoning autoregressive LLM-s: compute \( P(Y|X) \), then they sample from that distribution. Hence parameters like <i>temp-erature</i>, <i>top_K</i>, <i>min_p</i>, <i>top_p</i>.</p>
         <p>Diffusion models image denoisers: learn the first derivative of \( log(P(Y|X)) \), use that to get from the current sample, to a better sample, and they iterate. They add noise to in every step, and that serves to sample the whole distribution, rather than pick and converge to a single one point.</p>
         <p>Afaics the reasoning models add only one step extra. Assume there is no good choice \( Y \) for the \( X \) - say \( P(Y|X) \) is flat uninformative, there is no good guess for Y. So let's figure out intermediate step Z. Then instead of \( P(Y|X) \), go after \( P(Y|Z,X)P(Z|X) \). NB summing over Z will recover exactly \( P(Y|X) \). The step \( Z \) is such that \( P(Y|Z,X) \) is informative, where \( P(Y|X) \) was not. So \( P(Y|Z,X) \) brings us closer to a better guess for \( Y \), in a way that \( P(Y|X) \) does not. Of course, what functions, and how they are fit, and  how to chose bazillion of \( Z \)-s, and how to aggregate while searching - makes a world of difference.</p>
 
-        <p><b>TBD Wider context</b> to Knowing and knowledge, even ideology?</p>
+        <p><b>Wider context</b> to Knowing and knowledge, epistemiology, even ideology?</p>
         <ol>
             <li>Known Knowns. Deterministic knowledge - we know exactly which one. (<a href="#know-dirac">deterministic knowledge</a> above)</li>
             <li>Known Unknowns. We don't know which one, but we know how many of which type; i.e. the distribution. (<a href="#know-pdf">known pdf</a>, <a href="#aleo-pdf">aleatoric uncertainty</a> above)</li>
@@ -105,7 +105,7 @@ The future has not happened yet. We know there two or more options for the futur
 </p>
 
 <p>
-<b>TBD Everything is a computer now atm.</b> (2025) Information theory is the most general theory we got.<br>
+<b>Everything is a computer now atm.</b> (2025) Information theory is the most general theory we got.<br>
   Knowledge is a p.d.f. Learning is acquiring a p.d.f. where we previously lacked one. Acquiring p.d.f. is figuring out what-s, and how many-s of those what-s.<br>
   Computing is taking our knowledge, the learned p.d.f.s we got, then manipulating those p.d.f.s, by either marginalisation, or conditioning, to create new p.d.f.s.<br>
   These new p.d.f.s then tell us something about what what we care about but we can't observe, having observed things that are easy for us to observe, but we don't care about.<br>
