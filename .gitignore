@@ -3,3 +3,4 @@
 .viminfo
 .session-*.vim
 .aider*
+*.[0-9]*
