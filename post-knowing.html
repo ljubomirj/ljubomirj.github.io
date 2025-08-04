@@ -18,11 +18,15 @@
         <h1>Knowing - what do I mean when I say I know something</h1>
 
         <p>I was told "the joint probability density function between two variables \( X \) and \( Y \) captures everything that there is ever to be known about the relation between those \( X \) and \( Y \)" 25 years ago (¡Hola! <a href="https://faculty.ucmerced.edu/mcarreira-perpinan/">Miguel</a> :-)), and it's been a blessing and a curse. Blessing - yeah the joint pdf \( f_{X,Y}(x,y) \) really does capture everything. Curse - often I read an article and think of the author "wish someone told you too", you poor soul.</p>
+
         <p>So for me knowing something about \( X \) means knowing the distribution, the pdf \( f_X(x) \). Most of the time our knowledge is more than 1-dimensional, we have at least two qualities that we want to quantify the relationship of. So knowing something about \( (X,Y) \) jointly, for me means knowing the joint pdf \( f_{X,Y}(x,y) \).</p>
 
         <p>Below I illustrate this point on the example of a joint pdf \( p = f_{X,Y}(x,y) \) that is a mix of two Gaussians in 2D space \( (x,y) \). We observe the variable \( X \), and that observations is \( x=1 \). The question is - what do we now know about the variable \( Y \), having observed the variable \( X \) (to be \( x=1 \)).</p>
+
         <p>The observation \(x=1 \) is equivalent to the joint pdf being cut by the plane \( x=1 \). The intersection of the joint pdf \( f_{X,Y}(x,y) \) and the plane \( x=1 \) is \( f_{X,Y}(x=1,y) \). This curve is the best description of what we now know about the distribution of the unobserved variable \( Y \).</p>
+
         <p>The starting model that was \( f_{X,Y})(x,y) \) is affected by the observation \( x=1 \). The effect is the intersection \( f_{X,Y}(x=1,y) \), and is outlined below. It is a function of \( y \), that is a scaled conditional \( f_Y(y|x=1) = \frac{f_{X,Y}(x=1,y)}{f_X(x=1)} \). The conditional pdf is \( f_Y(y|x) \).</p>
+
         <p>The scaler \( f_X(x=1) \) is the marginal pdf \( f_X(x) \) of \( X \) at point \( x=1 \). The marginal pdf \( f_X(x) \) is computed from the joint pdf \( f_{X,Y}(x,y) \) by marginalization, by integrating out \( Y \) as \( f_X(x) = \int f_{X,Y}(x,y)\,dy \) and then plugging in \( x=1 \).</p>
 
         <p><a href="#" onclick="toggleShowImage('pdf-joint-cond-marg-1of3')">Joint marginal conditional pdf 1 of 3</a>. (click to zoom)
@@ -35,7 +39,9 @@
         <img id="pdf-joint-cond-marg-3of3" src="pdf-joint-cond-marg-3of3.png" style="display: none; width: 100%; height: auto;" onclick="zoomImage(this)"></p>
 
         <p>Coming back to "joint pdf captures everything there is in the relationship \(X,Y\)". Putting it in a wider context.</p>
+
         <p>When reading about knowledge, I have come across the following so collected here for future reference.</p>
+
         <p>We can have 2 types of knowledge about the outcome of (repeated) experiment(s):</p>
         <ol type="a">
             <li id="know-dirac">We know what will happen and when it will happen in each experiment. This is non-probabilistic, deterministic knowledge.</br>
@@ -55,10 +61,15 @@
         <p>The probabilistic knowledge of type <a href="#know-pdf">(b)</a> above and aleatoric uncertainty of type <a href="#aleo-pdf">(b)</a> are one and the same.</p>
 
         <p>The 2D \( (X,Y) \) example is also useful to illustrate a further point. Once we observe \( X \), and work out the conditional pdf \( f_Y(y|x) \), the question arises - what next? What do we do with it?</p>
+
         <p>If \( Y \) is discrete, we have a problem of classification. If \( Y \) is continuous, we have a problem of regression.</p>
+
         <p>We have the entire curve to work with - and that's the best. But often, we approximate the entire curve, with a representative value, and soldier on. Then the question becomes: well how do we chose one representative value from that curve?</p>
+
         <p>The "\( X \) observed \( Y \) not observed" is arbitrary - it could be the other way around. We can generalize this by introducing a 2D binary <b>mask</b> \( M \), to indicate what parts of the vector \( (X,Y) \) are present (observed), and what parts are missing (and thus of some interest, e.g. we want to predict or forecast them).</p>
+
         <p>With present data \( X \) and missing data \( Y \) in \( (X,Y) \), then missing data imputation is actually equivalent to forecasting regression or classification.</p>
+
         <p>TBD When time is one of the dimensions, with Now separating the Past from the Future: there is a big difference is whether \( X \) and \( Y \) are contemporaneous, or not. Not contemporaneous, having \( X \) in the past, predicting \( Y \) in the future, makes the signal connection \( X \longrightarrow Y \) much, much weaker, by orders of magnitude, then it would be otherwise (if \( X \) and \( Y \) are not separate by time, but happen at the same time).</p>
 
         <p>TBD link to entropy and average information, specific <a href="DeWeese_Meister_-_How_to_measure_the_information_gained_from_one_symbol_-_ne9403.pdf">information from one symbol</a> -<br>
@@ -94,14 +105,14 @@
         </p>
 
 <p>
-The past has already hapenned, there is only one of it, it's certain and deterministic. Translated in p.d.f. language that means and \( f_X(x) \) or \( f_{X|Y}(x|y) \) distribution <b>**must**</b> be a Dirac delat impulse. The \( f_X(x) \) can not be any other functions shape than a Dirac delta.<br>
-The future has not happened yet. We know there two or more options for the future, it is never a single one. Translated in p.d.f. language that means and \( f_Y(y) \) or \( f_{Y|X}(y|x) \) distribution <b>**can NOT**</b> be a Dirac delta impulse. The \( f_Y(y) \) can  be any other function shape than a Dirac delta. But not a Dirac delta.
+The past has already hapenned, there is only one of it, it's certain and deterministic. Translated in p.d.f. language that means and \( f_X(x) \) or \( f_{X|Y}(x|y) \) distribution <b>*must*</b> be a Dirac delat impulse. The \( f_X(x) \) can not be any other functions shape than a Dirac delta.<br>
+The future has not happened yet. We know there two or more options for the future, it is never a single one. Translated in p.d.f. language that means and \( f_Y(y) \) or \( f_{Y|X}(y|x) \) distribution <b>*can NOT*</b> be a Dirac delta impulse. The \( f_Y(y) \) can  be any other function shape than a Dirac delta. But not a Dirac delta.
 </p>
 
 <p>
   Time is a moving Now barrier. Now is the point that separates the p.d.f.s of the past, and the future.<br>
-  The p.d.f. of the past is <b>**always**</b> a Dirac impulse. The past is always certain, having already happened, the uncertainty is 0%. In fact, a definition of the past maybe "that what is known with 100% certainty."<br>
-  The p.d.f. of the future is <b>**never**</b> a Dirac impulse. The future is always uncertain, it's never 100% certain. In fact, one definition of the future is "that what can't be known with 100% certainty."
+  The p.d.f. of the past is <b>*always*</b> a Dirac impulse. The past is always certain, having already happened, the uncertainty is 0%. In fact, a definition of the past maybe "that what is known with 100% certainty."<br>
+  The p.d.f. of the future is <b>*never*</b> a Dirac impulse. The future is always uncertain, it's never 100% certain. In fact, one definition of the future is "that what can't be known with 100% certainty."
 </p>
 
 <p>
