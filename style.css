@@ -33,7 +33,7 @@ body {
     min-width: 0;
 }
 /* Collapsible subpage toggles inside list items */
-.li-toggle {
+.li-toggle, .sec-toggle {
     display: inline-block;
     width: 1.2em;
     height: 1.2em;
@@ -46,7 +46,7 @@ body {
     cursor: pointer;
     user-select: none;
 }
-.li-text {
+.li-text, .sec-text {
     cursor: pointer;
 }
 .subpage {
@@ -54,6 +54,21 @@ body {
     padding: 8px 12px;
     border-left: 3px solid #007bff;
     background: #f8f9fa;
+}
+
+/* Logbook entries */
+.log-entry {
+    margin: 8px 0;
+}
+.log-body {
+    margin-top: 6px;
+    padding: 8px 12px;
+    border-left: 3px solid #28a745;
+    background: #fcfcfd;
+}
+.log-body pre {
+    margin: 0;
+    white-space: pre-wrap;
 }
 /* Image row with equal heights */
 .image-row {

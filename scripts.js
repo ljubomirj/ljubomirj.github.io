@@ -43,6 +43,45 @@ function initSubpageToggles() {
     });
 }
 
+// Initialize inline section toggles within loaded content (e.g., logbook entries)
+function initInlineToggles() {
+    const makeHandler = (el, targetId) => (evt) => {
+        if (evt.type === 'keydown' && !(evt.key === 'Enter' || evt.key === ' ')) return;
+        evt.preventDefault();
+        toggleSection(targetId, el);
+    };
+
+    document.querySelectorAll('.sec-toggle').forEach(el => {
+        const targetId = el.getAttribute('aria-controls') || el.dataset.target;
+        if (!targetId) return;
+        el.addEventListener('click', makeHandler(el, targetId));
+        el.addEventListener('keydown', makeHandler(el, targetId));
+    });
+
+    document.querySelectorAll('.sec-text').forEach(el => {
+        const targetId = el.dataset.target || el.getAttribute('aria-controls');
+        if (!targetId) return;
+        el.style.userSelect = 'none';
+        el.style.cursor = 'pointer';
+        el.addEventListener('click', makeHandler(el.previousElementSibling || el, targetId));
+    });
+}
+
+function toggleSection(targetId, toggleEl) {
+    const container = document.getElementById(targetId);
+    if (!container) return;
+    const isHidden = container.hasAttribute('hidden');
+    if (isHidden) {
+        container.removeAttribute('hidden');
+        if (toggleEl) toggleEl.setAttribute('aria-expanded', 'true');
+        if (toggleEl && toggleEl.classList.contains('li-toggle')) toggleEl.textContent = '−';
+    } else {
+        container.setAttribute('hidden', '');
+        if (toggleEl) toggleEl.setAttribute('aria-expanded', 'false');
+        if (toggleEl && toggleEl.classList.contains('li-toggle')) toggleEl.textContent = '+';
+    }
+}
+
 async function toggleSubpage(targetId, srcUrl, toggleEl) {
     const container = document.getElementById(targetId);
     if (!container) return;
@@ -57,6 +96,8 @@ async function toggleSubpage(targetId, srcUrl, toggleEl) {
                 const html = await resp.text();
                 container.innerHTML = html;
                 container.dataset.loaded = 'true';
+                // Bind inline toggles inside the newly injected content
+                initInlineToggles();
             } catch (e) {
                 console.error(e);
                 container.innerHTML = `<div class="tweet">Failed to load content: ${e}</div>`;
