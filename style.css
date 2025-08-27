@@ -27,10 +27,24 @@ body {
 
 /* Main content area on the right */
 #content {
-	margin-left: 250px;
-	padding: 20px;
-	flex-grow: 1;
+    margin-left: 250px;
+    padding: 20px;
+    flex-grow: 1;
     min-width: 0;
+}
+/* Image row with equal heights */
+.image-row {
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+    flex-wrap: nowrap; /* keep side-by-side on desktop */
+}
+.image-row figure {
+    margin: 0;
+}
+.image-row img {
+    height: 320px; /* equal vertical size */
+    width: auto;   /* preserve aspect ratio */
 }
 /* Ensures <pre> and <code> wrap properly */
 pre, code {
@@ -156,6 +170,16 @@ button:hover {
 
 /* Adjust 768px to whatever breakpoint you prefer. This is a common tablet portrait breakpoint. */
 @media (max-width: 768px) {
+    .image-row {
+        flex-wrap: wrap; /* stack on smaller screens */
+    }
+    .image-row figure {
+        width: 100%;
+    }
+    .image-row img {
+        height: auto;
+        width: 100%;
+    }
     body {
         flex-direction: column; /* Stack sidebar and content vertically */
     }
@@ -213,4 +237,3 @@ button:hover {
         /* Example: make chat button full width below input */
     }
 }
-
