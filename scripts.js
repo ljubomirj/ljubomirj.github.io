@@ -15,6 +15,64 @@ function loadSidebar() {
         });
 }
 
+// Initialize collapsible subpages inside list items
+function initSubpageToggles() {
+    const makeHandler = (el, targetId, src) => async (evt) => {
+        // Allow click or Enter/Space key
+        if (evt.type === 'keydown' && !(evt.key === 'Enter' || evt.key === ' ')) return;
+        evt.preventDefault();
+        await toggleSubpage(targetId, src, el);
+    };
+
+    // Bind to explicit toggle controls
+    document.querySelectorAll('.li-toggle').forEach(el => {
+        const targetId = el.getAttribute('aria-controls') || el.dataset.target;
+        const src = el.dataset.src;
+        el.addEventListener('click', makeHandler(el, targetId, src));
+        el.addEventListener('keydown', makeHandler(el, targetId, src));
+    });
+
+    // Also bind clicking the text to toggle
+    document.querySelectorAll('.li-text').forEach(el => {
+        const targetId = el.dataset.target || el.getAttribute('aria-controls');
+        const src = el.dataset.src;
+        if (targetId && src) {
+            el.style.userSelect = 'none';
+            el.addEventListener('click', makeHandler(el.previousElementSibling || el, targetId, src));
+        }
+    });
+}
+
+async function toggleSubpage(targetId, srcUrl, toggleEl) {
+    const container = document.getElementById(targetId);
+    if (!container) return;
+
+    const isHidden = container.hasAttribute('hidden');
+    if (isHidden) {
+        // Load once on first open
+        if (!container.dataset.loaded && srcUrl) {
+            try {
+                const resp = await fetch(srcUrl, { cache: 'no-store' });
+                if (!resp.ok) throw new Error(`Failed to load ${srcUrl}: ${resp.status}`);
+                const html = await resp.text();
+                container.innerHTML = html;
+                container.dataset.loaded = 'true';
+            } catch (e) {
+                console.error(e);
+                container.innerHTML = `<div class="tweet">Failed to load content: ${e}</div>`;
+                container.dataset.loaded = 'true';
+            }
+        }
+        container.removeAttribute('hidden');
+        if (toggleEl) toggleEl.setAttribute('aria-expanded', 'true');
+        if (toggleEl && toggleEl.classList.contains('li-toggle')) toggleEl.textContent = '−';
+    } else {
+        container.setAttribute('hidden', '');
+        if (toggleEl) toggleEl.setAttribute('aria-expanded', 'false');
+        if (toggleEl && toggleEl.classList.contains('li-toggle')) toggleEl.textContent = '+';
+    }
+}
+
 // Show image
 function showImage(imageId) {
     var img = document.getElementById(imageId);

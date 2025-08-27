@@ -32,6 +32,29 @@ body {
     flex-grow: 1;
     min-width: 0;
 }
+/* Collapsible subpage toggles inside list items */
+.li-toggle {
+    display: inline-block;
+    width: 1.2em;
+    height: 1.2em;
+    line-height: 1.1em;
+    text-align: center;
+    border: 1px solid #007bff;
+    border-radius: 3px;
+    color: #007bff;
+    margin-right: 8px;
+    cursor: pointer;
+    user-select: none;
+}
+.li-text {
+    cursor: pointer;
+}
+.subpage {
+    margin-top: 8px;
+    padding: 8px 12px;
+    border-left: 3px solid #007bff;
+    background: #f8f9fa;
+}
 /* Image row with equal heights */
 .image-row {
     display: flex;
