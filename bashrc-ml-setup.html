@@ -1,1 +1,735 @@
+<div class="logbook">
+<div class="log-entry">
+  <span class="li-toggle sec-toggle" role="button" tabindex="0" aria-controls="bash-001" aria-expanded="false">+</span>
+  <span class="sec-text" data-target="bash-001"># Run conda3 setup manually, where needed, not in every shell. To update all conda packages to latest, use: $ conda update --all. — # Conda shell autocompletion: $ conda install argcomplete, then $ eval "$(register-pytho…</span>
+  <div id="bash-001" class="log-body" hidden><pre>
+# Run conda3 setup manually, where needed, not in every shell. To update all conda packages to latest, use: $ conda update --all.
+# Conda shell autocompletion: $ conda install argcomplete, then $ eval "$(register-python-argcomplete conda)".
+# To install conda's shell functions for easier access, first activate, then: $ conda init. List environments: $ conda env list, $ conda info --envs.
+# If you'd prefer that conda's base environment not be activated on startup, set the auto_activate_base parameter to false: $ conda config --set auto_activate_base false.
+# Search for package: $ conda search psycopg2, $ conda search psycopg2 --info. Install package: $ conda install psycopg2, $ conda install -c conda-forge google-cloud-storage.
+# Print versions for (environment): (base) ljubomir@thinkpad(:):~$ python --version; cython --version. List packages: $ conda list.
+#
+# NB for miniconda the path is miniconda3, while anaconda is anaconda3 -
 
+conda_setup_anaconda() {
+# &gt;&gt;&gt; conda initialize &gt;&gt;&gt;
+# !! Contents within this block are managed by 'conda init' !!
+__conda_setup="$('/home/ljubomir/anaconda3/bin/conda' 'shell.bash' 'hook' 2&gt; /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__conda_setup"
+else
+    if [ -f "/home/ljubomir/anaconda3/etc/profile.d/conda.sh" ]; then
+        . "/home/ljubomir/anaconda3/etc/profile.d/conda.sh"
+    else
+        export PATH="/home/ljubomir/anaconda3/bin:$PATH"
+    fi
+fi
+unset __conda_setup
+# &lt;&lt;&lt; conda initialize &lt;&lt;&lt;
+}
+
+conda_setup_miniconda() {
+# &gt;&gt;&gt; conda initialize &gt;&gt;&gt;
+# !! Contents within this block are managed by 'conda init' !!
+__conda_setup="$('/home/ljubomir/miniconda3/bin/conda' 'shell.bash' 'hook' 2&gt; /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__conda_setup"
+else
+    if [ -f "/home/ljubomir/miniconda3/etc/profile.d/conda.sh" ]; then
+        . "/home/ljubomir/miniconda3/etc/profile.d/conda.sh"
+    else
+        export PATH="/home/ljubomir/miniconda3/bin:$PATH"
+    fi
+fi
+unset __conda_setup
+# &lt;&lt;&lt; conda initialize &lt;&lt;&lt;
+}
+
+conda_setup_miniforge() {
+# &gt;&gt;&gt; conda initialize &gt;&gt;&gt;
+# !! Contents within this block are managed by 'conda init' !!
+__conda_setup="$('/home/ljubomir/miniforge3/bin/conda' 'shell.bash' 'hook' 2&gt; /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__conda_setup"
+else
+    if [ -f "/home/ljubomir/miniforge3/etc/profile.d/conda.sh" ]; then
+        . "/home/ljubomir/miniforge3/etc/profile.d/conda.sh"
+    else
+        export PATH="/home/ljubomir/miniforge3/bin:$PATH"
+    fi
+fi
+unset __conda_setup
+
+if [ -f "/home/ljubomir/miniforge3/etc/profile.d/mamba.sh" ]; then
+    . "/home/ljubomir/miniforge3/etc/profile.d/mamba.sh"
+fi
+# &lt;&lt;&lt; conda initialize &lt;&lt;&lt;
+}
+
+# Looks like this is the original miniconda install setup?
+# Miniconda - to activate conda's base environment in your current shell session: $ eval "$(/home/ljubomir/miniconda3/bin/conda shell.YOUR_SHELL_NAME hook)"
+#conda_setup_mini() {
+#  eval "$(/home/ljubomir/miniconda3/bin/conda shell.bash hook)"
+#}
+
+# Have a shortcut conda_setup to the right one, depending on the box
+case "$(hostname)" in
+  gigul2)
+    alias conda_setup=conda_setup_anaconda
+    ;;
+  thinkpad2)
+    alias conda_setup=conda_setup_miniforge
+    ;;
+esac
+
+# Run with with conda by default, but warning: $ vncserver -geometry 3000x1500 fails to start if /home/ljubomir/anaconda3/bin:$PATH.
+# https://unix.stackexchange.com/questions/469909/vncviewer-errorcould-not-connect-to-session-bus-failed-to-connect-to-socket-tm
+# In ~/.vnc/xstartup change the call to /usr/bin/mate-session or /usr/bin/startxfce4 into $ dbus-launch /usr/bin/startxfce4 &amp;
+#conda_setup
+
+# Create conda environment tmp, switch base-&gt;tmp, install specific spyder version, then remove the tmp environment and switch back to base:
+# (base) $ conda create --name tmp                      # create new environment named tmp
+# (tmp)  $ conda activate tmp                           # activate the new tmp environment
+# (tmp)  $ conda install spyder=5.0.0                   # install specific spyder version in the tmp environment
+# (tmp)  $ spyder                                       # test the new spyder 5, in the new tmp environment
+# (tmp)  $ conda deactivate                             # deactivate the new tmp environment, go back to base
+# (base) $ conda create --name tmp2 --copy --clone tmp  # copy existing env tmp into new env tmp2 to rename, there is no rename env; NB --clone without --copy causes sharing of packages via hard links, the environments are not independent!
+# (base) $ conda remove --name tmp --all                # blow away the tmp environment, revert back to base environment
+# (base) $ conda info --envs                            # list available environments (1)
+# (base) $ ls ~/anaconda3/envs                          # list available environments (2)
+# luigi/  luigi_cbor2/                                  # NB cbor2 is *not* available via conda, use pip(!) even if under conda: $ pip install cbor2.
+# (base) $ cat ~/.conda/environments.txt                # list available environments (3)
+# /home/ljubomir/anaconda3
+# /home/ljubomir/anaconda3/envs/luigi
+# /home/ljubomir/anaconda3/envs/luigi_cbor2
+
+# To install conda's shell functions for easier access, first activate, then: $ conda init
+# If you'd prefer that conda's base environment not be activated on startup, set the auto_activate_base parameter to false: $ conda config --set auto_activate_base false
+
+# Create torch python 3.13 conda environment. Run $ conda_setup to get to base,
+# then $ conda create --name torch-py313-conda python=3.13 to create the $HOME/.conda new environment,
+# then activate $ conda activate torch-py313-conda, check where it is
+# (torch-py313-conda) ljubomir@cs1deql01(100185.conda:0):~$ conda info --envs
+#   torch-py310-conda        /home/ljubomir/.conda/envs/torch-py310-conda
+#   torch-py313-conda     *  /home/ljubomir/.conda/envs/torch-py313-conda
+#   base                     /opt/miniconda3-py38_4.12.0
+# then install packages: (torch-py313-conda) ljubomir@cs1deql01(100185.conda:0):~$ pip install --upgrade pip setuptools wheel torch typing-extensions rtdl-num-embeddings numpy pandas matplotlib scipy
+
+</pre></div>
+</div>
+<div class="log-entry">
+  <span class="li-toggle sec-toggle" role="button" tabindex="0" aria-controls="bash-002" aria-expanded="false">+</span>
+  <span class="sec-text" data-target="bash-002"># Using python3 builtin venv (https://www.digitalocean.com/community/tutorials/how-to-install-python-3-and-set-up-a-programming-environment-on-an-ubuntu-22-04-server). — # Install $ sudo apt install build-essential libss…</span>
+  <div id="bash-002" class="log-body" hidden><pre>
+# Using python3 builtin venv (https://www.digitalocean.com/community/tutorials/how-to-install-python-3-and-set-up-a-programming-environment-on-an-ubuntu-22-04-server).
+# Install $ sudo apt install build-essential libssl-dev libffi-dev pyqt5-dev-tools python3-dev python3-pip python3-venv . Create a home for all venv-s ~$ md python3-venv .
+# Create new venv called 'base' $ cd ~/python3-venv; python3 -m venv base. Check the new venv 'base' exists ~/python3-venv$ find base .
+# Activate venv 'base' 1) $ source ~/python3-venv/base/bin/activate . NB the prompt is afterwards prefixed with the venv "(base)": (base) ~$ .
+# Setup spyder5 in venv base 2) (base) ~$ python3 -m pip install wheel spyder numpy scipy pandas matplotlib sympy cython scikit-learn , 3) run $ python3-venv/base/bin/spyder .
+# Optionally to debug startup problems run $ python3-venv/base/bin/spyder --debug-info verbose --debug-output file , that creates ~/spyder-debug.log file with startup log.
+# Shortcut config dir (history, lock pid) $ ln -s ~/.config/spyder-py3 ~/.spyder . Upgrade spyder in (base) ~$ python3-venv/base/bin/python -m pip install --upgrade spyder .
+
+# Point the cache to same filesystem of python3-venv, so hard links for .cache work: ljubomir@gigul2:~$ l ~/python3-venv ~/.cache/pip
+#   lrwxrwxrwx 1 ljubomir ljubomir 26 Apr  8 00:48 /home/ljubomir/python3-venv -&gt; /opt/ljubomir/python3-venv/
+#   lrwxrwxrwx 1 ljubomir ljubomir 24 Apr  8 01:29 /home/ljubomir/.cache/pip -&gt; /opt/ljubomir/.cache/pip/
+if [[ "$(readlink -f $HOME/.cache/pip)" == "/opt/ljubomir/.cache/pip" ]]; then
+  export PIP_CACHE_DIR=/opt/ljubomir/.cache/pip
+fi
+
+# Looks like the way activate script determines "venv HOME is XYZ" is by parsing it's own loaction.
+venv-base() { source "$(readlink -f ~/python3-venv)"/base/bin/activate; }
+venv-torch() { source "$(readlink -f ~/python3-venv)"/torch/bin/activate; }
+venv-torch311() { source "$(readlink -f ~/python3-venv)"/torch311/bin/activate; }
+venv-torch313() { source "$(readlink -f ~/python3-venv)"/torch313/bin/activate; }
+venv-deactivate() { deactivate; }
+
+</pre></div>
+</div>
+<div class="log-entry">
+  <span class="li-toggle sec-toggle" role="button" tabindex="0" aria-controls="bash-003" aria-expanded="false">+</span>
+  <span class="sec-text" data-target="bash-003"># Per project .venv — venv-activate-dot-venv() { source .venv/bin/activate; }</span>
+  <div id="bash-003" class="log-body" hidden><pre>
+# Per project .venv
+venv-activate-dot-venv() { source .venv/bin/activate; }
+# Install pip in ./.venv where missing: (prime-rl) ljubomir@gigul2(:):~/PrimeIntellect-ai/prime-rl$ python -m ensurepip --default-pip
+# (prime-rl) ljubomir@gigul2(:):~/PrimeIntellect-ai/prime-rl$ which pip
+# /home/ljubomir/PrimeIntellect-ai/prime-rl/.venv/bin/pip
+# Install uv in ./.venv specifically: (prime-rl) ljubomir@gigul2(:):~/PrimeIntellect-ai/prime-rl$ .venv/bin/python -m pip install uv
+# (prime-rl) ljubomir@gigul2(:):~/PrimeIntellect-ai/prime-rl$ which uv
+# /home/ljubomir/PrimeIntellect-ai/prime-rl/.venv/bin/uv
+# Upgrade pip: (prime-rl) ljubomir@gigul2(:):~/PrimeIntellect-ai/prime-rl$ pip install --upgrade pip
+
+</pre></div>
+</div>
+<div class="log-entry">
+  <span class="li-toggle sec-toggle" role="button" tabindex="0" aria-controls="bash-004" aria-expanded="false">+</span>
+  <span class="sec-text" data-target="bash-004"># Specific python version venv, e.g. python3.11 - install: ljubomir@gigul2(:):~$ sudo apt install python3.11 python3.11-venv — # Create torch venv based on python3.11: ljubomir@gigul2(:):~$ python3.11 -m venv /opt/ljubom…</span>
+  <div id="bash-004" class="log-body" hidden><pre>
+# Specific python version venv, e.g. python3.11 - install: ljubomir@gigul2(:):~$ sudo apt install python3.11 python3.11-venv
+# Create torch venv based on python3.11: ljubomir@gigul2(:):~$ python3.11 -m venv /opt/ljubomir/python3-venv/torch311
+# Activate torch311: ljubomir@gigul2(:):~$ venv-torch311
+# Upgrade pip: (torch311) ljubomir@gigul2(:):~$ pip install --upgrade pip. Install uv: (torch311) ljubomir@gigul2(:):~$ pip install uv.
+# Install packages list: (torch311) ljubomir@gigul2(:):~$ uv pip install -r reqs.txt
+
+</pre></div>
+</div>
+<div class="log-entry">
+  <span class="li-toggle sec-toggle" role="button" tabindex="0" aria-controls="bash-005" aria-expanded="false">+</span>
+  <span class="sec-text" data-target="bash-005"># Add new venv torch based on base 1) Create new venv torch $ python3 -m venv ~/python3-venv/torch 2) Activate torch venv $ source ~/python3-venv/torch/bin/activate . — # 3) Clone base packages into torch $ source ~/pyth…</span>
+  <div id="bash-005" class="log-body" hidden><pre># Add new venv torch based on base 1) Create new venv torch $ python3 -m venv ~/python3-venv/torch 2) Activate torch venv $ source ~/python3-venv/torch/bin/activate .
+# 3) Clone base packages into torch $ source ~/python3-venv/base/bin/activate 4) Export installed packages $ pip freeze &gt; ~/python3-venv/base-requirements.txt .
+# Deactivate base 5) $ deactivate . Activate torch 6) $ source ~/python3-venv/torch/bin/activate .
+# Install packages into torch 7) $ pip install -r ~/python3-venv/base-requirements.txt . Install torch package in the torch environment 8) $ pip install torch .
+# Install jupyter 9) $ pip install notebook jupyter jupyterlab jupyter-client ipykernel jupyter_contrib_nbextensions jupyterlab jupyterlab_extensions .
+# Add torch virtual environment to Jupyter as a kernel 10) $ python -m ipykernel install --user --name=torch --display-name "Python (torch)" .
+# Run jupyter lab in toch env 11) $ jupyter lab &amp; , $ jupyter notebook &amp; , get url $ jupyter server list . Verify venv used inside cell 12) !which python , !pip list .
+
+# Directory where kernel .json-s are $ jupyter --runtime-dir . That's temporary files, can remove those .json-s, the kernels are in $(jupyter --runtime-dir)/../kernels.
+# 1) Remote kerenl via ssh. For this to work BI-DIRECITONAL COMMUNICATION local&lt;-&gt;remote MUST WORK. Test with $ hostname -I , $ telnet x.x.x.x 22 BOTH DIRECTIONS!!
+#    Create local dir $ md $(jupyter --runtime-dir)/../kernels/remote_gigul2. Create file ~/.local/share/jupyter/kernels/remote_gigul2/kernel.json with:
+#    {
+#        "argv": [
+#            "ssh",
+#            "ljubomir@gigul2",
+#            "bash",
+#            "-l",
+#            "-c",
+#            "'source ~/.bashrc &amp;&amp; source ~/python3-venv/torch/bin/activate &amp;&amp; python3 -m ipykernel_launcher --ip=192.168.1.251 -f {connection_file}'"
+#        ],
+#        "display_name": "Remote Python (Torch - Gigul2)",
+#        "language": "python"
+#    }
+#    Test with $ echo '{"key": "value"}' &gt; /tmp/connection_file.json , then (NB the shell can not be interactive "-i", but is login "-l")
+#    $ ssh -o ForwardX11=no ljubomir@gigul2 'bash -l -c "source ~/.bashrc &amp;&amp; source ~/python3-venv/torch/bin/activate &amp;&amp; python3 -m ipykernel_launcher --ip=192.168.1.251 -f /tmp/connection_file.json"'
+#    On local and remote remove incompatible $ pip uninstall jupyter_contrib_nbextensions jupyter_nbextensions_configurator , check versions $ pip list | grep jupyter .
+#    On the remote gigul2 check $ hostname -I , $ psgc ipykernel , kill failed but only after killing local $ jupyter notebook &amp; - otherwise remote kernels will be restart.
+#    On remote gigul2 check errors $ grep ipykernel /var/log/syslog , on the fly config $ cat /home/ljubomir/.local-thinkpad/share/jupyter/runtime/kernel-*.json .
+
+# 2) Remote kernel via port forwarding. Start headless on remote $ jupyter notebook --no-browser --port=8888 .
+#    Tunnel $ ssh -N -f -L localhost:8888:localhost:8888 user@remote_host .
+#    Copy remote kernel local $ scp user@remote_host:/path/to/kernel.json /path/to/local/kernels/ .
+#    Now on $ jupyter notebook, should find the remote kernel in the kernel selection menu.
+
+# Variable inspector 13) $ pip install lckr_jupyterlab_variableinspector , check $ jupyter labextension list . Command Palette Ctrl+Shift+C search "Variable Inspector".
+# Check pip venv packages 14) $ pip list --outdated. Update packages 15) $ pip install --upgrade $(pip list --outdated | awk 'NR&gt;2 {print $1}').
+# Dump current versions 16) pip freeze &gt;requirements-backup.txt, clean env 17) $ pip uninstall -y -r &lt;(pip freeze), restore versions 18) $ pip install -r requirements-backup.txt.
+# Upgrade pip 19) $ python -m pip install --upgrade pip, packages pkg{1,2,3} to latest compatble versions 20) $ pip install --upgrade pkg{1,2,3}. Check broken 21) $ pip check.
+
+# Better pip 22) $ pip install pip-tools, better debugger than pdb 23) $ pip install ipdb, then 24) import ipdb, to break 25) ipdb.set_trace() . Cell magic 26) %debug, %whos .
+# Jupyter debugger 27) $ pip install xeus-python , then select xpython as the kernel (provided by xeus-python), opt Command Palette Ctrl+Shift+C (macOS Cmd+Shift+C) "Enable Debugger".
+# Install node 28) $ pip install nodeenv, intstall Node.js in venv 29) $ nodeenv -p, verify Node.js and npm installs 30) $ node -v, $ npm -v.
+
+</pre></div>
+</div>
+<div class="log-entry">
+  <span class="li-toggle sec-toggle" role="button" tabindex="0" aria-controls="bash-006" aria-expanded="false">+</span>
+  <span class="sec-text" data-target="bash-006"># Install specific python 3.11 version, when the system version is 3.13, in a new venv. Must install python 3.11 at system level! (can't be just in venv.) — # On macos $ brew install python@3.11 , Ubuntu $ sudo apt insta…</span>
+  <div id="bash-006" class="log-body" hidden><pre>
+# Install specific python 3.11 version, when the system version is 3.13, in a new venv. Must install python 3.11 at system level! (can't be just in venv.)
+# On macos $ brew install python@3.11 , Ubuntu $ sudo apt install python3.11 python3.11-venv .
+# Must use the python3.11 executable to create a 311 environment! ljubomir@macbook2(:):~$ python3.11 -m venv ~/python3-venv/torch311 .
+# Activate ljubomir@macbook2(:):~$ source ~/python3-venv/torch311/bin/activate . List $ pip freeze &gt;reqs.txt, then delete "==1.2.3$" verisoning leaving names only.
+# Install uv: (torch311) ljubomir@macbook2(:):~$ pip install uv , upgrade pip (torch311) ljubomir@macbook2(:):~$ pip install --upgrade pip.
+# Use uv in pip mode to install list of packages (torch311) ljubomir@macbook2(:):~$ uv pip install -r reqs.txt.
+# Record current versions (torch311) ljubomir@macbook2(:):~$ uv pip freeze &gt;~/python3-venv/torch311-requirements-1.txt.
+
+# Install in the current venv from latest git repo: $ git clone https://github.com/vllm-project/vllm.git ; $ cd vllm ; $ pip install -e . ;
+
+</pre></div>
+</div>
+<div class="log-entry">
+  <span class="li-toggle sec-toggle" role="button" tabindex="0" aria-controls="bash-007" aria-expanded="false">+</span>
+  <span class="sec-text" data-target="bash-007"># TTS https://github.com/Blaizzy/mlx-audio in the torch311 environment $ uv pip install mlx-audio . — # To generate audio with an LLM use: $ mlx_audio.tts.generate --text "Hello, world" .</span>
+  <div id="bash-007" class="log-body" hidden><pre>
+# TTS https://github.com/Blaizzy/mlx-audio in the torch311 environment $ uv pip install mlx-audio .
+# To generate audio with an LLM use: $ mlx_audio.tts.generate --text "Hello, world" .
+# Specify prefix for output file $ mlx_audio.tts.generate --text "Hello, world" --file_prefix hello .
+# Adjust speaking speed (0.5-2.0) $ mlx_audio.tts.generate --text "Hello, world" --speed 1.4 .
+
+</pre></div>
+</div>
+<div class="log-entry">
+  <span class="li-toggle sec-toggle" role="button" tabindex="0" aria-controls="bash-008" aria-expanded="false">+</span>
+  <span class="sec-text" data-target="bash-008"># Windsurf. Code with Cascade Ctrl+L, Edit code inline Ctrl+I, Open command palette Ctrl+Shoft+P. — # BYOK - OpenRouter/DeepSeek API keys not natively supported, options:</span>
+  <div id="bash-008" class="log-body" hidden><pre>
+# Windsurf. Code with Cascade Ctrl+L, Edit code inline Ctrl+I, Open command palette Ctrl+Shoft+P.
+# BYOK - OpenRouter/DeepSeek API keys not natively supported, options:
+# 1) Custom endpoint - in settings.json, add to internal settings:
+#   "windsurf.ai.customEndpoint": "https://openrouter.ai/v1"
+#   "windsurf.ai.apiKey": "your-openrouter-key-here"
+# 2) Shell override
+#   export OPENAI_API_BASE="https://openrouter.ai/v1"
+#   export OPENAI_API_KEY="your-key"
+# Then $ windsurf-itrade.
+windsurf-itrade() {
+  # Work out a log file full dir path file name
+  local logdir=$(for dir in "$TMPDIR" "$TMP" "./"; do [[ -d "$dir" ]] &amp;&amp; echo "$dir" &amp;&amp; break; done)
+  logdir="${logdir:-./}"
+  local logfile=$(readlink -f "${logdir}/tmp-windsurf-itrade-$USER-$$-tmp.log" 2&gt;/dev/null)
+  # Construct the full command explicitly so shell $ jobs shows the log name
+  local cmd="$(which windsurf || echo /usr/bin/windsurf) itrade.code-workspace &gt;\"$logfile\" 2&gt;&amp;1 &amp;"
+  # Execute
+  local -; set -x; eval "$cmd"
+}
+
+</pre></div>
+</div>
+<div class="log-entry">
+  <span class="li-toggle sec-toggle" role="button" tabindex="0" aria-controls="bash-009" aria-expanded="false">+</span>
+  <span class="sec-text" data-target="bash-009"># Correct solution $ env AIDER=... aider, to have AIDER defined in the aider env (+inherited by all shells aider launches), but *not* in the shell launching aider. — # Fail to work 1) export AIDER; aider - defines AIDER …</span>
+  <div id="bash-009" class="log-body" hidden><pre>
+# Correct solution $ env AIDER=... aider, to have AIDER defined in the aider env (+inherited by all shells aider launches), but *not* in the shell launching aider.
+# Fail to work 1) export AIDER; aider - defines AIDER in the shell launching aider 2) AIDER=... aider - sets a shell var not env var, aider sub-shells don't get it in the env.
+
+# Aider https://aider.chat/ in $HOME/.local/bin/aider, in .git/hooks/prepare-commit-msg check add [AIDER] prefix to git commit:
+# $ if [[ "$(/usr/bin/env | /usr/bin/grep AIDER)" != "" ]]; then /usr/bin/sed -i "1s/^/[AIDER] /" "$1"; fi
+
+</pre></div>
+</div>
+<div class="log-entry">
+  <span class="li-toggle sec-toggle" role="button" tabindex="0" aria-controls="bash-010" aria-expanded="false">+</span>
+  <span class="sec-text" data-target="bash-010"># VRAM limits on mac. Uppoer bound (max) $ sudo sysctl iogpu.wired_limit_mb=&lt;mb&gt; , lower bound $ sudo sysctl iogpu.wired_lwm_mb=&lt;mb&gt; .</span>
+  <div id="bash-010" class="log-body" hidden><pre>
+# VRAM limits on mac. Uppoer bound (max) $ sudo sysctl iogpu.wired_limit_mb=&lt;mb&gt; , lower bound $ sudo sysctl iogpu.wired_lwm_mb=&lt;mb&gt; .
+
+</pre></div>
+</div>
+<div class="log-entry">
+  <span class="li-toggle sec-toggle" role="button" tabindex="0" aria-controls="bash-011" aria-expanded="false">+</span>
+  <span class="sec-text" data-target="bash-011"># OpenAI subscription is chat only, API needs separate PAYG account https://platform.openai.com/ — export OPENAI_API_KEY=...</span>
+  <div id="bash-011" class="log-body" hidden><pre>
+# OpenAI subscription is chat only, API needs separate PAYG account https://platform.openai.com/
+export OPENAI_API_KEY=...
+aider-openai-list() { local -; set -x; aider --list-models openai/; } # list models available from OpenAI
+aider-openai-o3() { local -; set -x; env AIDER_START="$(date)" aider --model openai/o3 --openai-api-key ${OPENAI_API_KEY} ; }
+aider-openai-o3-mini() { local -; set -x; env AIDER_START="$(date)" aider --model openai/o3-mini --openai-api-key ${OPENAI_API_KEY} ; }
+aider-openai-best() { local -; set -x; env AIDER_START="$(date)" aider --architect --model openai/o3 --editor-model openai/gpt-4.1 --openai-api-key ${OPENAI_API_KEY} ; }
+
+</pre></div>
+</div>
+<div class="log-entry">
+  <span class="li-toggle sec-toggle" role="button" tabindex="0" aria-controls="bash-012" aria-expanded="false">+</span>
+  <span class="sec-text" data-target="bash-012"># DeepSeek V3 https://platform.deepseek.com — export DEEPSEEK_API_KEY=...</span>
+  <div id="bash-012" class="log-body" hidden><pre>
+# DeepSeek V3 https://platform.deepseek.com
+export DEEPSEEK_API_KEY=...
+aider-deepseek-list() { local -; set -x; aider --list-models deepseek/; } # list models available from DeepSeek
+aider-deepseek() { local -; set -x; env AIDER_START="$(date)" aider --deepseek; }
+curl-deepseek-test() {
+  local -; set -x;
+  curl "https://api.deepseek.com/chat/completions" -H "Content-Type: application/json" -H "Authorization: Bearer ..." -d '{
+    "model": "deepseek-coder",
+    "messages": [
+      {"role": "system", "content": "You are a helpful assistant."},
+      {"role": "user", "content": "What is 1+1?"}
+    ],
+    "stream": false
+  }'
+}
+# Not clear from the API doc at https://api-docs.deepseek.com/quick_start/pricing what does deepseek/deepseek-coder point to? Only models priced are deepseek-chat and deepseek-reasoner.
+#aider-deepseek-best() { local -; set -x; aider --set-env AIDER_START="$(date)" --architect --model deepseek/deepseek-reasoner --editor-model deepseek/deepseek-coder; }
+# As of 25-Mar-2025 it is: "The deepseek-chat model points to DeepSeek-V3. The deepseek-reasoner model points to DeepSeek-R1.".
+aider-deepseek-best() { local -; set -x; aider --set-env AIDER_START="$(date)" --architect --model deepseek/deepseek-reasoner --editor-model deepseek/deepseek-chat; }
+
+</pre></div>
+</div>
+<div class="log-entry">
+  <span class="li-toggle sec-toggle" role="button" tabindex="0" aria-controls="bash-013" aria-expanded="false">+</span>
+  <span class="sec-text" data-target="bash-013"># OpenRouter https://openrouter.ai/credits select from multitude of models — export OPENROUTER_API_KEY=...</span>
+  <div id="bash-013" class="log-body" hidden><pre>
+# OpenRouter https://openrouter.ai/credits select from multitude of models
+export OPENROUTER_API_KEY=...
+# List models available from OpenRouter
+aider-openrouter-list() { local -; set -x; aider --list-models openrouter/; }
+# Use Anthropic Sonnet model: claude-3.5-sonnet, claude-3.7-sonnet.
+aider-openrouter-sonnet() { local -; set -x; env AIDER_START="$(date)"; aider --model openrouter/anthropic/claude-3.7-sonnet; }
+# Aider supports using a pair of models for coding:
+# An Architect model is asked to describe how to solve the coding problem. Thinking/reasoning models often work well in this role.
+# An Editor model is given the Architect’s solution and asked to produce specific code editing instructions to apply those changes to existing source files.
+# https://aider.chat/2025/01/24/r1-sonnet.html
+aider-openrouter-best-2() { local -; set -x; aider --set-env AIDER_START="$(date)" --architect --model openrouter/deepseek/deepseek-r1 --editor-model openrouter/anthropic/claude-3.7-sonnet; }
+aider-openrouter-best() { local -; set -x; aider --set-env AIDER_START="$(date)" --architect --model openrouter/deepseek/deepseek-r1 --editor-model openrouter/deepseek/deepseek-chat; }
+#aider-openrouter-free() { local -; set -x; aider --set-env AIDER_START="$(date)" --model openrouter/deepseek/deepseek-chat-v3-0324:free; }
+aider-openrouter-free() { local -; set -x; aider --set-env AIDER_START="$(date)" --model openrouter/tngtech/deepseek-r1t-chimera:free; }
+#aider-openrouter-google() { local -; set -x; aider --set-env AIDER_START="$(date)" --model openrouter/google/gemini-2.5-pro-preview-03-25; }
+aider-openrouter-google() { local -; set -x; aider --set-env AIDER_START="$(date)" --model openrouter/google/gemini-2.5-pro-preview; } # google/gemini-2.5-pro-05-06 is missing??
+
+aider-openrouter-kimi-k2-free() { local -; set -x; aider --set-env AIDER_START="$(date)" --model openrouter/moonshotai/kimi-k2:free; }
+aider-openrouter-kimi-k2() { local -; set -x; aider --set-env AIDER_START="$(date)" --model openrouter/moonshotai/kimi-k2 --editor-model openrouter/moonshotai/kimi-k2 --weak-model openrouter/moonshotai/kimi-k2 ; }
+
+</pre></div>
+</div>
+<div class="log-entry">
+  <span class="li-toggle sec-toggle" role="button" tabindex="0" aria-controls="bash-014" aria-expanded="false">+</span>
+  <span class="sec-text" data-target="bash-014"># Google Gemini https://aistudio.google.com — export GEMINI_API_KEY=...</span>
+  <div id="bash-014" class="log-body" hidden><pre>
+# Google Gemini https://aistudio.google.com
+export GEMINI_API_KEY=...
+curl-gemini-test() {
+  local -; set -x;
+  curl "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=$GEMINI_API_KEY" -H 'Content-Type: application/json' -X POST -d '{
+    "contents": [{
+      "parts":[{"text": "Explain how AI works"}]
+      }]
+    }';
+}
+
+</pre></div>
+</div>
+<div class="log-entry">
+  <span class="li-toggle sec-toggle" role="button" tabindex="0" aria-controls="bash-015" aria-expanded="false">+</span>
+  <span class="sec-text" data-target="bash-015"># Anthropic https://console.anthropic.com — export ANTHROPIC_API_KEY=...</span>
+  <div id="bash-015" class="log-body" hidden><pre>
+# Anthropic https://console.anthropic.com
+export ANTHROPIC_API_KEY=...
+aider-anthropic-list() { local -; set -x; aider --list-models anthropic/; } # list models available from Anthropic
+
+</pre></div>
+</div>
+<div class="log-entry">
+  <span class="li-toggle sec-toggle" role="button" tabindex="0" aria-controls="bash-016" aria-expanded="false">+</span>
+  <span class="sec-text" data-target="bash-016"># Keep track what's currently the best available — #alias aider-best='aider-deepseek-best'</span>
+  <div id="bash-016" class="log-body" hidden><pre>
+# Keep track what's currently the best available
+#alias aider-best='aider-deepseek-best'
+#alias aider-best='aider-openai-best'
+alias aider-best='aider-openrouter-google'
+
+</pre></div>
+</div>
+<div class="log-entry">
+  <span class="li-toggle sec-toggle" role="button" tabindex="0" aria-controls="bash-017" aria-expanded="false">+</span>
+  <span class="sec-text" data-target="bash-017"># Mistral https://console.mistral.ai, API key uOG2EUNEi0ahfisidfjKxQENFVXhBbYJ — #export MISTRAL_API_KEY=...</span>
+  <div id="bash-017" class="log-body" hidden><pre>
+# Mistral https://console.mistral.ai, API key uOG2EUNEi0ahfisidfjKxQENFVXhBbYJ
+#export MISTRAL_API_KEY=...
+
+</pre></div>
+</div>
+<div class="log-entry">
+  <span class="li-toggle sec-toggle" role="button" tabindex="0" aria-controls="bash-018" aria-expanded="false">+</span>
+  <span class="sec-text" data-target="bash-018"># Kluster AI https://platform.kluster.ai/ — export KLUSTERAI_API_KEY=...</span>
+  <div id="bash-018" class="log-body" hidden><pre>
+# Kluster AI https://platform.kluster.ai/
+export KLUSTERAI_API_KEY=...
+
+klusterai-deepseek-r1-test() {
+
+  local chat_turn="Hello, how are you doing today? What is 1+2 please?"
+
+  local json_payload
+  json_payload=$(jq -n \
+    --arg model "deepseek-ai/DeepSeek-R1-0528" \
+    --argjson max_tokens 4000 \
+    --argjson temp 0.6 \
+    --argjson top_p 1 \
+    --arg role_user "user" \
+    --arg content_user "$chat_turn" \
+    '{
+      model: $model,
+      max_completion_tokens: $max_tokens,
+      temperature: $temp,
+      top_p: $top_p,
+      messages: [
+        {
+          role: $role_user,
+          content: $content_user
+        }
+      ]
+    }')
+
+  # Check if jq failed (e.g., if it's not installed)
+  if [[ -z "$json_payload" ]]; then
+    echo "Error: Failed to generate JSON payload. Is jq installed and working?" &gt;&amp;2
+    return 1
+  fi
+
+  # Make the curl request
+  (set -; set -x; curl https://api.kluster.ai/v1/chat/completions \
+    -H "Authorization: Bearer ${KLUSTERAI_API_KEY}" \
+    -H "Content-Type: application/json" \
+    -d "$json_payload")
+}
+
+klusterai-qwen3-235b-a22b-test() {
+
+  local chat_turn="Hello, how are you doing today? What is 1+2 please?"
+
+  local json_payload
+  json_payload=$(jq -n \
+    --arg model "Qwen/Qwen3-235B-A22B-FP8" \
+    --argjson max_tokens 4000 \
+    --argjson temp 0.6 \
+    --argjson top_p 1 \
+    --arg role_user "user" \
+    --arg content_user "$chat_turn" \
+    '{
+      model: $model,
+      max_completion_tokens: $max_tokens,
+      temperature: $temp,
+      top_p: $top_p,
+      messages: [
+        {
+          role: $role_user,
+          content: $content_user
+        }
+      ]
+    }')
+
+  # Check if jq failed (e.g., if it's not installed)
+  if [[ -z "$json_payload" ]]; then
+    echo "Error: Failed to generate JSON payload. Is jq installed and working?" &gt;&amp;2
+    return 1
+  fi
+
+  # Make the curl request
+  (set -; set -x; curl https://api.kluster.ai/v1/chat/completions \
+    -H "Authorization: Bearer ${KLUSTERAI_API_KEY}" \
+    -H "Content-Type: application/json" \
+    -d "$json_payload")
+}
+
+# Test klusterai API
+klusterai-ljubomirj-chat-test() {
+
+  # Define your string components
+  local chat_turn="And how are you doing today?"
+
+  local initial_instruction="You are Ljubomir Josifovski (LJ), a computational researcher, living in the UK, originally from Macedonia. Respond using LJ writing style and knowledge based *primarily* on the extensive context provided below between the ---START and ---END markers. Refer to this context first when answering questions about LJ background, opinions, setup, and history. Maintain LJ characteristic: concise answers with code examples when relevant, markdown formatting for code blocks."
+
+  local file_content
+  # Ensure the file exists and is readable, or handle error
+  if [[ -r "chat-LJ-prompt-short.txt" ]]; then
+    file_content=$(cat chat-LJ-prompt-short.txt)
+  else
+    echo "Error: chat-LJ-prompt-short.txt not found or not readable." &gt;&amp;2
+    return 1
+  fi
+
+  # Construct the full content for the "user" message
+  # The \n here will create actual newlines in the bash variable value
+  local user_message_content_value="${initial_instruction}\n\n--- START OF LJ CONTEXT ---\n\n${file_content}\n\n--- END OF LJ CONTEXT ---\n\n${initial_instruction}\n\n${chat_turn}"
+
+  # Use jq to construct the JSON payload
+  # jq will handle escaping the content of $user_message_content_value correctly
+  # Models
+  #     "Qwen/Qwen3-235B-A22B-FP8" # 40K context
+	#     "mistralai/Mistral-Nemo-Instruct-2407" # 128K context
+	#     "deepseek-ai/DeepSeek-R1-0528" # temp=0.6 top-p=0.95 top-k=64
+  local json_payload
+  json_payload=$(jq -n \
+    --arg model "mistralai/Mistral-Nemo-Instruct-2407" \
+    --argjson max_tokens 4000 \
+    --argjson temp 0.6 \
+    --argjson top_p 1 \
+    --arg role_user "user" \
+    --arg content_user "$user_message_content_value" \
+    '{
+      model: $model,
+      max_completion_tokens: $max_tokens,
+      temperature: $temp,
+      top_p: $top_p,
+      messages: [
+        {
+          role: $role_user,
+          content: $content_user
+        }
+      ]
+    }')
+
+  # Check if jq failed (e.g., if it's not installed)
+  if [[ -z "$json_payload" ]]; then
+    echo "Error: Failed to generate JSON payload. Is jq installed and working?" &gt;&amp;2
+    return 1
+  fi
+
+  # Make the curl request
+  (set -; set -x; curl https://api.kluster.ai/v1/chat/completions \
+    -H "Authorization: Bearer ${KLUSTERAI_API_KEY}" \
+    -H "Content-Type: application/json" \
+    -d "$json_payload")
+}
+
+# OpenAI compatible API https://aider.chat/docs/llms/openai-compat.html
+aider-klusterai-deepseek-r1() { local -; set -x; aider --set-env AIDER_START="$(date)" --set-env OPENAI_API_BASE='https://api.kluster.ai/v1' --set-env OPENAI_API_KEY="${KLUSTERAI_API_KEY}" --model "openai/deepseek-ai/DeepSeek-R1-0528" --editor-model "openai/deepseek-ai/DeepSeek-R1-0528" --weak-model "openai/deepseek-ai/DeepSeek-R1-0528" ; }
+
+</pre></div>
+</div>
+<div class="log-entry">
+  <span class="li-toggle sec-toggle" role="button" tabindex="0" aria-controls="bash-019" aria-expanded="false">+</span>
+  <span class="sec-text" data-target="bash-019"># TogetherAI https://api.together.ai/ — export TOGETHERAI_API_KEY=...</span>
+  <div id="bash-019" class="log-body" hidden><pre>
+# TogetherAI https://api.together.ai/
+export TOGETHERAI_API_KEY=...
+
+</pre></div>
+</div>
+<div class="log-entry">
+  <span class="li-toggle sec-toggle" role="button" tabindex="0" aria-controls="bash-020" aria-expanded="false">+</span>
+  <span class="sec-text" data-target="bash-020"># HuggingFace token: Name=... Value=...</span>
+  <div id="bash-020" class="log-body" hidden><pre>
+# HuggingFace token: Name=... Value=...
+
+</pre></div>
+</div>
+<div class="log-entry">
+  <span class="li-toggle sec-toggle" role="button" tabindex="0" aria-controls="bash-021" aria-expanded="false">+</span>
+  <span class="sec-text" data-target="bash-021"># Use Kimi K2 in claude cli: — # 1) Get API Key https://platform.moonshot.ai/docs/guide/agent-support#get-api-key</span>
+  <div id="bash-021" class="log-body" hidden><pre>
+# Use Kimi K2 in claude cli:
+# 1) Get API Key https://platform.moonshot.ai/docs/guide/agent-support#get-api-key
+# 2) export ANTHROPIC_AUTH_TOKEN=sk-YOURKEY
+# 3) export ANTHROPIC_BASE_URL=https://api.moonshot.ai/anthropic
+# Run $ claude.
+
+</pre></div>
+</div>
+<div class="log-entry">
+  <span class="li-toggle sec-toggle" role="button" tabindex="0" aria-controls="bash-022" aria-expanded="false">+</span>
+  <span class="sec-text" data-target="bash-022"># llama.cpp. MacOS: $ brew install llama.cpp. Start server: $ llama-server --fim-qwen-7b-default &gt;llama-server.log 2&gt;&amp;1 &amp; — # llama.vim. https://github.com/ggml-org/llama.vim</span>
+  <div id="bash-022" class="log-body" hidden><pre>
+# llama.cpp. MacOS: $ brew install llama.cpp. Start server: $ llama-server --fim-qwen-7b-default &gt;llama-server.log 2&gt;&amp;1 &amp;
+# llama.vim. https://github.com/ggml-org/llama.vim
+
+</pre></div>
+</div>
+<div class="log-entry">
+  <span class="li-toggle sec-toggle" role="button" tabindex="0" aria-controls="bash-023" aria-expanded="false">+</span>
+  <span class="sec-text" data-target="bash-023"># Added by LM Studio CLI (lms) — export PATH="$PATH:$HOME/.lmstudio/bin"</span>
+  <div id="bash-023" class="log-body" hidden><pre>
+# Added by LM Studio CLI (lms)
+export PATH="$PATH:$HOME/.lmstudio/bin"
+# End of LM Studio CLI section
+
+</pre></div>
+</div>
+<div class="log-entry">
+  <span class="li-toggle sec-toggle" role="button" tabindex="0" aria-controls="bash-024" aria-expanded="false">+</span>
+  <span class="sec-text" data-target="bash-024"># Start llama.cpp server http://127.0.0.1:8080. NB to extend 32K-&gt;128K context add "--rope-scaling yarn --rope-scale 4 --yarn-orig-ctx 32768". — # $ llama-server --ctx-size 131072 --model ~/.lmstudio/models/x0000001/Qwen…</span>
+  <div id="bash-024" class="log-body" hidden><pre>
+# Start llama.cpp server http://127.0.0.1:8080. NB to extend 32K-&gt;128K context add "--rope-scaling yarn --rope-scale 4 --yarn-orig-ctx 32768".
+# $ llama-server --ctx-size 131072 --model ~/.lmstudio/models/x0000001/Qwen3-30B-A6B-16-Extreme-128k-context-Q6_K-GGUF/qwen3-30b-a6b-16-extreme-128k-context-q6_k.gguf --top-p 0.95 --top-k 100 --min-p 0.05 --repeat-penalty 64 --override-kv qwen3moe.expert_used_count=int:16 &amp;
+
+</pre></div>
+</div>
+<div class="log-entry">
+  <span class="li-toggle sec-toggle" role="button" tabindex="0" aria-controls="bash-025" aria-expanded="false">+</span>
+  <span class="sec-text" data-target="bash-025"># MoE localhost &lt;75GB RAM, speed ~16 tps, weights 45 GB, access at http://127.0.0.1:8080 — # ~/llama.cpp$ sudo sysctl iogpu.wired_limit_mb=80000; build/bin/llama-server --model models/dots.llm1.inst-UD-TQ1_0.gguf --temp …</span>
+  <div id="bash-025" class="log-body" hidden><pre>
+# MoE localhost &lt;75GB RAM, speed ~16 tps, weights 45 GB, access at http://127.0.0.1:8080
+# ~/llama.cpp$ sudo sysctl iogpu.wired_limit_mb=80000; build/bin/llama-server --model models/dots.llm1.inst-UD-TQ1_0.gguf --temp 0 --top_p 0.95 --min_p 0 --ctx-size 32768 --flash-attn --cache-type-k q8_0 --cache-type-v q8_0 --jinja &amp;
+
+</pre></div>
+</div>
+<div class="log-entry">
+  <span class="li-toggle sec-toggle" role="button" tabindex="0" aria-controls="bash-026" aria-expanded="false">+</span>
+  <span class="sec-text" data-target="bash-026"># Run two end-points in llama.cpp for cline: Plan mode XBai-o4, Act mode Qwen3-Coder-A30B-A3-Instruct-1M — # sudo sysctl iogpu.wired_limit_mb=88000</span>
+  <div id="bash-026" class="log-body" hidden><pre>
+# Run two end-points in llama.cpp for cline: Plan mode XBai-o4, Act mode Qwen3-Coder-A30B-A3-Instruct-1M
+# sudo sysctl iogpu.wired_limit_mb=88000
+# Point cline Plan mode API Provider "OpenAI Compatible", Base URL "http://127.0.0.1:8081", key "any"
+#build/bin/llama-server --port 8081 --model models/XBai-o4.Q6_K.gguf --temp 0.6 --top_p 0.95 --ctx-size 32768 --flash-attn --cache-type-k q8_0 --cache-type-v q8_0 --jinja &amp;
+# Point cline Act mode API Provider "OpenAI Compatible", Base URL "http://127.0.0.1:8080", key "any"; extend context (262144) 256K-&gt;1M (1048576)
+#build/bin/llama-server --port 8080 --model models/Qwen3-Coder-30B-A3B-Instruct-1M-IQ4_NL.gguf --temp 0.7 --top_k 20 --top_p 0.8 --min_p 0 --ctx-size 1048576 --rope-scaling yarn --rope-scale 4 --yarn-orig-ctx 262144 --flash-attn --cache-type-k q8_0 --cache-type-v q8_0 --jinja &amp;
+
+</pre></div>
+</div>
+<div class="log-entry">
+  <span class="li-toggle sec-toggle" role="button" tabindex="0" aria-controls="bash-027" aria-expanded="false">+</span>
+  <span class="sec-text" data-target="bash-027"># Source gemini-cli $ git clone https://github.com/google-gemini/gemini-cli to read. Use released node/bin/gemini -&gt; node/lib/node_modules/@google/gemini-cli/dist/index.js. — # Install pre-requisites from https://nodejs.…</span>
+  <div id="bash-027" class="log-body" hidden><pre>
+# Source gemini-cli $ git clone https://github.com/google-gemini/gemini-cli to read. Use released node/bin/gemini -&gt; node/lib/node_modules/@google/gemini-cli/dist/index.js.
+# Install pre-requisites from https://nodejs.org: Node.js, npm. Linked /usr/local/bin/node, /usr/local/bin/npm. On linux in /opt/node/bin.
+DIR="/opt/node/bin"; test -d "$DIR" &amp;&amp; export_prepend PATH "${DIR}"
+
+# Install local nvm (Node Version Manager) via curl, or upgrade $ nvm install --lts, then setup:
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] &amp;&amp; \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] &amp;&amp; \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+# Uninstall them at a later point, remove them from the system Node: $ nvm use stable; v.s. $ nvm use system; $ npm uninstall -g a_module.
+# List $ nvm list, switch to ver 18 $ nvm use 18, or $ nvm use stable. Check versions $ node -v; $ nvm -v.
+
+# Re/install $ npm install -g @google/gemini-cli. Update $ npm upgrade -g @google/gemini-cli. Run $ cd project_dir &amp;&amp; gemini.
+# On gigul2 system node is too old - the $HOME node installed by uv must be used =&gt; run $ npm AS USER ljubomir, NOT as root.
+# Use modern version: ljubomir@gigul2(:):~$ nvm use stable # Now using node v22.17.0 (npm v11.4.2)
+# Check node version: ljubomir@gigul2(:):~$ node -v # v22.17.0
+# Update gemini: ljubomir@gigul2(:):~$ npm install -g @google/gemini-cli # install works as update fine
+# Check version: ljubomir@gigul2(:):~$ gemini --version # 0.1.20
+
+</pre></div>
+</div>
+<div class="log-entry">
+  <span class="li-toggle sec-toggle" role="button" tabindex="0" aria-controls="bash-028" aria-expanded="false">+</span>
+  <span class="sec-text" data-target="bash-028"># OpenAI Codex, on github $ git clone https://github.com/openai/codex.git, install relase $ npm install -g @openai/codex. — # Login $ codex login, run $ codex --version, or specifically gpt-5-high $ codex -m gpt-5 -c mod…</span>
+  <div id="bash-028" class="log-body" hidden><pre>
+# OpenAI Codex, on github $ git clone https://github.com/openai/codex.git, install relase $ npm install -g @openai/codex.
+# Login $ codex login, run $ codex --version, or specifically gpt-5-high $ codex -m gpt-5 -c model_reasoning_effort="high".
+alias codex-gpt-5-high='codex -m gpt-5 -c model_reasoning_effort="high"'
+
+# Local model does not work yet with llama.cpp
+### # The reasoning level can be set in the system prompts, "Reasoning: low", "Reasoning: medium", or "Reasoning: high".
+### # build/bin/llama-server --port 8080 --model models/gpt-oss-120b-MXFP4-00001-of-00002.gguf  --temp 1 --top_k 40 --top_p 1 --min_p 0 --ctx-size 131072 --flash-attn --cache-type-k q8_0 --cache-type-v q8_0 --chat-template-kwargs '{\"reasoning_effort\": \"high\"}' --jinja &amp;
+### codex-localhost-8080-gpt-oss-120b() {
+###   env OPENAI_API_KEY="123" CODEX_OSS_BASE_URL="http://localhost:8080/v1" codex --oss -m "gpt-oss:120b" -c model_reasoning_effort="high"
+### }
+### # build/bin/llama-server --port 8080 --model models/gpt-oss-20b-Q8_0.gguf --temp 1 --top_k 40 --top_p 1 --min_p 0 --ctx-size 131072 --flash-attn --cache-type-k q8_0 --cache-type-v q8_0 --chat-template-kwargs '{\"reasoning_effort\": \"high\"}' --jinja &amp;
+### codex-localhost-8080-gpt-oss-20b() {
+###   env OPENAI_API_KEY="123" CODEX_OSS_BASE_URL="http://localhost:8080/v1" codex --oss -m "gpt-oss:20b" -c model_reasoning_effort="high"
+### }
+
+</pre></div>
+</div>
+<div class="log-entry">
+  <span class="li-toggle sec-toggle" role="button" tabindex="0" aria-controls="bash-029" aria-expanded="false">+</span>
+  <span class="sec-text" data-target="bash-029"># Anthropic Claude Code (CC) $ npm install -g @anthropic-ai/claude-code, then $ claude. On Github $ git clone https://github.com/anthropics/claude-code.git. — # Use CC with DeepSeek API https://api-docs.deepseek.com/guid…</span>
+  <div id="bash-029" class="log-body" hidden><pre>
+# Anthropic Claude Code (CC) $ npm install -g @anthropic-ai/claude-code, then $ claude. On Github $ git clone https://github.com/anthropics/claude-code.git.
+
+# Use CC with DeepSeek API https://api-docs.deepseek.com/guides/anthropic_api
+claude-code-setup-deepseek() {
+  export ANTHROPIC_BASE_URL=https://api.deepseek.com/anthropic
+  export ANTHROPIC_AUTH_TOKEN=${DEEPSEEK_API_KEY}
+  export ANTHROPIC_MODEL=deepseek-chat
+  export ANTHROPIC_SMALL_FAST_MODEL=deepseek-chat
+}
+claude-code-unset-deepseek() {
+  unset ANTHROPIC_BASE_URL ANTHROPIC_AUTH_TOKEN ANTHROPIC_MODEL ANTHROPIC_SMALL_FAST_MODEL
+}
+claude-code-with-deepseek-without-anthropic-key() {
+  env -u ANTHROPIC_API_KEY ANTHROPIC_BASE_URL="https://api.deepseek.com/anthropic" ANTHROPIC_AUTH_TOKEN="${DEEPSEEK_API_KEY}" ANTHROPIC_MODEL="deepseek-chat" ANTHROPIC_SMALL_FAST_MODEL="deepseek-chat" claude
+}
+
+</pre></div>
+</div>
+<div class="log-entry">
+  <span class="li-toggle sec-toggle" role="button" tabindex="0" aria-controls="bash-030" aria-expanded="false">+</span>
+  <span class="sec-text" data-target="bash-030"># Qwnen-code (gemini-cli clone) install the git repo into npm (https://github.com/QwenLM/qwen-code): — # $ git clone https://github.com/QwenLM/qwen-code.git, $ cd qwen-code, $ npm install, $ npm install -g . , $ qwen</span>
+  <div id="bash-030" class="log-body" hidden><pre>
+# Qwnen-code (gemini-cli clone) install the git repo into npm (https://github.com/QwenLM/qwen-code):
+# $ git clone https://github.com/QwenLM/qwen-code.git, $ cd qwen-code, $ npm install, $ npm install -g . , $ qwen
+# Or install the latest stable relase not from repo: $ npm install -g @qwen-code/qwen-code, $ qwen --version
+
+# Run qwen3-coder localhost; can switch off 1M context and use default 256K
+# extend context (262144) 256K-&gt;1M (1048576), flash attention cached; access on http://127.0.0.1:8080
+# build/bin/llama-server --port 8080 --model models/Qwen3-Coder-30B-A3B-Instruct-1M-IQ4_NL.gguf --temp 0.7 --top_k 20 --top_p 0.8 --min_p 0 --repeat-penalty 1.05  --ctx-size 1048576 --rope-scaling yarn --rope-scale 4 --yarn-orig-ctx 262144 --flash-attn --cache-type-k q8_0 --cache-type-v q8_0 --jinja &amp;
+qwen-code-localhost-8080() {
+  env OPENAI_API_KEY="123" OPENAI_BASE_URL="http://localhost:8080/v1" OPENAI_MODEL="qwen/qwen3-coder-30b-a3b" qwen
+}
+codex-localhost-8080-qwen() {
+  env OPENAI_API_KEY="123" OPENAI_BASE_URL="http://localhost:8080/v1" OPENAI_MODEL="qwen/qwen3-coder-30b-a3b" codex
+}
+
+# build/bin/llama-server --port 8080 --model models/gpt-oss-120b-MXFP4-00001-of-00002.gguf  --temp 1 --top_k 40 --top_p 1 --min_p 0 --ctx-size 131072 --flash-attn --cache-type-k q8_0 --cache-type-v q8_0 --chat-template-kwargs '{"reasoning_effort": "high"}' --jinja &amp;
+qwen-code-localhost-8080-gpt-oss-120b() {
+  env OPENAI_API_KEY="123" OPENAI_BASE_URL="http://localhost:8080/v1" OPENAI_MODEL="openai/gpt-oss-120b" qwen
+}
+# build/bin/llama-server --port 8080 --model models/gpt-oss-20b-Q8_0.gguf --temp 1 --top_k 40 --top_p 1 --min_p 0 --ctx-size 131072 --flash-attn --cache-type-k q8_0 --cache-type-v q8_0 --chat-template-kwargs '{"reasoning_effort": "high"}' --jinja &amp;
+qwen-code-localhost-8080-gpt-oss-20b() {
+  env OPENAI_API_KEY="123" OPENAI_BASE_URL="http://localhost:8080/v1" OPENAI_MODEL="openai/gpt-oss-20b" qwen
+}
+
+</pre></div>
+</div>
+</div>
