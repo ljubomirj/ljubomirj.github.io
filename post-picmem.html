@@ -22,6 +22,7 @@
 Auto-generate with
 :r !ls -tr picmem/ |egrep '.png$|.jpg$|.jpeg$|.gif$' |while read a; do echo '<p><img src=picmem/'$a'></p>'; done
 -->
+<div class="pic-grid" id="memes-grid">
 <p><img src=picmem/always-were-artists.png></p>
 <p><img src=picmem/vibe-coding-ftw-2025.png></p>
 <p><img src=picmem/perf-GPQA-diamond-o3-tops-hi-phd.jpeg></p>
@@ -36,6 +37,7 @@ Auto-generate with
 <p><img src=picmem/jre-barbarian-khan-glasses-man.png></p>
 <p><img src=picmem/trump-musk-likeadawg.jpg></p>
 <p><img src=picmem/mkd-kraftwerk-contaminated.png></p>
+</div>
 
         <br><br>
         <h2>Science, Computing, Communication</h2>
@@ -44,7 +46,7 @@ Auto-generate with
 Auto-generate with
 :r !ls -tr picmem/SciCompCom/ |egrep '.png$|.jpg$|.jpeg$|.gif$' |while read a; do echo '<p><img src=picmem/SciCompCom/'$a'></p>'; done
 -->
-
+<div class="pic-grid" id="sci-grid">
 <p><img src=picmem/SciCompCom/rick-rubin-vibe-code.png></p>
 <p><img src=picmem/SciCompCom/howto-dismiss-unpleasant-truths.jpg></p>
 <p><img src=picmem/SciCompCom/gutenberg-monks-everyone-will-be-a-coder.png></p>
@@ -407,10 +409,17 @@ Auto-generate with
 <p><img src=picmem/SciCompCom/bash-vars-expansion.png></p>
 <p><img src=picmem/SciCompCom/bash-brackets.jpeg></p>
 <p><img src=picmem/SciCompCom/authagraph-world-map.jpg></p>
-
+<!-- end SciCompCom grid -->
+</div>
 
         <p><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>-- <br>LJ HPD Tue  7 Jan 08:41:05 GMT 2025</p>
 
+    </div>
+
+    <!-- Lightbox overlay for enlarged images -->
+    <div class="lightbox" id="lightbox" aria-hidden="true">
+        <span class="close" id="lightbox-close" aria-label="Close">×</span>
+        <img id="lightbox-img" alt="Expanded image">
     </div>
 
     <!-- Link to the external script -->
@@ -418,6 +427,59 @@ Auto-generate with
 
     <!--Load the sidebar html that is table of contents -->
     <script>loadSidebar();</script>
+
+    <!-- Pic grid behavior: lazy-load + click-to-zoom -->
+    <script>
+    (function() {
+        function initPicGrid() {
+            const imgs = document.querySelectorAll('#memes-grid img, #sci-grid img');
+            imgs.forEach(img => {
+                img.setAttribute('loading', 'lazy');
+                img.setAttribute('decoding', 'async');
+                // Simple derived alt text from filename if missing
+                if (!img.alt || img.alt === '') {
+                    const m = (img.getAttribute('src') || '').split('/').pop();
+                    img.alt = m ? m.replace(/[_-]+/g, ' ').replace(/\.[^.]+$/, '') : 'image';
+                }
+                img.addEventListener('click', () => openLightbox(img.getAttribute('src')));
+            });
+        }
+
+        const overlay = document.getElementById('lightbox');
+        const overlayImg = document.getElementById('lightbox-img');
+        const overlayClose = document.getElementById('lightbox-close');
+
+        function openLightbox(src) {
+            if (!overlay || !overlayImg) return;
+            overlayImg.src = src;
+            overlay.classList.add('open');
+            overlay.setAttribute('aria-hidden', 'false');
+            document.addEventListener('keydown', onKey);
+        }
+        function closeLightbox() {
+            if (!overlay) return;
+            overlay.classList.remove('open');
+            overlay.setAttribute('aria-hidden', 'true');
+            overlayImg.src = '';
+            document.removeEventListener('keydown', onKey);
+        }
+        function onKey(e) { if (e.key === 'Escape') closeLightbox(); }
+
+        if (overlay) {
+            overlay.addEventListener('click', (e) => { if (e.target === overlay) closeLightbox(); });
+        }
+        if (overlayClose) {
+            overlayClose.addEventListener('click', closeLightbox);
+        }
+
+        // Init after DOM ready
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initPicGrid);
+        } else {
+            initPicGrid();
+        }
+    })();
+    </script>
 
 </body>
 </html>

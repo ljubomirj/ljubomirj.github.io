@@ -204,6 +204,57 @@ button:hover {
     background-color: #0056b3;
 }
 
+/* --- Picture grids (post-picmem) --- */
+.pic-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+    gap: 12px;
+    align-items: start;
+}
+.pic-grid p {
+    margin: 0;
+}
+.pic-grid img {
+    width: 100%;
+    height: 190px; /* target thumbnail height */
+    object-fit: contain; /* show entire image without cropping */
+    background: #f8f9fa;
+    border: 1px solid #eee;
+    border-radius: 6px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+    cursor: zoom-in;
+}
+@media (min-width: 1200px) {
+    .pic-grid img { height: 220px; }
+}
+
+/* Lightbox for enlarged view */
+.lightbox {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.85);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+.lightbox.open { display: flex; }
+.lightbox img {
+    max-width: 90vw;
+    max-height: 90vh;
+    border-radius: 8px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+.lightbox .close {
+    position: absolute;
+    top: 10px;
+    right: 16px;
+    color: #fff;
+    font-size: 28px;
+    cursor: pointer;
+    user-select: none;
+}
+
 /* --- Media Query for Mobile --- */
 
 /* Adjust 768px to whatever breakpoint you prefer. This is a common tablet portrait breakpoint. */
