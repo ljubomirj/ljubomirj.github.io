@@ -21,6 +21,22 @@
 
         <p>So for me knowing something about \( X \) means knowing the distribution, the pdf \( f_X(x) \). Most of the time our knowledge is more than 1-dimensional, we have at least two qualities that we want to quantify the relationship of. So knowing something about \( (X,Y) \) jointly, for me means knowing the joint pdf \( f_{X,Y}(x,y) \).</p>
 
+        <p>So knowledge is joint density, is co-counts, counting number of times things of interest co-occur, happen together.</p>
+
+        <p>NB the single letters \( X \) and \( Y \) are multi-dimensional, \( N \)-dimensional and \( M \)-dimensional vectors. The domain of the pdf is \( (N + M + 1) \)-dimensional in general, with \( N \)-input \( X \), \( M \) -output \( Y \), 1-extra dimension where counting or quantity of probability density or mass happens. The split \( (X,Y) \) is arbitrary as decided by us. Usually - \( X \) is what we observe easily but we don't care much about, \( Y \) is what we don't observe directly but care about would like to know which one. So by relation \( X \) to \( Y \), we want to deduce something about \( Y \), while observing \( X \).</p>
+
+        <p>These things of interest are "qualities". Quality is one dimension out of N in an N-dim vector space.</p>
+
+        <p>In the simplest case of a single quality, single dimension X in 1D, knowledge of X is the p.d.f. of X \( f_X(x) \). Everything that there is to be known about X is described by the re-normalised histogram of X where we count which ones of X, and then how many of which one.</p>
+
+        <p>The first non trivial case of knowledge is where we have two qualities, two dimensions X and Y, \( (X,Y) \) in 2D, knowledge is the joint p.d.f. of X and Y that is \( f_{X,Y}(x,y) \).</p>
+
+        <p>Everything that can be known about the relationship between two qualities X and Y is captured and described about their joint p.d.f. \( f_{X,Y}(x,y) \).</p>
+
+        <p>If we know the joint p.d.f. \( f_{X,Y}(x,y) \), we can derive the prior distributions both for X that is \( f_X(x) \), and for Y that is \( f_Y(y) \), by marginalisation. Marginal p.d.f.s are \( f_X(x) = \int_y f_{X,Y}(x,y) dy \) and \( f_Y(y) = \int_x f_{X,Y}(x,y) dx \). Marginalisation is "adding up" the probability mass in the dimension(s) we don't care about, the one(s) we marginalise out.</p>
+
+        <p>Once we observe one of the qualities that are \( (X,Y) \), e.g. X, that shrinks the domain from 2D to 1D, and now everything that can be known about Y is described by conditional p.d.f. \( f_{Y|X}(y|x=a) \) that is computed by plugging \( x=a \) into the joint p.d.f. \( f_{X,Y}(x=a,y) \), then dividing "re-normalising" that function by the prior p.d.f. of X \( f_X(x) \) at \( x=a \) giving rise to new conditional p.d.f. \( f_{Y|X}(y) \) for Y that is defined as \( f_{Y|X}(y) = \frac{f_{X,Y}(a,y)}{f_X(a)} \).</p>
+
         <p>Below I illustrate this point on the example of a joint pdf \( p = f_{X,Y}(x,y) \) that is a mix of two Gaussians in 2D space \( (x,y) \). We observe the variable \( X \), and that observations is \( x=1 \). The question is - what do we now know about the variable \( Y \), having observed the variable \( X \) (to be \( x=1 \)).</p>
 
         <p>The observation \(x=1 \) is equivalent to the joint pdf being cut by the plane \( x=1 \). The intersection of the joint pdf \( f_{X,Y}(x,y) \) and the plane \( x=1 \) is \( f_{X,Y}(x=1,y) \). This curve is the best description of what we now know about the distribution of the unobserved variable \( Y \).</p>
@@ -133,7 +149,9 @@ The future has not happened yet. We know there two or more options for the futur
 
         <p>One view that seems testable to me Re: consciousness: it is like the conductor in the orchestra, it's the router in an Mixture of Experts model. Consciousness module is the router in MoE. Experts in the MoE are the individual members of the orchestra, every one playing their own instrument. So while the router is not a very big or a very special module (in fact - it's in many ways simpler then the specialised modules) - it's <i>a single point of failure</i>. So once consciousness (in HI brain) / router (in IA MoE) fails - no expert can learn properly, or even if the experts learns, the knowledge can not be utilised.</p>
 
-        <p>MoE architecture is the reason why it's so data efficient. Sparse representations, by virtue of injecting that prior knowledge in the process ("these connections for this data do not need updating"), can be data efficient. It's efficient to know in advance "this data is no use to Experts 1,3,4,5, and is to be used to reach only Expert#2". MoE is a reason why we have too many neurons. Our brains are less efficient than NN-s when it comes to utilising their weight. NN-s are much more efficient than us humans, when looking at efficiency in weights sizes space. Our brains trade parsimony in weights space, to gain efficiencies to gain speed and reduce power consumption - both achieved by MoE.</p>
+        <p>MoE architecture is the reason why it's so data efficient. Sparse representations, by virtue of injecting that prior knowledge in the process ("these connections for this data do not need updating"), can be data efficient. It's efficient to know in advance "this data is no use to Experts 1,3,4,5, and is to be used to reach only Expert#2". MoE maybe a reason why we have too many neurons. Our brains are less efficient than NN-s when it comes to utilising their weight. NN-s are much more efficient than us humans, when looking at efficiency in weights sizes space. Our brains trade parsimony in weights space, to gain efficiencies to gain speed and reduce power consumption - both achieved by MoE.</p>
+
+        <p>Further: sparse representatios (and MoE is a macro-scale example) may make incremental learning, which is one way to implement continuous learning, practically doable. If only a limited set of weight need to be updated, for the brain to acquire new memory or knowledge, that means it can be done without losing all other previous memory or knowledge.</p>
 
         <p></p>
 
