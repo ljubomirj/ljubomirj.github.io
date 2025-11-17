@@ -74,11 +74,11 @@ function toggleSection(targetId, toggleEl) {
     if (isHidden) {
         container.removeAttribute('hidden');
         if (toggleEl) toggleEl.setAttribute('aria-expanded', 'true');
-        if (toggleEl && toggleEl.classList.contains('li-toggle')) toggleEl.textContent = '−';
+        if (toggleEl && (toggleEl.classList.contains('li-toggle') || toggleEl.classList.contains('sec-toggle'))) toggleEl.textContent = '−';
     } else {
         container.setAttribute('hidden', '');
         if (toggleEl) toggleEl.setAttribute('aria-expanded', 'false');
-        if (toggleEl && toggleEl.classList.contains('li-toggle')) toggleEl.textContent = '+';
+        if (toggleEl && (toggleEl.classList.contains('li-toggle') || toggleEl.classList.contains('sec-toggle'))) toggleEl.textContent = '+';
     }
 }
 
