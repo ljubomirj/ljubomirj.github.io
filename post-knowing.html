@@ -66,7 +66,7 @@
                 This is probabilistic knowledge where we know the pdf (=probability density function) of the experiment outcome.<br>
                 It is the aleatoric kind of uncertainty (see <a href="#aleo-pdf">below</a>) - we know the statistics, the counts, but not what one outcome is going to be in every one experiment.</li>
         </ol>
-        
+
         <p>Uncertainty - obverse to knowing, to knowledge, lacking (perfect, deterministic) knowledge, we can think of types:</p>
         <ol type="a" start="2">
             <li id="aleo-pdf">Aleatoric uncertainty means not being certain what the random sample drawn (from the probability distribution) will be: the p.d.f. is known, only point samples will be variable (but from that p.d.f.).</br>
@@ -94,7 +94,7 @@
         <p><b>Chain of Thought (CoT), Chain of reasoning (CoR)</b>
 
         <p>Extension to Type 2 intelligence: guided search through discrete space where reward is unknown in time and only becomes known after the last step in the sequence. Next step from Type 1 intelligence: pattern recognition single 1:1 input:output, reward known at every step.</p>
-        
+
         <p>If p.d.f. \( f_{Y|X}(y|x=a) = P(Y|X) \) is not very informative, we can undertake chain of reasoning (CoR). We can find a reasoning step \( Z \), that has probability \( P(Z|X) \), such \( Z \) that the conditional \( P(Y|Z,X) \) brings us closer to our end answer that \( P(Y|X) \) can bring us.</p>
 
         <p>One can undertake motivated slicing via \( Z \). For slicing by \( x=a \) the \( P(X,Y) = f_{X,Y}(x,y) \) to get \( f_{X,Y}(x=a,y) \) (and then renormalised by marginal \( P(X) = f_X(x) \) at \( x = a \) into \( f_{X,Y}(x=a,y)/f_X(x=a) = f_{Y|X}(y|x=a) \) call it conditional \( P(Y|X) \)) - we undertake that b/c we hope \( P(Y|X) \) is going to be sharper, more informative that a presumed wide un-informative \( P(Y) \). So we could be selecting such \( Z \), that \( P(Y|Z,X) \) is even sharper. And we have the \( P(Z|X) \) to judge how justified we are to undertake our motivated reasoning \( Z \) step. This is the CoR Chain or Reasoning thinking models undertake now (Jul-2025) afaik.</p>
