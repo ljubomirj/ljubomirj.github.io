@@ -24,14 +24,14 @@
         <p>So knowledge is - joint density, is co-counts, counting number of times things of interest co-occur, happen together.</p>
 
         <p>NB the single letters \( X \) and \( Y \) are multi-dimensional, \( N \)-dimensional and \( M \)-dimensional vectors. The domain of the pdf is \( (N + M + 1) \)-dimensional in general, with \( N \)-input \( X \), \( M \)-output \( Y \), 1-extra dimension where counting or quantity of probability density or mass happens.
-<span class="sec-toggle" aria-controls="time-detail" aria-expanded="false">+</span><span id="time-detail" hidden><span style="font-size: 90%;"><i>
+<span class="sec-toggle" aria-controls="time-detail1" aria-expanded="false">+</span><span id="time-detail1" hidden><span style="font-size: 90%;"><i>
 (The one extra dimension where counting happens is time. Time is somewhat special TBD will concern with it latter. For now: without time there is no discrete events or observations and no counting either, so no joint density, so no knowledge either. Time is necessary - but not sufficient - condition for us to get to know the world around us.)
 </i></span></span></p>
 
         <p>The split \( (X,Y) \) is arbitrary as decided by us. Usually - \( X \) is what we observe easily but we don't care much about, \( Y \) is what we don't observe directly but care about would like to know which one. So by relating \( X \) to \( Y \), we want to deduce something about \( Y \), while observing \( X \).</p>
 
         <p>These things of interest are "qualities". Quality is one dimension out of N in an N-dim vector space. Within one 'quality' that's 'what', we will measure counts those will be 'quantity' or 'how much' or 'how many'.
-<span class="sec-toggle" aria-controls="time-detail" aria-expanded="false">+</span><span id="time-detail" hidden><span style="font-size: 90%;"><i>
+<span class="sec-toggle" aria-controls="time-detail2" aria-expanded="false">+</span><span id="time-detail2" hidden><span style="font-size: 90%;"><i>
 (TBD consider latter, but: while and to the extent the dimension N can't be forecast with 0 error from the other (N-1) dimensions, it exists as a separate dimension. Once it can be forecast with 0 error from the rest - it collapses and stops existing afa we are concerned.)
 </i></span></span></p>
 
@@ -126,15 +126,9 @@
 
         <h2>Marginalisation is Forgetting</h2>
 
-        <p>When I compute \( f_X(x) = \int f_{X,Y}(x,y) dy \), "ignoring" Y is really irreversibly destroying any knowledge of how X and Y co-vary. The operation is a lossy compression; I cannot reconstruct \( f_{X,Y} \) from \( f_X \) alone. Implications for the "computer states as PDFs" model:</p>
+        <p>When I compute \( f_X(x) = \int f_{X,Y}(x,y) dy \) margnialising out i.e. "ignoring" Y is irreversibly destroying any knowledge of how X and Y co-vary. The operation is a lossy compression; I cannot reconstruct \( f_{X,Y} \) from \( f_X \) alone. A state with joint knowledge \( f_{X,Y} \) has "working memory" of the relationship. Marginalizing to \( f_X \) is forgetting Y, freeing up parameters space removing memory so losing specifics. Choosing which variable to marginalize is an act of attention allocation. Storing a joint p.d.f. over \( (N+M) \)-dims cost drops when marginalizing down to \( N \)-dim. We trade accuracy for efficiency, effectivelly compressing, so the trick is to forget just enough but not more than that. Conversely each new conditioning step is a re-memoization—preventing forgetting by keeping another dimension intact. But we pay in computational complexity.</p>
 
-        <ul>
-            <li>A state with joint knowledge \( f_{X,Y} \) has "working memory" of the relationship. Marginalizing to \( f_X \) is forgetting Y, freeing up parameters space removing memory so losing specifics.</li>
-            <li>Choosing which variable to marginalize is an act of attention allocation. E.g. the brain is atm performing this: the visual cortex marginalizes out photon wavelengths to perceive "objects" (Y→X).</li>
-            <li>Storing a joint over \( (N+M) \)-dims costs drop when marginalizing drops to \( N \)-dim. We traded accuracy for efficiency, so the trick is to forget just enough but not more than that.</li>
-        </ul>
-
-        <p>Conversely each new conditioning step is a re-memoization—preventing forgetting by keeping another dimension intact. But we pay in computational complexity.</p>
+        <h2>etc</h2>
 
         <p><b>Interesting amusing paper</b> illustrates how new/more information can make the entropy (uncertainty) higher, thus reducing our knowledge. Where our knowledge measure is the spikiness of the probability density function. After the additional observation (new information), the conditional p.d.f. post the observation is flatter then before =&gt; our knowledge decreased.<br>
 Michael R DeWeese and Markus Meister (1999), <a href="DeWeese_Meister_-_How_to_measure_the_information_gained_from_one_symbol_-_ne9403.pdf">"How to measure the information gained from one symbol"</a>, <a href="https://www.tandfonline.com/doi/abs/10.1088/0954-898X_10_4_303">Network: Computation in Neural Systems, 10:4, 325-340</A>, <a href="https://iopscience.iop.org/article/10.1088/0954-898X/10/4/303">DOI: 10.1088/0954-898X_10_4_303</a></p>
