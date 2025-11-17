@@ -19,13 +19,23 @@
 
         <p>I was told "the joint probability density function between two variables \( X \) and \( Y \) captures everything that there is ever to be known about the relation between those \( X \) and \( Y \)" 25 years ago (¡Hola! <a href="https://faculty.ucmerced.edu/mcarreira-perpinan/">Miguel</a> :-)), and it's been a blessing and a curse. Blessing - yeah the joint pdf \( f_{X,Y}(x,y) \) really does capture everything. Curse - often I read an article and think of the author "wish someone told you too", you poor soul.</p>
 
-        <p>So for me knowing something about \( X \) means knowing the distribution, the pdf \( f_X(x) \). Most of the time our knowledge is more than 1-dimensional, we have at least two qualities that we want to quantify the relationship of. So knowing something about \( (X,Y) \) jointly, for me means knowing the joint pdf \( f_{X,Y}(x,y) \).</p>
+        <h2>Knowledge</h2>
 
-        <p>So knowledge is joint density, is co-counts, counting number of times things of interest co-occur, happen together.</p>
+        <p>Knowledge means knowing the joint probability function - either density p.d.f. or cumulative c.d.f. (using p.d.f. mostly to illustrate). Density p.d.f. or cumulative c.d.f. is an implementation detail. Depends on the mechanics of the contraption, can be both in the same device, is up to the implementation.</p>
 
-        <p>NB the single letters \( X \) and \( Y \) are multi-dimensional, \( N \)-dimensional and \( M \)-dimensional vectors. The domain of the pdf is \( (N + M + 1) \)-dimensional in general, with \( N \)-input \( X \), \( M \) -output \( Y \), 1-extra dimension where counting or quantity of probability density or mass happens. The split \( (X,Y) \) is arbitrary as decided by us. Usually - \( X \) is what we observe easily but we don't care much about, \( Y \) is what we don't observe directly but care about would like to know which one. So by relation \( X \) to \( Y \), we want to deduce something about \( Y \), while observing \( X \).</p>
+        <p>So knowledge is - joint density, is co-counts, counting number of times things of interest co-occur, happen together.</p>
 
-        <p>These things of interest are "qualities". Quality is one dimension out of N in an N-dim vector space.</p>
+        <p>NB the single letters \( X \) and \( Y \) are multi-dimensional, \( N \)-dimensional and \( M \)-dimensional vectors. The domain of the pdf is \( (N + M + 1) \)-dimensional in general, with \( N \)-input \( X \), \( M \)-output \( Y \), 1-extra dimension where counting or quantity of probability density or mass happens.
+<span class="sec-toggle" aria-controls="time-detail" aria-expanded="false">+</span>
+<span id="time-detail" class="log-body" hidden style="display: inline; padding: 4px 8px; margin-left: 4px; border-left: 2px solid #28a745;">
+<i><span style="font-size: 90%;">(The one extra dimension where counting happens is time. Time is somewhat special TBD will concern with it latter. For now: without time there is no discrete events or observations and no counting either, so no joint density, so no knowledge either. Time is necessary - but not sufficient - condition for us to get to know the world around us.)</span></i>
+</span>
+</p>
+
+        <p>The split \( (X,Y) \) is arbitrary as decided by us. Usually - \( X \) is what we observe easily but we don't care much about, \( Y \) is what we don't observe directly but care about would like to know which one. So by relating \( X \) to \( Y \), we want to deduce something about \( Y \), while observing \( X \).</p>
+
+        <p>These things of interest are "qualities". Quality is one dimension out of N in an N-dim vector space. Within one 'quality' that's 'what', we will measure counts those will be 'quantity' or 'how much' or 'how many'.<div style="margin: 0.3em 0;"></div>
+<i><span style="font-size: 90%;">(TBD consider latter, but: while and to the extent the dimension N can't be forecast with 0 error from the other (N-1) dimensions, it exists as a separate dimension. Once it can be forecast with 0 error from the rest - it collapses and stops existing afa we are concerned.)</span></i></p>
 
         <p>In the simplest case of a single quality, single dimension X in 1D, knowledge of X is the p.d.f. of X \( f_X(x) \). Everything that there is to be known about X is described by the re-normalised histogram of X where we count which ones of X, and then how many of which one.</p>
 
@@ -33,17 +43,19 @@
 
         <p>Everything that can be known about the relationship between two qualities X and Y is captured and described about their joint p.d.f. \( f_{X,Y}(x,y) \).</p>
 
-        <p>If we know the joint p.d.f. \( f_{X,Y}(x,y) \), we can derive the prior distributions both for X that is \( f_X(x) \), and for Y that is \( f_Y(y) \), by marginalisation. Marginal p.d.f.s are \( f_X(x) = \int_y f_{X,Y}(x,y) dy \) and \( f_Y(y) = \int_x f_{X,Y}(x,y) dx \). Marginalisation is "adding up" the probability mass in the dimension(s) we don't care about, the one(s) we marginalise out.</p>
+        <p>If we know the joint p.d.f. \( f_{X,Y}(x,y) \), we can derive the prior distributions both for X that is \( f_X(x) \), and for Y that is \( f_Y(y) \), by marginalisation. Marginal p.d.f.s are \( f_X(x) = \int_y f_{X,Y}(x,y) dy \) and \( f_Y(y) = \int_x f_{X,Y}(x,y) dx \). Marginalisation is "adding up" the probability mass in the dimension(s) we don't care about, the one(s) we marginalise out. Marginalisation maybe thought as "forgetting" - the detail is lost. <i>Keeping detail so not cost free, it takes resource implementing it. So if we don't need a particular dimension particular quality for whatever our goals are - it's better to forget about it.</i></p>
 
-        <p>Once we observe one of the qualities that are \( (X,Y) \), e.g. X, that shrinks the domain from 2D to 1D, and now everything that can be known about Y is described by conditional p.d.f. \( f_{Y|X}(y|x=a) \) that is computed by plugging \( x=a \) into the joint p.d.f. \( f_{X,Y}(x=a,y) \), then dividing "re-normalising" that function by the prior p.d.f. of X \( f_X(x) \) at \( x=a \) giving rise to new conditional p.d.f. \( f_{Y|X}(y) \) for Y that is defined as \( f_{Y|X}(y) = \frac{f_{X,Y}(a,y)}{f_X(a)} \).</p>
+        <p>Once we observe one of the qualities that are \( (X,Y) \), e.g. X, that shrinks the domain from 2D to 1D, and now everything that can be known about Y is described by conditional p.d.f. \( f_{Y|X}(y|x=a) \) that is computed by plugging \( x=a \) into the joint p.d.f. \( f_{X,Y}(x=a,y) \), then dividing re-normalising that function by the prior p.d.f. of X \( f_X(x) \) at \( x=a \) giving rise to new conditional p.d.f. \( f_{Y|X}(y) \) for Y that is defined as \( f_{Y|X}(y) = \frac{f_{X,Y}(a,y)}{f_X(a)} \).</p>
 
-        <p>Below I illustrate this point on the example of a joint pdf \( p = f_{X,Y}(x,y) \) that is a mix of two Gaussians in 2D space \( (x,y) \). We observe the variable \( X \), and that observations is \( x=1 \). The question is - what do we now know about the variable \( Y \), having observed the variable \( X \) (to be \( x=1 \)).</p>
+        <h2>Everything as Relationships</h2>
 
-        <p>The observation \(x=1 \) is equivalent to the joint pdf being cut by the plane \( x=1 \). The intersection of the joint pdf \( f_{X,Y}(x,y) \) and the plane \( x=1 \) is \( f_{X,Y}(x=1,y) \). This curve is the best description of what we now know about the distribution of the unobserved variable \( Y \).</p>
+        <p>Everything that can be known about about anything can be construed as a relation between two things. <i>At the base level - myself and the world, the I and not-I.</i> Call them X and Y. So all knowledge about \( (X,Y) \) (what X tells us about Y, what Y tells us about X) - is in that X-Y relationship.</p>
 
-        <p>The starting model that was \( f_{X,Y})(x,y) \) is affected by the observation \( x=1 \). The effect is the intersection \( f_{X,Y}(x=1,y) \), and is outlined below. It is a function of \( y \), that is a scaled conditional \( f_Y(y|x=1) = \frac{f_{X,Y}(x=1,y)}{f_X(x=1)} \). The conditional pdf is \( f_Y(y|x) \).</p>
+        <p>Everything that can be known about X-Y relationship is captured and described about their joint p.d.f. \( p=f_{X,Y}(x,y) \) or just \( p=f(x,y) \) the density; or c.d.f. \( p=g_{X,Y}(x,y) \) then it's just \( P=g(x,y) \) the cumulative. And that's it. The probability distribution captures all that can ever be known about the \( (X,Y) \) relationship.</p>
 
-        <p>The scaler \( f_X(x=1) \) is the marginal pdf \( f_X(x) \) of \( X \) at point \( x=1 \). The marginal pdf \( f_X(x) \) is computed from the joint pdf \( f_{X,Y}(x,y) \) by marginalization, by integrating out \( Y \) as \( f_X(x) = \int f_{X,Y}(x,y)\,dy \) and then plugging in \( x=1 \).</p>
+        <p>Once X \( x=a \) is observed, then everything that is known about Y is described by the conditional p.d.f. \( p=f_{Y|X}(y|x=a) \) or just \( p=f(y|x) \) at \( x=a \).</p>
+
+        <p>The 3D function \( p=f(x,y) \) is cut with a plane \( x=a \). The cross section is \( f(x=a,y) \). It's not a p.d.f. as it does not sum to 1. The area of the cross section \( \{f(x,y),x=a\} \) that is a scalar is the area under \( f(x,y) \) at \( x=a \). This is also the value of the marginal p.d.f. \( f_X(x) = \int f(x,y) dy \) at \( x=a \), i.e. \( p=f_X(x=a) \). To convert \( f(x=a,y) \) into conditional p.d.f. \( f(y|x=a) \) we divide joint p.d.f. \( f(x=a,y) \) with the scalar (constant) that is marginal p.d.f. \( f_X(x=a) \): \( f(y|x=a)=f(x=a,y)/f_X(x=a) \).</p>
 
         <p><a href="#" onclick="toggleShowImage('pdf-joint-cond-marg-1of3')">Joint marginal conditional pdf 1 of 3</a>. (click to zoom)
         <img id="pdf-joint-cond-marg-1of3" src="pdf-joint-cond-marg-1of3.png" style="display: none; width: 100%; height: auto;" onclick="zoomImage(this)"></p>
@@ -54,114 +66,104 @@
         <p><a href="#" onclick="toggleShowImage('pdf-joint-cond-marg-3of3')">Marginal pdf is derived from the joint pdf 3 of 3</a>. (click to zoom)
         <img id="pdf-joint-cond-marg-3of3" src="pdf-joint-cond-marg-3of3.png" style="display: none; width: 100%; height: auto;" onclick="zoomImage(this)"></p>
 
-        <p>Coming back to "joint pdf captures everything there is in the relationship \(X,Y\)". Putting it in a wider context.</p>
+        <h2>Types of Knowledge</h2>
 
-        <p>When reading about knowledge, I have come across the following so collected here for future reference.</p>
+        <p>Where we have Dirac impulse \( \delta \) function for the conditional pdf \( p=f(y|x)=\delta(y-g(x)) \) we have <b>deterministic knowledge</b> - excellent, act on it. We know exactly "which one" from a population. And thus we also know the count "how many" too, by implication.</p>
 
-        <p>We can have 2 types of knowledge about the outcome of (repeated) experiment(s):</p>
-        <ol type="a">
-            <li id="know-dirac">We know what will happen and when it will happen in each experiment. This is non-probabilistic, deterministic knowledge.</br>
-                NB it is a special case of <a href="#know-pdf">both</a> <a href="#aleo-pdf">(b)</a> cases below with the pdf being a Dirac impulse function.</li>
-            <li id="know-pdf">We know the possible outcomes, we know how many of each will happen if we do 100 experiments, but for each 1 experiment, we can't tell the outcome.</br>
-                This is probabilistic knowledge where we know the pdf (=probability density function) of the experiment outcome.<br>
-                It is the aleatoric kind of uncertainty (see <a href="#aleo-pdf">below</a>) - we know the statistics, the counts, but not what one outcome is going to be in every one experiment.</li>
-        </ol>
+        <p>Where we have a general conditional pdf \( p=f(y|x) \) we have <b>probabilistic knowledge</b> - we should thank our good fortune and use it for we are dealing with aleatoric uncertainty. We don't know "which one" from a population, but we know "how many" - we know the count. This is a weaker knowledge than the previous - we don't know which one, only how many in a group of many. <i>But still - it's immensely useful. Can think of a boundary condition, a thin line between perfect knowledge and perfect ignorance; almost a boundary condition where life manages to exist.</i></p>
 
-        <p>Uncertainty - obverse to knowing, to knowledge, lacking (perfect, deterministic) knowledge, we can think of types:</p>
-        <ol type="a" start="2">
-            <li id="aleo-pdf">Aleatoric uncertainty means not being certain what the random sample drawn (from the probability distribution) will be: the p.d.f. is known, only point samples will be variable (but from that p.d.f.).</br>
-                We can actually reliably count the expected number of times an event will happen.</li>
-            <li id="epi-unpdf">Epistemic uncertainty is not being certain what the relevant probability distribution is: it is the p.d.f. that is unknown.</br>
-                We can't even reliably count the expected number of times an event will happen.</li>
-        </ol>
-        <p>The probabilistic knowledge of type <a href="#know-pdf">(b)</a> above and aleatoric uncertainty of type <a href="#aleo-pdf">(b)</a> are one and the same.</p>
+        <p>Where we lack any conditional pdf \( p(y|x) \), maybe b/c we lack the joint pdf \( p(x,y) \) in the 1st place - well tough luck, we are dealing with <b>epistemic uncertainty</b>. We should assume nothing. We don't know "which one", and we don't know "how many". We can't even enumerate the space of possibilities. <i>This is like the primordial soup where there is nothing firm discrete enough for us to count; anything goes.</i></p>
 
-        <p>The 2D \( (X,Y) \) example is also useful to illustrate a further point. Once we observe \( X \), and work out the conditional pdf \( f_Y(y|x) \), the question arises - what next? What do we do with it?</p>
+        <h2>Observation, Intelligence, and Goals</h2>
 
-        <p>If \( Y \) is discrete, we have a problem of classification. If \( Y \) is continuous, we have a problem of regression.</p>
+        <p>Simplest case - X is 1-dim, Y is 1-dim, then knowledge of a \( (X,Y) \) relationship is the joint p.d.f. \( f_{X,Y}(x,y) \) that's a 3-D shape. <b>Observation</b> is cutting that 3-D shape with a 2-D plane \( x=a \). <b>Intelligence</b> is using the 2-D outline \( f_{X,Y}(x=a,y) \) that's the intersection between the 3-D joint shape and the 2-D \( x=a \) plane, to decide on the action to be taken. Now we have this new(er) knowledge (that normalised to 1 is conditional p.d.f. \( f_{Y|X}(y|x=a) \)), while still aiming for the same desired end as before.</p>
 
-        <p>We have the entire curve to work with - and that's the best. But often, we approximate the entire curve, with a representative value, and soldier on. Then the question becomes: well how do we chose one representative value from that curve?</p>
+        <p>Observation, knowledge, intelligence, goal. Knowledge of relation \( (X,Y) \) is the joint p.d.f. \( f_{X,Y}(x,y) \). Observation is cutting that 3-D shape with a 2-D plane \( x=a \). Intelligence is deciding on the next action—now we have 2-D shape \( f_{X,Y}(x=a,y) \), incorporating this newest knowledge about X (normalised to sum 1 is the conditional p.d.f. \( f_{Y|X}(y|x=a) \)). All the while still aiming towards the same desired goal as before. <b>The goal is not captured with this framework. The goal is outside of the framework.</b></p>
 
-        <p>The "\( X \) observed \( Y \) not observed" is arbitrary - it could be the other way around. We can generalize this by introducing a 2D binary <b>mask</b> \( M \), to indicate what parts of the vector \( (X,Y) \) are present (observed), and what parts are missing (and thus of some interest, e.g. we want to predict or forecast them).</p>
+        <p>Conditioning Y on X is observing the \( x=a \), and then re-normalising \( f(y,x=a) \) such that it becomes a p.d.f. again to sum to 1 \( f(y|x=a) \). Observing quality X that is \( x=a \), is shrinking the dimensionality from 2D to 1D. In general from \( (N+1) \)-dim back to \( N \)-dim.</p>
 
-        <p>With present data \( X \) and missing data \( Y \) in \( (X,Y) \), then missing data imputation is actually equivalent to forecasting regression or classification.</p>
+        <h2>Chain of Reasoning (CoR)</h2>
 
-        <p>TBD When time is one of the dimensions, with Now separating the Past from the Future: there is a big difference is whether \( X \) and \( Y \) are contemporaneous, or not. Not contemporaneous, having \( X \) in the past, predicting \( Y \) in the future, makes the signal connection \( X \longrightarrow Y \) much, much weaker, by orders of magnitude, then it would be otherwise (if \( X \) and \( Y \) are not separate by time, but happen at the same time).</p>
+        <p>If p.d.f. \( f_{Y|X}(y|x=a) = P(Y|X) \) is not very informative, we can undertake <b>chain of reasoning (CoR)</b>. We can find a reasoning step \( Z \), that is \( P(Z|X) \), such that the conditional \( P(Y|Z,X) \) brings us closer to our end answer than \( P(Y|X) \) can bring us.</p>
+
+        <p>This is how hierarchies are made. Already \( P(Y|X) \) is a hierarchical relationship. Now conditioning on \( Z \) too, \( P(Y|Z,X) \), is another brick in the wall of a hierarchical relationship. Conditioning on X takes general N-dim \( P(X,Y) \), and reduces it down to at most \( (N-1) \)-dim space of \( P(Y|X) \). Conditioning even more on Z to \( P(Y|Z,X) \) does another slicing down, to at most \( (N-2) \)-space. From widest most detailed N-dim \( P(X,Y) \), to more general less specific \( P(Y|Z,X) \) at most \( (N-2) \)-dim.</p>
+
+        <p>One can undertake <b>motivated slicing via \( Z \)</b>. For slicing by \( x=a \) the \( P(X,Y)=f_{X,Y}(x,y) \) to get \( f_{X,Y}(x=a,y) \) (then renormalised by marginal \( P(X)=f_X(x) \) at \( x=a \) into \( f_{X,Y}(x=a,y)/f_X(x=a) = f_{Y|X}(y|x=a) \) call it conditional \( P(Y|X) \)) - we undertake that b/c we hope \( P(Y|X) \) is going to be sharper, more informative than a presumed wide un-informative \( P(Y) \). So we could be selecting such \( Z \), that \( P(Y|Z,X) \) is even sharper. And we have the \( P(Z|X) \) to judge how justified we are to undertake our motivated reasoning \( Z \) step.</p>
+
+        <p>There are infinite number of \( Z \)-s we can slice-condition on. The trick is choosing "the right ones" for \( Z \). They can't be too divorced from \( X \), as then \( P(Z|X) \) will be very flat. The \( Z \) chosen also can't be too divorced from \( Y \) - then it will not add anything over and above \( X \), which is already too far from \( Y \) for any useful guide, \( P(Y|Z,X) \) will be as good (bad) as \( P(Y|X) \). (even if \( P(Z|X) \) may show relation to X) Looks like the size of the step when moving X→Y can be max ~20% in interestingness, but not more, to keep it true.</p>
+
+        <h2>Everything is a Computer</h2>
+
+        <p>Everything is a computer now atm. (2025) Information theory is the most general theory we got.</p>
+
+        <p>Knowledge is a p.d.f. Learning is acquiring a p.d.f. where we previously lacked one. Acquiring p.d.f. is figuring out what-s, and how many-s of those what-s.</p>
+
+        <p>Computing is taking our knowledge, the learned p.d.f.s we got, then manipulating those p.d.f.s, by either marginalisation, or conditioning, to create new p.d.f.s.</p>
+
+        <p>These new p.d.f.s then tell us something about what we care about but we can't observe, having observed things that are easy for us to observe, but we don't care about.</p>
+
+        <p>The general model of computation is one of discrete states. Every state is characterised by a different p.d.f. function. Transitions between states occur too. Those are also characterised by their own p.d.f.s. Markov assumption is that transitions depend on the current state, but don't depend on the path we took to get to the current state. So the future states are independent of the past states, only on the present state.</p>
+
+        <h2>Death</h2>
+
+        <p>Collapses the future functions (p.d.f.s) from general forms with uncertainty (anything but Dirac Delta-s), into a Dirac Delta impulse. Uncertainty ends, the Past finally catches up with the Future, erasing the Now time boundary in the process. For self anyways. I detach from not-I completely irreversibly, the final separation.</p>
+
+        <h2>Now and Time, Past, Present, Future</h2>
+
+        <p>The p.d.f.s of the past are <b>*always*</b> a Dirac impulse. The past is always certain, having already happened, the uncertainty is 0%. In fact, a definition of the past maybe "that what is known with 100% certainty."</p>
+
+        <p>The p.d.f.s of the future are <b>*never*</b> a Dirac impulse. The future is always uncertain, it's never 100% certain. In fact, one definition of the future is "that what can't be known with 100% certainty."</p>
+
+        <p>Now is a moving boundary between the all-Dirac past, and never-Dirac future. Living is the future out-running the past, the past failing to catch up the future. Death is the point at which the past finally catches up with the future. At that point all uncertainty ends, seemingly never to return back.</p>
+
+        <h2>Derived Statistics</h2>
+
+        <p>Once we have any curve \( f_Z(z) \) whichever way we got it (marginal, conditional), we can do derived statistics to it, in order to convert the curve into one (point forecast) or two (forecast and it's variation) points or however many we fancy (quartiles, quintiles, etc) to characterise the entire curve/area/volume/Nvolume (1D/2D/3D/Ndim) with, and reduce to characterise the whole continuous mathematical object with few discrete numbers.</p>
+
+        <h2>Missing Data Imputation</h2>
+
+        <p>With present data \( x \) and missing data \( y \) in \( (x,y) \), then missing data imputation is actually equivalent to forecasting regression (continuous \( y \) variable) or classification (discrete \( y \) classes). Big difference is whether \( x \) and \( y \) are contemporaneous, or not: not contemporaneous makes the signal connection \( x \rightarrow y \) much, much weaker, by orders of magnitude. Time Now is a big barrier in knowing.</p>
+
+        <h2>Error and Information</h2>
+
+        <p>The error is necessary for information to exist. In the limit where the error is zero, no new information is ever observed - everything is known, the uncertainty is zero.</p>
+
+        <h2>Life and Uncertainty</h2>
+
+        <p>Life exists only with uncertainty. Where/when the error is zero, everything is predictable. This is the state before a living thing is born, and after a living thing dies.</p>
+
+        <p>Life exists in that goldilocks region where there is limited uncertainty. If the uncertainty is zero, then we are not-born yet, or dead. If the uncertainty is too high, things are chaotic, too random, there isn't enough order and structure for life to exist.</p>
+
+        <p>Every living thing introduces another dimension, another axis, of non-zero uncertainty, into existence. When it dies, the uncertainty disappears, that axis of variance is no more.</p>
+
+        <h2>Marginalisation is Forgetting</h2>
+
+        <p>When we compute \( f_X(x) = \int f_{X,Y}(x,y) dy \), "ignoring" Y is really irreversibly destroying any knowledge of how X and Y co-vary. The operation is a lossy compression; you cannot reconstruct \( f_{X,Y} \) from \( f_X \) alone. Implications for the "computer states as PDFs" model:</p>
+
+        <ul>
+            <li><b>State → Memory:</b> A state with joint knowledge \( f_{X,Y} \) has "working memory" of the relationship. Marginalizing to \( f_X \) is forgetting Y, freeing up memory but losing nuance.</li>
+            <li><b>Action → Attention:</b> Choosing which variable to marginalize is an act of attention allocation. E.g. the brain is atm performing this: the visual cortex marginalizes out photon wavelengths to perceive "objects" (Y→X).</li>
+            <li><b>Cost:</b> Storing a joint over N+M dims costs O(K^(N+M)) (for K bins). Marginalizing drops this to O(K^N). Life trades accuracy for efficiency—we survive by forgetting just enough.</li>
+        </ul>
+
+        <p>The art is knowing what we can afford to forget while still achieving our goals. That decision itself requires a meta-PDF: a belief about which relationships matter.</p>
+
+        <p>Conversely: each new conditioning step is a re-memoization—preventing forgetting by keeping another dimension intact. But we pay in computational complexity.</p>
+
+        <p>The question becomes: what's the optimal forgetting schedule?</p>
+
+        <h2>Further Reading and Links</h2>
 
         <p>TBD link to entropy and average information, specific <a href="DeWeese_Meister_-_How_to_measure_the_information_gained_from_one_symbol_-_ne9403.pdf">information from one symbol</a> -<br>
         Michael R DeWeese and Markus Meister (1999), <a href="DeWeese_Meister_-_How_to_measure_the_information_gained_from_one_symbol_-_ne9403.pdf">"How to measure the information gained from one symbol"</a>, <a href="https://www.tandfonline.com/doi/abs/10.1088/0954-898X_10_4_303">Network: Computation in Neural Systems, 10:4, 325-340</A>, <a href="https://iopscience.iop.org/article/10.1088/0954-898X/10/4/303">DOI: 10.1088/0954-898X_10_4_303</a> [[excellent paper; introduces the idea that more information can make the entropy higher, thus reducing our knowledge if the knowledge measure is the spikiness of the probability density function; after we have additional observation (information), the posterior p.d.f. given the observation, maybe flatter then before =&gt; our knowledge decreased ]]</p>
 
-        <p><b>Chain of Thought (CoT), Chain of reasoning (CoR)</b>
-
-        <p>Extension to Type 2 intelligence: guided search through discrete space where reward is unknown in time and only becomes known after the last step in the sequence. Next step from Type 1 intelligence: pattern recognition single 1:1 input:output, reward known at every step.</p>
-
-        <p>If p.d.f. \( f_{Y|X}(y|x=a) = P(Y|X) \) is not very informative, we can undertake chain of reasoning (CoR). We can find a reasoning step \( Z \), that has probability \( P(Z|X) \), such \( Z \) that the conditional \( P(Y|Z,X) \) brings us closer to our end answer that \( P(Y|X) \) can bring us.</p>
-
-        <p>One can undertake motivated slicing via \( Z \). For slicing by \( x=a \) the \( P(X,Y) = f_{X,Y}(x,y) \) to get \( f_{X,Y}(x=a,y) \) (and then renormalised by marginal \( P(X) = f_X(x) \) at \( x = a \) into \( f_{X,Y}(x=a,y)/f_X(x=a) = f_{Y|X}(y|x=a) \) call it conditional \( P(Y|X) \)) - we undertake that b/c we hope \( P(Y|X) \) is going to be sharper, more informative that a presumed wide un-informative \( P(Y) \). So we could be selecting such \( Z \), that \( P(Y|Z,X) \) is even sharper. And we have the \( P(Z|X) \) to judge how justified we are to undertake our motivated reasoning \( Z \) step. This is the CoR Chain or Reasoning thinking models undertake now (Jul-2025) afaik.</p>
-
-        <p>There are infinite number of \( Z \)-s we can slice-condition on. The trick is choosing "the right \( Z \)-s". They can't be too divorced from \( X \), as then \( P(Z|X) \) will be very flat. The \( Z \) chosen also can't be too divorced from \( Y \) - then it will not add anything over and above \( X \), which is already too far from \( Y \) for any useful guide, \( P(Y|Z,X) \) will be as good (bad) as \( P(Y|X) \). (even if \( P(Z|X) \) may show relation to X) Looks like the size of the step when moving X-&gt;Y can be max ~20% in "interestingness", but not more, to keep it true. So the right intermediate steps \( Z \), but we don't know in advance which ones will be the "right" ones of course. We have \( P(Z|X) \) to judge their probability. In the extreme, if we just summed over all possible \( Z \), weighted by their probability, we recover our initial conditional \( P(Y|X) = SUM_{Z}P(Y|Z,X)P(Z|X) \). OF course, in real life, how is one to chose among the bazillion possible Z-s, and how to aggregate while searching, makes a world of difference.</p>
-
-        <p>Further. This how/what hierarchies are made/of. Already \( P(Y|X) \) is a hierarchical relationship. Typically, \( X \) by sheer number/size/cardinality is much larger than \( Y \). Now conditioning on \( Z \) too \( P(Y|Z,X) \) is another brick in the wall of a hierarchical relationship. Conditioning on \( X \) takes general \( N \)-dim \( P(X,Y) \), and reduces it down to at most \( (N-1) \)-dim space of \( P(Y|X) \). Conditioning even more on \( Z \) to \( P(Y|Z,X) \) does another slicing down, to at most \( (N-2) \)-space. From widest most detailed \( N \)-dim \( P(X,Y) \), to more general less specific \( P(Y|Z,X) \) at most \( (N-2) \)-dim.</p>
-
-        <p><b>Relation to current models</b></p>
-
-        <p>Non-reasoning autoregressive LLM-s: compute \( P(Y|X) \), then they sample from that distribution. Hence parameters like <i>temp-erature</i>, <i>top_K</i>, <i>min_p</i>, <i>top_p</i>.</p>
-        <p>Diffusion models image denoisers: learn the first derivative of \( log(P(Y|X)) \), use that to get from the current sample, to a better sample, and they iterate. They add noise to in every step, and that serves to sample the whole distribution, rather than pick and converge to a single one point.</p>
-        <p>Afaics the reasoning models add only one step extra. Assume there is no good choice \( Y \) for the \( X \) - say \( P(Y|X) \) is flat uninformative, there is no good guess for Y. So let's figure out intermediate step Z. Then instead of \( P(Y|X) \), go after \( P(Y|Z,X)P(Z|X) \). NB summing over Z will recover exactly \( P(Y|X) \). The step \( Z \) is such that \( P(Y|Z,X) \) is informative, where \( P(Y|X) \) was not. So \( P(Y|Z,X) \) brings us closer to a better guess for \( Y \), in a way that \( P(Y|X) \) does not. Of course, what functions, and how they are fit, and  how to chose bazillion of \( Z \)-s, and how to aggregate while searching - makes a world of difference.</p>
-
-        <p><b>Wider context</b> to Knowing and knowledge, epistemology, even ideology?</p>
-        <ol>
-            <li>Known Knowns. Deterministic knowledge - we know exactly which one. (<a href="#know-dirac">deterministic knowledge</a> above)</li>
-            <li>Known Unknowns. We don't know which one, but we know how many of which type; i.e. the distribution. (<a href="#know-pdf">known pdf</a>, <a href="#aleo-pdf">aleatoric uncertainty</a> above)</li>
-            <li>Unknown Unknowns. We don't know the p.d.f. either. (<a href="#epi-unpdf">epistemic uncertainty</a> above)</li>
-            <li>Unknown Knowns. Ideology. Fish swimming in water never knowing anything else but water.Possibly thus being unable to perceive the water too? Not sure - that maybe a step too far. Just not knowing anything outside water, but knowing water suffices imo. (Zizek @ YT; self-reflective, I using the framework described above by the 3 cases {pdf-yes-Dirac,pdf-yes-non-Dirac,pdf-no} am like the fish, and the framework is my water, in the sense that's my entire knowledge and I know not outside of it)</li>
-        </ol>
-
-        <p><b>TBD Time.</b> Mechanistic pedestrian treatment of time (past/now/future) in the same framework where all is knowns is a p.d.f. So we have past and future separated by the now that marks the present for us. Say X=past, Y=future in our \( (X,Y) \) and we have the p.d.f. \( f_{X,Y}(x,y) \) .
-        </p>
-
-<p>
-The past has already happened, there is only one of it, it's certain and deterministic. Translated in p.d.f. language that means and \( f_X(x) \) or \( f_{X|Y}(x|y) \) distribution <b>*must*</b> be a Dirac delta impulse. The \( f_X(x) \) can not be any other functions shape than a Dirac delta.<br>
-The future has not happened yet. We know there two or more options for the future, it is never a single one. Translated in p.d.f. language that means and \( f_Y(y) \) or \( f_{Y|X}(y|x) \) distribution <b>*can NOT*</b> be a Dirac delta impulse. The \( f_Y(y) \) can  be any other function shape than a Dirac delta. But not a Dirac delta.
-</p>
-
-<p>
-  Time is a moving Now barrier. Now is the point that separates the p.d.f.s of the past, and the future.<br>
-  The p.d.f. of the past is <b>*always*</b> a Dirac impulse. The past is always certain, having already happened, the uncertainty is 0%. In fact, a definition of the past maybe "that what is known with 100% certainty."<br>
-  The p.d.f. of the future is <b>*never*</b> a Dirac impulse. The future is always uncertain, it's never 100% certain. In fact, one definition of the future is "that what can't be known with 100% certainty."
-</p>
-
-<p>
-<b>Everything is a computer now atm.</b> (2025) Information theory is the most general theory we got.<br>
-  Knowledge is a p.d.f. Learning is acquiring a p.d.f. where we previously lacked one. Acquiring p.d.f. is figuring out what-s, and how many-s of those what-s.<br>
-  Computing is taking our knowledge, the learned p.d.f.s we got, then manipulating those p.d.f.s, by either marginalisation, or conditioning, to create new p.d.f.s.<br>
-  These new p.d.f.s then tell us something about what what we care about but we can't observe, having observed things that are easy for us to observe, but we don't care about.<br>
-  The general model of computation is one of discrete states. Every state is characterised by a different p.d.f. function. Transitions between states occur too. Those are also characterised by their own p.d.f.s. Markov assumption is that transitions depend on the current state, but don't depend on the path we took to get to the current state. So The future states are independent of the past state, only on the present state.
-</p>
-
-        <p><b>TBD Quantity and Quality.</b> Dimensions \( (X,Y) \) are qualities, and we quantify them each too. When do we add new quality and obversely when do we lose a quality (dimension)?</p>
-        <p>(<a href="https://news.ycombinator.com/item?id=38261719">LJ @ HN</a>) There is a spin on the same idea when working with data (maths/stats/comp/ML) and having to skirt around the curse of dimensionality. Suppose I have a 5-dimensional observation and I'm wondering if it's really only 4 dimensions there. One way I check is - do a PCA, then look at the size of the remaining variance along the axis that is the smallest component (the one at the tail end, when sorting the PCA components by size). If the remaining variance is 0 - that's easy, I can say: well, it was only ever a 4-dimensional observation that I had after all. However, in the real world it's never going to be exactly 0. What if it is 1e-10? 1e-2? 0.1? At what size does the variance along that smallest PCA axis count as an additional dimension in my data? The thresholds are domain dependent - I can for sure say that enough quantity in the extra dimension gives a rise to that new dimension, adds a new quality. Obversely - diminishing the (variance) quantity in the extra dimension removes that dimension eventually (and with total certainty at the limit of 0). I can extend the logic from this simplest case of linear dependency (where PCA suffices) all the way to to the most general case where I have a general program (instead of PCA) and the criterion is predicting the values in the extra dimension (with the associated error having the role of the variance in the PCA case). At some error quantity \( \gt 0 \) I have to admit I have a new dimension (quality). TBD</p>
-
-        <p><b>TBD Ndim Space.</b> Ratio of Ncube/Nball. Does our intuition fail us about the representative values of a distribution when we go from low \( N \) \( (N = 2) \) to high(er) \( N \) \( (N \gt 10) \)? For large N, Nspace in Ndim: (a) moves into the edges (b) every observation is an outlier (in some dimension). Does that mean the space becomes discrete, it discretizes?</p>
-        <p>TBD Sparse representation, moving to symbolics and rules. Once the Ndim vector becomes sparse, we move from continuous representations to discrete symbolic rules?</p>
-
-        <p><b>Connection to consciousness.</b> Not a lot specifically, nothing over and above what's true of the brain as per the writing of Karl Friston (of his work I became aware recently; video <a href="https://www.youtube.com/watch?v=iPj9D9LgK2A">https://www.youtube.com/watch?v=iPj9D9LgK2A</a>, text <a href="https://archive.is/AngqY#selection-2139.0-2139.15">https://www.wired.com/story/karl-friston-free-energy-principle-artificial-intelligence/</a>; shortest summary "brain machine works by minimising the discrepancy error betwen model forecst and observation by better model and/or action in the world", aka "minimize free energy" principle). But had to write some recently, <a href="post-consciousness.html">so here</a>.</p>
-
-        <p>One view that seems testable to me Re: consciousness: it is like the conductor in the orchestra, it's the router in an Mixture of Experts model. Consciousness module is the router in MoE. Experts in the MoE are the individual members of the orchestra, every one playing their own instrument. So while the router is not a very big or a very special module (in fact - it's in many ways simpler then the specialised modules) - it's <i>a single point of failure</i>. So once consciousness (in HI brain) / router (in IA MoE) fails - no expert can learn properly, or even if the experts learns, the knowledge can not be utilised.</p>
-
-        <p>MoE architecture is the reason why it's so data efficient. Sparse representations, by virtue of injecting that prior knowledge in the process ("these connections for this data do not need updating"), can be data efficient. It's efficient to know in advance "this data is no use to Experts 1,3,4,5, and is to be used to reach only Expert#2". MoE maybe a reason why we have too many neurons. Our brains are less efficient than NN-s when it comes to utilising their weight. NN-s are much more efficient than us humans, when looking at efficiency in weights sizes space. Our brains trade parsimony in weights space, to gain efficiencies to gain speed and reduce power consumption - both achieved by MoE.</p>
-
-        <p>Further: sparse representatios (and MoE is a macro-scale example) may make incremental learning, which is one way to implement continuous learning, practically doable. If only a limited set of weight need to be updated, for the brain to acquire new memory or knowledge, that means it can be done without losing all other previous memory or knowledge.</p>
+        <p><b>Connection to consciousness.</b> Not a lot specifically, nothing over and above what's true of the brain as per the writing of Karl Friston (of his work I became aware recently; video <a href="https://www.youtube.com/watch?v=iPj9D9LgK2A">https://www.youtube.com/watch?v=iPj9D9LgK2A</a>, text <a href="https://archive.is/AngqY#selection-2139.0-2139.15">https://www.wired.com/story/karl-friston-free-energy-principle-artificial-intelligence/</a>; shortest summary "brain machine works by minimising the discrepancy error between model forecast and observation by better model and/or action in the world", aka "minimize free energy" principle). But had to write some recently, <a href="post-consciousness.html">so here</a>.</p>
 
         <p></p>
 
         <p></p>
 
-        <p></p>
-
-        <p></p>
-
-        <p><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>-- <br>LJ HPD Sun 20 Oct 07:31:04 BST 2024</p>
+        <p><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>-- <br>LJ HPD Sun 17 Nov 2025</p>
 
     </div>
 
@@ -170,6 +172,13 @@ The future has not happened yet. We know there two or more options for the futur
 
     <!--Load the sidebar html that is table of contents -->
     <script>loadSidebar();</script>
+
+    <!-- Initialize inline toggles -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            initInlineToggles();
+        });
+    </script>
 
 </body>
 </html>
