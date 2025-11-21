@@ -41,14 +41,14 @@
 
         <p>Everything that can be known about the relationship between two qualities X and Y is captured and described about their joint p.d.f. \( f_{X,Y}(x,y) \).</p>
 
-        <p>If we know the joint p.d.f. \( f_{X,Y}(x,y) \), we can derive the prior distributions both for X that is \( f_X(x) \), and for Y that is \( f_Y(y) \), by marginalisation. Marginal p.d.f.s are \( f_X(x) = \int_y f_{X,Y}(x,y) dy \) and \( f_Y(y) = \int_x f_{X,Y}(x,y) dx \). Marginalisation is "adding up" the probability mass in the dimension(s) we don't care about, the one(s) we marginalise out. Marginalisation maybe thought as "forgetting" - the detail is lost.
+        <p>If we know the joint p.d.f. \( f_{X,Y}(x,y) \), we can derive the prior distributions both for X that is \( f_X(x) \), and for Y that is \( f_Y(y) \), by marginalisation. Marginal p.d.f.s are \( f_X(x) = \int_y f_{X,Y}(x,y) dy \) and \( f_Y(y) = \int_x f_{X,Y}(x,y) dx \). Marginalisation is "adding up" the probability mass in the dimension(s) we don't care about, the one(s) we marginalise out. Marginalisation maybe thought as "forgetting" - the detail is lost, but we achieve efficiency (less parameter), and robustness - we are not dependent anymore on the variable that was marginalised out (we are independent of it now - at least in our p.d.f.),
 <span class="sec-toggle" aria-controls="time-detail3" aria-expanded="false">+</span><span id="time-detail3" hidden><span style="font-size: 90%;"><i>
 Keeping detail so not cost free, it takes resource implementing it. So if we don't need a particular dimension particular quality for whatever our goals are - it's better to forget about it.
 </i></span></span></p>
 
         <p>Once we observe one of the qualities that are \( (X,Y) \), e.g. X, that shrinks the domain from 2D to 1D, and now everything that can be known about Y is described by conditional p.d.f. \( f_{Y|X}(y|x=a) \) that is computed by plugging \( x=a \) into the joint p.d.f. \( f_{X,Y}(x=a,y) \), then dividing re-normalising that function by the prior p.d.f. of X \( f_X(x) \) at \( x=a \) giving rise to new conditional p.d.f. \( f_{Y|X}(y) \) for Y that is defined as \( f_{Y|X}(y) = \frac{f_{X,Y}(a,y)}{f_X(a)} \).</p>
 
-        <p>Everything that can be known about about anything can be construed as a relation between two things. <i>At the base level - myself and the world, the I and not-I.</i> Call them X and Y. So all knowledge about \( (X,Y) \) (what X tells us about Y, what Y tells us about X) - is in that X-Y relationship.</p>
+        <p>Everything that can be known about about anything can be construed as a relation between two things. <i>(at the baseest level - myself and the world, the I and not-I.)</i> Call them X and Y. So all knowledge about \( (X,Y) \) (what X tells us about Y, what Y tells us about X) - is in that X-Y relationship.</p>
 
         <p>Everything that can be known about X-Y relationship is captured and described about their joint p.d.f. \( p=f_{X,Y}(x,y) \) or just \( p=f(x,y) \) the density; or c.d.f. \( p=g_{X,Y}(x,y) \) then it's just \( P=g(x,y) \) the cumulative. And that's it. The probability distribution captures all that can ever be known about the \( (X,Y) \) relationship.</p>
 
@@ -65,13 +65,28 @@ Keeping detail so not cost free, it takes resource implementing it. So if we don
         <p><a href="#" onclick="toggleShowImage('pdf-joint-cond-marg-3of3')">Marginal pdf is derived from the joint pdf 3 of 3</a>. (click to zoom)
         <img id="pdf-joint-cond-marg-3of3" src="pdf-joint-cond-marg-3of3.png" style="display: none; width: 100%; height: auto;" onclick="zoomImage(this)"></p>
 
-        <h2>Types of Knowledge</h2>
+        <p>Coming back to "joint pdf captures everything there is in the relationship \(X,Y\)". Putting it in a wider context.</p>
 
-        <p>Where we have Dirac impulse \( \delta \) function for the conditional pdf \( p=f(y|x)=\delta(y-g(x)) \) we have <b>deterministic knowledge</b> - excellent, act on it. We know exactly "which one" from a population. And thus we also know the count "how many" too, by implication.</p>
+        <p>When reading about knowledge, I have come across the following so collected here for future reference.</p>
 
-        <p>Where we have a general conditional pdf \( p=f(y|x) \) we have <b>probabilistic knowledge</b> - we should thank our good fortune and use it for we are dealing with aleatoric uncertainty. We don't know "which one" from a population, but we know "how many" - we know the count. This is a weaker knowledge than the previous - we don't know which one, only how many in a group of many. <i>But still - it's immensely useful. Can think of a boundary condition, a thin line between perfect knowledge and perfect ignorance; almost a boundary condition where life manages to exist.</i></p>
+        <p>We can have 2 types of knowledge about the outcome of (repeated) experiment(s):</p>
+        <ol type="a">
+            <li id="know-dirac">We know what will happen and when it will happen in each experiment. This is non-probabilistic, deterministic knowledge.</br>
+                NB it is a special case of <a href="#know-pdf">both</a> <a href="#aleo-pdf">(b)</a> cases below with the pdf being a Dirac impulse function.</li>
+            <li id="know-pdf">We know the possible outcomes, we know how many of each will happen if we do 100 experiments, but for each 1 experiment, we can't tell the outcome.</br>
+                This is probabilistic knowledge where we know the pdf (=probability density function) of the experiment outcome.<br>
+                It is the aleatoric kind of uncertainty (see <a href="#aleo-pdf">below</a>) - we know the statistics, the counts, but not what one outcome is going to be in every one experiment.</li>
+        </ol>
 
-        <p>Where we lack any conditional pdf \( p(y|x) \), maybe b/c we lack the joint pdf \( p(x,y) \) in the 1st place - well tough luck, we are dealing with <b>epistemic uncertainty</b>. We should assume nothing. We don't know "which one", and we don't know "how many". We can't even enumerate the space of possibilities. <i>This is like the primordial soup where there is nothing firm discrete enough for us to count; anything goes.</i></p>
+        <p>Uncertainty - obverse to knowing, to knowledge, lacking (perfect, deterministic) knowledge, we can think of types:</p>
+        <ol type="a" start="2">
+            <li id="aleo-pdf">Aleatoric uncertainty means not being certain what the random sample drawn (from the probability distribution) will be: the p.d.f. is known, only point samples will be variable (but from that p.d.f.).</br>
+                We can actually reliably count the expected number of times an event will happen.</li>
+            <li id="epi-unpdf">Epistemic uncertainty is not being certain what the relevant probability distribution is: it is the p.d.f. that is unknown.</br>
+                We can't even reliably count the expected number of times an event will happen.</li>
+        </ol>
+        <p>The probabilistic knowledge of type <a href="#know-pdf">(b)</a> above and aleatoric uncertainty of type <a href="#aleo-pdf">(b)</a> are one and the same.</p>
+
 
         <p>Simplest case - X is 1-dim, Y is 1-dim, then knowledge of a \( (X,Y) \) relationship is the joint p.d.f. \( f_{X,Y}(x,y) \) that's a 3-D shape. <b>Observation</b> is cutting that 3-D shape with a 2-D plane \( x=a \). <b>Intelligence</b> is using the 2-D outline \( f_{X,Y}(x=a,y) \) that's the intersection between the 3-D joint shape and the 2-D \( x=a \) plane, to decide on the action to be taken. Now we have this new(er) knowledge (that normalised to 1 is conditional p.d.f. \( f_{Y|X}(y|x=a) \)), while still aiming for the same desired end as before.</p>
 
@@ -133,10 +148,10 @@ Keeping detail so not cost free, it takes resource implementing it. So if we don
 
         <h2>etc</h2>
 
-        <p><b>Interesting amusing paper</b> illustrates how new/more information can make the entropy (uncertainty) higher, thus reducing our knowledge. Where our knowledge measure is the spikiness of the probability density function. After the additional observation (new information), the conditional p.d.f. post the observation is flatter then before =&gt; our knowledge decreased.<br>
+        <p><b>Amusing paper</b> illustrates how new/more information can make the entropy (uncertainty) higher, thus reducing our knowledge. Where our knowledge measure is the spikiness of the probability density function. After the additional observation (new information), the conditional p.d.f. post the observation is flatter then before =&gt; our knowledge decreased.<br>
 Michael R DeWeese and Markus Meister (1999), <a href="DeWeese_Meister_-_How_to_measure_the_information_gained_from_one_symbol_-_ne9403.pdf">"How to measure the information gained from one symbol"</a>, <a href="https://www.tandfonline.com/doi/abs/10.1088/0954-898X_10_4_303">Network: Computation in Neural Systems, 10:4, 325-340</A>, <a href="https://iopscience.iop.org/article/10.1088/0954-898X/10/4/303">DOI: 10.1088/0954-898X_10_4_303</a></p>
 
-        <p><b>Connection to consciousness.</b> Not a lot specifically, nothing over and above what's true of the brain as per the writing of Karl Friston (of his work I became aware recently; video <a href="https://www.youtube.com/watch?v=iPj9D9LgK2A">https://www.youtube.com/watch?v=iPj9D9LgK2A</a>, text <a href="https://archive.is/AngqY#selection-2139.0-2139.15">https://www.wired.com/story/karl-friston-free-energy-principle-artificial-intelligence/</a>; shortest summary "brain machine works by minimising the discrepancy error between model forecast and observation by better model and/or action in the world", aka "minimize free energy" principle). But had to write some recently, <a href="post-consciousness.html">so here</a>.</p>
+        <p><b>No connection to consciousness</b> Not a lot specifically, nothing over and above what's true of the brain as per the writing of Karl Friston (of his work I became aware recently; video <a href="https://www.youtube.com/watch?v=iPj9D9LgK2A">https://www.youtube.com/watch?v=iPj9D9LgK2A</a>, text <a href="https://archive.is/AngqY#selection-2139.0-2139.15">https://www.wired.com/story/karl-friston-free-energy-principle-artificial-intelligence/</a>; shortest summary "brain machine works by minimising the discrepancy error between model forecast and observation by better model and/or action in the world", aka "minimize free energy" principle). But had to write some recently, <a href="post-consciousness.html">so here</a>.</p>
 
         <p></p>
 
