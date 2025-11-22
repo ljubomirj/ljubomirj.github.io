@@ -145,11 +145,11 @@ Keeping detail so not cost free, it takes resource implementing it. So if we don
 
         <p>When I compute \( f_X(x) = \int f_{X,Y}(x,y) dy \) margnialising out i.e. "ignoring" Y is irreversibly destroying any knowledge of how X and Y co-vary. The operation is a lossy compression; I cannot reconstruct \( f_{X,Y} \) from \( f_X \) alone. A state with joint knowledge \( f_{X,Y} \) has "working memory" of the relationship. Marginalizing to \( f_X \) is forgetting Y, freeing up parameters space removing memory so losing specifics. Choosing which variable to marginalize is an act of attention allocation. Storing a joint p.d.f. over \( (N+M) \)-dims cost drops when marginalizing down to \( N \)-dim. We trade accuracy for efficiency, effectivelly compressing, so the trick is to forget just enough but not more than that. Conversely each new conditioning step is a re-memoization—preventing forgetting by keeping another dimension intact. But we pay in computational complexity.</p>
 
-        <h2>Appendix</h2>
+        <h2><span>Appendix </span><span class="sec-toggle" aria-controls="appendix-all" aria-expanded="false">+</span></h2>
+        <div id="appendix-all" hidden>
 
-        <p><span class="sec-toggle" aria-controls="appendix-a" aria-expanded="false">+</span><span class="sec-text" data-target="appendix-a">A. Everything is a Computer in 2025 it seems</span></p>
+        <h3>A. Everything is a Computer in 2025 it seems <span class="sec-toggle" aria-controls="appendix-a" aria-expanded="false">+</span></h3>
         <div id="appendix-a" hidden>
-            <h3>A. Everything is a Computer in 2025 it seems</h3>
             <p>Everything is a computer now atm. (2025) Information theory is the most general theory we got.</p>
             <p>Knowledge is a p.d.f. Learning is acquiring a p.d.f. where we previously lacked one. Acquiring p.d.f. is figuring out what-s, and how many-s of those what-s.</p>
             <p>Computing is taking our knowledge, the learned p.d.f.s we got, then manipulating those p.d.f.s, by either marginalisation, or conditioning, to create new p.d.f.s.</p>
@@ -159,17 +159,15 @@ Keeping detail so not cost free, it takes resource implementing it. So if we don
             <p>Information and knowledge move against entropy by copying and spreading. When information spreads from A to B, B gains knowledge, but A does not lose it—the operation is copy, not move. What costs energy is the physical act of copying.</p>
         </div>
 
-        <p><span class="sec-toggle" aria-controls="appendix-b" aria-expanded="false">+</span><span class="sec-text" data-target="appendix-b">B. Missing Data Imputation</span></p>
+        <h3>B. Missing Data Imputation <span class="sec-toggle" aria-controls="appendix-b" aria-expanded="false">+</span></h3>
         <div id="appendix-b" hidden>
-            <h3>B. Missing Data Imputation</h3>
             <p>With present data \( x \) and missing data \( y \) in \( (x,y) \), then missing data imputation is actually equivalent to forecasting regression (continuous \( y \) variable) or classification (discrete \( y \) classes). Big difference is whether \( x \) and \( y \) are contemporaneous, or not: not contemporaneous makes the signal connection \( x \rightarrow y \) much, much weaker, by orders of magnitude. Time Now is a big barrier in knowing.</p>
             <p>The mask view \( M \) above is the operational view of imputation. Once the mask is defined, we simply treat the missing cells as \( Y \) and the present ones as \( X \), and the whole machinery of conditional pdfs applies.</p>
             <p>Once we have any curve \( f_Z(z) \) whichever way we got it (marginal, conditional), we can do derived statistics to it, in order to convert the curve into one (point forecast) or two (forecast and it's variation) points or however many we fancy (quartiles, quintiles, etc) to characterise the entire curve/area/volume/Nvolume (1D/2D/3D/Ndim) with, and reduce to characterise the whole continuous mathematical object with few discrete numbers.</p>
         </div>
 
-        <p><span class="sec-toggle" aria-controls="appendix-c" aria-expanded="false">+</span><span class="sec-text" data-target="appendix-c">C. Now and Time, Past, Present, Future</span></p>
+        <h3>C. Now and Time, Past, Present, Future <span class="sec-toggle" aria-controls="appendix-c" aria-expanded="false">+</span></h3>
         <div id="appendix-c" hidden>
-            <h3>C. Now and Time, Past, Present, Future</h3>
             <p><b>TBD Time.</b> Mechanistic pedestrian treatment of time (past/now/future) in the same framework where all is knowns is a p.d.f. So we have past and future separated by the now that marks the present for us. Say \( X = \) past, \( Y = \) future in our \( (X,Y) \) and we have the p.d.f. \( f_{X,Y}(x,y) \).</p>
             <p>The past has already happened, there is only one of it, it's certain and deterministic. Translated in p.d.f. language that means the \( f_X(x) \) or \( f_{X|Y}(x|y) \) distribution <b>*must*</b> be a Dirac delta impulse. The \( f_X(x) \) can not be any other function shape than a Dirac delta.</p>
             <p>The future has not happened yet. We know there two or more options for the future, it is never a single one. Translated in p.d.f. language that means the \( f_Y(y) \) or \( f_{Y|X}(y|x) \) distribution <b>*can NOT*</b> be a Dirac delta impulse. The \( f_Y(y) \) can be any other function shape than a Dirac delta. But not a Dirac delta.</p>
@@ -182,9 +180,8 @@ Keeping detail so not cost free, it takes resource implementing it. So if we don
             <p>Time is the currency of life - time is what is spent in the process of living.</p>
         </div>
 
-        <p><span class="sec-toggle" aria-controls="appendix-d" aria-expanded="false">+</span><span class="sec-text" data-target="appendix-d">D. Forecasts must have error &gt; 0 for information to exist</span></p>
+        <h3>D. Forecasts must have error &gt; 0 for information to exist <span class="sec-toggle" aria-controls="appendix-d" aria-expanded="false">+</span></h3>
         <div id="appendix-d" hidden>
-            <h3>D. Forecasts must have error &gt; 0 for information to exist</h3>
             <p>The error is necessary for information to exist. In the limit where the error is zero, no new information is ever observed - everything is known, the uncertainty is zero.</p>
             <p>Life exists only with uncertainty. Where/when the error is zero, everything is predictable. This is the state before a living thing is born, and after a living thing dies.</p>
             <p>Life exists in that goldilocks region where there is limited uncertainty. If the uncertainty is zero, then we are not-born yet, or dead. If the uncertainty is too high, things are chaotic, too random, there isn't enough order and structure for life to exist.</p>
@@ -192,9 +189,8 @@ Keeping detail so not cost free, it takes resource implementing it. So if we don
             <p>In physics disorder (entropy) is something we measure at macro level as temperature. It is typically increased by adding energy. So - energy increases temperature increases entropy increases disorder increases error decreases predictability.</p>
         </div>
 
-        <p><span class="sec-toggle" aria-controls="appendix-e" aria-expanded="false">+</span><span class="sec-text" data-target="appendix-e">E. Qualities, Quantities, and Dimensions</span></p>
+        <h3>E. Qualities, Quantities, and Dimensions <span class="sec-toggle" aria-controls="appendix-e" aria-expanded="false">+</span></h3>
         <div id="appendix-e" hidden>
-            <h3>E. Qualities, Quantities, and Dimensions</h3>
             <p><b>Quality and quantity.</b> Dimensions \( (X,Y) \) are qualities, and we quantify them each too. When do we add new quality and obversely when do we lose a quality (dimension)? (<a href="https://news.ycombinator.com/item?id=38261719">LJ @ HN</a>) The second “law” of dialectical materialism by Engels—"the law of the passage of quantitative changes into qualitative changes"—captures this nicely. Enough quantity becomes a new quality.</p>
             <p>Suppose I have a 5-dimensional observation and I'm wondering if it's really only 4 dimensions there. One way I check is - do a PCA, then look at the size of the remaining variance along the axis that is the smallest component (the one at the tail end, when sorting the PCA components by size). If the remaining variance is 0 - that's easy, I can say: well, it was only ever a 4-dimensional observation that I had after all. However, in the real world it's never going to be exactly 0. What if it is 1e-10? 1e-2? 0.1? At what size does the variance along that smallest PCA axis count as an additional dimension in my data? The thresholds are domain dependent - I can for sure say that enough quantity in the extra dimension gives a rise to that new dimension, adds a new quality. Obversely - diminishing the (variance) quantity in the extra dimension removes that dimension eventually (and with total certainty at the limit of 0). I can extend the logic from this simplest case of linear dependency (where PCA suffices) all the way to to the most general case where I have a general program (instead of PCA) and the criterion is predicting the values in the extra dimension (with the associated error having the role of the variance in the PCA case). At some error quantity \( \gt 0 \) I have to admit I have a new dimension (quality).</p>
             <p>Emergence, phase transition and similar: 1) where quantity is large enough (this condition is necessary but not sufficient) and becomes new quality 2) thus this new quality becomes a new dimension in the phenomenon investigated, so my observations data from N-dim vectors become (N+1)-dim. "More is Different" is a succinct summary of "enough quantity becomes a new quality".</p>
@@ -203,9 +199,8 @@ Keeping detail so not cost free, it takes resource implementing it. So if we don
             <p>TBD Sparse representation, moving to symbolics and rules. Once the Ndim vector becomes sparse, we move from continuous representations to discrete symbolic rules. That’s when we start writing down the rules explicitly.</p>
         </div>
 
-        <p><span class="sec-toggle" aria-controls="appendix-f" aria-expanded="false">+</span><span class="sec-text" data-target="appendix-f">F. Randomness, Search, and Open-Endedness</span></p>
+        <h3>F. Randomness, Search, and Open-Endedness <span class="sec-toggle" aria-controls="appendix-f" aria-expanded="false">+</span></h3>
         <div id="appendix-f" hidden>
-            <h3>F. Randomness, Search, and Open-Endedness</h3>
             <p>Randomness, entropy is what enables search. Random steps are a way of searching through the global space. Without randomness we hill-climb to the nearest peak and stay there forever; the derivatives decay to zero, motion stops, intelligence halts.</p>
             <p>There is no AI/ML without randomness: (1) Autoregressive LLM sampling—temperature, top_k, etc.— prevent robotic outputs. (2) SGD uses noisy mini-batches; warnings about local minima never materialized because the noise keeps us moving. (3) Diffusion models follow the log conditional probability gradient but also add noise so they don't collapse to a single sample.</p>
             <p>That what works will keep being done, and finally will be overdone. Then things need to change in order for them to stay the same. It's the dose that makes the poison: noise too small and we stagnate, too large and the structure dissolves.</p>
@@ -215,9 +210,8 @@ Keeping detail so not cost free, it takes resource implementing it. So if we don
             <p>Sufficiently high frequency feels smooth. Once the frequency is high enough, the alternation peak-trough merge into a constant line. Infinite frequency == zero period == DC no alternation.</p>
         </div>
 
-        <p><span class="sec-toggle" aria-controls="appendix-g" aria-expanded="false">+</span><span class="sec-text" data-target="appendix-g">G. Life, Entropy, and Knowledge</span></p>
+        <h3>G. Life, Entropy, and Knowledge <span class="sec-toggle" aria-controls="appendix-g" aria-expanded="false">+</span></h3>
         <div id="appendix-g" hidden>
-            <h3>G. Life, Entropy, and Knowledge</h3>
             <p>Life as Thermodynamic Evidence of Algorithmic Structure in Nature (2012) (mdpi.com). Organisms encode information about their environment in order to survive. The encoding costs energy and generates entropy. Organisms use that encoded information to gain or not lose energy. Only where the information cycle is net positive can life exist. Since life exists, nature cannot be “too unpredictable”.</p>
             <p>Living things decrease entropy; non-alive things increase entropy. ("What is Life?" by Erwin Schrodinger <a href="http://www.whatislife.ie/downloads/What-is-Life.pdf">http://www.whatislife.ie/downloads/What-is-Life.pdf</a>) Life is that what decreases entropy.</p>
             <p>Life is in a goldlocks region between max uncertainty (random, entropy) and min uncertainty (Dirac delta): not too random, not too certain, just right random/certain as to be interesting.</p>
@@ -229,9 +223,8 @@ Keeping detail so not cost free, it takes resource implementing it. So if we don
             <p>Life is a cycle of generation, degeneration, regeneration. "I" is a collection of particles that is arranged into this pattern, that will decompose and be available to nature to reorganize into another pattern. Death is part of a gift economy. You are given this enormous gift, life. You enrich it as best you can. And then you give it back. (Emily Levine, Andreas Weber). Children give you a glimpse of a second life, if not of an eternal one.</p>
         </div>
 
-        <p><span class="sec-toggle" aria-controls="appendix-h" aria-expanded="false">+</span><span class="sec-text" data-target="appendix-h">H. Brains, AIs, and Efficiency</span></p>
+        <h3>H. Brains, AIs, and Efficiency <span class="sec-toggle" aria-controls="appendix-h" aria-expanded="false">+</span></h3>
         <div id="appendix-h" hidden>
-            <h3>H. Brains, AIs, and Efficiency</h3>
             <p>Digital intelligences (currently AI-s - artificial intelligences) need lots of energy. They can work "as if" perfect copies, separating software (spirit) from the hardware (substrate). They can all learn different knowledge from different experiences, but then share their knowledge back with everyone at high speed. So they can implement distributed learning at unit level. Separation s/w spirit from h/w substrate also makes them immortal.</p>
             <p>Analogue intelligences (currently HI - human intelligences; but all animales and plants, all life really) can not work "as if" perfect copies, they are all one of a kind and unique. Their spirit s/w and their substrate h/w are entangled. They can't share their experiences easily. They are mortal, their spirit s/w stops existing when their substrate h/w dies. However, they have one big advantage: they use much less energy, orders of magnitude less energy than digital intelligences.</p>
             <p>Energy lots of it is used to create the insulation of s/w spirit separate from h/w substrate. So digital intelligence being high energy, can't bootstrap itself 0->1 into being on its own. For that, only low energy is possible. And low energy implies analogue intelligence. So the bootstrapping of intelligence goes none -> analogue (low energy) -> digital (high energy).</p>
@@ -239,9 +232,8 @@ Keeping detail so not cost free, it takes resource implementing it. So if we don
             <p>Energy and intelligence travel together. Intelligence figures out what to do; energy is what gets it done in the physical world.</p>
         </div>
 
-        <p><span class="sec-toggle" aria-controls="appendix-i" aria-expanded="false">+</span><span class="sec-text" data-target="appendix-i">I. Collective Intelligence and Networks</span></p>
+        <h3>I. Collective Intelligence and Networks <span class="sec-toggle" aria-controls="appendix-i" aria-expanded="false">+</span></h3>
         <div id="appendix-i" hidden>
-            <h3>I. Collective Intelligence and Networks</h3>
             <p>All intelligence is collective intelligence. Humans are collections of organs and tissues, which themselves are collections of cells. A cell is itself a collection of molecular networks (and so on). The subunits are competent themselves. There is a scale up process in which these competent subunits give rise to an intelligent unit bigger than themselves (Michael Levin).</p>
             <p>The value—and even the reality itself!—is in the connections, not the nodes. People move from villages to cities because density breeds civilization. Empires built trading outposts to create connections. Roman logistics favoured water routes because the connections mattered more than the raw distance. Value of a network scales with \( N^2 \) not \( N \): the value is in the connections.</p>
             <p>Mode of operation online vs offline diverges. Online geeks tend to cooperate in good-good positive sum interactions. Offline scarcity sometimes locks people into bad-good zero-sum trades. The larger, looser internet neighborhoods proved fertile for altruistic building of the web, Wikipedia, blogs, AI. Knowledge sharing thrives where connections are abundant.</p>
@@ -252,9 +244,8 @@ Keeping detail so not cost free, it takes resource implementing it. So if we don
             <p>The real world can't be sped up. So the only way to speed up is to divide the work, get them to do the work in \( 1/N \) of the time, and then share the knowing between themselves.</p>
         </div>
 
-        <p><span class="sec-toggle" aria-controls="appendix-j" aria-expanded="false">+</span><span class="sec-text" data-target="appendix-j">J. Types of Intelligence</span></p>
+        <h3>J. Types of Intelligence <span class="sec-toggle" aria-controls="appendix-j" aria-expanded="false">+</span></h3>
         <div id="appendix-j" hidden>
-            <h3>J. Types of Intelligence</h3>
             <p>It's by logic that we prove, but by intuition that we discover. (Poincaré) To know how to criticize is good, to know how to create is better.(François Chollet)</p>
             <p>Broadly three categories of problem solving patterns -- recitation, intuition, and reasoning. Recitation: you simply recognize a known problem and apply the steps you've learned. Like playing a chess opening. Recitation is a database lookup. Intuition: in the face of a novel situation, you pattern-match it to what you've encountered before and you "just know" what to do. Like a very experienced chess player seeing the best move in &lt;1s. Reasoning: you consciously and deliberately analyze a novel situation, using a combination of abstract principles and step-by-step simulation. Like analyzing a chess position and simulating in your mind possible future trajectories.</p>
             <p>Types of intelligence-s, (T-s): Type-1 pattern recognition, idea generation, guessing a not insane guess. Type-2 logical thinking, guided search through discrete space. Type-3 open endedness, directed but almost random hypothesis generation (active learning). Type-4 collective intelligence—AI-s coordinating (sometimes cooperating, sometimes competing) in AI society—where individual irrational behaviour aggregates into rational group-level feelings.</p>
@@ -266,9 +257,8 @@ Keeping detail so not cost free, it takes resource implementing it. So if we don
             <p>If only I could fathom the existence of a stone or running water, that would be truly fascinating. Compared to that, the taxonomy above is just rearranging what we already half-know.</p>
         </div>
 
-        <p><span class="sec-toggle" aria-controls="appendix-k" aria-expanded="false">+</span><span class="sec-text" data-target="appendix-k">K. Knowing and knowledge, epistemology, even ideology?</span></p>
+        <h3>K. Knowing and knowledge, epistemology, even ideology? <span class="sec-toggle" aria-controls="appendix-k" aria-expanded="false">+</span></h3>
         <div id="appendix-k" hidden>
-            <h3>K. Knowing and knowledge, epistemology, even ideology?</h3>
             <p><b>Knowing and knowledge, epistemology, even ideology?</b></p>
             <ol>
                 <li>Known Knowns. Deterministic knowledge - we know exactly which one. (<a href="#know-dirac">deterministic knowledge</a> above)</li>
@@ -282,23 +272,22 @@ Keeping detail so not cost free, it takes resource implementing it. So if we don
             <p>Laplace’s rule of succession. If some trend has been going for \( N \) years, there’s a \( 1/(N+2) \) probability the trend breaks next year and 50% chance it continues another \( N+1 \) years. If some event hasn’t happened for \( N \) years, there’s a \( 1/(N+2) \) probability it happens next year. Limitation: for \( N=0 \) probability is \( 1/2 \), often an overstatement. It typically overestimates the chance of unprecedented events occurring.</p>
         </div>
 
-        <p><span class="sec-toggle" aria-controls="appendix-l" aria-expanded="false">+</span><span class="sec-text" data-target="appendix-l">L. Consciousness</span></p>
+        <h3>L. Consciousness <span class="sec-toggle" aria-controls="appendix-l" aria-expanded="false">+</span></h3>
         <div id="appendix-l" hidden>
-            <h3>L. Consciousness</h3>
             <p><b>Connection to consciousness.</b> Not a lot specifically, nothing over and above what's true of the brain as per the writing of Karl Friston (of his work I became aware recently; video <a href="https://www.youtube.com/watch?v=iPj9D9LgK2A">https://www.youtube.com/watch?v=iPj9D9LgK2A</a>, text <a href="https://archive.is/AngqY#selection-2139.0-2139.15">https://www.wired.com/story/karl-friston-free-energy-principle-artificial-intelligence/</a>; shortest summary "brain machine works by minimising the discrepancy error between model forecast and observation by better model and/or action in the world", aka "minimize free energy" principle). But had to write some recently, <a href="post-consciousness.html">so here</a>.</p>
             <p>One view that seems testable to me: consciousness is like the conductor in the orchestra, it's the router in an Mixture of Experts model. Consciousness module is the router in MoE. Experts in the MoE are the individual members of the orchestra, every one playing their own instrument. So while the router is not a very big or a very special module (in fact - it's in many ways simpler then the specialised modules) - it's <i>a single point of failure</i>. So once consciousness (in HI brain) / router (in IA MoE) fails - no expert can learn properly, or even if the experts learns, the knowledge can not be utilised.</p>
             <p>MoE architecture is the reason why it's so data efficient. Sparse representations, by virtue of injecting that prior knowledge in the process ("these connections for this data do not need updating"), can be data efficient. It's efficient to know in advance "this data is no use to Experts 1,3,4,5, and is to be used to reach only Expert#2". MoE maybe a reason why we have too many neurons. Our brains are less efficient than NN-s when it comes to utilising their weight. NN-s are much more efficient than us humans, when looking at efficiency in weights sizes space. Our brains trade parsimony in weights space, to gain efficiencies to gain speed and reduce power consumption - both achieved by MoE.</p>
             <p>Further: sparse representations (and MoE is a macro-scale example) may make incremental learning, which is one way to implement continuous learning, practically doable. If only a limited set of weight need to be updated, for the brain to acquire new memory or knowledge, that means it can be done without losing all other previous memory or knowledge.</p>
         </div>
 
-        <p><span class="sec-toggle" aria-controls="appendix-m" aria-expanded="false">+</span><span class="sec-text" data-target="appendix-m">M. Etc</span></p>
+        <h3>M. Etc <span class="sec-toggle" aria-controls="appendix-m" aria-expanded="false">+</span></h3>
         <div id="appendix-m" hidden>
-            <h3>M. Etc</h3>
             <p><b>Amusing paper</b> illustrates how new/more information can make the entropy (uncertainty) higher, thus reducing our knowledge. Where our knowledge measure is the spikiness of the probability density function. After the additional observation (new information), the conditional p.d.f. post the observation is flatter then before =&gt; our knowledge decreased.<br>
 Michael R DeWeese and Markus Meister (1999), <a href="DeWeese_Meister_-_How_to_measure_the_information_gained_from_one_symbol_-_ne9403.pdf">"How to measure the information gained from one symbol"</a>, <a href="https://www.tandfonline.com/doi/abs/10.1088/0954-898X_10_4_303">Network: Computation in Neural Systems, 10:4, 325-340</a>, <a href="https://iopscience.iop.org/article/10.1088/0954-898X/10/4/303">DOI: 10.1088/0954-898X/10/4/303</a></p>
             <p></p>
             <p></p>
             <p><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>-- <br>LJ HPD Thu 20 Nov 2025</p>
+        </div>
         </div>
 
     </div>
