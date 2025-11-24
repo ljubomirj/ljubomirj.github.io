@@ -3,6 +3,10 @@ javascript:(async () => {
   const SCROLL_DELAY_MS = 1200;
   const MAX_SCROLL_LOOPS = 400;
   const MAX_IDLE_LOOPS = 40;
+  const BANNED_IDS = new Set([
+    /* Known stray post to ignore (Zhihu Frontier) */
+    '1987125624599970218',
+  ]);
 
   const STOP_ID = (prompt('Enter STOP tweet ID (already archived):') || '').trim();
   if (STOP_ID && !/^\d+$/.test(STOP_ID)) {
@@ -117,6 +121,7 @@ javascript:(async () => {
     const idMatch = link.href.match(/status\/(\d+)/);
     if (!idMatch) return null;
     const id = idMatch[1];
+    if (BANNED_IDS.has(id)) return null;
 
     let url = link.href.split('?')[0];
     url = url.replace('twitter.com', 'x.com');
