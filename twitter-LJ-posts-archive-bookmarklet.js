@@ -25,8 +25,13 @@ javascript:(async () => {
   const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
   const ensureAt = (h) => (h.startsWith('@') ? h : '@' + h);
   const isNestedTweet = (article) => {
-    const ancestor = article?.parentElement?.closest('article[data-testid="tweet"]');
-    return ancestor && ancestor !== article;
+    // Skip if this article lives inside another article (quoted/embedded)
+    const ancestor = article?.closest('article');
+    if (ancestor && ancestor !== article) return true;
+    // Skip if it contains a child article (embedded/quoted)
+    const child = article.querySelector('article');
+    if (child && child !== article) return true;
+    return false;
   };
 
   /* Minimal status badge in the corner + console logging so you can see progress. */
