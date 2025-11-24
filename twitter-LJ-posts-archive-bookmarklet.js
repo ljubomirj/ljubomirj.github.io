@@ -87,7 +87,7 @@ javascript:(async () => {
   };
 
   const clickLoadMore = () => {
-    // Only click safe pagination/retry buttons; avoid "show more replies".
+    /* Only click safe pagination/retry buttons; avoid "show more replies". */
     const allow = ['retry', 'try again', 'show more results', 'show more'];
     const deny = ['reply', 'repl', 'replies'];
     const buttons = Array.from(document.querySelectorAll('button,div[role="button"]'));
@@ -341,16 +341,20 @@ javascript:(async () => {
   setTimeout(() => statusEl.remove(), 6000);
 })();
 
-/* Create bookmarklet
+/* CREATE_BOOKMARKLET_COPY
 
 node - <<'NODE'
 const fs = require('fs');
 const src = fs.readFileSync('twitter-LJ-posts-archive-bookmarklet.js','utf8');
-const one = 'javascript:' + src.replace(/\s+/g,' ').trim();
+const beforeComment = src.split('/* CREATE_BOOKMARKLET_COPY')[0]; // ignore instructions
+const body = beforeComment.replace(/^javascript:\s*/i, '').trim();
+const min = body.replace(/\/\*[\s\S]*?\*\//g, '').replace(/\s+/g, ' ');
+const one = 'javascript:' + min;
+fs.writeFileSync('twitter-LJ-posts-archive-bookmarklet.txt', one);
 require('child_process').spawnSync('pbcopy', { input: one }); // use xclip if preferred
-console.log('Copied to clipboard. Length:', one.length);
+console.log('Copied to clipboard and saved to twitter-LJ-posts-archive-bookmarklet.txt');
+console.log('Length:', one.length);
+console.log('Preview:', one.slice(0, 120) + ' ... ' + one.slice(-40));
 NODE
 
 */
-
-
