@@ -148,6 +148,25 @@ javascript:(async () => {
     return socialContext ? /reposted/i.test(socialContext.innerText || '') : false;
   };
 
+  const extractText = (article) => {
+    const blocks = Array.from(article.querySelectorAll('div[data-testid="tweetText"]'));
+    if (!blocks.length) return '';
+    const parts = blocks.map((block) => {
+      const clone = block.cloneNode(true);
+      clone.querySelectorAll('a[href]').forEach((a) => {
+        if (a.href) a.textContent = a.href.split('?')[0];
+      });
+      return clone.innerText;
+    });
+    let text = parts.join('\n');
+    text = text.replace(/\bShow more\b/gi, '').trim();
+    text = text.replace(/\s*\n\s*/g, '\n');
+    text = text.replace(/\n{3,}/g, '\n\n');
+    text = text.replace(/[ \t]+/g, ' ');
+    text = text.replace(/\n /g, '\n').replace(/ \n/g, '\n');
+    return text.trim();
+  };
+
   const expandTweetText = (article) => {
     let expanded = false;
     const showMoreNodes = Array.from(
@@ -232,9 +251,7 @@ javascript:(async () => {
       return null; /* skip anything not from the target handle */
     }
 
-    const textBlocks = Array.from(article.querySelectorAll('div[data-testid="tweetText"]'));
-    let text = textBlocks.length ? textBlocks.map((n) => n.innerText).join('\n') : '';
-    text = text.replace(/\bShow more\b/gi, '').trim();
+    const text = extractText(article);
 
     const timeLine = formatTime(timeElement.getAttribute('datetime'));
 
@@ -252,12 +269,13 @@ javascript:(async () => {
 
   const formatBlock = (tweet) => {
     if (!tweet) return '';
+    const indent = '  ';
     const headerName = tweet.displayName
-      ? `  ${tweet.displayName} ${tweet.handle}`
-      : `  ${tweet.handle || HANDLE}`;
+      ? `${indent}${tweet.displayName} ${tweet.handle}`
+      : `${indent}${tweet.handle || HANDLE}`;
 
     const lines = [
-      `  * ${tweet.url}`,
+      `${indent}* ${tweet.url}`,
       headerName,
       '',
       tweet.text,
