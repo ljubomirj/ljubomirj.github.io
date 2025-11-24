@@ -25,10 +25,10 @@ javascript:(async () => {
   const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
   const ensureAt = (h) => (h.startsWith('@') ? h : '@' + h);
   const isNestedTweet = (article) => {
-    // Skip if this article lives inside another article (quoted/embedded)
+    /* Skip if this article lives inside another article (quoted/embedded) */
     const ancestor = article?.closest('article');
     if (ancestor && ancestor !== article) return true;
-    // Skip if it contains a child article (embedded/quoted)
+    /* Skip if it contains a child article (embedded/quoted) */
     const child = article.querySelector('article');
     if (child && child !== article) return true;
     return false;
