@@ -123,6 +123,8 @@ javascript:(async () => {
   const parseTweet = (article) => {
     const timeElement = article.querySelector('a[href*="/status/"] time');
     if (!timeElement) return null;
+    const owningArticle = timeElement.closest('article');
+    if (owningArticle && owningArticle !== article) return null; /* reject if time belongs to nested tweet */
 
     const link = timeElement.closest('a[href*="/status/"]');
     if (!link || !link.href) return null;
@@ -187,8 +189,13 @@ javascript:(async () => {
   let foundStop = false;
   let idleLoops = 0;
 
-  const getArticles = () =>
-    Array.from(document.querySelectorAll('article[data-testid="tweet"], article'));
+  const getArticles = () => {
+    const timeline =
+      document.querySelector('div[aria-label^="Timeline"]') ||
+      document.querySelector('main');
+    const scope = timeline || document;
+    return Array.from(scope.querySelectorAll('article[data-testid="tweet"], article'));
+  };
 
   setStatus('Scanning... loop 0/' + MAX_SCROLL_LOOPS);
   document.addEventListener('keydown', (e) => {
