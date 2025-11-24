@@ -24,6 +24,10 @@ javascript:(async () => {
 
   const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
   const ensureAt = (h) => (h.startsWith('@') ? h : '@' + h);
+  const isNestedTweet = (article) => {
+    const ancestor = article?.parentElement?.closest('article[data-testid="tweet"]');
+    return ancestor && ancestor !== article;
+  };
 
   /* Minimal status badge in the corner + console logging so you can see progress. */
   const statusEl = (() => {
@@ -196,6 +200,8 @@ javascript:(async () => {
     let newItemsThisPass = 0;
 
     for (const article of getArticles()) {
+      if (isNestedTweet(article)) continue; /* skip quoted/embedded tweets */
+
       const didExpand = expandTweetText(article);
       if (didExpand) {
         await sleep(50);
