@@ -13,7 +13,7 @@ javascript:(async () => {
   const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
   const ensureAt = (h) => (h.startsWith('@') ? h : '@' + h);
 
-  // Minimal status badge in the corner + console logging so you can see progress.
+  /* Minimal status badge in the corner + console logging so you can see progress. */
   const statusEl = (() => {
     const el = document.createElement('div');
     Object.assign(el.style, {
@@ -30,7 +30,7 @@ javascript:(async () => {
       pointerEvents: 'none',
       whiteSpace: 'nowrap',
     });
-    el.textContent = 'Starting backup…';
+    el.textContent = 'Starting backup...';
     document.body.appendChild(el);
     return el;
   })();
@@ -109,7 +109,7 @@ javascript:(async () => {
     let url = link.href.split('?')[0];
     url = url.replace('twitter.com', 'x.com');
 
-    // Strong handle check: prefer URL path segment
+    /* Strong handle check: prefer URL path segment. */
     let handleFromUrl = '';
     try {
       const u = new URL(url);
@@ -135,7 +135,7 @@ javascript:(async () => {
 
     const handle = ensureAt(handleFromUrl || handleFromSpans);
     if (!handle || handle.toLowerCase() !== HANDLE.toLowerCase()) {
-      return null; // skip anything not from the target handle
+      return null; /* skip anything not from the target handle */
     }
 
     const textBlocks = Array.from(article.querySelectorAll('div[data-testid="tweetText"]'));
@@ -164,7 +164,7 @@ javascript:(async () => {
   const getArticles = () =>
     Array.from(document.querySelectorAll('article[data-testid="tweet"], article'));
 
-  setStatus('Scanning… loop 0/' + MAX_SCROLL_LOOPS);
+  setStatus('Scanning... loop 0/' + MAX_SCROLL_LOOPS);
 
   for (let loops = 0; loops < MAX_SCROLL_LOOPS && idleLoops <= MAX_IDLE_LOOPS && !foundStop; loops++) {
     let newItemsThisPass = 0;
@@ -192,7 +192,7 @@ javascript:(async () => {
 
     idleLoops = newItemsThisPass === 0 ? idleLoops + 1 : 0;
     setStatus(
-      `Scanning… loop ${loops + 1}/${MAX_SCROLL_LOOPS} | kept ${tweetsById.size} | idle ${idleLoops}`
+      `Scanning... loop ${loops + 1}/${MAX_SCROLL_LOOPS} | kept ${tweetsById.size} | idle ${idleLoops}`
     );
 
     clickLoadMore();
@@ -319,3 +319,13 @@ javascript:(async () => {
   alert('New posts copied/downloaded. You can also copy from the big textarea (Esc to close).' + stopWarning);
   setTimeout(() => statusEl.remove(), 6000);
 })();
+
+/* Create bookmarklet
+node - <<'NODE'
+const fs = require('fs');
+const src = fs.readFileSync('twitter-LJ-posts-archive-bookmarklet.js','utf8');
+const one = 'javascript:' + src.replace(/\s+/g,' ').trim();
+require('child_process').spawnSync('pbcopy', { input: one }); // use xclip if you prefer
+console.log('Copied to clipboard. Length:', one.length);
+NODE
+*/
