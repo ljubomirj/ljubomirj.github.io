@@ -61,6 +61,72 @@ javascript:(async () => {
     console.debug('[LJ backup]', msg);
   };
 
+  /* Live buffer + copy button so progress can be recovered mid-run. */
+  const liveBuffer = document.createElement('textarea');
+  Object.assign(liveBuffer.style, {
+    position: 'fixed',
+    bottom: '48px',
+    left: '12px',
+    width: '260px',
+    height: '120px',
+    opacity: 0.05,
+    zIndex: 999999,
+    background: '#fff',
+    color: '#000',
+    padding: '4px',
+    border: '1px solid #ccc',
+    fontFamily: 'monospace',
+    fontSize: '11px',
+    resize: 'vertical',
+  });
+  liveBuffer.setAttribute(
+    'title',
+    'Live backup buffer (auto-updated). Click "Copy" to copy without selecting.'
+  );
+  document.body.appendChild(liveBuffer);
+
+  const copyBtn = document.createElement('button');
+  copyBtn.textContent = 'Copy';
+  Object.assign(copyBtn.style, {
+    position: 'fixed',
+    bottom: '12px',
+    left: '12px',
+    padding: '4px 8px',
+    zIndex: 1000000,
+    background: '#1d9bf0',
+    color: '#fff',
+    border: 'none',
+    borderRadius: '6px',
+    fontSize: '11px',
+    cursor: 'pointer',
+  });
+  document.body.appendChild(copyBtn);
+
+  let liveOutput = '';
+  const updateLiveBuffer = () => {
+    liveBuffer.value = liveOutput;
+  };
+  const appendLive = async (block) => {
+    if (!block || !block.trim()) return;
+    liveOutput = liveOutput ? `${liveOutput}\n\n${block}` : block;
+    updateLiveBuffer();
+    try {
+      await navigator.clipboard.writeText(liveOutput);
+    } catch {
+      /* clipboard may require gesture; ignore */
+    }
+  };
+  copyBtn.addEventListener('click', async () => {
+    try {
+      await navigator.clipboard.writeText(liveOutput);
+      setStatus('Copied live buffer.');
+    } catch {
+      liveBuffer.focus();
+      liveBuffer.select();
+      setStatus('Select/copy live buffer manually.');
+    }
+  });
+
   const formatTime = (isoString) => {
     if (!isoString) return '';
     const date = new Date(isoString);
@@ -184,6 +250,23 @@ javascript:(async () => {
     };
   };
 
+  const formatBlock = (tweet) => {
+    if (!tweet) return '';
+    const headerName = tweet.displayName
+      ? `  ${tweet.displayName} ${tweet.handle}`
+      : `  ${tweet.handle || HANDLE}`;
+
+    const lines = [
+      `  * ${tweet.url}`,
+      headerName,
+      '',
+      tweet.text,
+      tweet.timeLine,
+    ];
+
+    return lines.join('\n').replace(/\n{3,}/g, '\n\n').trimEnd();
+  };
+
   const tweetsById = new Map();
   const seenIds = new Set();
   let foundStop = false;
@@ -229,6 +312,7 @@ javascript:(async () => {
       if (seenIds.has(parsed.id)) continue;
       seenIds.add(parsed.id);
       tweetsById.set(parsed.id, parsed);
+      await appendLive(formatBlock(parsed));
       newItemsThisPass += 1;
     }
 
@@ -277,23 +361,6 @@ javascript:(async () => {
     alert('No new posts found above the STOP tweet.');
     return;
   }
-
-  const formatBlock = (tweet) => {
-    if (!tweet) return '';
-    const headerName = tweet.displayName
-      ? `  ${tweet.displayName} ${tweet.handle}`
-      : `  ${tweet.handle || HANDLE}`;
-
-    const lines = [
-      `  * ${tweet.url}`,
-      headerName,
-      '',
-      tweet.text,
-      tweet.timeLine,
-    ];
-
-    return lines.join('\n').replace(/\n{3,}/g, '\n\n').trimEnd();
-  };
 
   const blocks = outputIds
     .map((id) => tweetsById.get(id))
@@ -369,12 +436,12 @@ javascript:(async () => {
 node - <<'NODE'
 const fs = require('fs');
 const src = fs.readFileSync('twitter-LJ-posts-archive-bookmarklet.js','utf8');
-const beforeComment = src.split('/* CREATE_BOOKMARKLET_COPY')[0]; // ignore instructions
+const beforeComment = src.split('/* CREATE_BOOKMARKLET_COPY')[0]; /* ignore instructions */
 const body = beforeComment.replace(/^javascript:\s*/i, '').trim();
 const min = body.replace(/\/\*[\s\S]*?\*\//g, '').replace(/\s+/g, ' ');
 const one = 'javascript:' + min;
 fs.writeFileSync('twitter-LJ-posts-archive-bookmarklet.txt', one);
-require('child_process').spawnSync('pbcopy', { input: one }); // use xclip if preferred
+require('child_process').spawnSync('pbcopy', { input: one }); /* use xclip if preferred */
 console.log('Copied to clipboard and saved to twitter-LJ-posts-archive-bookmarklet.txt');
 console.log('Length:', one.length);
 console.log('Preview:', one.slice(0, 120) + ' ... ' + one.slice(-40));
