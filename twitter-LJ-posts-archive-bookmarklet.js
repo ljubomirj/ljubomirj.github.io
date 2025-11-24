@@ -13,6 +13,32 @@ javascript:(async () => {
   const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
   const ensureAt = (h) => (h.startsWith('@') ? h : '@' + h);
 
+  // Minimal status badge in the corner + console logging so you can see progress.
+  const statusEl = (() => {
+    const el = document.createElement('div');
+    Object.assign(el.style, {
+      position: 'fixed',
+      bottom: '12px',
+      left: '12px',
+      padding: '6px 8px',
+      background: 'rgba(0,0,0,0.65)',
+      color: '#fff',
+      fontSize: '11px',
+      fontFamily: 'system-ui, -apple-system, sans-serif',
+      zIndex: 999999,
+      borderRadius: '6px',
+      pointerEvents: 'none',
+      whiteSpace: 'nowrap',
+    });
+    el.textContent = 'Starting backup…';
+    document.body.appendChild(el);
+    return el;
+  })();
+  const setStatus = (msg) => {
+    if (statusEl) statusEl.textContent = msg;
+    console.debug('[LJ backup]', msg);
+  };
+
   const formatTime = (isoString) => {
     if (!isoString) return '';
     const date = new Date(isoString);
@@ -138,6 +164,8 @@ javascript:(async () => {
   const getArticles = () =>
     Array.from(document.querySelectorAll('article[data-testid="tweet"], article'));
 
+  setStatus('Scanning… loop 0/' + MAX_SCROLL_LOOPS);
+
   for (let loops = 0; loops < MAX_SCROLL_LOOPS && idleLoops <= MAX_IDLE_LOOPS && !foundStop; loops++) {
     let newItemsThisPass = 0;
 
@@ -163,6 +191,9 @@ javascript:(async () => {
     if (foundStop) break;
 
     idleLoops = newItemsThisPass === 0 ? idleLoops + 1 : 0;
+    setStatus(
+      `Scanning… loop ${loops + 1}/${MAX_SCROLL_LOOPS} | kept ${tweetsById.size} | idle ${idleLoops}`
+    );
 
     clickLoadMore();
 
@@ -197,6 +228,8 @@ javascript:(async () => {
   }
 
   if (!outputIds.length) {
+    setStatus('No new posts above STOP.');
+    setTimeout(() => statusEl.remove(), 4000);
     alert('No new posts found above the STOP tweet.');
     return;
   }
@@ -227,6 +260,8 @@ javascript:(async () => {
   const output = blocks.join('\n\n');
 
   if (!output.trim()) {
+    setStatus('Collected posts were empty after formatting.');
+    setTimeout(() => statusEl.remove(), 4000);
     alert('Collected posts were empty after formatting.');
     return;
   }
@@ -235,6 +270,8 @@ javascript:(async () => {
   if (STOP_ID && !foundStop) {
     stopWarning = `\n\nWARNING: STOP tweet ${STOP_ID} was not reached before scrolling stopped.`;
   }
+
+  setStatus(`Done. Saved ${outputIds.length} post(s).`);
 
   try {
     await navigator.clipboard.writeText(output);
@@ -280,4 +317,5 @@ javascript:(async () => {
   overlay.select();
 
   alert('New posts copied/downloaded. You can also copy from the big textarea (Esc to close).' + stopWarning);
+  setTimeout(() => statusEl.remove(), 6000);
 })();
