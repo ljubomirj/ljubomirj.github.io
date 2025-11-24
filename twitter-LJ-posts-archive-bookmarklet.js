@@ -35,8 +35,9 @@ javascript:(async () => {
       fontFamily: 'system-ui, -apple-system, sans-serif',
       zIndex: 999999,
       borderRadius: '6px',
-      pointerEvents: 'none',
+      pointerEvents: 'auto',
       whiteSpace: 'nowrap',
+      cursor: 'pointer',
     });
     el.textContent = 'Starting backup...';
     document.body.appendChild(el);
@@ -86,12 +87,15 @@ javascript:(async () => {
   };
 
   const clickLoadMore = () => {
-    const triggers = ['retry', 'show more', 'load more'];
+    // Only click safe pagination/retry buttons; avoid "show more replies".
+    const allow = ['retry', 'try again', 'show more results', 'show more'];
+    const deny = ['reply', 'repl', 'replies'];
     const buttons = Array.from(document.querySelectorAll('button,div[role="button"]'));
     for (const btn of buttons) {
       const label = (btn.innerText || '').trim().toLowerCase();
       if (!label) continue;
-      if (triggers.some((t) => label.includes(t))) {
+      if (deny.some((d) => label.includes(d))) continue;
+      if (allow.some((t) => label.includes(t))) {
         try {
           btn.click();
           return true;
@@ -338,11 +342,15 @@ javascript:(async () => {
 })();
 
 /* Create bookmarklet
+
 node - <<'NODE'
 const fs = require('fs');
 const src = fs.readFileSync('twitter-LJ-posts-archive-bookmarklet.js','utf8');
 const one = 'javascript:' + src.replace(/\s+/g,' ').trim();
-require('child_process').spawnSync('pbcopy', { input: one }); // use xclip if you prefer
+require('child_process').spawnSync('pbcopy', { input: one }); // use xclip if preferred
 console.log('Copied to clipboard. Length:', one.length);
 NODE
+
 */
+
+
