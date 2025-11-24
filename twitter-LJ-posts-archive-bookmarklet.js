@@ -83,23 +83,33 @@ javascript:(async () => {
     let url = link.href.split('?')[0];
     url = url.replace('twitter.com', 'x.com');
 
+    // Strong handle check: prefer URL path segment
+    let handleFromUrl = '';
+    try {
+      const u = new URL(url);
+      const parts = u.pathname.split('/').filter(Boolean);
+      if (parts.length >= 2 && parts[1] === 'status') {
+        handleFromUrl = ensureAt(parts[0]);
+      }
+    } catch {
+      /* ignore URL parse */
+    }
+
     const userNameContainer = article.querySelector('div[data-testid="User-Name"]');
     let displayName = '';
-    let handle = '';
+    let handleFromSpans = '';
 
     if (userNameContainer) {
       const spans = Array.from(userNameContainer.querySelectorAll('span'))
         .map((span) => (span.textContent || '').trim())
         .filter(Boolean);
-      handle = spans.find((text) => text.startsWith('@')) || HANDLE;
+      handleFromSpans = spans.find((text) => text.startsWith('@')) || '';
       displayName = spans.find((text) => !text.startsWith('@')) || '';
-    } else {
-      handle = HANDLE;
     }
 
-    handle = ensureAt(handle);
-    if (handle.toLowerCase() !== HANDLE.toLowerCase()) {
-      return null;
+    const handle = ensureAt(handleFromUrl || handleFromSpans);
+    if (!handle || handle.toLowerCase() !== HANDLE.toLowerCase()) {
+      return null; // skip anything not from the target handle
     }
 
     const textBlocks = Array.from(article.querySelectorAll('div[data-testid="tweetText"]'));
