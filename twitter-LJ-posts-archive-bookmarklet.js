@@ -10,6 +10,14 @@ javascript:(async () => {
     return;
   }
 
+  /* Global stop flag so you can halt from console or Escape key. */
+  const STOP_FLAG = '__lj_backup_stop__';
+  window[STOP_FLAG] = false;
+  const requestStop = () => {
+    window[STOP_FLAG] = true;
+    setStatus('Stop requested...');
+  };
+
   const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
   const ensureAt = (h) => (h.startsWith('@') ? h : '@' + h);
 
@@ -165,8 +173,17 @@ javascript:(async () => {
     Array.from(document.querySelectorAll('article[data-testid="tweet"], article'));
 
   setStatus('Scanning... loop 0/' + MAX_SCROLL_LOOPS);
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') requestStop();
+  });
+  statusEl.addEventListener('click', requestStop);
+  window.ljBackupStop = requestStop; /* manual console stop: ljBackupStop() */
 
-  for (let loops = 0; loops < MAX_SCROLL_LOOPS && idleLoops <= MAX_IDLE_LOOPS && !foundStop; loops++) {
+  for (
+    let loops = 0;
+    loops < MAX_SCROLL_LOOPS && idleLoops <= MAX_IDLE_LOOPS && !foundStop && !window[STOP_FLAG];
+    loops++
+  ) {
     let newItemsThisPass = 0;
 
     for (const article of getArticles()) {
