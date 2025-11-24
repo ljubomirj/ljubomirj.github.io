@@ -1,8 +1,8 @@
 javascript:(async () => {
   const HANDLE = '@ljupc0';
   const SCROLL_DELAY_MS = 1200;
-  const MAX_SCROLL_LOOPS = 600;
-  const MAX_IDLE_LOOPS = 10;
+  const MAX_SCROLL_LOOPS = 400;
+  const MAX_IDLE_LOOPS = 40;
 
   const STOP_ID = (prompt('Enter STOP tweet ID (already archived):') || '').trim();
   if (STOP_ID && !/^\d+$/.test(STOP_ID)) {
@@ -11,6 +11,7 @@ javascript:(async () => {
   }
 
   const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+  const ensureAt = (h) => (h.startsWith('@') ? h : '@' + h);
 
   const formatTime = (isoString) => {
     if (!isoString) return '';
@@ -30,8 +31,7 @@ javascript:(async () => {
 
   const isRepost = (article) => {
     const socialContext = article.querySelector('[data-testid="socialContext"]');
-    if (!socialContext) return false;
-    return /reposted/i.test(socialContext.innerText || '');
+    return socialContext ? /reposted/i.test(socialContext.innerText || '') : false;
   };
 
   const expandTweetText = (article) => {
@@ -39,18 +39,34 @@ javascript:(async () => {
     const showMoreNodes = Array.from(
       article.querySelectorAll('[data-testid="tweet-text-show-more-link"]')
     );
-
     for (const node of showMoreNodes) {
       const clickable = node.closest('div[role="button"],button') || node;
       try {
         clickable.click();
         expanded = true;
-      } catch (err) {
+      } catch {
         /* ignore */
       }
     }
-
     return expanded;
+  };
+
+  const clickLoadMore = () => {
+    const triggers = ['retry', 'show more', 'load more'];
+    const buttons = Array.from(document.querySelectorAll('button,div[role="button"]'));
+    for (const btn of buttons) {
+      const label = (btn.innerText || '').trim().toLowerCase();
+      if (!label) continue;
+      if (triggers.some((t) => label.includes(t))) {
+        try {
+          btn.click();
+          return true;
+        } catch {
+          /* ignore */
+        }
+      }
+    }
+    return false;
   };
 
   const parseTweet = (article) => {
@@ -63,12 +79,6 @@ javascript:(async () => {
     const idMatch = link.href.match(/status\/(\d+)/);
     if (!idMatch) return null;
     const id = idMatch[1];
-
-    if (STOP_ID && id === STOP_ID) {
-      return { id, isStop: true };
-    }
-
-    if (isRepost(article)) return null;
 
     let url = link.href.split('?')[0];
     url = url.replace('twitter.com', 'x.com');
@@ -87,12 +97,14 @@ javascript:(async () => {
       handle = HANDLE;
     }
 
+    handle = ensureAt(handle);
     if (handle.toLowerCase() !== HANDLE.toLowerCase()) {
       return null;
     }
 
-    const textNode = article.querySelector('div[data-testid="tweetText"]');
-    const text = textNode ? textNode.innerText.trim() : '';
+    const textBlocks = Array.from(article.querySelectorAll('div[data-testid="tweetText"]'));
+    let text = textBlocks.length ? textBlocks.map((n) => n.innerText).join('\n') : '';
+    text = text.replace(/\bShow more\b/gi, '').trim();
 
     const timeLine = formatTime(timeElement.getAttribute('datetime'));
 
@@ -103,68 +115,74 @@ javascript:(async () => {
       handle,
       text,
       timeLine,
+      isStop: STOP_ID && id === STOP_ID,
+      isRepost: isRepost(article),
     };
   };
 
   const tweetsById = new Map();
-  const orderedIds = [];
   const seenIds = new Set();
-
   let foundStop = false;
-  let loops = 0;
   let idleLoops = 0;
-  let lastScrollHeight = 0;
 
-  while (!foundStop && loops < MAX_SCROLL_LOOPS && idleLoops <= MAX_IDLE_LOOPS) {
-    const articles = Array.from(document.querySelectorAll('article'));
+  const getArticles = () =>
+    Array.from(document.querySelectorAll('article[data-testid="tweet"], article'));
+
+  for (let loops = 0; loops < MAX_SCROLL_LOOPS && idleLoops <= MAX_IDLE_LOOPS && !foundStop; loops++) {
     let newItemsThisPass = 0;
 
-    for (const article of articles) {
+    for (const article of getArticles()) {
       const didExpand = expandTweetText(article);
       if (didExpand) {
-        await sleep(60);
+        await sleep(50);
       }
 
       const parsed = parseTweet(article);
-      if (!parsed) continue;
+      if (!parsed || parsed.isRepost) continue;
 
       if (parsed.isStop) {
         foundStop = true;
-        break;
       }
 
-      const { id } = parsed;
-      if (seenIds.has(id)) continue;
-
-      seenIds.add(id);
-      tweetsById.set(id, parsed);
-      orderedIds.push(id);
+      if (seenIds.has(parsed.id)) continue;
+      seenIds.add(parsed.id);
+      tweetsById.set(parsed.id, parsed);
       newItemsThisPass += 1;
     }
 
     if (foundStop) break;
 
-    if (newItemsThisPass === 0) {
-      idleLoops += 1;
-    } else {
-      idleLoops = 0;
-    }
+    idleLoops = newItemsThisPass === 0 ? idleLoops + 1 : 0;
 
-    const currentHeight = document.documentElement.scrollHeight;
-    if (currentHeight <= lastScrollHeight) {
-      idleLoops += 1;
-    } else {
-      lastScrollHeight = currentHeight;
-    }
+    clickLoadMore();
 
-    window.scrollTo({ top: currentHeight, behavior: 'smooth' });
+    const nearBottom =
+      document.documentElement.scrollHeight - (window.scrollY + window.innerHeight);
+    const target =
+      nearBottom < window.innerHeight * 2
+        ? document.documentElement.scrollHeight
+        : window.scrollY + window.innerHeight * 2;
+    window.scrollTo({ top: target, behavior: 'smooth' });
     await sleep(SCROLL_DELAY_MS);
-    loops += 1;
+  }
+
+  const timeAnchors = Array.from(document.querySelectorAll('a[href*="/status/"] time'))
+    .map((timeNode) => timeNode.closest('a[href*="/status/"]'))
+    .filter(Boolean);
+  const orderedIds = [];
+  for (const anchor of timeAnchors) {
+    const match = anchor.href.match(/status\/(\d+)/);
+    if (!match) continue;
+    const id = match[1];
+    if (STOP_ID && id === STOP_ID) break;
+    if (tweetsById.has(id)) orderedIds.push(id);
   }
 
   const outputIds = [];
+  const added = new Set();
   for (const id of orderedIds) {
-    if (STOP_ID && id === STOP_ID) break;
+    if (added.has(id)) continue;
+    added.add(id);
     outputIds.push(id);
   }
 
@@ -210,7 +228,7 @@ javascript:(async () => {
 
   try {
     await navigator.clipboard.writeText(output);
-  } catch (err) {
+  } catch {
     /* Clipboard permissions are optional */
   }
 
