@@ -44,7 +44,8 @@ Formalisation of these things into some xml monstrosity is good when teaching pr
 </p>
 <p>
 The setup is as straightforward as it gets. For Droid I used
-</p>
+</p><br>
+
 <pre>
 $ cat ~/.factory/config.json
 {
@@ -60,54 +61,30 @@ $ cat ~/.factory/config.json
   ]
 }
 </pre>
+
 <p>
-then once in $ droid, select with /model. NB the "model": "qwen3-30b-a3b-yoyo-v5-qx86-hi-mlx" must match whatever LMStudio label uses. That "qwen3-30b-a3b-yoyo-v5-qx86-hi-mlx" is huggingface .co/nightmedia/Qwen3-30B-A3B-YOYO-V5-qx86-hi-mlx. In LMStudio need to turn on 'Verbose logging' to see the content of the messages exchanged with the coding agent. (droid)
+then once in $ droid, select with /model. 
 </p>
 
-        <h3>Coding agents - fully local in VSCode Cline (Nov-2025)</h3>
 <p>
-LMStudio serving MiniMax-M2 shrunk, in toto with the tools and thinking interleaved and streaming. That Cline can make use of.
-</p>
-        <h3>Coding agents - fully local in terminal, Claude Code via litellm proxy (Nov-20225)</h3>
-<p>
-But according to the Factory docs, custom models should be in ~/.factory/config.json, NOT in ~/.factory/settings.json
+Once you confirm LM Studio is running and serving on port 1234, this should work!
+So the model is https://huggingface.co/nightmedia/Qwen3-30B-A3B-YOYO-V5-qx86-hi-mlx, quantisation of https://huggingface.co/YOYO-AI/Qwen3-30B-A3B-YOYO-V5 , derived from joining of 3 Qwen3 models:
+</p><br>
 
-This is the issue! They put it in the wrong file. The documentation clearly states custom models go in ~/.factory/config.json, not settings.json.
-Let me help them fix this.Ah, I see the issue! You've added the custom model to ~/.factory/settings.json, but custom models should be added to ~/.factory/config.json Factory, not settings.json. These are two separate files.
-Fix
-1. Check if config.json exists:
-bashls -la ~/.factory/config.json
-2. Create or edit ~/.factory/config.json:
-bashnano ~/.factory/config.json
-3. Add this content:
-json{
-  "custom_models": [
-    {
-      "model_display_name": "LMStudio/qwen3-30b-a3b-yoyo-v5",
-      "model": "qwen3-30b-a3b-yoyo-v5-qx86-hi-mlx",
-      "base_url": "http://localhost:1234/v1",
-      "api_key": "sk",
-      "provider": "generic-chat-completion-api",
-      "max_tokens": 32768
-    }
-  ]
-}
-4. Remove the custom_models section from settings.json:
-bash# Edit settings.json and remove the custom_models array
-nano ~/.factory/settings.json
-5. Restart droid:
-bash# Exit current session and start fresh
-droid
-Now when you type /model, you should see your custom model appear under a "Custom models" section below the Factory-provided models.
-Note on max_tokens: I reduced it from 200000 to 32768 - most models don't actually support 200K context, and setting it too high might cause issues. Adjust based on your actual model's capabilities.
-Once you confirm LM Studio is running and serving on port 1234, this should work!RetryThanks. So the model is https://huggingface.co/nightmedia/Qwen3-30B-A3B-YOYO-V5-qx86-hi-mlx, quantisation of https://huggingface.co/YOYO-AI/Qwen3-30B-A3B-YOYO-V5 , derived from joining of Model tree forYOYO-AI/Qwen3-30B-A3B-YOYO-V5
+<pre>
+Model tree for YOYO-AI/Qwen3-30B-A3B-YOYO-V5:
 Qwen/Qwen3-30B-A3B-Instruct-2507
 Qwen/Qwen3-30B-A3B-Thinking-2507
-Qwen/Qwen3-Coder-30B-A3B-InstructModel Highlights:
+Qwen/Qwen3-Coder-30B-A3B-InstructModel 
+Highlights:
 * merge method: yoyo_fusion
 * precision: dtype: bfloat16
-* Context length: 262,144&1010000 Parameter Settings:
-Temperature=0.7, TopP=0.8, TopK=20,MinP=0.The context is clearly much greater than 32K - this262,144 & 1010000So 256K and 1M the latter I presume with some ROPE. LMStuidio clearly allows 256KRead for yourself here https://huggingface.co/YOYO-AI/Qwen3-30B-A3B-YOYO-V5Show moreAcknowledged error regarding context length capabilities.The user is correcting me about the model's context length. They're right - this is a Qwen3-30B model that has been merged using the "yoyo_fusion" method from three different Qwen3 models:
+* Context length: 262,144 & 1010000
+Parameter Settings: Temperature=0.7, TopP=0.8, TopK=20, MinP=0.
+</pre>
+
+<p>
+The context is clearly much greater than 32K - this262,144 & 1010000So 256K and 1M the latter I presume with some ROPE. LMStuidio clearly allows 256KRead for yourself here https://huggingface.co/YOYO-AI/Qwen3-30B-A3B-YOYO-V5Show moreAcknowledged error regarding context length capabilities.The user is correcting me about the model's context length. They're right - this is a Qwen3-30B model that has been merged using the "yoyo_fusion" method from three different Qwen3 models:
 
 Qwen3-30B-A3B-Instruct-2507
 Qwen3-30B-A3B-Thinking-2507 (a reasoning model)
@@ -118,9 +95,168 @@ They're running this through LM Studio on their M2 MacBook with 96GB RAM, which 
 I should:
 
 </p>
-        <h3>Coding agentss - in terminal</h3>
+
+        <h3>Coding agents - fully local in VSCode Cline (Nov-2025)</h3>
+<p>
+LMStudio serving MiniMax-M2 that was shrunk so it fits in my mid-memory laptop. And LMStudio supports tools with thinking interleaved and streaming that MiniMax uses - no need to lobotomise the protocol. Then - Cline knows how to make use of that too! No litellm proxy needed. A model <a href="https://huggingface.co/mradermacher/MiniMax-M2-THRIFT-i1-GGUF">minimax-m2-thrift-i1/MiniMax-M2-THRIFT.i1-IQ2_XXS.gguf</a> that fits my VRAM and nothig else is needed - perfect! Not very fast though, and uses all of my 25 Watts on my years old MBP M2. :-) Still - pretty good. All local VSCode - Cline - LMStudio - MiniMax-M2-THRIFT. 
+</p>
+        <h3>Coding agents - fully local in terminal, Claude Code via litellm proxy (Nov-20225)</h3>
+
+<p>
+Make Claude Code CLI use LMStudio served LocalLLM API to run LLM inference localhost.  This worked for me on 8-Nov-2025. I followed <a href="https://medium.com/@luongnv89/setting-up-claude-code-locally-with-a-powerful-open-source-model-a-step-by-step-guide-for-mac-84cf9ab7302f">Setting Up Claude Code Locally with a Powerful Open-Source Model: A Step-by-Step Guide for Mac</a> with minor changes.
+</p>
+
+
+## Current working setup looks like this
+
+Model nightmedia/Qwen3-30B-A3B-YOYO-V3-qx86-hi-mlx from
+
+[nightmedia/Qwen3-30B-A3B-YOYO-V3-qx86-hi-mlx · Hugging Face](https://huggingface.co/nightmedia/Qwen3-30B-A3B-YOYO-V3-qx86-hi-mlx)
+
+<h4>1. In the ~/litellm directory create 4 these files</h4>
+
+<pre>
+ljubomir@macbook2(:):~/litellm$ for a in claude.env config.yaml docker-compose.yaml .env; do echo -------  $a; cat $a; done
+
+------ claude.env
+export ANTHROPIC_AUTH_TOKEN="sk-1234" # Matches your LiteLLM key
+export ANTHROPIC_BASE_URL="[http://localhost:4000](http://localhost:4000/)"
+export ANTHROPIC_MODEL="openai/qwen3-30b-a3b-coderthinking-yoyo-linear"
+export ANTHROPIC_SMALL_FAST_MODEL="openai/limi-air-qx83s-mlx"
+export CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC=1 # Optional: No telemetry
+
+------ config.yaml
+model_list:
+- model_name: "anthropic/*" # Maps all Anthropic models to your local one
+litellm_params:
+model: "openai/qwen3-30b-a3b-coderthinking-yoyo-linear" # Custom name for your model
+api_base: "http://host.docker.internal:1234/v1" # Points to LM Studio
+api_key: "lm-studio" # Dummy key (not actually needed)
+max_tokens: 65536
+repetition_penalty: 1.1
+temperature: 0.6
+top_k: 100
+top_p: 0.95
+
+-------  docker-compose.yaml
+services:
+  litellm:
+    image: ghcr.io/berriai/litellm:main-stable
+    command: ["--config=/app/config.yaml"]
+    container_name: litellm
+    restart: unless-stopped
+    volumes:
+      - ./config.yaml:/app/config.yaml
+    ports:
+      - "4000:4000"
+    env_file:
+      - .env
+    depends_on:
+      - db
+    healthcheck:
+      test: ["CMD-SHELL", "wget --no-verbose --tries=1 http://localhost:4000/health/liveliness || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+  db:
+    image: postgres:16
+    restart: always
+    container_name: litellm_db
+    environment:
+      POSTGRES_DB: litellm
+      POSTGRES_USER: llmproxy
+      POSTGRES_PASSWORD: dbpassword9090
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -d litellm -U llmproxy"]
+      interval: 1s
+      timeout: 5s
+      retries: 10
+      
+ volumes:
+  postgres_data:
+    name: litellm_postgres_data
+
+-------  .env
+LITELLM_MASTER_KEY="sk-1234"
+</pre>
+
+<h3>2. Ensure LMStudio is started, model loaded and running, and LMStudio is serving the default endpoint localhost:1234</h3>
+
+<img src="LMStudio-YOYO-pic1.png" style="width: 75%; height: auto;">
+
+<h3>3. Ensure the endpoint is reachable</h3>
+
+<pre>
+ljubomir@macbook2(::main):~$ curl http://localhost:1234/v1/models
+{
+  "data": [
+    {
+      "id": "qwen3-30b-a3b-yoyo-v3-qx86-hi-mlx",
+      "object": "model",
+      "owned_by": "organization_owner"
+    },
+    .......
+</pre>
+
+<p>…and the fake key is “working” ok</p><br>
+
+<pre>
+ljubomir@macbook2(::main):~$ curl -H "Authorization: Bearer sk-1234" http://localhost:4000/health
+{"healthy_endpoints":[{"api_base":"http://host.docker.internal:1234/v1","use_in_pass_through":false,"use_litellm_proxy":false,"merge_reasoning_content_in_choices":false,"model":"openai/qwen3-30b-a3b-coderthinking-yoyo-linear","max_tokens":65536,"repetition_penalty":1.1,"temperature":0.6,"top_k":100,"top_p":0.95,"litellm_metadata":{"tags":["litellm-internal-health-check"],"user_api_key_hash":"litellm-internal-health-check","user_api_key_alias":"litellm-internal-health-check","user_api_key_spend":0.0,"user_api_key_max_budget":null,"user_api_key_team_id":"litellm-internal-health-check","user_api_key_user_id":null,"user_api_key_org_id":null,"user_api_key_team_alias":"litellm-internal-health-check","user_api_key_end_user_id":null,"user_api_key_user_email":null,"user_api_key_request_route":null,"user_api_key_budget_reset_at":null,"user_api_key_auth_metadata":null,"user_api_key":"litellm-internal-health-check","user_api_end_user_max_budget":null},"cache":{"no-cache":true}}],"unhealthy_endpoints":[],"healthy_count":1,"unhealthy_count":0}
+</pre>
+
+<h3>4. Start docker while being in the right dir</h3>
+
+<pre>
+ljubomir@macbook2(::):~/litellm$ docker compose up -d
+</pre>
+
+<p>
+and verify docker is running file - check some logs
+</p><br>
+
+<pre>
+ljubomir@macbook2(::):~/litellm$ docker compose logs -f litellm
+</pre>
+
+<p>
+5. Setup the right env vars for Claude code, and start Claude Code cli (CC-cli)
+</p><br>
+
+<pre>
+ljubomir@macbook2(::):~/litellm$ source claude.env
+
+ljubomir@macbook2(::):~/litellm$ claude
+
+ ▐▛███▜▌   Claude Code v2.0.36
+▝▜█████▛▘  openai/qwen3-30b-a3b-coderthinking-yoyo-linear · API Usage Billing
+  ▘▘ ▝▝    /Users/ljubomir/litellm
+
+> /model
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+ Select model
+ Switch between Claude models. Applies to this session and future Claude Code sessions. For other/previous model names, specify with --model.
+
+   1. Default (recommended)                            Use the default model (currently Sonnet 4.5) · $3/$15 per Mtok
+   2. Opus                                             Legacy: Opus 4.1 for complex tasks · $15/$75 per Mtok
+   3. Haiku                                            Haiku 4.5 for simple tasks · $1/$5 per Mtok
+ ❯ 4. openai/qwen3-30b-a3b-coderthinking-yoyo-linear   Custom model ✔
+ 
+  Enter to confirm · Esc to exit
+</pre>
+
+<p>
+6. That’s - it should just work
+</p>
+
+        <h2>Coding agentss - in terminal</h2>
         <p>
-Current work flow is:<br><br>
+Current workflow is:<br><br>
 
 <pre>
 # An Architect model is asked to describe how to solve the coding problem. Thinking/reasoning models often work well in this role.
