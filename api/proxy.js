@@ -115,7 +115,7 @@ module.exports = async (req, res) => {
                 //model: 'deepseek/deepseek-r1-0528',
                 //model: 'tngtech/deepseek-r1t2-chimera',
                 //model: 'deepseek/deepseek-chat-v3.1',
-                model: 'x-ai/grok-4.1-fast',
+                model: 'x-ai/grok-4-fast',
                 //model: 'qwen/qwq-32b:free',
                 //model: 'qwen/qwen3-235b-a22b',
                 //model: 'moonshotai/kimi-k2',
