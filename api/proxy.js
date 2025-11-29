@@ -19,8 +19,8 @@ module.exports = async (req, res) => {
         // Dynamically set the Allow-Origin header to the requesting origin
         res.setHeader('Access-Control-Allow-Origin', requestOrigin);
     } else if (requestOrigin) {
-         console.warn(`Origin ${requestOrigin} is not in the allowed list.`);
-         // Optionally, you could return an error here, but letting CORS fail is often enough
+        console.warn(`Origin ${requestOrigin} is not in the allowed list.`);
+        // Optionally, you could return an error here, but letting CORS fail is often enough
     } else {
         console.warn(`Request received without an Origin header.`);
         // Requests without an Origin (e.g., same-origin, server-to-server) don't need CORS headers usually
@@ -44,8 +44,8 @@ module.exports = async (req, res) => {
         } else {
             // If origin wasn't allowed, the browser will block based on missing/incorrect headers
             // You could explicitly send a 403 Forbidden here if desired
-             console.log(`OPTIONS request denied for origin: ${requestOrigin}`);
-             res.status(403).end();
+            console.log(`OPTIONS request denied for origin: ${requestOrigin}`);
+            res.status(403).end();
         }
         return; // Stop processing further for OPTIONS request
     }
@@ -53,12 +53,12 @@ module.exports = async (req, res) => {
     // If it's not OPTIONS, assume POST and continue
     // BUT only if the origin was allowed for the initial checks
     if (!isOriginAllowed && requestOrigin) {
-         console.log(`POST request denied for origin: ${requestOrigin}`);
-         // Need to set the Allow-Origin header even on error for browser to read the response
-         if (requestOrigin && allowedOrigins.includes(requestOrigin)) {
-             res.setHeader('Access-Control-Allow-Origin', requestOrigin);
-         }
-         return res.status(403).json({ error: 'Origin not allowed.' });
+        console.log(`POST request denied for origin: ${requestOrigin}`);
+        // Need to set the Allow-Origin header even on error for browser to read the response
+        if (requestOrigin && allowedOrigins.includes(requestOrigin)) {
+            res.setHeader('Access-Control-Allow-Origin', requestOrigin);
+        }
+        return res.status(403).json({ error: 'Origin not allowed.' });
     }
 
 
@@ -76,11 +76,11 @@ module.exports = async (req, res) => {
         // *** Validate the messages array ***
         if (!messages || !Array.isArray(messages) || messages.length === 0) {
             console.error("Validation failed for POST: req.body is missing, or 'messages' array invalid/missing.", body);
-             // Set CORS headers for error response if origin was allowed initially
-             if (isOriginAllowed) {
-                 res.setHeader('Access-Control-Allow-Origin', requestOrigin);
-                 res.setHeader('Access-Control-Allow-Credentials', 'true');
-             }
+            // Set CORS headers for error response if origin was allowed initially
+            if (isOriginAllowed) {
+                res.setHeader('Access-Control-Allow-Origin', requestOrigin);
+                res.setHeader('Access-Control-Allow-Credentials', 'true');
+            }
             return res.status(400).json({ error: 'Invalid or missing request body for POST. Expected JSON with a non-empty messages array.' });
         }
 
@@ -114,7 +114,8 @@ module.exports = async (req, res) => {
                 //model: 'google/gemma-3-27b-it',
                 //model: 'deepseek/deepseek-r1-0528',
                 //model: 'tngtech/deepseek-r1t2-chimera',
-                model: 'deepseek/deepseek-chat-v3.1',
+                //model: 'deepseek/deepseek-chat-v3.1',
+                model: 'x-ai/grok-4.1-fast',
                 //model: 'qwen/qwq-32b:free',
                 //model: 'qwen/qwen3-235b-a22b',
                 //model: 'moonshotai/kimi-k2',
@@ -130,16 +131,16 @@ module.exports = async (req, res) => {
             // ... (Error handling for failed Router fetch) ...
             let errorBody = {};
             try {
-                 errorBody = await routerResponse.json();
-            } catch(e){
-                 errorBody = await routerResponse.text().catch(()=> 'Could not read error body');
+                errorBody = await routerResponse.json();
+            } catch (e) {
+                errorBody = await routerResponse.text().catch(() => 'Could not read error body');
             }
             console.error(`Router API Error: ${routerResponse.status} ${routerResponse.statusText}`, errorBody);
-             // Set CORS headers for error response if origin was allowed initially
-             if (isOriginAllowed) {
-                 res.setHeader('Access-Control-Allow-Origin', requestOrigin);
-                 res.setHeader('Access-Control-Allow-Credentials', 'true');
-             }
+            // Set CORS headers for error response if origin was allowed initially
+            if (isOriginAllowed) {
+                res.setHeader('Access-Control-Allow-Origin', requestOrigin);
+                res.setHeader('Access-Control-Allow-Credentials', 'true');
+            }
             return res.status(routerResponse.status || 502).json({
                 error: `AI service request failed with status ${routerResponse.status}`,
                 details: errorBody
@@ -152,13 +153,13 @@ module.exports = async (req, res) => {
 
         // Optional: You could still add the backend check for expected structure here if desired
         if (!(data && data.choices && data.choices.length > 0 && data.choices[0].message && data.choices[0].message.content)) {
-             console.error("Router returned unexpected structure:", data);
-              // Set CORS headers for error response if origin was allowed initially
-             if (isOriginAllowed) {
-                 res.setHeader('Access-Control-Allow-Origin', requestOrigin);
-                 res.setHeader('Access-Control-Allow-Credentials', 'true');
-             }
-             return res.status(502).json({ error: 'Received unexpected response structure from AI service.'});
+            console.error("Router returned unexpected structure:", data);
+            // Set CORS headers for error response if origin was allowed initially
+            if (isOriginAllowed) {
+                res.setHeader('Access-Control-Allow-Origin', requestOrigin);
+                res.setHeader('Access-Control-Allow-Credentials', 'true');
+            }
+            return res.status(502).json({ error: 'Received unexpected response structure from AI service.' });
         }
 
         console.log("Data structure looks good. Sending back to frontend.");
