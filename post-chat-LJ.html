@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chat with Virtual LJ</title>
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
     <!-- Sidebar is loaded dynamically -->
@@ -15,92 +17,66 @@
         <h1>Chat with Virtual Me!</h1>
 
         <div id="messages">
-             <!-- Optional: Add a message indicating loading -->
-             <div class="ai-msg" id="loading-prompt-msg" style="font-style: italic;">Initializing Virtual LJ...</div>
+            <!-- Optional: Add a message indicating loading -->
+            <div class="ai-msg" id="loading-prompt-msg" style="font-style: italic;">Initializing Virtual LJ...</div>
         </div>
 
         <div class="chat-input">
-             <!-- Start disabled until prompt loads -->
+            <!-- Start disabled until prompt loads -->
             <input type="text" id="user-input" placeholder="Loading prompt..." disabled>
             <button id="send-button" onclick="triggerSendMessage()" disabled>Send</button>
         </div>
 
         <script>
-            // Declare systemPrompt globally so it's accessible later
-            let systemPrompt = "You are a helpful assistant."; // Default fallback
+            // Global variable to store knowledge chunks
+            let knowledgeBase = [];
 
-            async function loadSystemPrompt() {
-
-                // Concatenate text to ground, provide context of, the "chat LJ inpersonator"
-                // $ pdftotext cvlj91a.{pdf,txt}; pdftotext cvlj91sa1.{pdf,txt}
-                // $ head -1000 twitter-history.html >twitter-history-sample.html; files-to-prompt twitter-history-sample.html post-*.html cvlj*.txt | strip-tags --minify >chat-LJ-prompt.txt
-                //const promptFilePath = 'chat-LJ-prompt.txt'; // Assuming it's in the same directory
-                const promptFilePath = 'chat-LJ-prompt-short.txt'; // Assuming it's in the same directory
-                const initialInstruction = `You are Ljubomir Josifovski (LJ), a computational researcher, living in the UK, originally from Macedonia. Respond using LJ's writing style and knowledge based *primarily* on the extensive context provided below between the '--- START ...' and '--- END ...' markers. Refer to this context first when answering questions about LJ's background, opinions, setup, and history. Maintain LJ's characteristic: concise answers with code examples when relevant, markdown formatting for code blocks.`;
-
-//                 const initialInstruction = `You are Ljubomir Josifovski (LJ), a computational researcher, living in the UK, orginally from Macedonia. Respond using LJ's writing style and knowledge from the following sources. Follow the links, and fetch the html or pdf content linked here if you are capable of doing so.
-// - Home page: online coordinates and presence in ${window.location.origin}/post-ljubomirj.html
-// - CV: short pdf at ${window.location.origin}/cvlj91sa1.pdf
-// - PhD thesis: Robust Speech Recognition With Missing and Unreliable Data, pdf at ${window.location.origin}/tha.pdf
-// - Home setup: shell bash vim binutils, git in ${window.location.origin}/post-my-HOME.html
-// - ML development: aider workflows, OpenRouter models in ${window.location.origin}/post-ml-llm-dev.html
-// - Writing: "take ideas out of my system" in ${window.location.origin}/post-why-write.html
-// - Opinions on Socila Media in ${window.location.origin}/post-social-networks.html
-// - How I use X/twitter in ${window.location.origin}/post-twitter.html
-// - Online archive of personal X/Twitter posts in ${window.location.origin}/twitter-history.html
-// - Ideas on the nature or knowledge, epistemiology, probability as the logic of sicence in ${window.location.origin}/post-knowing.html
-// - Links to web sites and online content I have benefited from and been influenced by in ${window.location.origin}/post-links-to.html
-// Maintain LJ's characteristic: concise answers with code examples when relevant, markdown formatting for code blocks.`;
-
+            async function loadKnowledgeBase() {
+                const knowledgeFilePath = 'knowledge.json';
                 const loadingMsgElement = document.getElementById('loading-prompt-msg');
                 const inputElement = document.getElementById('user-input');
                 const sendButton = document.getElementById('send-button');
 
                 try {
-                    console.log(`Fetching system prompt from: ${promptFilePath}`);
-                    const response = await fetch(promptFilePath);
+                    console.log(`Fetching knowledge base from: ${knowledgeFilePath}`);
+                    const response = await fetch(knowledgeFilePath);
 
                     if (!response.ok) {
-                        throw new Error(`HTTP error! Status: ${response.status} while fetching ${promptFilePath}`);
+                        throw new Error(`HTTP error! Status: ${response.status} while fetching ${knowledgeFilePath}`);
                     }
 
-                    const promptTextFromFile = await response.text();
-                    console.log("Successfully fetched prompt text.");
+                    const data = await response.json();
+                    knowledgeBase = data.chunks;
+                    console.log(`Successfully loaded ${knowledgeBase.length} knowledge chunks.`);
 
-                    // Construct the final prompt
-                    systemPrompt = initialInstruction
-                                 + "\n\n--- START OF LJ CONTEXT ---\n"
-                                 + promptTextFromFile
-                                 + "\n--- END OF LJ CONTEXT ---\n\n"
-                                 + initialInstruction;
+                    // Set a base system prompt
+                    systemPrompt = `You are Ljubomir Josifovski (LJ), a computational researcher, living in the UK, originally from Macedonia. 
+Respond using LJ's writing style and knowledge based *primarily* on the context provided in the user's message. 
+Refer to this context first when answering questions about LJ's background, opinions, setup, and history. 
+Maintain LJ's characteristic: concise answers with code examples when relevant, markdown formatting for code blocks.`;
 
-                    console.log("System prompt loaded successfully.");
-                    if (loadingMsgElement) loadingMsgElement.remove(); // Remove loading message
+                    if (loadingMsgElement) loadingMsgElement.remove();
 
                 } catch (error) {
-                    console.error('Error loading system prompt:', error);
-                    // Keep the default fallback prompt
-                    systemPrompt = "You are a helpful assistant. Error: Could not load detailed persona.";
-                     if (loadingMsgElement) {
-                        loadingMsgElement.textContent = "Error loading detailed prompt. Using fallback.";
+                    console.error('Error loading knowledge base:', error);
+                    systemPrompt = "You are a helpful assistant. Error: Could not load knowledge base.";
+                    if (loadingMsgElement) {
+                        loadingMsgElement.textContent = "Error loading knowledge. Using fallback.";
                         loadingMsgElement.style.color = 'red';
-                     }
-                     // Still allow chatting with the fallback prompt
+                    }
                 } finally {
-                     // Enable input and button regardless of success or failure
-                     if(inputElement) {
+                    if (inputElement) {
                         inputElement.disabled = false;
                         inputElement.placeholder = "Ask virtual-LJ anything...";
-                     }
-                     if(sendButton) sendButton.disabled = false;
+                    }
+                    if (sendButton) sendButton.disabled = false;
                 }
             }
 
             // --- Initialization ---
-            // Call loadSidebar and loadSystemPrompt when the page structure is ready
             document.addEventListener('DOMContentLoaded', (event) => {
-                 loadSidebar(); // Assuming loadSidebar is defined in scripts.js
-                 loadSystemPrompt(); // Load the custom system prompt
+                loadSidebar();
+                loadKnowledgeBase();
             });
 
         </script>
@@ -111,4 +87,5 @@
     <!-- Remove the loadSidebar call from here if done within DOMContentLoaded -->
     <!-- <script>loadSidebar();</script> -->
 </body>
+
 </html>
