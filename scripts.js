@@ -162,13 +162,45 @@ function addMessage(text, isUser) {
     messagesDiv.scrollTop = messagesDiv.scrollHeight;
 }
 
+// Simple retrieval function
+function retrieveContext(query, knowledgeBase, topK = 200) {
+    if (!knowledgeBase || knowledgeBase.length === 0) return "";
+
+    const terms = query.toLowerCase().split(/\s+/).filter(t => t.length > 3); // Filter short words
+    if (terms.length === 0) return "";
+
+    // Score chunks based on term frequency
+    const scoredChunks = knowledgeBase.map(chunk => {
+        let score = 0;
+        const contentLower = chunk.content.toLowerCase();
+        for (const term of terms) {
+            if (contentLower.includes(term)) {
+                score += 1;
+            }
+        }
+        return { ...chunk, score };
+    });
+
+    // Sort by score descending
+    scoredChunks.sort((a, b) => b.score - a.score);
+
+    // Take top K
+    const topChunks = scoredChunks.slice(0, topK).filter(c => c.score > 0);
+
+    if (topChunks.length === 0) return "";
+
+    console.log("Retrieved chunks:", topChunks.map(c => ({ source: c.source, score: c.score })));
+
+    return topChunks.map(c => `[Source: ${c.source}]\n${c.content}`).join("\n\n");
+}
+
 function triggerSendMessage() {
     const inputElement = document.getElementById('user-input');
     const messageText = inputElement.value.trim(); // Trim whitespace
 
     if (!messageText) {
-         console.error("Message is empty");
-         return; // Don't send empty messages
+        console.error("Message is empty");
+        return; // Don't send empty messages
     }
 
     // *** Initialize history with system prompt if it's the first message ***
@@ -185,8 +217,22 @@ function triggerSendMessage() {
     // Display user message immediately
     addMessage(messageText, true);
 
+    // *** RAG: Retrieve context ***
+    let context = "";
+    if (typeof knowledgeBase !== 'undefined' && knowledgeBase.length > 0) {
+        context = retrieveContext(messageText, knowledgeBase);
+    }
+
+    let finalUserMessage = messageText;
+    if (context) {
+        finalUserMessage = `Context:\n${context}\n\nQuestion: ${messageText}`;
+        console.log("Augmented user message with context.");
+    }
+
     // *** Add the user's message to the global history ***
-    chatHistory.push({ role: "user", content: messageText });
+    // We send the augmented message to the AI, but maybe we want to keep the history clean?
+    // For now, let's store the augmented message so the AI "remembers" the context it was given.
+    chatHistory.push({ role: "user", content: finalUserMessage });
     console.log("History after user turn:", JSON.stringify(chatHistory, null, 2));
 
     // Disable input and button while waiting
@@ -248,8 +294,8 @@ async function sendMessage(currentHistoryToSend, inputElement, sendButton) {
         } else {
             console.error("Unexpected response structure from proxy/AI:", data);
             addMessage("Sorry, I received an unexpected response from the AI.", false);
-             // *** Do NOT add failed/malformed response to history ***
-       }
+            // *** Do NOT add failed/malformed response to history ***
+        }
 
     } catch (error) {
         console.error("Error during fetch/processing:", error);
