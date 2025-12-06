@@ -86,44 +86,91 @@ module.exports = async (req, res) => {
 
         // 3. Choice of API
         // 3a. Call OpenRouter API
-        // 3b. Call KlusterAI API
+        // 3b. Call Z.AI API
+        const zaiApiKey = process.env.ZAI_API_KEY;
+        if (!zaiApiKey) {
+            console.error("ZAI_API_KEY is not set in environment variables.");
+            if (isOriginAllowed) {
+                res.setHeader('Access-Control-Allow-Origin', requestOrigin);
+                res.setHeader('Access-Control-Allow-Credentials', 'true');
+            }
+            return res.status(500).json({ error: 'Server configuration error: ZAI_API_KEY is missing.' });
+        }
 
-        // 3a. Call OpenRouter API
-        console.log(`Forwarding request to OpenRouter with ${messages.length} messages in history...`);
-        const routerResponse = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+        // Prefer the coding endpoint when available (required for Coding plan)
+        const zaiBaseUrl = (process.env.ZAI_API_BASE_URL || 'https://api.z.ai/api/coding/paas/v4').replace(/\/$/, '');
+        const zaiUrl = `${zaiBaseUrl}/chat/completions`;
+
+        // Streaming isn't wired through the proxy/frontend yet; keep responses JSON.
+        // If the client asks for streaming, we log and force it off to avoid breaking the JSON parse below.
+        const streamRequested = body?.stream === true;
+        if (streamRequested) {
+            console.warn("Stream=true requested but proxy currently returns buffered JSON. Forcing stream=false.");
+        }
+
+        const zaiPayload = {
+            model: process.env.ZAI_MODEL || 'glm-4.6',
+            messages,
+            temperature: body?.temperature ?? 0.7,
+            max_tokens: body?.max_tokens ?? 4096,
+            stream: false, // keep compatibility with frontend expectation
+            // Thinking mode is optional; enable only if explicitly requested to avoid surprise costs/timeouts.
+            ...(body?.thinking ? { thinking: body.thinking } : {})
+        };
+
+        console.log(`Forwarding request to Z.AI with ${messages.length} messages...`);
+        console.log(`Z.AI endpoint: ${zaiUrl} | stream: ${zaiPayload.stream}`);
+
+        const routerResponse = await fetch(zaiUrl, {
             method: 'POST',
             headers: {
-                'Authorization': `Bearer ${process.env.OPENROUTER_API_KEY}`,
+                'Authorization': `Bearer ${zaiApiKey}`,
                 'Content-Type': 'application/json',
+                'Accept-Language': 'en-US,en'
             },
-            // *** Pass the received messages array directly to OpenRouter ***
-            // Option free openrouter models
-            // + aider --list-models openrouter/
-            // - openrouter/deepseek/deepseek-chat-v3.1
-            // - openrouter/deepseek/deepseek-chat-v3-0324:free
-            // - openrouter/deepseek/deepseek-chat:free
-            // - openrouter/deepseek/deepseek-r1:free
-            // - openrouter/tngtech/deepseek-r1t-chimera:free
-            // - openrouter/google/gemini-2.0-flash-exp:free
-            // - openrouter/google/gemini-2.5-pro-exp-03-25:free
-            // - openrouter/meta-llama/llama-3-8b-instruct:free
-            // - openrouter/mistralai/mistral-7b-instruct:free
-            body: JSON.stringify({
-                //model: 'google/gemini-2.5-pro', // Or your preferred model
-                model: 'z-ai/glm-4.6',
-                //model: 'google/gemini-2.5-flash',
-                //model: 'google/gemma-3-27b-it',
-                //model: 'deepseek/deepseek-r1-0528',
-                //model: 'tngtech/deepseek-r1t2-chimera',
-                //model: 'deepseek/deepseek-chat-v3.1',
-                //model: 'x-ai/grok-4-fast',
-                //model: 'qwen/qwen3-235b-a22b',
-                //model: 'moonshotai/kimi-k2',
-                //model: 'baidu/ernie-4.5-300b-a47b',
-                //model: 'arliai/qwq-32b-arliai-rpr-v1',
-                messages: messages,
-            }),
+            body: JSON.stringify(zaiPayload),
         });
+//        // 3a. Call OpenRouter API
+//        console.log(`Forwarding request to OpenRouter with ${messages.length} messages in history...`);
+//        const routerResponse = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+//            method: 'POST',
+//            headers: {
+//                'Authorization': `Bearer ${process.env.OPENROUTER_API_KEY}`,
+//                'Content-Type': 'application/json',
+//            },
+//            // *** Pass the received messages array directly to OpenRouter ***
+//            // Option free openrouter models
+//            // + aider --list-models openrouter/
+//            // - openrouter/deepseek/deepseek-chat-v3.1
+//            // - openrouter/deepseek/deepseek-chat-v3-0324:free
+//            // - openrouter/deepseek/deepseek-chat:free
+//            // - openrouter/deepseek/deepseek-r1:free
+//            // - openrouter/tngtech/deepseek-r1t-chimera:free
+//            // - openrouter/google/gemini-2.0-flash-exp:free
+//            // - openrouter/google/gemini-2.5-pro-exp-03-25:free
+//            // - openrouter/meta-llama/llama-3-8b-instruct:free
+//            // - openrouter/mistralai/mistral-7b-instruct:free
+//            body: JSON.stringify({
+//                //model: 'google/gemini-2.5-pro', // Or your preferred model
+//                model: 'z-ai/glm-4.6',
+//                //model: 'google/gemini-2.5-flash',
+//                //model: 'google/gemma-3-27b-it',
+//                //model: 'deepseek/deepseek-r1-0528',
+//                //model: 'tngtech/deepseek-r1t2-chimera',
+//                //model: 'deepseek/deepseek-chat-v3.1',
+//                //model: 'x-ai/grok-4-fast',
+//                //model: 'qwen/qwen3-235b-a22b',
+//                //model: 'moonshotai/kimi-k2',
+//                //model: 'baidu/ernie-4.5-300b-a47b',
+//                //model: 'arliai/qwq-32b-arliai-rpr-v1',
+//                messages: messages,
+//            }),
+//        });
+
+        // 3b. Call Z.AI API
+
+
+
 
         // 4. Check Router Response Status
         if (!routerResponse.ok) {
