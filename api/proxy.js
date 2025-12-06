@@ -87,49 +87,7 @@ module.exports = async (req, res) => {
         // 3. Choice of API
         // 3a. Call OpenRouter API
         // 3b. Call Z.AI API
-        const zaiApiKey = process.env.ZAI_API_KEY;
-        if (!zaiApiKey) {
-            console.error("ZAI_API_KEY is not set in environment variables.");
-            if (isOriginAllowed) {
-                res.setHeader('Access-Control-Allow-Origin', requestOrigin);
-                res.setHeader('Access-Control-Allow-Credentials', 'true');
-            }
-            return res.status(500).json({ error: 'Server configuration error: ZAI_API_KEY is missing.' });
-        }
 
-        // Prefer the coding endpoint when available (required for Coding plan)
-        const zaiBaseUrl = (process.env.ZAI_API_BASE_URL || 'https://api.z.ai/api/coding/paas/v4').replace(/\/$/, '');
-        const zaiUrl = `${zaiBaseUrl}/chat/completions`;
-
-        // Streaming isn't wired through the proxy/frontend yet; keep responses JSON.
-        // If the client asks for streaming, we log and force it off to avoid breaking the JSON parse below.
-        const streamRequested = body?.stream === true;
-        if (streamRequested) {
-            console.warn("Stream=true requested but proxy currently returns buffered JSON. Forcing stream=false.");
-        }
-
-        const zaiPayload = {
-            model: process.env.ZAI_MODEL || 'glm-4.6',
-            messages,
-            temperature: body?.temperature ?? 0.7,
-            max_tokens: body?.max_tokens ?? 4096,
-            stream: false, // keep compatibility with frontend expectation
-            // Thinking mode is optional; enable only if explicitly requested to avoid surprise costs/timeouts.
-            ...(body?.thinking ? { thinking: body.thinking } : {})
-        };
-
-        console.log(`Forwarding request to Z.AI with ${messages.length} messages...`);
-        console.log(`Z.AI endpoint: ${zaiUrl} | stream: ${zaiPayload.stream}`);
-
-        const routerResponse = await fetch(zaiUrl, {
-            method: 'POST',
-            headers: {
-                'Authorization': `Bearer ${zaiApiKey}`,
-                'Content-Type': 'application/json',
-                'Accept-Language': 'en-US,en'
-            },
-            body: JSON.stringify(zaiPayload),
-        });
 //        // 3a. Call OpenRouter API
 //        console.log(`Forwarding request to OpenRouter with ${messages.length} messages in history...`);
 //        const routerResponse = await fetch('https://openrouter.ai/api/v1/chat/completions', {
@@ -168,9 +126,49 @@ module.exports = async (req, res) => {
 //        });
 
         // 3b. Call Z.AI API
+        const zaiApiKey = process.env.ZAI_API_KEY;
+        if (!zaiApiKey) {
+            console.error("ZAI_API_KEY is not set in environment variables.");
+            if (isOriginAllowed) {
+                res.setHeader('Access-Control-Allow-Origin', requestOrigin);
+                res.setHeader('Access-Control-Allow-Credentials', 'true');
+            }
+            return res.status(500).json({ error: 'Server configuration error: ZAI_API_KEY is missing.' });
+        }
 
+        // Prefer the coding endpoint when available (required for Coding plan)
+        const zaiBaseUrl = (process.env.ZAI_API_BASE_URL || 'https://api.z.ai/api/paas/v4').replace(/\/$/, '');
+        const zaiUrl = `${zaiBaseUrl}/chat/completions`;
 
+        // Streaming isn't wired through the proxy/frontend yet; keep responses JSON.
+        // If the client asks for streaming, we log and force it off to avoid breaking the JSON parse below.
+        const streamRequested = body?.stream === true;
+        if (streamRequested) {
+            console.warn("Stream=true requested but proxy currently returns buffered JSON. Forcing stream=false.");
+        }
 
+        const zaiPayload = {
+            model: process.env.ZAI_MODEL || 'glm-4.6',
+            messages,
+            temperature: body?.temperature ?? 1.0,
+            max_tokens: body?.max_tokens ?? 4096,
+            stream: false, // keep compatibility with frontend expectation
+            // Thinking mode is optional; enable only if explicitly requested to avoid surprise costs/timeouts.
+            ...(body?.thinking ? { thinking: body.thinking } : {})
+        };
+
+        console.log(`Forwarding request to Z.AI with ${messages.length} messages...`);
+        console.log(`Z.AI endpoint: ${zaiUrl} | stream: ${zaiPayload.stream}`);
+
+        const routerResponse = await fetch(zaiUrl, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${zaiApiKey}`,
+                'Content-Type': 'application/json',
+                'Accept-Language': 'en-US,en'
+            },
+            body: JSON.stringify(zaiPayload),
+        });
 
         // 4. Check Router Response Status
         if (!routerResponse.ok) {
