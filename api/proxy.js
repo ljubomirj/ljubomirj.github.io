@@ -110,16 +110,15 @@ module.exports = async (req, res) => {
             // - openrouter/mistralai/mistral-7b-instruct:free
             body: JSON.stringify({
                 //model: 'google/gemini-2.5-pro', // Or your preferred model
+                model: 'z-ai/glm-4.6',
                 //model: 'google/gemini-2.5-flash',
                 //model: 'google/gemma-3-27b-it',
                 //model: 'deepseek/deepseek-r1-0528',
                 //model: 'tngtech/deepseek-r1t2-chimera',
                 //model: 'deepseek/deepseek-chat-v3.1',
-                model: 'x-ai/grok-4-fast',
-                //model: 'qwen/qwq-32b:free',
+                //model: 'x-ai/grok-4-fast',
                 //model: 'qwen/qwen3-235b-a22b',
                 //model: 'moonshotai/kimi-k2',
-                //model: 'moonshotai/kimi-k2:free',
                 //model: 'baidu/ernie-4.5-300b-a47b',
                 //model: 'arliai/qwq-32b-arliai-rpr-v1',
                 messages: messages,
