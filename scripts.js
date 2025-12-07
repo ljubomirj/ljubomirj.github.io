@@ -163,7 +163,7 @@ function addMessage(text, isUser) {
 }
 
 // Simple retrieval function
-function retrieveContext(query, knowledgeBase, topK = 500) {
+function retrieveContext(query, knowledgeBase, topK = 300) {
     if (!knowledgeBase || knowledgeBase.length === 0) return "";
 
     const terms = query.toLowerCase().split(/\s+/).filter(t => t.length > 3); // Filter short words
