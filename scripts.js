@@ -217,22 +217,8 @@ function triggerSendMessage() {
     // Display user message immediately
     addMessage(messageText, true);
 
-    // *** RAG: Retrieve context ***
-    let context = "";
-    if (typeof knowledgeBase !== 'undefined' && knowledgeBase.length > 0) {
-        context = retrieveContext(messageText, knowledgeBase);
-    }
-
-    let finalUserMessage = messageText;
-    if (context) {
-        finalUserMessage = `Context:\n${context}\n\nQuestion: ${messageText}`;
-        console.log("Augmented user message with context.");
-    }
-
-    // *** Add the user's message to the global history ***
-    // We send the augmented message to the AI, but maybe we want to keep the history clean?
-    // For now, let's store the augmented message so the AI "remembers" the context it was given.
-    chatHistory.push({ role: "user", content: finalUserMessage });
+    // Server now handles RAG via semantic embeddings; send the raw user message.
+    chatHistory.push({ role: "user", content: messageText });
     console.log("History after user turn:", JSON.stringify(chatHistory, null, 2));
 
     // Disable input and button while waiting

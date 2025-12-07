@@ -1,4 +1,6 @@
 const fetch = require('node-fetch');
+const fs = require('fs');
+const path = require('path');
 
 // Define allowed origins
 const allowedOrigins = [
@@ -9,6 +11,80 @@ const allowedOrigins = [
 ];
 
 module.exports = async (req, res) => {
+    // --- Embedding index + lazy embedder (semantic retrieval) ---
+    let embeddingIndex = null;
+    let embedderPromise = null;
+
+    function loadEmbeddingIndex() {
+        if (embeddingIndex !== null) return embeddingIndex;
+        try {
+            const indexPath = path.join(__dirname, '..', 'knowledge-embeddings.json');
+            const raw = fs.readFileSync(indexPath, 'utf8');
+            const parsed = JSON.parse(raw);
+            embeddingIndex = {
+                ...parsed,
+                vectors: parsed.vectors.map(v => ({
+                    id: v.id,
+                    source: v.source,
+                    content: v.content,
+                    embedding: new Float32Array(v.embedding)
+                }))
+            };
+            console.log(`Loaded ${embeddingIndex.vectors.length} embeddings (dim=${embeddingIndex.dimension}, model=${embeddingIndex.model})`);
+        } catch (err) {
+            console.warn('Embedding index not available, proceeding without semantic context.', err.message);
+            embeddingIndex = null;
+        }
+        return embeddingIndex;
+    }
+
+    async function getEmbedder(modelId) {
+        if (embedderPromise) return embedderPromise;
+        embedderPromise = (async () => {
+            const { pipeline } = await import('@xenova/transformers');
+            const effectiveModel = modelId || process.env.EMBED_MODEL || 'Xenova/all-MiniLM-L6-v2';
+            console.log(`Loading embedder model: ${effectiveModel}`);
+            return pipeline('feature-extraction', effectiveModel);
+        })();
+        return embedderPromise;
+    }
+
+    function cosineSimilarity(a, b) {
+        let sum = 0;
+        for (let i = 0; i < a.length; i++) {
+            sum += a[i] * b[i];
+        }
+        return sum;
+    }
+
+    async function buildEmbeddingContext(query) {
+        const index = loadEmbeddingIndex();
+        if (!index || !query) return "";
+
+        const extractor = await getEmbedder(index.model);
+        const result = await extractor(query, { pooling: 'mean', normalize: true });
+        const qVec = result.data;
+
+        const scored = index.vectors.map(v => ({
+            score: cosineSimilarity(qVec, v.embedding),
+            v
+        }));
+
+        scored.sort((a, b) => b.score - a.score);
+        const topN = Math.max(1, parseInt(process.env.EMBED_TOP_N || '20', 10));
+        const selected = scored.slice(0, topN);
+
+        return selected
+            .map(({ v, score }) => `[Source: ${v.source} | score: ${score.toFixed(3)}]\n${v.content}`)
+            .join("\n\n");
+    }
+
+    function findLastUserMessageIndex(msgs) {
+        for (let i = msgs.length - 1; i >= 0; i--) {
+            if (msgs[i]?.role === 'user') return i;
+        }
+        return -1;
+    }
 
     const requestOrigin = req.headers.origin;
     let isOriginAllowed = false;
@@ -82,6 +158,20 @@ module.exports = async (req, res) => {
                 res.setHeader('Access-Control-Allow-Credentials', 'true');
             }
             return res.status(400).json({ error: 'Invalid or missing request body for POST. Expected JSON with a non-empty messages array.' });
+        }
+
+        // --- Build semantic context from embeddings and augment last user message ---
+        const messagesForModel = [...messages];
+        const lastUserIdx = findLastUserMessageIndex(messagesForModel);
+        if (lastUserIdx !== -1) {
+            const userContent = messagesForModel[lastUserIdx].content || '';
+            const context = await buildEmbeddingContext(userContent);
+            if (context) {
+                messagesForModel[lastUserIdx] = {
+                    ...messagesForModel[lastUserIdx],
+                    content: `Context:\n${context}\n\nQuestion: ${userContent}`
+                };
+            }
         }
 
         // 3. Choice of API
@@ -196,13 +286,13 @@ module.exports = async (req, res) => {
 
         const deepseekPayload = {
             model: process.env.DEEPSEEK_MODEL || 'deepseek-chat',
-            messages,
+            messages: messagesForModel,
             temperature: body?.temperature ?? 1.0,
             max_tokens: body?.max_tokens ?? 4096,
             stream: false
         };
 
-        console.log(`Forwarding request to DeepSeek with ${messages.length} messages...`);
+        console.log(`Forwarding request to DeepSeek with ${messagesForModel.length} messages (semantic context applied=${lastUserIdx !== -1})...`);
 
         const routerResponse = await fetch('https://api.deepseek.com/chat/completions', {
             method: 'POST',
