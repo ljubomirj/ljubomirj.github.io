@@ -71,12 +71,24 @@ module.exports = async (req, res) => {
         }));
 
         scored.sort((a, b) => b.score - a.score);
-        const topN = Math.max(1, parseInt(process.env.EMBED_TOP_N || '20', 10));
+        const topN = Math.max(1, parseInt(process.env.EMBED_TOP_N || '10', 10));
         const selected = scored.slice(0, topN);
 
-        return selected
-            .map(({ v, score }) => `[Source: ${v.source} | score: ${score.toFixed(3)}]\n${v.content}`)
-            .join("\n\n");
+        // Cap total context to avoid blowing model context window.
+        const maxTokens = Math.max(500, parseInt(process.env.EMBED_CONTEXT_TOKEN_LIMIT || '6000', 10)); // ~6000 tokens default
+        const maxChars = maxTokens * 4; // rough char-to-token heuristic
+        let usedChars = 0;
+        const parts = [];
+
+        for (const { v, score } of selected) {
+            const piece = `[Source: ${v.source} | score: ${score.toFixed(3)}]\n${v.content}`;
+            if (usedChars + piece.length > maxChars) break;
+            parts.push(piece);
+            usedChars += piece.length + 2; // account for spacing
+        }
+
+        console.log(`Embedding context selected: ${parts.length} chunks, ~${Math.round(usedChars / 4)} tokens (limit ${maxTokens})`);
+        return parts.join("\n\n");
     }
 
     function findLastUserMessageIndex(msgs) {
