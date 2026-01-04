@@ -32,14 +32,67 @@ At the start of Oct-2025 codex became so good, that every time I have an idea, I
 In VSCode I got Cline using OpenAI API on localhost:1234 served by LMStudio. Recently got plessantly surprised to find out both got streaming support for MiniMax-M2 xml based use of tools. Did not expect that! And before that got Claude Code in terminal to use local LLM served by LMStudio. Vai e local litellm proxy running in docker and translating between Antropic API CC wants, and the OpenAI API LMStudio provides.
 </p>
 
-        <h3>Coding agents - local in terminal without sweat, factory.ai-s droid ftw (Nov-2025)</h3>
+        <h3>Coding agents - local in terminal without sweat, opencode + MiniMax-M2.1 ftw (Jan-2026)</h3>
+
+<p>Current best local coder on my againig mbp (m2, 96gb ram) is <a href="https://github.com/anomalyco/opencode">OSS agent</a> <a href="https://opencode.ai/"><kbd>opencode</kbd></a> with OSS weights <a href="https://huggingface.co/MiniMaxAI/MiniMax-M2.1">MiniMax-M2.1</a> model. The model quants are by <a href="https://unsloth.ai/">Unsloth</a> <a href"https://huggingface.co/unsloth/MiniMax-M2.1-GGUF">unsloth/MiniMax-M2.1-GGUF</a> served from <a href="https://huggingface.co/">HuggingFace</a> a single 55GB <a href="https://huggingface.co/unsloth/MiniMax-M2.1-GGUF/blob/main/MiniMax-M2.1-UD-TQ1_0.gguf">MiniMax-M2.1-UD-TQ1_0.gguf</a>.
+The agent, the model, the end point, the interleaved thinking and the tools use - it *just runs*! 🤯 Unbelieveable. I get 10-20 tok/s on average, the longer the context the closer to 10 tok/s. The config is simply:</p><br>
+<pre>
+$ cat ~/.config/opencode/opencode.json
+{
+    "$schema": "https://opencode.ai/config.json",
+    "provider": {
+        "LMStudio": {
+            "npm": "@ai-sdk/openai-compatible",
+            "name": "LMStudio",
+            "options": {
+                "baseURL": "http://127.0.0.1:1234/v1"
+            },
+            "models": {
+                "limi-air": {
+                    "name": "limi-air"
+                },
+                "tongyi-deepresearch-30b-3b": {
+                    "name": "tongyi-deepresearch-30b-3b"
+                },
+                "minimax-m2.1": {
+                    "name": "minimax-m2.1"
+                }
+            }
+        }
+    },
+    "model": "LMStudio/minimax-m2.1"
+}
+</pre>
+<p>No special gymnastics or incantations needed - all runs out of the box. <a href="https://lmstudio.ai/">LMStudio</a> provides the end point the agent talks to on http://127.0.0.1:1234. Looking at the chat traffic agent-LLM is fun. 😊</p><br>
+<pre>
+2026-01-04 14:47:18 [DEBUG]
+ Received request: POST to /v1/chat/completions with body  {
+  "model": "minimax-m2.1",
+  "max_tokens": 32000,
+  "top_p": 0.95,
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are opencode, an interactive CLI tool that hel... <Truncated in logs> ... via the configuration files in the project root.\n"
+    },
+    {
+      "role": "user",
+      "content": "Explain the content of this directory"
+    }
+  ],
+  "tools": [
+...
+</pre>
+<p>Flash Attention is on, K- and V- caches types both use Q8_0 in the <a href="https://github.com/ggml-org/llama.cpp">llama.cpp</a> back-end.</p>
+
+        <h3>Coding agents - local in terminal, factory.ai-s droid (Nov-2025)</h3>
 
 <p>
 Heh - turns out eavesdropping on @FactoryAI droid talk to @lmstudio is not only useful but tremendous fun! Who knew?? 😂 The model/agent interaction is oft - 'were you raised by wolves, you two, per chance??' 😄 Really? You thought '$ mkdir /Project' will work, that's the way to go? fr! ffs 
 Seems droid does not realise it was started in the 'current project directory' to make things easier for it. Do people usually launch their agent on Mars, while wanting it to edit files on Earth?? 
 </p>
 <p>
-All these xml-like conversations remind me - the language spoken (the protocol) needs to be human readable. And even better if reading well than poorly. Internet - in addition to being free - IETF very early on cottoned on the fact "no human readable -> no human will get interested -> no one to make it work -> stays cr*p and dies for lack of use". So one could follow SMTP, POP3 and be not only readable, but read oh-key at leasat in not excellent. 
+All these xml-like conversations remind me - the language spoken (the protocol) needs to be human readable. And even better if reading well than poorly. Internet - in addition to being free - IETF very early on cottoned on the fact &quot;no human readable -&gt; no human will get interested -&gt; no one to make it work -&gt; stays cr*p and dies for lack of use&quot;. So one could follow SMTP, POP3 and be not only readable, but read oh-key at leasat in not excellent. 
 Formalisation of these things into some xml monstrosity is good when teaching principles to students. It's bad if used in actual practice. Much better to in practice make use of every nook and cranny to your advantage, use any accidental twist and turn, to make things more efficient, easier etc. UTF-8 backward compatible variable length encoding comes to mind.
 </p>
 <p>
@@ -68,13 +121,15 @@ then once in $ droid, select with /model.
 
 <p>
 Once you confirm LM Studio is running and serving on port 1234, this should work!
-So the model is https://huggingface.co/nightmedia/Qwen3-30B-A3B-YOYO-V5-qx86-hi-mlx, quantisation of https://huggingface.co/YOYO-AI/Qwen3-30B-A3B-YOYO-V5 , derived from joining of 3 Qwen3 models:
+</p>
+<p>
+So the model is <a href="https://huggingface.co/nightmedia/Qwen3-30B-A3B-YOYO-V5-qx86-hi-mlx">https://huggingface.co/nightmedia/Qwen3-30B-A3B-YOYO-V5-qx86-hi-mlx</a>, a quantisation of <a href="https://huggingface.co/YOYO-AI/Qwen3-30B-A3B-YOYO-V5">https://huggingface.co/YOYO-AI/Qwen3-30B-A3B-YOYO-V5</a>, derived from joining of 3 Qwen3 models:
 </p><br>
 
 <pre>
 Model tree for YOYO-AI/Qwen3-30B-A3B-YOYO-V5:
 Qwen/Qwen3-30B-A3B-Instruct-2507
-Qwen/Qwen3-30B-A3B-Thinking-2507
+Qwen/Qwen3-30B-A3B-Thinking-2507 (a reasoning model)
 Qwen/Qwen3-Coder-30B-A3B-InstructModel 
 Highlights:
 * merge method: yoyo_fusion
@@ -83,24 +138,11 @@ Highlights:
 Parameter Settings: Temperature=0.7, TopP=0.8, TopK=20, MinP=0.
 </pre>
 
-<p>
-The context is clearly much greater than 32K - this262,144 & 1010000So 256K and 1M the latter I presume with some ROPE. LMStuidio clearly allows 256KRead for yourself here https://huggingface.co/YOYO-AI/Qwen3-30B-A3B-YOYO-V5Show moreAcknowledged error regarding context length capabilities.The user is correcting me about the model's context length. They're right - this is a Qwen3-30B model that has been merged using the "yoyo_fusion" method from three different Qwen3 models:
-
-Qwen3-30B-A3B-Instruct-2507
-Qwen3-30B-A3B-Thinking-2507 (a reasoning model)
-Qwen3-Coder-30B-A3B-Instruct
-
-The model explicitly supports 262,144 tokens (256K) and even 1,010,000 tokens (1M) with ROPE scaling. So my suggestion to use 32768 was way too conservative.
-They're running this through LM Studio on their M2 MacBook with 96GB RAM, which should handle 256K context reasonably well, especially with the MLX quantization for Apple Silicon.
-I should:
-
-</p>
-
         <h3>Coding agents - fully local in VSCode Cline (Nov-2025)</h3>
 <p>
 LMStudio serving MiniMax-M2 that was shrunk so it fits in my mid-memory laptop. And LMStudio supports tools with thinking interleaved and streaming that MiniMax uses - no need to lobotomise the protocol. Then - Cline knows how to make use of that too! No litellm proxy needed. A model <a href="https://huggingface.co/mradermacher/MiniMax-M2-THRIFT-i1-GGUF">minimax-m2-thrift-i1/MiniMax-M2-THRIFT.i1-IQ2_XXS.gguf</a> that fits my VRAM and nothig else is needed - perfect! Not very fast though, and uses all of my 25 Watts on my years old MBP M2. :-) Still - pretty good. All local VSCode - Cline - LMStudio - MiniMax-M2-THRIFT. 
 </p>
-        <h3>Coding agents - fully local in terminal, Claude Code via litellm proxy (Nov-20225)</h3>
+        <h3>Coding agents - fully local in terminal, Claude Code via litellm proxy (Nov-2025)</h3>
 
 <p>
 Make Claude Code CLI use LMStudio served LocalLLM API to run LLM inference localhost.  This worked for me on 8-Nov-2025. I followed <a href="https://medium.com/@luongnv89/setting-up-claude-code-locally-with-a-powerful-open-source-model-a-step-by-step-guide-for-mac-84cf9ab7302f">Setting Up Claude Code Locally with a Powerful Open-Source Model: A Step-by-Step Guide for Mac</a> with minor changes.
@@ -302,14 +344,14 @@ Is <a href="#" onclick="toggleShowImage('vibe-coding-ftw-2025')">vibing</a> the 
 
         <h3>LLMs for coding - pre-history, chatgpt copy-pasta</h3>
         <p>
-1. Start with ChatGPT copy&pasta - works but limited & manual, little time saved.
+1. Start with ChatGPT copy&amp;pasta - works but limited &amp; manual, little time saved.
 2. Onto Cursor - nice but not much gained, not even wrong.
 3. Over to aider cmd line - some result there, even if cr*p result... but looks like it could be improved?
 4. Current VSCode gui + Cline addon + OpenRouter payg credits + Claude model. Well hello!! Finally produced something not obviously wrong.
         </p>
 
         <p>
-Until today the best I got was: in ChatGPT-o4/o1- etc, copy & paste code snippet(s), ask a Question, then incorporate the Answer in the soluton. So this was a replacement for 1) googling and reading web pages 2) search through Stackoverflow Q&A.
+Until today the best I got was: in ChatGPT-o4/o1- etc, copy &amp; paste code snippet(s), ask a Question, then incorporate the Answer in the soluton. So this was a replacement for 1) googling and reading web pages 2) search through Stackoverflow Q&amp;A.
         </p>
 
         <p>
@@ -329,7 +371,7 @@ I tried Cursor. That looked hopeful, but did not get me results. I didn't like n
         </p>
 
         <p>
-I then tried aider, a command line tool. That managed mutiple edits, but to not too good results. Waste of time wrt results, but: it was a good learning curve for me. I PAYG subscribed OpenAI -> DeepSeek -> OpenRouter.
+I then tried aider, a command line tool. That managed mutiple edits, but to not too good results. Waste of time wrt results, but: it was a good learning curve for me. I PAYG subscribed OpenAI -&gt; DeepSeek -&gt; OpenRouter.
         </p>
 
         <p>
