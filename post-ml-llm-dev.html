@@ -18,26 +18,21 @@
         <h1>ML LLM Dev Links and Notes of resources of interest</h1>
 
         <h2>Dev, LLM code writing, Agents - coding agents</h2>
-<p>
-It turned out coding agents are the 2nd big LLM killer-app. A wide application area with huge unserved demand. The moment people started mass copy-pasta code to-fro chat-gpt, was the moment we all realised: ah-haa! Why do people go through all the trouble, jump through hoops, inconveniences etc, to do that? Because they found it useful! I did it too, I too found it better than the alternatives: 1) coding for myself, solo, me-myself-and-I alone wiht my-code (now), and 2) pestering colleagues to read, them being grumpy the same way I'm grumpy when my attentiion is dragged from writing what interests me, into reading something else someone else wrote what interests them. Thrashing my context inthe process. :-)
-</p>
 
-<p>
-The agents have been tremendous success and seen tremendous progress. I'm amazed. I got $250 free CC-web credits when subscribing to a new Anthropic $20/mo sub, and proceed to run Cluade Code - Web for 2 weeks now on-and-off. This was CC running on a virtual box somewhere in the cloud, and communicating via github push/pull and web gui. All the while running Curson for my day job - with the RL trained internal model that's both fast and good, it's a breeze to use. Then there are random CC session on demand in the terminal.
-</p>
+            <p>It turned out coding agents are the 2nd big LLM killer-app. A wide application area with huge unserved demand. The moment people started mass copy-pasta code to-fro chat-gpt, was the moment we all realised: ah-haa! Why do people go through all the trouble, jump through hoops, inconveniences etc, to do that? Because they found it useful! I did it too, I too found it better than the alternatives: 1) coding for myself, solo, me-myself-and-I alone wiht my-code (now), and 2) pestering colleagues to read, them being grumpy the same way I'm grumpy when my attentiion is dragged from writing what interests me, into reading something else someone else wrote what interests them. Thrashing my context inthe process. :-) </p>
 
-<p>
-At the start of Oct-2025 codex became so good, that every time I have an idea, I just open a terminal in a directory, and run codex: I command the codex, codex commands the command line. 😆 For me AGI arrived with codex-5-high. I'm loving that socratic dialogue became the new programming. 🥰 In a dialogue between myself and codex, a set of actions emerges materialises somehow, and the job is done. 🤯 In this New-as-old world, we got Chat-as-programming, Dialogue-as-code, LLM-as-cpu, Context-as-ram. Once the QA session exhausts what was on my mind, I pause Ctrl-Z codex into background. On the next session, I continue summon codex back in the foreground with $ fg, and continue from where we stopped last time.
-</p>
+            <p>The agents have been tremendous success and seen tremendous progress. I'm amazed. I got $250 free CC-web credits when subscribing to a new Anthropic $20/mo sub, and proceed to run Cluade Code - Web for 2 weeks now on-and-off. This was CC running on a virtual box somewhere in the cloud, and communicating via github push/pull and web gui. All the while running Curson for my day job - with the RL trained internal model that's both fast and good, it's a breeze to use. Then there are random CC session on demand in the terminal.</p>
 
-<p>
-In VSCode I got Cline using OpenAI API on localhost:1234 served by LMStudio. Recently got plessantly surprised to find out both got streaming support for MiniMax-M2 xml based use of tools. Did not expect that! And before that got Claude Code in terminal to use local LLM served by LMStudio. Vai e local litellm proxy running in docker and translating between Antropic API CC wants, and the OpenAI API LMStudio provides.
-</p>
+            <p>At the start of Oct-2025 codex became so good, that every time I have an idea, I just open a terminal in a directory, and run codex: I command the codex, codex commands the command line. 😆 For me AGI arrived with codex-5-high. I'm loving that socratic dialogue became the new programming. 🥰 In a dialogue between myself and codex, a set of actions emerges materialises somehow, and the job is done. 🤯 In this New-as-old world, we got Chat-as-programming, Dialogue-as-code, LLM-as-cpu, Context-as-ram. Once the QA session exhausts what was on my mind, I pause Ctrl-Z codex into background. On the next session, I continue summon codex back in the foreground with $ fg, and continue from where we stopped last time.</p>
 
-        <h3>Coding agents - local in terminal without sweat, opencode + MiniMax-M2.1 ftw (Jan-2026)</h3>
+            <p>In VSCode I got Cline using OpenAI API on localhost:1234 served by LMStudio. Recently got plessantly surprised to find out both got streaming support for MiniMax-M2 xml based use of tools. Did not expect that! And before that got Claude Code in terminal to use local LLM served by LMStudio. Vai e local litellm proxy running in docker and translating between Antropic API CC wants, and the OpenAI API LMStudio provides.</p>
 
-<p>Current best local coder on my againig mbp (m2, 96gb ram) is <a href="https://github.com/anomalyco/opencode">OSS agent</a> <a href="https://opencode.ai/"><kbd>opencode</kbd></a> with OSS weights <a href="https://huggingface.co/MiniMaxAI/MiniMax-M2.1">MiniMax-M2.1</a> model. The model quants are by <a href="https://unsloth.ai/">Unsloth</a> <a href"https://huggingface.co/unsloth/MiniMax-M2.1-GGUF">unsloth/MiniMax-M2.1-GGUF</a> served from <a href="https://huggingface.co/">HuggingFace</a> a single 55GB <a href="https://huggingface.co/unsloth/MiniMax-M2.1-GGUF/blob/main/MiniMax-M2.1-UD-TQ1_0.gguf">MiniMax-M2.1-UD-TQ1_0.gguf</a>.
-The agent, the model, the end point, the interleaved thinking and the tools use - it *just runs*! 🤯 Unbelieveable. I get 10-20 tok/s on average, the longer the context the closer to 10 tok/s. The config is simply:</p><br>
+        <h2 id="latest-greatest">Coding agents - local in terminal without sweat, opencode + MiniMax-M2.1 ftw (Jan-2026)</h2>
+
+            <p>Current best local coder on my againig mbp (m2, 96gb ram) is <a href="https://github.com/anomalyco/opencode">OSS agent</a> <a href="https://opencode.ai/"><kbd>opencode</kbd></a> with OSS weights MoE model <a href="https://huggingface.co/MiniMaxAI/MiniMax-M2.1">MiniMax-M2.1</a> by <a href="https://www.minimax.io/">MiniMax AI</a>. The model <a href="https://unsloth.ai/docs/basics/unsloth-dynamic-2.0-ggufs">quants</a> are by <a href="https://unsloth.ai/">Unsloth</a> <a href"https://huggingface.co/unsloth/MiniMax-M2.1-GGUF">MiniMax-M2.1-GGUF</a> served from <a href="https://huggingface.co/">HuggingFace</a> - a single 55GB file <a href="https://huggingface.co/unsloth/MiniMax-M2.1-GGUF/blob/main/MiniMax-M2.1-UD-TQ1_0.gguf">MiniMax-M2.1-UD-TQ1_0.gguf</a>.</p>
+
+            <p>The agent, the model, the end point, the interleaved thinking and the tools use - it *just runs*! 🤯 Unbelieveable. I get 10-20 tok/s on average, the longer the context the closer to 10 tok/s. The config is simply:</p><br>
+
 <pre>
 $ cat ~/.config/opencode/opencode.json
 {
@@ -65,7 +60,9 @@ $ cat ~/.config/opencode/opencode.json
     "model": "LMStudio/minimax-m2.1"
 }
 </pre>
-<p>No special gymnastics or incantations needed - all runs out of the box. <a href="https://lmstudio.ai/">LMStudio</a> provides the end point the agent talks to on http://127.0.0.1:1234. Looking at the chat traffic agent-LLM is fun. 😊</p><br>
+
+            <p>No special gymnastics or incantations needed - all runs out of the box. <a href="https://lmstudio.ai/">LMStudio</a> provides the end point the agent talks to on http://127.0.0.1:1234. Looking at the chat traffic agent-LLM is fun. 😊</p><br>
+
 <pre>
 2026-01-04 14:47:18 [DEBUG]
  Received request: POST to /v1/chat/completions with body  {
@@ -85,9 +82,10 @@ $ cat ~/.config/opencode/opencode.json
   "tools": [
 ...
 </pre>
-<p>Flash Attention is on, K- and V- caches types both use Q8_0 in the <a href="https://github.com/ggml-org/llama.cpp">llama.cpp</a> back-end.</p>
 
-        <h3>Coding agents - local in terminal, factory.ai-s droid (Nov-2025)</h3>
+            <p>Flash Attention is on, K- and V- caches types both use Q8_0 in the <a href="https://github.com/ggml-org/llama.cpp">llama.cpp</a> back-end.</p>
+
+        <h2>Coding agents - local in terminal, factory.ai-s droid (Nov-2025)</h2>
 
 <p>
 Heh - turns out eavesdropping on @FactoryAI droid talk to @lmstudio is not only useful but tremendous fun! Who knew?? 😂 The model/agent interaction is oft - 'were you raised by wolves, you two, per chance??' 😄 Really? You thought '$ mkdir /Project' will work, that's the way to go? fr! ffs 
@@ -140,22 +138,16 @@ Highlights:
 Parameter Settings: Temperature=0.7, TopP=0.8, TopK=20, MinP=0.
 </pre>
 
-        <h3>Coding agents - fully local in VSCode Cline (Nov-2025)</h3>
+        <h2>Coding agents - fully local in VSCode Cline (Nov-2025)</h2>
 <p>
 LMStudio serving MiniMax-M2 that was shrunk so it fits in my mid-memory laptop. And LMStudio supports tools with thinking interleaved and streaming that MiniMax uses - no need to lobotomise the protocol. Then - Cline knows how to make use of that too! No litellm proxy needed. A model <a href="https://huggingface.co/mradermacher/MiniMax-M2-THRIFT-i1-GGUF">minimax-m2-thrift-i1/MiniMax-M2-THRIFT.i1-IQ2_XXS.gguf</a> that fits my VRAM and nothig else is needed - perfect! Not very fast though, and uses all of my 25 Watts on my years old MBP M2. :-) Still - pretty good. All local VSCode - Cline - LMStudio - MiniMax-M2-THRIFT. 
 </p>
-        <h3>Coding agents - fully local in terminal, Claude Code via litellm proxy (Nov-2025)</h3>
 
-<p>
-Make Claude Code CLI use LMStudio served LocalLLM API to run LLM inference localhost.  This worked for me on 8-Nov-2025. I followed <a href="https://medium.com/@luongnv89/setting-up-claude-code-locally-with-a-powerful-open-source-model-a-step-by-step-guide-for-mac-84cf9ab7302f">Setting Up Claude Code Locally with a Powerful Open-Source Model: A Step-by-Step Guide for Mac</a> with minor changes.
-</p>
+        <h2>Coding agents - fully local in terminal, Claude Code via litellm proxy (Nov-2025)</h2>
 
+<p>Make Claude Code CLI use LMStudio served LocalLLM API to run LLM inference localhost. This worked for me on 8-Nov-2025. I followed <a href="https://medium.com/@luongnv89/setting-up-claude-code-locally-with-a-powerful-open-source-model-a-step-by-step-guide-for-mac-84cf9ab7302f">Setting Up Claude Code Locally with a Powerful Open-Source Model: A Step-by-Step Guide for Mac</a> with minor changes. </p>
 
-## Current working setup looks like this
-
-Model nightmedia/Qwen3-30B-A3B-YOYO-V3-qx86-hi-mlx from
-
-[nightmedia/Qwen3-30B-A3B-YOYO-V3-qx86-hi-mlx · Hugging Face](https://huggingface.co/nightmedia/Qwen3-30B-A3B-YOYO-V3-qx86-hi-mlx)
+<p>The current working setup is described below. The model is Qwen3-30B-A3B-YOYO-V3-qx86-hi-mlx by nightmedia on Hugging Face <a href="https://huggingface.co/nightmedia/Qwen3-30B-A3B-YOYO-V3-qx86-hi-mlx">https://huggingface.co/nightmedia/Qwen3-30B-A3B-YOYO-V3-qx86-hi-mlx</a>.</p>
 
 <h4>1. In the ~/litellm directory create 4 these files</h4>
 
@@ -229,11 +221,11 @@ services:
 LITELLM_MASTER_KEY="sk-1234"
 </pre>
 
-<h3>2. Ensure LMStudio is started, model loaded and running, and LMStudio is serving the default endpoint localhost:1234</h3>
+<h4>2. Ensure LMStudio is started, model loaded and running, and LMStudio is serving the default endpoint localhost:1234</h4>
 
 <img src="LMStudio-YOYO-pic1.png" style="width: 75%; height: auto;">
 
-<h3>3. Ensure the endpoint is reachable</h3>
+<h4>3. Ensure the endpoint is reachable</h4>
 
 <pre>
 ljubomir@macbook2(::main):~$ curl http://localhost:1234/v1/models
@@ -254,7 +246,7 @@ ljubomir@macbook2(::main):~$ curl -H "Authorization: Bearer sk-1234" http://loca
 {"healthy_endpoints":[{"api_base":"http://host.docker.internal:1234/v1","use_in_pass_through":false,"use_litellm_proxy":false,"merge_reasoning_content_in_choices":false,"model":"openai/qwen3-30b-a3b-coderthinking-yoyo-linear","max_tokens":65536,"repetition_penalty":1.1,"temperature":0.6,"top_k":100,"top_p":0.95,"litellm_metadata":{"tags":["litellm-internal-health-check"],"user_api_key_hash":"litellm-internal-health-check","user_api_key_alias":"litellm-internal-health-check","user_api_key_spend":0.0,"user_api_key_max_budget":null,"user_api_key_team_id":"litellm-internal-health-check","user_api_key_user_id":null,"user_api_key_org_id":null,"user_api_key_team_alias":"litellm-internal-health-check","user_api_key_end_user_id":null,"user_api_key_user_email":null,"user_api_key_request_route":null,"user_api_key_budget_reset_at":null,"user_api_key_auth_metadata":null,"user_api_key":"litellm-internal-health-check","user_api_end_user_max_budget":null},"cache":{"no-cache":true}}],"unhealthy_endpoints":[],"healthy_count":1,"unhealthy_count":0}
 </pre>
 
-<h3>4. Start docker while being in the right dir</h3>
+<h4>4. Start docker while being in the right dir</h4>
 
 <pre>
 ljubomir@macbook2(::):~/litellm$ docker compose up -d
@@ -299,8 +291,8 @@ ljubomir@macbook2(::):~/litellm$ claude
 </p>
 
         <h2>Coding agentss - in terminal</h2>
-        <p>
-Current workflow is:<br><br>
+
+        <p>Current workflow is:</p><br>
 
 <pre>
 # An Architect model is asked to describe how to solve the coding problem. Thinking/reasoning models often work well in this role.
@@ -312,7 +304,7 @@ aider-openrouter-best() {
 }
 </pre><br>
 
-Atm waiting on a glitch to resolve -<br><br>
+        <p>Atm waiting on a glitch to resolve -</p><br>
 
 <pre>
 architect> litellm.APIError: APIError: OpenrouterException - 
@@ -320,77 +312,48 @@ Retrying in 0.2 seconds...
 litellm.APIError: APIError: OpenrouterException - 
 </pre><br>
 
-...and so I'm realising now I more often then not now I have it write code for me.
-        </p>
+        <p>...and so I'm realising now I more often then not now I have it write code for me.</p>
 
-        <p>
-It's not even that much faster atm tbh! By the time I have thought through, explained in detail in INSTRUCTIONS.md — I could have read up the sources, the docs, and done it myself.
-        </p>
+        <p>It's not even that much faster atm tbh! By the time I have thought through, explained in detail in INSTRUCTIONS.md — I could have read up the sources, the docs, and done it myself.</p>
 
-        <p>
-The only explanation I have to offer, that I only now—waiting on the OR api to come back—have, is: it's **much more fun**!! 😍 
-        </p>
+        <p>The only explanation I have to offer, that I only now—waiting on the OR api to come back—have, is: it's **much more fun**!! 😍</p>
 
-        <p>
-It's much more fun to have someone else write the code, and even if need be talk them into "no no—not that way, change this, change that", than to do everything myself solo and in silence!! 😆
-        </p>
+        <p>It's much more fun to have someone else write the code, and even if need be talk them into "no no—not that way, change this, change that", than to do everything myself solo and in silence!! 😆</p>
 
-        <p>
-Ok—this I did not expect. 😛 That the most entertaining—wins. 🙃
-        </p>
+        <p>Ok—this I did not expect. 😛 That the most entertaining—wins. 🙃</p>
 
-        <p>
-Is <a href="#" onclick="toggleShowImage('vibe-coding-ftw-2025')">vibing</a> the way code wring will scale x10, x100 next??
-        </p>
+        <p>Is <a href="#" onclick="toggleShowImage('vibe-coding-ftw-2025')">vibing</a> the way code wring will scale x10, x100 next??</p>
+
         <img id="vibe-coding-ftw-2025" src="picmem/vibe-coding-ftw-2025.png" style="display: none; width: 100%; height: auto;" onclick="zoomImage(this)">
 
         <h3>LLMs for coding - pre-history, chatgpt copy-pasta</h3>
-        <p>
-1. Start with ChatGPT copy&amp;pasta - works but limited &amp; manual, little time saved.
-2. Onto Cursor - nice but not much gained, not even wrong.
-3. Over to aider cmd line - some result there, even if cr*p result... but looks like it could be improved?
-4. Current VSCode gui + Cline addon + OpenRouter payg credits + Claude model. Well hello!! Finally produced something not obviously wrong.
-        </p>
 
-        <p>
-Until today the best I got was: in ChatGPT-o4/o1- etc, copy &amp; paste code snippet(s), ask a Question, then incorporate the Answer in the soluton. So this was a replacement for 1) googling and reading web pages 2) search through Stackoverflow Q&amp;A.
-        </p>
+        <ol>
+            <li>Start with ChatGPT copy&amp;pasta - works but limited &amp; manual, little time saved.</li>
+            <li>Onto Cursor - nice but not much gained, not even wrong.</li>
+            <li>Over to aider cmd line - some result there, even if cr*p result... but looks like it could be improved?</li>
+            <li>Current VSCode gui + Cline addon + OpenRouter payg credits + Claude model. Well hello!! Finally produced something not obviously wrong.</li>
+        </ol>
 
-        <p>
-This is the 1st time I got code inserted in 3 files. That required AI to 1) read through 5-6 files 2) compare and contrast, reason by analogy 3) take my requirement Q in considerion 4) edit 3 files, delete some code, insert some other code.
-        </p>
+        <p>Until today the best I got was: in ChatGPT-o4/o1- etc, copy &amp; paste code snippet(s), ask a Question, then incorporate the Answer in the soluton. So this was a replacement for 1) googling and reading web pages 2) search through Stackoverflow Q&amp;A.</p>
 
-        <p>
-I have my main codebase, about 200K LoC in an array/matrix language mostly, with some C/C++/bash/awk/sql too.
-        </p>
+        <p>This is the 1st time I got code inserted in 3 files. That required AI to 1) read through 5-6 files 2) compare and contrast, reason by analogy 3) take my requirement Q in considerion 4) edit 3 files, delete some code, insert some other code.</p>
 
-        <p>
-I'm agnostic Re: tools. Fallback always available is bash/vim/Makefile/gcc/g++/gdb/ddd/shell/... tools. But if IDE like VSCode/Spyder/CLion/Matlab/DBeaver is available - I'm happy to use. As long as it's not exlcusive, and one can edit/setup outside the IDE too. And esp important version contol - git now, prev hg, cvs, Teams. If that works - then all is good.
-        </p>
+        <p>I have my main codebase, about 200K LoC in an array/matrix language mostly, with some C/C++/bash/awk/sql too.</p>
 
-        <p>
-I tried Cursor. That looked hopeful, but did not get me results. I didn't like not being able to use existing API subscriptions in it. Also them using some kind of LLM in-house undocumented bodge. (I maybe wrong/maybe possible - didn't try too hard)
-        </p>
+        <p>I'm agnostic Re: tools. Fallback always available is bash/vim/Makefile/gcc/g++/gdb/ddd/shell/... tools. But if IDE like VSCode/Spyder/CLion/Matlab/DBeaver is available - I'm happy to use. As long as it's not exlcusive, and one can edit/setup outside the IDE too. And esp important version contol - git now, prev hg, cvs, Teams. If that works - then all is good.</p>
 
-        <p>
-I then tried aider, a command line tool. That managed mutiple edits, but to not too good results. Waste of time wrt results, but: it was a good learning curve for me. I PAYG subscribed OpenAI -&gt; DeepSeek -&gt; OpenRouter.
-        </p>
+        <p>I tried Cursor. That looked hopeful, but did not get me results. I didn't like not being able to use existing API subscriptions in it. Also them using some kind of LLM in-house undocumented bodge. (I maybe wrong/maybe possible - didn't try too hard)</p>
 
-        <p>
-OpenRouter leader board led me to Cline VSCode addon. Latest-greatest setup atm 1) VSCode 2) with Cline Addon 3) OpenRouter API key (payg credits) 4) select Claude 3.5 via openrouter/anthropic/claude-3.5-sonnet.
-        </p>
+        <p>I then tried aider, a command line tool. That managed mutiple edits, but to not too good results. Waste of time wrt results, but: it was a good learning curve for me. I PAYG subscribed OpenAI -&gt; DeepSeek -&gt; OpenRouter.</p>
 
-        <p>
-The dev task was as follows. Functionality A/B/C needs implementong. Look at existing wrapper X implementing A/B/C, while using Y external library for A/B. Create new wrapper U, to use external library W, in the same way X is using Y, to do the similar A/B. (C is done in X and U respectivelly) E.g. - see how the data is passed X-to-Y, then do it the same way U-to-W. Look at examples code in the W library, figure how to do A/B.
-        </p>
+        <p>OpenRouter leader board led me to Cline VSCode addon. Latest-greatest setup atm 1) VSCode 2) with Cline Addon 3) OpenRouter API key (payg credits) 4) select Claude 3.5 via openrouter/anthropic/claude-3.5-sonnet.</p>
 
-        <p>
-This to avoid doing the reading abt W and figuring A/B myself. I can do it myself, have done it half a dozen times already, for U/W equivalents, but: bit boring, and wanted to find out if I can make AI do it for me.
-        </p>
+        <p>The dev task was as follows. Functionality A/B/C needs implementong. Look at existing wrapper X implementing A/B/C, while using Y external library for A/B. Create new wrapper U, to use external library W, in the same way X is using Y, to do the similar A/B. (C is done in X and U respectivelly) E.g. - see how the data is passed X-to-Y, then do it the same way U-to-W. Look at examples code in the W library, figure how to do A/B.</p>
 
-        <p>
-Have yet to finish the full loop, the code does not run yet. But - before it was laughably obviously bad and wrong. Now - the 1st time where the code looks plausable. Need to do a harness to test finally. To be continued.
-        </p>
+        <p>This to avoid doing the reading abt W and figuring A/B myself. I can do it myself, have done it half a dozen times already, for U/W equivalents, but: bit boring, and wanted to find out if I can make AI do it for me.</p>
+
+        <p>Have yet to finish the full loop, the code does not run yet. But - before it was laughably obviously bad and wrong. Now - the 1st time where the code looks plausable. Need to do a harness to test finally. To be continued.</p>
 
         <h2>Models - open source, open weights, open thoughts, code, documentation</h2>
 
@@ -447,8 +410,6 @@ Have yet to finish the full loop, the code does not run yet. But - before it was
 
         <p>The Complexity Dynamics of Grokking <a href="https://brantondemoss.com/research/grokking/">https://brantondemoss.com/research/grokking/</a></p>
 
-        <p><a href=""></a></p>
-        <p><a href=""></a></p>
         <p><a href=""></a></p>
         <p><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>-- <br>LJ HPD Sun 22 Dec 22:24:19 GMT 2024</p>
 
