@@ -1,4 +1,4 @@
-.PHONY: install install-npm install-know knowledge embeddings bookmarklet all
+.PHONY: install install-npm install-know knowledge embeddings feeds bookmarklet all
 
 # Install JS dependencies (uses package-lock.json for exact versions)
 install-npm:
@@ -29,9 +29,13 @@ knowledge:
 embeddings: knowledge
 	npm run build:embeddings
 
+# Build RSS + Atom feeds
+feeds:
+	python3 scripts/build-feeds.py
+
 # Produce bookmarklet minified copy via inline Node script (see instructions in .js file)
 twitter-LJ-posts-archive-bookmarklet.txt: twitter-LJ-posts-archive-bookmarklet.js
 	node -e "const fs=require('fs');const src=fs.readFileSync('twitter-LJ-posts-archive-bookmarklet.js','utf8');const before=src.split('/* CREATE_BOOKMARKLET_COPY')[0];const body=before.replace(/^javascript:\\s*/i,'').trim();const min=body.replace(/\\/\\*[\\s\\S]*?\\*\\//g,'').replace(/\\s+/g,' ');const one='javascript:'+min;fs.writeFileSync('twitter-LJ-posts-archive-bookmarklet.txt',one);try{require('child_process').spawnSync('pbcopy',{input:one});}catch(e){}console.log('Copied to clipboard and saved to twitter-LJ-posts-archive-bookmarklet.txt');console.log('Length:',one.length);console.log('Preview:',one.slice(0,120)+' ... '+one.slice(-40));"
 
-# Default pipeline: rebuild knowledge + embeddings
-all: embeddings
+# Default pipeline: rebuild knowledge + embeddings + feeds
+all: embeddings feeds
