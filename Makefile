@@ -35,7 +35,7 @@ feeds:
 
 # Produce bookmarklet minified copy via inline Node script (see instructions in .js file)
 twitter-LJ-posts-archive-bookmarklet.txt: twitter-LJ-posts-archive-bookmarklet.js
-	node -e "const fs=require('fs');const src=fs.readFileSync('twitter-LJ-posts-archive-bookmarklet.js','utf8');const before=src.split('/* CREATE_BOOKMARKLET_COPY')[0];const body=before.replace(/^javascript:\\s*/i,'').trim();const min=body.replace(/\\/\\*[\\s\\S]*?\\*\\//g,'').replace(/\\s+/g,' ');const one='javascript:'+min;fs.writeFileSync('twitter-LJ-posts-archive-bookmarklet.txt',one);try{require('child_process').spawnSync('pbcopy',{input:one});}catch(e){}console.log('Copied to clipboard and saved to twitter-LJ-posts-archive-bookmarklet.txt');console.log('Length:',one.length);console.log('Preview:',one.slice(0,120)+' ... '+one.slice(-40));"
+	node scripts/build-bookmarklet.js
 
 # Default pipeline: rebuild knowledge + embeddings + feeds
 all: embeddings feeds
