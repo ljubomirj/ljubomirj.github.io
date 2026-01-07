@@ -263,7 +263,7 @@ Keeping detail so not cost free, it takes resource implementing it. So if we don
 
         </div>
 
-        <h3>G. Life, Entropy, and Knowledge <span class="sec-toggle" aria-controls="appendix-g" aria-expanded="false">+</span></h3>
+        <h3>G. Life, Entropy, Knowledge, Intelligence <span class="sec-toggle" aria-controls="appendix-g" aria-expanded="false">+</span></h3>
         <div id="appendix-g" hidden>
 
             <p>Definions of life collected over time from various sources.</p>
@@ -285,6 +285,22 @@ Keeping detail so not cost free, it takes resource implementing it. So if we don
             <p>Life is recurring pattern. Joscha Bach "We Are All Software". We recognise the same person even if all molecules churned many times. The pattern repeats over time even if the details differ.</p>
 
             <p>Life is a cycle of generation, degeneration, regeneration. "I" is a collection of particles that is arranged into this pattern, that will decompose and be available to nature to reorganize into another pattern. Death is part of a gift economy. You are given this enormous gift, life. You enrich it as best you can. And then you give it back. (Emily Levine, Andreas Weber). Children give you a glimpse of a second life, if not of an eternal one.</p>
+
+            <h4>Intelligence</h4>
+
+            <p>One definition of intelligence I've heard is: "intelligence is the computational part of achieving a goal". And what is the goal of anything that's alive? The goal is to continue staying alive. Otherwise it dies and then stays dead forever. Short term we adapat to the enviroenment, and we adapt the environment to us. Long term we im-perfectly replicate, create im-perfect partial copies of ourselves. (could say "it's the recipe for replication that replicates, our bodies are the material realisations of that machine"; dependnt of what we take to be "I") Stupid systems found in nature are never living - always dead. Can safely infer: "if alive =&gt; then not-stupid but intelligent"? Reality has that search built in apparently.</p>
+
+            <p>Intelligence definitions over/heard or read over time, short enough to be collected:</p>
+            <ul>
+                <li>Behaving like a person. (Turing test)</li>
+                <li>The ability to acquire and apply knowledge and skills. (dictionary)</li>
+                <li>Attaining consistent ends by variable means. (William James, psychology)</li>
+                <li>The computational part of the ability to achieve goals. (John McCarthy, AI)</li>
+                <li>Ability to acquire capability - efficiently. (Challet)</li>
+                <li>Doing more with less. (David Krakauer)</li>
+            </ul>
+
+            <p>Looks to me the way we adapt to the environment, and the way we adapt the environment, we achieve that by having a model of the environment, and a model of ourselves - in our heads. Then we forecast into the future, make a prediction. Then the future happens, and we get the ground truth from the reality around us. Then we compute the difference, the error, and try to reduce it: both by changing the model in our head to be a better predictor of the future, and by activelly changing the future by changing our environment too. Afaik this is what Fristons theories are about. Last I heard it on this Joscha Bach <a href="https://www.appblit.com/scribe?v=dP4VlkSa87c&t=1578&g=d5SXWH6eCJMsc5ZyO7M7DtKSTak2">interview</a> ("Building an AGI to Play the Longest Games"; Worthy Successor, <a href="https://www.youtube.com/watch?v=dP4VlkSa87c&t=1578s">Episode 6.</a> The Trajectory with Dan Faggella) Makes total sense to me.</p>
 
         </div>
 
@@ -375,8 +391,14 @@ Keeping detail so not cost free, it takes resource implementing it. So if we don
         <h3>M. Etc <span class="sec-toggle" aria-controls="appendix-m" aria-expanded="false">+</span></h3>
         <div id="appendix-m" hidden>
 
-            <p><b>Amusing paper</b> illustrates how new/more information can make the entropy (uncertainty) higher, thus reducing our knowledge. Where our knowledge measure is the spikiness of the probability density function. After the additional observation (new information), the conditional p.d.f. post the observation is flatter then before =&gt; our knowledge about the world decreased.<br>
-Michael R DeWeese and Markus Meister (1999), <a href="DeWeese_Meister_-_How_to_measure_the_information_gained_from_one_symbol_-_ne9403.pdf">"How to measure the information gained from one symbol"</a>, <a href="https://www.tandfonline.com/doi/abs/10.1088/0954-898X_10_4_303">Network: Computation in Neural Systems, 10:4, 325-340</a>, <a href="https://iopscience.iop.org/article/10.1088/0954-898X/10/4/303">DOI: 10.1088/0954-898X/10/4/303</a></p>
+            <p><b>Information can reduce knowledge</b>Amusing paper illustrates how new/more information can make the entropy (uncertainty) higher, thus reducing our knowledge. Where our knowledge measure is the spikiness of the probability density function. After the additional observation (new information), the conditional p.d.f. post the observation is flatter then before =&gt; our knowledge about the world decreased.</p>
+
+            <p>Michael R DeWeese and Markus Meister (1999), <a href="DeWeese_Meister_-_How_to_measure_the_information_gained_from_one_symbol_-_ne9403.pdf">"How to measure the information gained from one symbol"</a>, <a href="https://www.tandfonline.com/doi/abs/10.1088/0954-898X_10_4_303">Network: Computation in Neural Systems, 10:4, 325-340</a>, <a href="https://iopscience.iop.org/article/10.1088/0954-898X/10/4/303">DOI: 10.1088/0954-898X/10/4/303</a></p>
+
+            <p>The paper contains an example along the lines of: let's say I want to know if I have cancer or not right now. Let's assume that for my demographics, the chances of cancer at my age are 5%. So I can be reasonably sure that I have not got cancer (95%). Now I do a test, and the result comes back positive. Now - we know that half of the people that test positive turn out to have cancer for real, and the other half are false positives. After the test, my chances are 50:50 - I'm perfectly ignorant! Whereas before the test, I was fairly certain I have not got cancer. So the <i>new information</i> provided by the test, it <i>reduced my knowledge</i>: from almost certain, do perfectly ignorant.</p>
+
+            <p><b>Incomplete theory?</b> In betting when quant trading, we don't just take the point forecast (e.g. mean \( \mu \) ) and run with it. We take into account the 2nd moment \( \sigma \), some measure of variability around the 1st moment, as our measure of risk. We use it to counter-balance using the first moment in point forecast with e.g. \( \mu - \sigma^2/2 \), or as part of a constraint on the size of the bet we will place. This is to express that we have at least two objectives. Yes we want to make earn $$$ (#2), but in order to do that, we have to stay alive (#1). We need to live to trade another day. Going bust is a game over, once we stop trading on day \( 50 \), there is not trading on days \( 51, 52 ... 100 \) anymore. Our game is non-ergodic: a \( 1..100 \) sequence in time can not be replaced by ensamble of 100 copies of <i>us</i> in 1 time moment - that would imply independence. But us staying alive to trade day 100, depends on doing the same on days \( 1, 2 ... 99 \).</p>
+            <p>I like the Theory of Information finally gifted to us by <a href="https://people.math.harvard.edu/~ctm/home/text/others/shannon/entropy/entropy.pdf">Shannon</a> in the 20-th century. But sometimes I think that it's more restrictive than it needs to be. Every result has a real physical embodiment, we could run an experiment, count, and see with our eyes that our intermediate result in a long chain of derivations holds (is true). That's great, but maybe an overkill - the theory doing more than it needs to. Because often we don't care about intermediate results, it's not a must that intermediate results have physical interpretation. We really only care about the start, and the end - don't care about the middle. The theory needs to work in the middle, but the practice doesn't need to. E.g. we happily run with complex numbers, and they make things previously impossible to compute - possible. And yet - we don't stop and requite 1:1 correspndence with reality at every step. It suffices that the 1st and the last step have mapping to reality. The intermediate steps - they don't need to. E.g. using complex numbers in Fourer Transform in signal processing. Or using 1000s-dimensional vector spaces that we can't even imagine, and certanily can't see. There are concepts like 'confidence' supplementing 'forecast' probailities, that are not as straightforward to express in the current framework as one would hope. Maybe <a href="https://arxiv.org/abs/2503.03759">extension to complex probabilities</a>, or even just <a href="https://arxiv.org/abs/2512.02901">pure trickery</a>, will come to be helpful and useful? TBS</p>
 
         </div>
 
