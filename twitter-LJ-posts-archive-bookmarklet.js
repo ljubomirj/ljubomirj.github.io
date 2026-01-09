@@ -3,6 +3,10 @@ javascript:(async () => {
   const SCROLL_DELAY_MS = 1200;
   const MAX_SCROLL_LOOPS = 400;
   const MAX_IDLE_LOOPS = 40;
+  const EXPAND_LONG_TWEETS = (prompt('Expand long tweets? y/N') || '')
+    .trim()
+    .toLowerCase()
+    .startsWith('y');
   const BANNED_IDS = new Set([
     /* Known stray post to ignore (Zhihu Frontier) */
     '1987125624599970218',
@@ -164,11 +168,13 @@ javascript:(async () => {
   };
 
   const expandTweetText = (article) => {
+    if (!EXPAND_LONG_TWEETS) return false;
     let expanded = false;
     const showMoreNodes = Array.from(
       article.querySelectorAll('[data-testid="tweet-text-show-more-link"]')
     );
     for (const node of showMoreNodes) {
+      if (node.closest('a[href*="/status/"]')) continue; /* avoid navigating into a quote */
       const clickable = node.closest('div[role="button"],button') || node;
       try {
         clickable.click();
@@ -182,7 +188,7 @@ javascript:(async () => {
 
   const clickLoadMore = () => {
     /* Only click safe pagination/retry buttons; avoid "show more replies". */
-    const allow = ['retry', 'try again', 'show more results', 'show more'];
+    const allow = ['retry', 'try again', 'show more results'];
     const deny = ['reply', 'repl', 'replies'];
     const buttons = Array.from(document.querySelectorAll('button,div[role="button"]'));
     for (const btn of buttons) {
@@ -201,13 +207,40 @@ javascript:(async () => {
     return false;
   };
 
-  const parseTweet = (article) => {
-    const timeElement = article.querySelector('a[href*="/status/"] time');
-    if (!timeElement) return null;
-    const owningArticle = timeElement.closest('article');
-    if (owningArticle && owningArticle !== article) return null; /* reject if time belongs to nested tweet */
+  const nodeDepth = (node, root) => {
+    let depth = 0;
+    let cur = node;
+    while (cur && cur !== root) {
+      depth += 1;
+      cur = cur.parentElement;
+    }
+    return depth;
+  };
 
-    const link = timeElement.closest('a[href*="/status/"]');
+  const pickPrimaryStatusLink = (article) => {
+    const timeNodes = Array.from(article.querySelectorAll('a[href*="/status/"] time'));
+    const candidates = timeNodes
+      .map((time) => ({ time, link: time.closest('a[href*="/status/"]') }))
+      .filter((item) => item.link && item.time.closest('article') === article);
+    if (!candidates.length) return null;
+    const scored = candidates.map((item) => {
+      const rect = item.time.getBoundingClientRect();
+      return {
+        ...item,
+        depth: nodeDepth(item.time, article),
+        top: Number.isFinite(rect.top) ? rect.top : 0,
+      };
+    });
+    scored.sort((a, b) => a.depth - b.depth || a.top - b.top);
+    return scored[0];
+  };
+
+  const parseTweet = (article) => {
+    const primary = pickPrimaryStatusLink(article);
+    if (!primary) return null;
+
+    const timeElement = primary.time;
+    const link = primary.link;
     if (!link || !link.href) return null;
 
     const idMatch = link.href.match(/status\/(\d+)/);
