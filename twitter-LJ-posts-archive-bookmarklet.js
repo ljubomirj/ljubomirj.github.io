@@ -25,13 +25,9 @@ javascript:(async () => {
   const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
   const ensureAt = (h) => (h.startsWith('@') ? h : '@' + h);
   const isNestedTweet = (article) => {
-    /* Skip if this article lives inside another article (quoted/embedded) */
-    const ancestor = article?.closest('article');
-    if (ancestor && ancestor !== article) return true;
-    /* Skip if it contains a child article (embedded/quoted) */
-    const child = article.querySelector('article');
-    if (child && child !== article) return true;
-    return false;
+    /* Skip quoted/embedded tweets: those are nested inside another article. */
+    const parentArticle = article?.parentElement?.closest('article');
+    return Boolean(parentArticle);
   };
 
   /* Minimal status badge in the corner + console logging so you can see progress. */
