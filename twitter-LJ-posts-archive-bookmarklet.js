@@ -3,10 +3,7 @@ javascript:(async () => {
   const SCROLL_DELAY_MS = 1200;
   const MAX_SCROLL_LOOPS = 400;
   const MAX_IDLE_LOOPS = 40;
-  const EXPAND_LONG_TWEETS = (prompt('Expand long tweets? y/N') || '')
-    .trim()
-    .toLowerCase()
-    .startsWith('y');
+  const EXPAND_LONG_TWEETS = true;
   const BANNED_IDS = new Set([
     /* Known stray post to ignore (Zhihu Frontier) */
     '1987125624599970218',
@@ -18,6 +15,8 @@ javascript:(async () => {
     return;
   }
 
+  const START_URL = location.href;
+
   /* Global stop flag so you can halt from console or Escape key. */
   const STOP_FLAG = '__lj_backup_stop__';
   window[STOP_FLAG] = false;
@@ -28,6 +27,15 @@ javascript:(async () => {
 
   const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
   const ensureAt = (h) => (h.startsWith('@') ? h : '@' + h);
+  const nodeDepth = (node, root) => {
+    let depth = 0;
+    let cur = node;
+    while (cur && cur !== root) {
+      depth += 1;
+      cur = cur.parentElement;
+    }
+    return depth;
+  };
   const isNestedTweet = (article) => {
     /* Skip quoted/embedded tweets: those are nested inside another article. */
     const parentArticle = article?.parentElement?.closest('article');
@@ -149,14 +157,14 @@ javascript:(async () => {
   };
 
   const extractText = (article) => {
-    const blocks = Array.from(article.querySelectorAll('div[data-testid="tweetText"]'));
+    const blocks = getMainTweetTextBlocks(article);
     if (!blocks.length) return '';
     const parts = blocks.map((block) => {
       const clone = block.cloneNode(true);
       clone.querySelectorAll('a[href]').forEach((a) => {
         if (a.href) a.textContent = a.href.split('?')[0];
       });
-      return clone.innerText;
+      return clone.textContent || '';
     });
     let text = parts.join('\n');
     text = text.replace(/\bShow more\b/gi, '').trim();
@@ -167,23 +175,76 @@ javascript:(async () => {
     return text.trim();
   };
 
-  const expandTweetText = (article) => {
+  const getMainTweetTextBlocks = (article) => {
+    const blocks = Array.from(article.querySelectorAll('div[data-testid="tweetText"]')).filter(
+      (block) => block.closest('article') === article
+    );
+    if (!blocks.length) return [];
+    const lengths = blocks.map((block) => (block.textContent || '').trim().length);
+    const maxLen = Math.max(...lengths);
+    const longest = blocks.filter(
+      (block, index) => (block.textContent || '').trim().length === maxLen && maxLen > 0
+    );
+    return longest.length ? longest : blocks;
+  };
+
+  const getMainTextLength = (article) => {
+    return getMainTweetTextBlocks(article)
+      .map((block) => (block.textContent || '').trim().length)
+      .reduce((acc, len) => Math.max(acc, len), 0);
+  };
+
+  const expandTweetText = async (article) => {
     if (!EXPAND_LONG_TWEETS) return false;
     let expanded = false;
-    const showMoreNodes = Array.from(
-      article.querySelectorAll('[data-testid="tweet-text-show-more-link"]')
-    );
-    for (const node of showMoreNodes) {
-      if (node.closest('a[href*="/status/"]')) continue; /* avoid navigating into a quote */
-      const clickable = node.closest('div[role="button"],button') || node;
+    const mainBlocks = getMainTweetTextBlocks(article);
+    if (!mainBlocks.length) return false;
+    const baseLen = getMainTextLength(article);
+    const showMoreNodes = (() => {
+      const primary = Array.from(
+        article.querySelectorAll('[data-testid="tweet-text-show-more-link"]')
+      );
+      const fallback = Array.from(
+        article.querySelectorAll('div[data-testid="tweetText"] [role="button"], div[data-testid="tweetText"] span, div[data-testid="tweetText"] a')
+      ).filter((node) => {
+        const label = (node.innerText || node.textContent || '').trim();
+        return /^show more$/i.test(label);
+      });
+      return Array.from(new Set([...primary, ...fallback]));
+    })();
+
+    const safeClick = (node) => {
+      const anchor = node.closest('a[href]');
+      const href = anchor ? anchor.getAttribute('href') : '';
+      if (anchor) {
+        anchor.removeAttribute('href');
+        anchor.setAttribute('role', 'button');
+      }
       try {
-        clickable.click();
-        expanded = true;
+        node.click();
       } catch {
         /* ignore */
+      } finally {
+        if (anchor && href) anchor.setAttribute('href', href);
       }
+    };
+
+    for (const node of showMoreNodes) {
+      if (node.closest('article') !== article) continue;
+      const block = node.closest('div[data-testid="tweetText"]');
+      if (!block || !mainBlocks.includes(block)) continue;
+      if (node.closest('a[href*="/status/"]')) continue; /* avoid navigating into a quote */
+      safeClick(node);
+      expanded = true;
     }
-    return expanded;
+    if (!expanded) return false;
+
+    for (let i = 0; i < 8; i++) {
+      await sleep(90);
+      const nextLen = getMainTextLength(article);
+      if (nextLen > baseLen + 3) break;
+    }
+    return true;
   };
 
   const clickLoadMore = () => {
@@ -205,16 +266,6 @@ javascript:(async () => {
       }
     }
     return false;
-  };
-
-  const nodeDepth = (node, root) => {
-    let depth = 0;
-    let cur = node;
-    while (cur && cur !== root) {
-      depth += 1;
-      cur = cur.parentElement;
-    }
-    return depth;
   };
 
   const pickPrimaryStatusLink = (article) => {
@@ -344,9 +395,9 @@ javascript:(async () => {
     for (const article of getArticles()) {
       if (isNestedTweet(article)) continue; /* skip quoted/embedded tweets */
 
-      const didExpand = expandTweetText(article);
+      const didExpand = await expandTweetText(article);
       if (didExpand) {
-        await sleep(50);
+        await sleep(80);
       }
 
       const parsed = parseTweet(article);
