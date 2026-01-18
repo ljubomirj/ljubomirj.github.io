@@ -228,11 +228,11 @@ javascript:(async () => {
   };
 
   const parseTweet = (article) => {
-    if (!link) {
-      console.debug("Skipped article (no self-status link)", article);
-    }
     const link = pickMainTimeLink(article);
-    if (!link) return null;
+    if (!link) {
+      console.debug('Skipped article (no self‑status link)', article);
+      return null;
+    }
 
     const idMatch = link.href.match(/status\/(\d+)/);
     if (!idMatch) return null;
