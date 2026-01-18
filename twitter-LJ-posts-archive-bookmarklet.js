@@ -24,15 +24,9 @@ javascript:(async () => {
 
   const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
   const ensureAt = (h) => (h.startsWith('@') ? h : '@' + h);
-  const isNestedTweet = (article) => {
-    /* Skip if this article lives inside another article (quoted/embedded) */
-    const ancestor = article?.closest('article');
-    if (ancestor && ancestor !== article) return true;
-    /* Skip if it contains a child article (embedded/quoted) */
-    const child = article.querySelector('article');
-    if (child && child !== article) return true;
-    return false;
-  };
+
+  // Correct nested tweet detection: quoted/embedded tweets are usually an <article> inside another <article>
+  const isNestedTweet = (article) => !!article?.parentElement?.closest('article');
 
   /* Minimal status badge in the corner + console logging so you can see progress. */
   const statusEl = (() => {
@@ -167,7 +161,7 @@ javascript:(async () => {
     return text.trim();
   };
 
-  const expandTweetText = (article) => {
+  const expandTweetText = async (article) => {
     let expanded = false;
     const showMoreNodes = Array.from(
       article.querySelectorAll('[data-testid="tweet-text-show-more-link"]')
@@ -181,6 +175,7 @@ javascript:(async () => {
         /* ignore */
       }
     }
+    if (expanded) await sleep(50);
     return expanded;
   };
 
@@ -205,14 +200,39 @@ javascript:(async () => {
     return false;
   };
 
-  const parseTweet = (article) => {
-    const timeElement = article.querySelector('a[href*="/status/"] time');
-    if (!timeElement) return null;
-    const owningArticle = timeElement.closest('article');
-    if (owningArticle && owningArticle !== article) return null; /* reject if time belongs to nested tweet */
+  const pickMainTimeLink = (article) => {
+    const anchors = Array.from(
+      article.querySelectorAll('a[href*="/status/"]')
+    );
 
-    const link = timeElement.closest('a[href*="/status/"]');
-    if (!link || !link.href) return null;
+    for (const a of anchors) {
+      try {
+        const u = new URL(a.href);
+        const parts = u.pathname.split('/').filter(Boolean);
+
+        // Must be /<handle>/status/<id>
+        if (
+          parts.length >= 3 &&
+          parts[0].toLowerCase() === HANDLE.replace('@', '').toLowerCase() &&
+          parts[1] === 'status'
+        ) {
+          const time = a.querySelector('time');
+          if (time) return a;
+        }
+      } catch {
+        /* ignore */
+      }
+    }
+
+    return null;
+  };
+
+  const parseTweet = (article) => {
+    if (!link) {
+      console.debug("Skipped article (no self-status link)", article);
+    }
+    const link = pickMainTimeLink(article);
+    if (!link) return null;
 
     const idMatch = link.href.match(/status\/(\d+)/);
     if (!idMatch) return null;
@@ -251,9 +271,10 @@ javascript:(async () => {
       return null; /* skip anything not from the target handle */
     }
 
-    const text = extractText(article);
+    const timeEl = link.querySelector('time');
+    const timeLine = formatTime(timeEl?.getAttribute('datetime') || '');
 
-    const timeLine = formatTime(timeElement.getAttribute('datetime'));
+    const text = extractText(article);
 
     return {
       id,
@@ -287,6 +308,8 @@ javascript:(async () => {
 
   const tweetsById = new Map();
   const seenIds = new Set();
+  const collectedIdsInOrder = [];
+
   let foundStop = false;
   let idleLoops = 0;
 
@@ -315,21 +338,18 @@ javascript:(async () => {
     for (const article of getArticles()) {
       if (isNestedTweet(article)) continue; /* skip quoted/embedded tweets */
 
-      const didExpand = expandTweetText(article);
-      if (didExpand) {
-        await sleep(50);
-      }
+      await expandTweetText(article);
 
       const parsed = parseTweet(article);
       if (!parsed || parsed.isRepost) continue;
 
-      if (parsed.isStop) {
-        foundStop = true;
-      }
-
+      if (parsed.isStop) foundStop = true;
       if (seenIds.has(parsed.id)) continue;
+
       seenIds.add(parsed.id);
       tweetsById.set(parsed.id, parsed);
+      collectedIdsInOrder.push(parsed.id);
+
       await appendLive(formatBlock(parsed));
       newItemsThisPass += 1;
     }
@@ -353,23 +373,10 @@ javascript:(async () => {
     await sleep(SCROLL_DELAY_MS);
   }
 
-  const timeAnchors = Array.from(document.querySelectorAll('a[href*="/status/"] time'))
-    .map((timeNode) => timeNode.closest('a[href*="/status/"]'))
-    .filter(Boolean);
-  const orderedIds = [];
-  for (const anchor of timeAnchors) {
-    const match = anchor.href.match(/status\/(\d+)/);
-    if (!match) continue;
-    const id = match[1];
-    if (STOP_ID && id === STOP_ID) break;
-    if (tweetsById.has(id)) orderedIds.push(id);
-  }
-
+  // Output order is the order we collected top-level tweets in (prevents quote-tweet hijack)
   const outputIds = [];
-  const added = new Set();
-  for (const id of orderedIds) {
-    if (added.has(id)) continue;
-    added.add(id);
+  for (const id of collectedIdsInOrder) {
+    if (STOP_ID && id === STOP_ID) break;
     outputIds.push(id);
   }
 
@@ -436,9 +443,7 @@ javascript:(async () => {
   });
 
   overlay.addEventListener('keydown', (event) => {
-    if (event.key === 'Escape') {
-      overlay.remove();
-    }
+    if (event.key === 'Escape') overlay.remove();
   });
 
   document.body.appendChild(overlay);
@@ -466,3 +471,4 @@ console.log('Preview:', one.slice(0, 120) + ' ... ' + one.slice(-40));
 NODE
 
 */
+
