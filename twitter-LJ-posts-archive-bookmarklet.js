@@ -153,7 +153,7 @@ javascript:(async () => {
       return clone.innerText;
     });
     let text = parts.join('\n');
-    text = text.replace(/\bShow more\b/gi, '').trim();
+    text = text.replace(/\b(Show|Read|See) more\b/gi, '').trim();
     text = text.replace(/\s*\n\s*/g, '\n');
     text = text.replace(/\n{3,}/g, '\n\n');
     text = text.replace(/[ \t]+/g, ' ');
@@ -162,11 +162,53 @@ javascript:(async () => {
   };
 
   const expandTweetText = async (article) => {
+    const isLikelyExpander = (node) => {
+      const label = (
+        node.getAttribute('aria-label') ||
+        node.getAttribute('title') ||
+        node.innerText ||
+        ''
+      )
+        .trim()
+        .toLowerCase();
+      if (!label) return false;
+      if (label.includes('repl')) return false;
+      return (
+        label.includes('show more') ||
+        label.includes('read more') ||
+        label.includes('see more')
+      );
+    };
+
+    const isInTweetText = (node) =>
+      !!(node.closest('[data-testid="tweetText"]') || node.closest('div[lang]'));
+
+    const collectExpanders = (requireTweetText) => {
+      const candidates = new Set();
+      const selectors = [
+        '[data-testid="tweet-text-show-more-link"]',
+        '[data-testid="tweet-text-show-more-button"]',
+        'button',
+        'div[role="button"]',
+        'span[role="button"]',
+        'a[role="button"]',
+        'a',
+      ];
+      const nodes = Array.from(article.querySelectorAll(selectors.join(',')));
+      for (const node of nodes) {
+        if (!node || node.closest('article') !== article) continue;
+        if (!isLikelyExpander(node)) continue;
+        if (requireTweetText && !isInTweetText(node)) continue;
+        candidates.add(node);
+      }
+      return Array.from(candidates);
+    };
+
     let expanded = false;
-    const showMoreNodes = Array.from(
-      article.querySelectorAll('[data-testid="tweet-text-show-more-link"]')
-    );
-    for (const node of showMoreNodes) {
+    const strictExpanders = collectExpanders(true);
+    const expanders = strictExpanders.length ? strictExpanders : collectExpanders(false);
+
+    for (const node of expanders) {
       const clickable = node.closest('div[role="button"],button') || node;
       try {
         clickable.click();
@@ -175,7 +217,7 @@ javascript:(async () => {
         /* ignore */
       }
     }
-    if (expanded) await sleep(50);
+    if (expanded) await sleep(80);
     return expanded;
   };
 
@@ -200,93 +242,87 @@ javascript:(async () => {
     return false;
   };
 
-  const pickMainTimeLink = (article) => {
-    const anchors = Array.from(
-      article.querySelectorAll('a[href*="/status/"]')
-    );
+	// Accept the first status link under your handle, even if it doesn’t contain <time>
+	const pickMainTimeLink = (article) => {
+		const anchors = Array.from(article.querySelectorAll('a[href*="/status/"]'));
+		for (const a of anchors) {
+			try {
+				const u = new URL(a.href);
+				const parts = u.pathname.split('/').filter(Boolean);
+				// /<handle>/status/<id>
+				if (
+					parts.length >= 3 &&
+					parts[0].toLowerCase() === HANDLE.replace('@','').toLowerCase() &&
+					parts[1] === 'status'
+				) {
+					return a;
+				}
+			} catch {
+				/* ignore bad URL */
+			}
+		}
+		return null;
+	};
 
-    for (const a of anchors) {
-      try {
-        const u = new URL(a.href);
-        const parts = u.pathname.split('/').filter(Boolean);
+	const parseTweet = (article) => {
+		const link = pickMainTimeLink(article);
+		if (!link) {
+			console.debug('Skipped article (no self-status link)', article);
+			return null;
+		}
 
-        // Must be /<handle>/status/<id>
-        if (
-          parts.length >= 3 &&
-          parts[0].toLowerCase() === HANDLE.replace('@', '').toLowerCase() &&
-          parts[1] === 'status'
-        ) {
-          const time = a.querySelector('time');
-          if (time) return a;
-        }
-      } catch {
-        /* ignore */
-      }
-    }
+		const idMatch = link.href.match(/status\/(\d+)/);
+		if (!idMatch) return null;
+		const id = idMatch[1];
+		if (BANNED_IDS.has(id)) return null;
 
-    return null;
-  };
+		// rewrite URL to x.com
+		let url = link.href.split('?')[0].replace('twitter.com', 'x.com');
 
-  const parseTweet = (article) => {
-    const link = pickMainTimeLink(article);
-    if (!link) {
-      console.debug('Skipped article (no self‑status link)', article);
-      return null;
-    }
+		// strong handle check using URL path
+		let handleFromUrl = '';
+		try {
+			const u = new URL(url);
+			const parts = u.pathname.split('/').filter(Boolean);
+			if (parts.length >= 2 && parts[1] === 'status') {
+				handleFromUrl = ensureAt(parts[0]);
+			}
+		} catch {}
 
-    const idMatch = link.href.match(/status\/(\d+)/);
-    if (!idMatch) return null;
-    const id = idMatch[1];
-    if (BANNED_IDS.has(id)) return null;
+		// extract display name and handle text
+		const userNameContainer = article.querySelector('div[data-testid="User-Name"]');
+		let displayName = '';
+		let handleFromSpans = '';
+		if (userNameContainer) {
+			const spans = Array.from(userNameContainer.querySelectorAll('span'))
+				.map((span) => (span.textContent || '').trim())
+				.filter(Boolean);
+			handleFromSpans = spans.find((text) => text.startsWith('@')) || '';
+			displayName = spans.find((text) => !text.startsWith('@')) || '';
+		}
 
-    let url = link.href.split('?')[0];
-    url = url.replace('twitter.com', 'x.com');
+		const handle = ensureAt(handleFromUrl || handleFromSpans);
+		if (!handle || handle.toLowerCase() !== HANDLE.toLowerCase()) {
+			return null; // skip if not your tweet
+		}
 
-    /* Strong handle check: prefer URL path segment. */
-    let handleFromUrl = '';
-    try {
-      const u = new URL(url);
-      const parts = u.pathname.split('/').filter(Boolean);
-      if (parts.length >= 2 && parts[1] === 'status') {
-        handleFromUrl = ensureAt(parts[0]);
-      }
-    } catch {
-      /* ignore URL parse */
-    }
+		// pull the timestamp from the first <time> in the article
+		const timeEl = article.querySelector('time');
+		const timeLine = formatTime(timeEl?.getAttribute('datetime') || '');
 
-    const userNameContainer = article.querySelector('div[data-testid="User-Name"]');
-    let displayName = '';
-    let handleFromSpans = '';
+		const text = extractText(article);
 
-    if (userNameContainer) {
-      const spans = Array.from(userNameContainer.querySelectorAll('span'))
-        .map((span) => (span.textContent || '').trim())
-        .filter(Boolean);
-      handleFromSpans = spans.find((text) => text.startsWith('@')) || '';
-      displayName = spans.find((text) => !text.startsWith('@')) || '';
-    }
-
-    const handle = ensureAt(handleFromUrl || handleFromSpans);
-    if (!handle || handle.toLowerCase() !== HANDLE.toLowerCase()) {
-      return null; /* skip anything not from the target handle */
-    }
-
-    const timeEl = link.querySelector('time');
-    const timeLine = formatTime(timeEl?.getAttribute('datetime') || '');
-
-    const text = extractText(article);
-
-    return {
-      id,
-      url,
-      displayName,
-      handle,
-      text,
-      timeLine,
-      isStop: STOP_ID && id === STOP_ID,
-      isRepost: isRepost(article),
-    };
-  };
+		return {
+			id,
+			url,
+			displayName,
+			handle,
+			text,
+			timeLine,
+			isStop: STOP_ID && id === STOP_ID,
+			isRepost: isRepost(article),
+		};
+	};
 
   const formatBlock = (tweet) => {
     if (!tweet) return '';
@@ -471,4 +507,3 @@ console.log('Preview:', one.slice(0, 120) + ' ... ' + one.slice(-40));
 NODE
 
 */
-

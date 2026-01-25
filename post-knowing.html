@@ -25,7 +25,7 @@
 
         <p>Knowledge is knowing the joint probability function - either density p.d.f. or cumulative c.d.f. (using p.d.f. mostly to illustrate). Density p.d.f. or cumulative c.d.f. is an implementation detail. Depends on the mechanics of the contraption, can be both in the same device, is up to the implementation.</p>
 
-        <p>So knowledge is - joint density, is co-counts, counting number of times things of interest co-occur, happen together.</p>
+        <p>So knowledge is - joint density, is co-counts, counting number of times things of interest co-occur, happen together. (in the 1st approximation; more accurate would be to say - knowledge is absence of ignorance, and our ignorance is what we measure by the joint density, the co-counts etc; our ignorance is never zero and consquently our knowledge is never complete)</p>
 
         <p>Probability is the measure of the residual uncertainty. Like length measures distance, probability measures uncertainty. Randomness is what gives us probability distributions that are not Dirac impulses, and thus gives us information content to work with.</p>
 
@@ -149,8 +149,7 @@ Keeping detail so not cost free, it takes resource implementing it. So if we don
 
         <p>Conversely each new variable introduced in the join p.d.f, that can be latter used for conditioning, enables for learning the particulars with more precision, enables drilling down. This extra extra dimension atm with our one-off learning will only latter be used for conditioning and nothing else. But we can imagine a case of continuous learning, like CoR, that seeks to find the right conditioning variables. Only in CoR this is just find some among the existing variables, while in continuous learning we will be creating a new axis of variance to be added to the joint p.d.f. and the joint p.d.f.will be modified. It doesn't have to be zero-one, on-off. It can be continuous and even naturally occuring. With passage of time, a conditioning variable is ever more blurred, it decays, the conditional p.d.f. conditioned on that variable is ever flatter, ever less informative. At some point we just delete that extra variable and nothign changes in the p.d.f, as by that point the conditional p.d.f. was so flat observing the variable made almost not difference to the joint p.d.f. We can imagine the opposite process too, in continuous learning. As we star with sharpish informative conditional p.d.f., we keep discovering ever more examples related to the variable we are conditioning on. Maybe each new conditioning step is a re-memoization (loosely reminiscent of DRAM, or the Hebbs rule) preventing forgetting by keeping another dimension intact. But we pay in costs - the cost of memoisation, and the cost of compute when used latter. So we better gain some from the extra varaible too.</p>
 
-        <h2><span>Appendix </span><span class="sec-toggle" aria-controls="appendix-all" aria-expanded="false">+</span></h2>
-        <div id="appendix-all" hidden>
+        <h2>Appendices (other related randoms; TBD refactor when feel like)</h2>
 
         <h3>A. Everything is a Computer in 2025 it seems <span class="sec-toggle" aria-controls="appendix-a" aria-expanded="false">+</span></h3>
         <div id="appendix-a" hidden>
@@ -402,12 +401,11 @@ Keeping detail so not cost free, it takes resource implementing it. So if we don
 
         </div>
 
-        </div>
-
         <p></p>
         <p><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>-- <br>LJ HPD Wed 20 Nov 2024</p>
 
-    </div>
+        </div>
+
 
     <!-- Link to the external script -->
     <script src="scripts.js"></script>
