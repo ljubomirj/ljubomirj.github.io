@@ -1,4 +1,4 @@
-.PHONY: install install-npm install-know knowledge embeddings feeds bookmarklet all
+.PHONY: install install-npm install-know knowledge embeddings feeds bookmarklet v2 all
 
 # Install JS dependencies (uses package-lock.json for exact versions)
 install-npm:
@@ -36,6 +36,10 @@ feeds:
 # Produce bookmarklet minified copy via inline Node script (see instructions in .js file)
 twitter-LJ-posts-archive-bookmarklet.txt: twitter-LJ-posts-archive-bookmarklet.js
 	node scripts/build-bookmarklet.js
+
+# Build v2 tree-based RAG index (requires pandoc and pdftotext)
+v2:
+	node scripts/build-tree-index.js
 
 # Default pipeline: rebuild knowledge + embeddings + feeds
 all: embeddings feeds

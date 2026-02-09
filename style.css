@@ -177,6 +177,20 @@ pre {
     font-size: 0.9em;
 }
 
+.ai-sources {
+    margin-top: 8px;
+    font-size: 0.85em;
+}
+
+.ai-sources a {
+    color: #4a86c8;
+}
+
+.ai-sources ul {
+    margin: 0;
+    padding-left: 18px;
+}
+
 .chat-input {
     display: flex;
     margin-top: 20px;
