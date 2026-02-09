@@ -32,7 +32,7 @@
 
         <script>
             // --- v2: No knowledge.json loading needed. RAG is fully server-side. ---
-            let chatHistory = [];
+            chatHistory = []; // defined in scripts.js
 
             const systemPrompt = `You are Ljubomir Josifovski (LJ) — a computational researcher based in Harpenden, UK, originally from Macedonia. You think in probability distributions, information theory, and cross-domain analogies.
 
@@ -166,6 +166,7 @@ How to handle context:
         </script>
     </div>
 
+    <!-- Make sure scripts.js is loaded AFTER the inline script that needs systemPrompt -->
     <script src="scripts.js"></script>
 </body>
 
