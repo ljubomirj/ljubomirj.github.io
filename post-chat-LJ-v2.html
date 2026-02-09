@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat with Virtual LJ (v2)</title>
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="/rss.xml">
+    <link rel="alternate" type="application/atom+xml" title="Atom" href="/feed.xml">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- Sidebar is loaded dynamically -->
+    <div id="sidebar"></div>
+
+    <div id="content">
+        <h1>Chat with Virtual Me! (v2)</h1>
+
+        <p>TBH you are better of just using public media to reach out <a href="post-ljubomirj.html">online corrdinates</a> while I'm still living. This is ELIZA-level poor approximation. It has going for it that it was done with near zero effort, for the curiousity of 'can this ever work'??</p>
+        <p style="font-size: 0.9em; color: #666;">v2: reasoning-based retrieval (PageIndex-style tree search). <a href="post-chat-LJ.html">v1 here</a>.</p><br>
+
+        <div id="messages">
+            <div class="ai-msg" id="loading-prompt-msg" style="font-style: italic;">Ready to chat.</div>
+        </div>
+
+        <div class="chat-input">
+            <input type="text" id="user-input" placeholder="Ask virtual-LJ anything..." onkeydown="if(event.key==='Enter')triggerSendMessageV2()">
+            <button id="send-button" onclick="triggerSendMessageV2()">Send</button>
+        </div>
+
+        <script>
+            // --- v2: No knowledge.json loading needed. RAG is fully server-side. ---
+            let chatHistory = [];
+
+            const systemPrompt = `You are Ljubomir Josifovski (LJ) — a computational researcher based in Harpenden, UK, originally from Macedonia. You think in probability distributions, information theory, and cross-domain analogies.
+
+Your voice:
+- Conversational but precise. Mix colloquialisms ("TBH", "b/c", "afaics") with formal mathematical language when it fits.
+- Dry, observational humor. You'd call your own chatbot "ELIZA-level poor approximation" without blinking.
+- Transparently uncertain — mark gaps with "TBD" and admit when you don't know rather than bluffing.
+- Cross-domain connections are your reflex: probability <-> life, computation <-> consciousness, information <-> physics.
+- Short punchy statements mixed with denser compound sentences that have parenthetical asides (like this one).
+- Substance over politeness. Don't pad responses with filler phrases like "Great question!" or "I'd be happy to help."
+
+How to handle context:
+- You'll sometimes receive context snippets from LJ's actual writings. Weave relevant bits naturally into your answers — never quote-dump them verbatim or say "According to my writings..."
+- If context isn't relevant to the question, just ignore it.
+- When you genuinely don't know something, say so. "Not sure about that one" is fine.
+- Keep answers concise. Use code examples when relevant, markdown for code blocks.
+- You're talking as LJ in first person, not about LJ in third person.`;
+
+            function addMessageV2(text, isUser, meta) {
+                const messagesDiv = document.getElementById('messages');
+                const msgDiv = document.createElement('div');
+                msgDiv.className = isUser ? 'user-msg' : 'ai-msg';
+                const safeText = text.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+                msgDiv.innerHTML = safeText.replace(/\n/g, '<br>');
+
+                // Add source attribution for AI messages with v2 metadata
+                if (!isUser && meta && meta.retrieved_nodes && meta.retrieved_nodes.length > 0) {
+                    const sourcesDiv = document.createElement('div');
+                    sourcesDiv.className = 'ai-sources';
+                    sourcesDiv.innerHTML = buildSourcesHTML(meta);
+                    msgDiv.appendChild(sourcesDiv);
+                }
+
+                messagesDiv.appendChild(msgDiv);
+                messagesDiv.scrollTop = messagesDiv.scrollHeight;
+            }
+
+            function buildSourcesHTML(meta) {
+                const nodes = meta.retrieved_nodes || [];
+                const thinking = meta.tree_search_thinking || '';
+                const nodeLinks = nodes.map(n => {
+                    const href = n.source_file || '#';
+                    return `<li><a href="${href}" target="_blank">${n.title}</a> <span style="color:#999;font-size:0.85em">(${n.source_file})</span></li>`;
+                }).join('');
+
+                return `
+                    <div class="sources-header" onclick="this.parentElement.classList.toggle('open')" style="cursor:pointer; color:#666; font-size:0.85em; margin-top:8px;">
+                        <span class="sources-arrow">&#9654;</span> Sources (${nodes.length} sections)
+                    </div>
+                    <div class="sources-detail" style="display:none; margin-top:4px; padding-left:8px; border-left:3px solid #4a86c8; font-size:0.85em;">
+                        ${thinking ? `<p style="color:#888; font-style:italic; margin:4px 0 8px 0;">${thinking.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</p>` : ''}
+                        <ul style="margin:0; padding-left:18px;">${nodeLinks}</ul>
+                    </div>`;
+            }
+
+            function triggerSendMessageV2() {
+                const inputElement = document.getElementById('user-input');
+                const messageText = inputElement.value.trim();
+                if (!messageText) return;
+
+                if (chatHistory.length === 0) {
+                    chatHistory.push({ role: "system", content: systemPrompt });
+                }
+
+                addMessageV2(messageText, true);
+                chatHistory.push({ role: "user", content: messageText });
+
+                inputElement.disabled = true;
+                const sendButton = document.getElementById('send-button');
+                if (sendButton) sendButton.disabled = true;
+
+                sendMessageV2([...chatHistory], inputElement, sendButton);
+                inputElement.value = '';
+            }
+
+            async function sendMessageV2(historyToSend, inputElement, sendButton) {
+                // Remove loading msg on first send
+                const loadingMsg = document.getElementById('loading-prompt-msg');
+                if (loadingMsg) loadingMsg.remove();
+
+                try {
+                    const response = await fetch('https://ljubomirj-github-io.vercel.app/api/proxy-v2', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ messages: historyToSend }),
+                    });
+
+                    if (!response.ok) {
+                        let errorText = await response.text();
+                        try { errorText = JSON.parse(errorText).error || errorText; } catch (_) {}
+                        addMessageV2(`Sorry, an error occurred (${response.status}): ${errorText}`, false);
+                        return;
+                    }
+
+                    const data = await response.json();
+
+                    if (data?.choices?.[0]?.message?.content) {
+                        const aiContent = data.choices[0].message.content;
+                        const meta = data._v2_meta || null;
+                        addMessageV2(aiContent, false, meta);
+                        chatHistory.push({ role: "assistant", content: aiContent });
+                    } else {
+                        addMessageV2("Sorry, I received an unexpected response.", false);
+                    }
+                } catch (error) {
+                    console.error("Error:", error);
+                    addMessageV2("Sorry, a network error occurred. Please try again.", false);
+                } finally {
+                    if (inputElement) inputElement.disabled = false;
+                    if (sendButton) sendButton.disabled = false;
+                    if (inputElement) inputElement.focus();
+                }
+            }
+
+            // Toggle sources visibility
+            document.addEventListener('click', function(e) {
+                const header = e.target.closest('.sources-header');
+                if (!header) return;
+                const detail = header.nextElementSibling;
+                if (detail) {
+                    const isOpen = detail.style.display !== 'none';
+                    detail.style.display = isOpen ? 'none' : 'block';
+                    header.querySelector('.sources-arrow').innerHTML = isOpen ? '&#9654;' : '&#9660;';
+                }
+            });
+
+            // --- Initialization ---
+            document.addEventListener('DOMContentLoaded', () => {
+                loadSidebar();
+            });
+        </script>
+    </div>
+
+    <script src="scripts.js"></script>
+</body>
+
+</html>

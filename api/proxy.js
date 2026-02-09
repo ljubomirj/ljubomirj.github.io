@@ -181,7 +181,7 @@ module.exports = async (req, res) => {
             if (context) {
                 messagesForModel[lastUserIdx] = {
                     ...messagesForModel[lastUserIdx],
-                    content: `Context:\n${context}\n\nQuestion: ${userContent}`
+                    content: `Relevant excerpts from LJ's writings (use naturally if helpful, ignore if not):\n\n${context}\n\n---\n${userContent}`
                 };
             }
         }
@@ -278,41 +278,67 @@ module.exports = async (req, res) => {
 //-------------------------------------------------------------------------------------------------------------
 
 //-------------------------------------------------------------------------------------------------------------
-        // 3c. Call DeepSeek API
+//        // 3c. Call DeepSeek API
+//
+//        const deepseekApiKey = process.env.DEEPSEEK_API_KEY;
+//        if (!deepseekApiKey) {
+//            console.error("DEEPSEEK_API_KEY is not set in environment variables.");
+//            if (isOriginAllowed) {
+//                res.setHeader('Access-Control-Allow-Origin', requestOrigin);
+//                res.setHeader('Access-Control-Allow-Credentials', 'true');
+//            }
+//            return res.status(500).json({ error: 'Server configuration error: DEEPSEEK_API_KEY is missing.' });
+//        }
+//
+//        const deepseekPayload = {
+//            model: process.env.DEEPSEEK_MODEL || 'deepseek-chat',
+//            messages: messagesForModel,
+//            temperature: body?.temperature ?? 1.0,
+//            max_tokens: body?.max_tokens ?? 4096,
+//            stream: false
+//        };
+//
+//        console.log(`Forwarding request to DeepSeek with ${messagesForModel.length} messages...`);
+//
+//        const routerResponse = await fetch('https://api.deepseek.com/chat/completions', {
+//            method: 'POST',
+//            headers: {
+//                'Authorization': `Bearer ${deepseekApiKey}`,
+//                'Content-Type': 'application/json'
+//            },
+//            body: JSON.stringify(deepseekPayload),
+//        });
+//-------------------------------------------------------------------------------------------------------------
 
-        const deepseekApiKey = process.env.DEEPSEEK_API_KEY;
-        if (!deepseekApiKey) {
-            console.error("DEEPSEEK_API_KEY is not set in environment variables.");
+//-------------------------------------------------------------------------------------------------------------
+        // 3d. Call OpenRouter API (persona-friendly model)
+        const openrouterApiKey = process.env.OPENROUTER_API_KEY;
+        if (!openrouterApiKey) {
+            console.error("OPENROUTER_API_KEY is not set in environment variables.");
             if (isOriginAllowed) {
                 res.setHeader('Access-Control-Allow-Origin', requestOrigin);
                 res.setHeader('Access-Control-Allow-Credentials', 'true');
             }
-            return res.status(500).json({ error: 'Server configuration error: DEEPSEEK_API_KEY is missing.' });
+            return res.status(500).json({ error: 'Server configuration error: OPENROUTER_API_KEY is missing.' });
         }
 
-        // Streaming not wired through frontend; force buffered JSON response
-        const deepseekStreamRequested = body?.stream === true;
-        if (deepseekStreamRequested) {
-            console.warn("DeepSeek stream=true requested but proxy returns buffered JSON. Forcing stream=false.");
-        }
-
-        const deepseekPayload = {
-            model: process.env.DEEPSEEK_MODEL || 'deepseek-chat',
+        const openrouterPayload = {
+            model: process.env.OPENROUTER_MODEL || 'google/gemini-2.5-flash',
             messages: messagesForModel,
-            temperature: body?.temperature ?? 1.0,
+            temperature: body?.temperature ?? 0.9,
             max_tokens: body?.max_tokens ?? 4096,
             stream: false
         };
 
-        console.log(`Forwarding request to DeepSeek with ${messagesForModel.length} messages (semantic context applied=${lastUserIdx !== -1})...`);
+        console.log(`Forwarding request to OpenRouter (${openrouterPayload.model}) with ${messagesForModel.length} messages (semantic context applied=${lastUserIdx !== -1})...`);
 
-        const routerResponse = await fetch('https://api.deepseek.com/chat/completions', {
+        const routerResponse = await fetch('https://openrouter.ai/api/v1/chat/completions', {
             method: 'POST',
             headers: {
-                'Authorization': `Bearer ${deepseekApiKey}`,
-                'Content-Type': 'application/json'
+                'Authorization': `Bearer ${openrouterApiKey}`,
+                'Content-Type': 'application/json',
             },
-            body: JSON.stringify(deepseekPayload),
+            body: JSON.stringify(openrouterPayload),
         });
 //-------------------------------------------------------------------------------------------------------------
 

@@ -1,0 +1,2047 @@
+[
+  {
+    "title": "Welcome to the Home Page of Ljubomir Josifovski",
+    "node_id": "0001",
+    "source_file": "post-ljubomirj.html",
+    "nodes": [
+      {
+        "title": "Online coordinates",
+        "node_id": "0002",
+        "source_file": "post-ljubomirj.html"
+      },
+      {
+        "title": "Offline coordinates",
+        "node_id": "0003",
+        "source_file": "post-ljubomirj.html"
+      }
+    ]
+  },
+  {
+    "title": "Why Write",
+    "node_id": "0004",
+    "source_file": "post-why-write.html"
+  },
+  {
+    "title": "My computer \\$HOME",
+    "node_id": "0005",
+    "source_file": "post-my-HOME.html"
+  },
+  {
+    "title": "Keep dot files and other config in git (https://news.ycombinator.com/item?id=11070797).",
+    "node_id": "0006",
+    "source_file": "post-my-HOME.html"
+  },
+  {
+    "title": "Step 1: $ git init --bare $HOME/.githome.",
+    "node_id": "0007",
+    "source_file": "post-my-HOME.html"
+  },
+  {
+    "title": "Step 2: make function (rather than alias to allow for composition like $ GIT=githome gilg; change dir so paths work independent of the current dir):",
+    "node_id": "0008",
+    "source_file": "post-my-HOME.html"
+  },
+  {
+    "title": "Step 3: disregard files by default, only track explicitly added files: $ githome config status.showUntrackedFiles no.",
+    "node_id": "0009",
+    "source_file": "post-my-HOME.html"
+  },
+  {
+    "title": "Now use the usual git commands prefixed by githome: $ githome status; githome add .vimrc; githome commit -m \"Add vimrc\".",
+    "node_id": "0010",
+    "source_file": "post-my-HOME.html"
+  },
+  {
+    "title": "Issue 1: Can not commit links. For host specific dirs, woraround: 1) move dir to dir-host; 2) link dir to dir-host; 3) add dir-host to git. Example with ~/.config dir:",
+    "node_id": "0011",
+    "source_file": "post-my-HOME.html"
+  },
+  {
+    "title": "ljubomir@hostA:~$ l -d .config*",
+    "node_id": "0012",
+    "source_file": "post-my-HOME.html"
+  },
+  {
+    "title": "lrwxrwxrwx  1 ljubomir ljubomir   14 Mar 24 14:26 .config -> .config-hostA/",
+    "node_id": "0013",
+    "source_file": "post-my-HOME.html"
+  },
+  {
+    "title": "drwx------ 34 ljubomir ljubomir 4.0K Mar 29 12:24 .config-hostA/",
+    "node_id": "0014",
+    "source_file": "post-my-HOME.html"
+  },
+  {
+    "title": "drwx------  3 ljubomir ljubomir 4.0K Mar 24 14:52 .config-hostB/",
+    "node_id": "0015",
+    "source_file": "post-my-HOME.html"
+  },
+  {
+    "title": "Issue 2: To pull from host with temporary IP edit $ vi .githome/config, change the IP below:",
+    "node_id": "0016",
+    "source_file": "post-my-HOME.html"
+  },
+  {
+    "title": "[remote \"hostC\"]",
+    "node_id": "0017",
+    "source_file": "post-my-HOME.html"
+  },
+  {
+    "title": "url = ljubomir@192.168.1.117:.githome",
+    "node_id": "0018",
+    "source_file": "post-my-HOME.html"
+  },
+  {
+    "title": "fetch = +refs/heads/*:refs/remotes/hostC/*",
+    "node_id": "0019",
+    "source_file": "post-my-HOME.html"
+  },
+  {
+    "title": "List all files under management and pretty print if run without args, githome otherwise. (https://mitxela.com/projects/dotfiles_management)",
+    "node_id": "0020",
+    "source_file": "post-my-HOME.html"
+  },
+  {
+    "title": "Have \"local -\" to make option \"set -x\" local to the function only",
+    "node_id": "0021",
+    "source_file": "post-my-HOME.html"
+  },
+  {
+    "title": "Git shortcuts. Take the \"git\" command from the environment via GIT var to allow for goodies:",
+    "node_id": "0022",
+    "source_file": "post-my-HOME.html"
+  },
+  {
+    "title": "- use with githome: $ GIT=githome gist",
+    "node_id": "0023",
+    "source_file": "post-my-HOME.html"
+  },
+  {
+    "title": "- color terminal (off by default): $ GIT=\"git -c color.status=always\" gist |m",
+    "node_id": "0024",
+    "source_file": "post-my-HOME.html"
+  },
+  {
+    "title": "Filename completion/expansion",
+    "node_id": "0025",
+    "source_file": "post-my-HOME.html"
+  },
+  {
+    "title": "Append \"/\" to all dirnames",
+    "node_id": "0026",
+    "source_file": "post-my-HOME.html"
+  },
+  {
+    "title": "Match all files",
+    "node_id": "0027",
+    "source_file": "post-my-HOME.html"
+  },
+  {
+    "title": "Ctrl-Left",
+    "node_id": "0028",
+    "source_file": "post-my-HOME.html"
+  },
+  {
+    "title": "Ctrl-Right",
+    "node_id": "0029",
+    "source_file": "post-my-HOME.html"
+  },
+  {
+    "title": "Up",
+    "node_id": "0030",
+    "source_file": "post-my-HOME.html"
+  },
+  {
+    "title": "Down",
+    "node_id": "0031",
+    "source_file": "post-my-HOME.html"
+  },
+  {
+    "title": "Social Networks",
+    "node_id": "0032",
+    "source_file": "post-social-networks.html",
+    "nodes": [
+      {
+        "title": "X/Twitter",
+        "node_id": "0033",
+        "source_file": "post-social-networks.html"
+      },
+      {
+        "title": "Algofeed",
+        "node_id": "0034",
+        "source_file": "post-social-networks.html"
+      },
+      {
+        "title": "Publisher 9/10-ths, carrier 1/10-th",
+        "node_id": "0035",
+        "source_file": "post-social-networks.html"
+      },
+      {
+        "title": "Other, wishlist",
+        "node_id": "0036",
+        "source_file": "post-social-networks.html"
+      },
+      {
+        "title": "Replicate your social graph Follows-Followers",
+        "node_id": "0037",
+        "source_file": "post-social-networks.html"
+      },
+      {
+        "title": "TINA, but use tools available too",
+        "node_id": "0038",
+        "source_file": "post-social-networks.html"
+      },
+      {
+        "title": "Algofeed and S230?",
+        "node_id": "0039",
+        "source_file": "post-social-networks.html"
+      },
+      {
+        "title": "Medium, message",
+        "node_id": "0040",
+        "source_file": "post-social-networks.html"
+      }
+    ]
+  },
+  {
+    "title": "Twitter surviving - personal considerations, tips, practices",
+    "node_id": "0041",
+    "source_file": "post-twitter.html"
+  },
+  {
+    "title": "Knowing - what do I mean when I say I know something",
+    "node_id": "0042",
+    "source_file": "post-knowing.html",
+    "nodes": [
+      {
+        "title": "Chain of Reasoning (CoR)",
+        "node_id": "0043",
+        "source_file": "post-knowing.html"
+      },
+      {
+        "title": "Marginalisation is Forgetting",
+        "node_id": "0044",
+        "source_file": "post-knowing.html"
+      },
+      {
+        "title": "Appendices (other related randoms; TBD refactor when feel like)",
+        "node_id": "0045",
+        "source_file": "post-knowing.html",
+        "nodes": [
+          {
+            "title": "A. Everything is a Computer in 2025 it seems [+]{.sec-toggle aria-controls=\"appendix-a\" aria-expanded=\"false\"}",
+            "node_id": "0046",
+            "source_file": "post-knowing.html"
+          },
+          {
+            "title": "B. Missing Data Imputation [+]{.sec-toggle aria-controls=\"appendix-b\" aria-expanded=\"false\"}",
+            "node_id": "0047",
+            "source_file": "post-knowing.html"
+          },
+          {
+            "title": "C. Now and Time, Past, Present, Future [+]{.sec-toggle aria-controls=\"appendix-c\" aria-expanded=\"false\"}",
+            "node_id": "0048",
+            "source_file": "post-knowing.html"
+          },
+          {
+            "title": "D. Forecasts must have error \\> 0 for information to exist [+]{.sec-toggle aria-controls=\"appendix-d\" aria-expanded=\"false\"}",
+            "node_id": "0049",
+            "source_file": "post-knowing.html"
+          },
+          {
+            "title": "E. Qualities, Quantities, and Dimensions [+]{.sec-toggle aria-controls=\"appendix-e\" aria-expanded=\"false\"}",
+            "node_id": "0050",
+            "source_file": "post-knowing.html"
+          },
+          {
+            "title": "F. Randomness, Search, and Open-Endedness [+]{.sec-toggle aria-controls=\"appendix-f\" aria-expanded=\"false\"}",
+            "node_id": "0051",
+            "source_file": "post-knowing.html"
+          },
+          {
+            "title": "G. Life, Entropy, Knowledge, Intelligence [+]{.sec-toggle aria-controls=\"appendix-g\" aria-expanded=\"false\"}",
+            "node_id": "0052",
+            "source_file": "post-knowing.html",
+            "nodes": [
+              {
+                "title": "Intelligence",
+                "node_id": "0053",
+                "source_file": "post-knowing.html"
+              }
+            ]
+          },
+          {
+            "title": "H. Brains, AIs, and Efficiency [+]{.sec-toggle aria-controls=\"appendix-h\" aria-expanded=\"false\"}",
+            "node_id": "0054",
+            "source_file": "post-knowing.html"
+          },
+          {
+            "title": "I. Collective Intelligence and Networks [+]{.sec-toggle aria-controls=\"appendix-i\" aria-expanded=\"false\"}",
+            "node_id": "0055",
+            "source_file": "post-knowing.html"
+          },
+          {
+            "title": "J. Types of Intelligence [+]{.sec-toggle aria-controls=\"appendix-j\" aria-expanded=\"false\"}",
+            "node_id": "0056",
+            "source_file": "post-knowing.html"
+          },
+          {
+            "title": "K. Knowing and knowledge, epistemology, even ideology? [+]{.sec-toggle aria-controls=\"appendix-k\" aria-expanded=\"false\"}",
+            "node_id": "0057",
+            "source_file": "post-knowing.html"
+          },
+          {
+            "title": "L. Consciousness [+]{.sec-toggle aria-controls=\"appendix-l\" aria-expanded=\"false\"}",
+            "node_id": "0058",
+            "source_file": "post-knowing.html"
+          },
+          {
+            "title": "M. Etc [+]{.sec-toggle aria-controls=\"appendix-m\" aria-expanded=\"false\"}",
+            "node_id": "0059",
+            "source_file": "post-knowing.html"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "title": "ML LLM Dev Links and Notes of resources of interest",
+    "node_id": "0060",
+    "source_file": "post-ml-llm-dev.html",
+    "nodes": [
+      {
+        "title": "Dev, LLM code writing, Agents - coding agents",
+        "node_id": "0061",
+        "source_file": "post-ml-llm-dev.html"
+      },
+      {
+        "title": "Coding agents - local in terminal without sweat, opencode + MiniMax-M2.1 ftw (Jan-2026) {#latest-greatest}",
+        "node_id": "0062",
+        "source_file": "post-ml-llm-dev.html"
+      },
+      {
+        "title": "Coding agents - local in terminal, factory.ai-s droid (Nov-2025)",
+        "node_id": "0063",
+        "source_file": "post-ml-llm-dev.html"
+      },
+      {
+        "title": "Coding agents - fully local in VSCode Cline (Nov-2025)",
+        "node_id": "0064",
+        "source_file": "post-ml-llm-dev.html"
+      },
+      {
+        "title": "Coding agents - fully local in terminal, Claude Code via litellm proxy (Nov-2025)",
+        "node_id": "0065",
+        "source_file": "post-ml-llm-dev.html",
+        "nodes": [
+          {
+            "title": "1. In the \\~/litellm directory create 4 these files",
+            "node_id": "0066",
+            "source_file": "post-ml-llm-dev.html"
+          },
+          {
+            "title": "2. Ensure LMStudio is started, model loaded and running, and LMStudio is serving the default endpoint localhost:1234",
+            "node_id": "0067",
+            "source_file": "post-ml-llm-dev.html"
+          },
+          {
+            "title": "3. Ensure the endpoint is reachable",
+            "node_id": "0068",
+            "source_file": "post-ml-llm-dev.html"
+          },
+          {
+            "title": "4. Start docker while being in the right dir",
+            "node_id": "0069",
+            "source_file": "post-ml-llm-dev.html"
+          }
+        ]
+      },
+      {
+        "title": "Coding agentss - in terminal",
+        "node_id": "0070",
+        "source_file": "post-ml-llm-dev.html"
+      }
+    ]
+  },
+  {
+    "title": "An Architect model is asked to describe how to solve the coding problem. Thinking/reasoning models often work well in this role.",
+    "node_id": "0071",
+    "source_file": "post-ml-llm-dev.html"
+  },
+  {
+    "title": "An Editor model is given the Architect’s solution and asked to produce specific code editing instructions to apply those changes to existing source files.",
+    "node_id": "0072",
+    "source_file": "post-ml-llm-dev.html"
+  },
+  {
+    "title": "https://aider.chat/2025/01/24/r1-sonnet.html",
+    "node_id": "0073",
+    "source_file": "post-ml-llm-dev.html",
+    "nodes": [
+      {
+        "title": "LLMs for coding - pre-history, chatgpt copy-pasta",
+        "node_id": "0074",
+        "source_file": "post-ml-llm-dev.html"
+      },
+      {
+        "title": "Models - open source, open weights, open thoughts, code, documentation",
+        "node_id": "0075",
+        "source_file": "post-ml-llm-dev.html"
+      }
+    ]
+  },
+  {
+    "title": "Data Debugging",
+    "node_id": "0076",
+    "source_file": "post-data-debugging.html"
+  },
+  {
+    "title": "Memes, random pics memorable enough to replicate, in no particular order nor of meaning",
+    "node_id": "0077",
+    "source_file": "post-picmem.html",
+    "nodes": [
+      {
+        "title": "Memes",
+        "node_id": "0078",
+        "source_file": "post-picmem.html"
+      },
+      {
+        "title": "Science, Computing, Communication",
+        "node_id": "0079",
+        "source_file": "post-picmem.html"
+      },
+      {
+        "title": "History, Politics, Economics, Geography, Art, Design, Philosophy - UK/MK/EU/US",
+        "node_id": "0080",
+        "source_file": "post-picmem.html"
+      }
+    ]
+  },
+  {
+    "title": "Links to Blogs, Substacks, Youtubes, Podcasts, Magazines etc",
+    "node_id": "0081",
+    "source_file": "post-links-to.html"
+  },
+  {
+    "title": "Consciousness",
+    "node_id": "0082",
+    "source_file": "post-consciousness.html",
+    "nodes": [
+      {
+        "title": "Q: What is your current working definition of consciousness?",
+        "node_id": "0083",
+        "source_file": "post-consciousness.html"
+      },
+      {
+        "title": "Q: How would you test for machine consciousness?",
+        "node_id": "0084",
+        "source_file": "post-consciousness.html"
+      },
+      {
+        "title": "Addendum on the consciousness experiments designs. (aug2025)",
+        "node_id": "0085",
+        "source_file": "post-consciousness.html"
+      },
+      {
+        "title": "Addendum after listening to the Tegmark ToE interview. (sep2025)",
+        "node_id": "0086",
+        "source_file": "post-consciousness.html"
+      }
+    ]
+  },
+  {
+    "title": "Developer Relations Engineer",
+    "node_id": "0087",
+    "source_file": "taste-is-all-you-need-always-has-been.html"
+  },
+  {
+    "title": "DeepWiki Crawl of This Repository",
+    "node_id": "0088",
+    "source_file": "post-deepwiki.html"
+  },
+  {
+    "title": "[PDF] cvlj95.pdf",
+    "node_id": "0089",
+    "source_file": "cvlj95.pdf"
+  },
+  {
+    "title": "[PDF] cvlj95s1.pdf",
+    "node_id": "0090",
+    "source_file": "cvlj95s1.pdf"
+  },
+  {
+    "title": "[PDF] cvlj95s2.pdf",
+    "node_id": "0091",
+    "source_file": "cvlj95s2.pdf"
+  },
+  {
+    "title": "[PDF] ljbio.pdf",
+    "node_id": "0092",
+    "source_file": "ljbio.pdf"
+  },
+  {
+    "title": "[PDF] tha.pdf",
+    "node_id": "0093",
+    "source_file": "tha.pdf"
+  },
+  {
+    "title": "Theme 1: Personal Finance & Investing",
+    "node_id": "0094",
+    "source_file": "logBook-history-theme-01-finance_investing.md",
+    "nodes": [
+      {
+        "title": "Executive Intro",
+        "node_id": "0095",
+        "source_file": "logBook-history-theme-01-finance_investing.md"
+      },
+      {
+        "title": "Recent Updates (Aug–Sep 2025)",
+        "node_id": "0096",
+        "source_file": "logBook-history-theme-01-finance_investing.md"
+      },
+      {
+        "title": "Key Quotes",
+        "node_id": "0097",
+        "source_file": "logBook-history-theme-01-finance_investing.md"
+      },
+      {
+        "title": "Representative Points",
+        "node_id": "0098",
+        "source_file": "logBook-history-theme-01-finance_investing.md"
+      },
+      {
+        "title": "Why It Matters",
+        "node_id": "0099",
+        "source_file": "logBook-history-theme-01-finance_investing.md"
+      },
+      {
+        "title": "Traceability",
+        "node_id": "0100",
+        "source_file": "logBook-history-theme-01-finance_investing.md"
+      },
+      {
+        "title": "TL;DR",
+        "node_id": "0101",
+        "source_file": "logBook-history-theme-01-finance_investing.md",
+        "nodes": [
+          {
+            "title": "Auto Highlights",
+            "node_id": "0102",
+            "source_file": "logBook-history-theme-01-finance_investing.md"
+          }
+        ]
+      },
+      {
+        "title": "Representative Examples",
+        "node_id": "0103",
+        "source_file": "logBook-history-theme-01-finance_investing.md"
+      },
+      {
+        "title": "Raw Excerpts (Finance/Investing)",
+        "node_id": "0104",
+        "source_file": "logBook-history-theme-01-finance_investing.md"
+      },
+      {
+        "title": "Categorized Excerpts",
+        "node_id": "0105",
+        "source_file": "logBook-history-theme-01-finance_investing.md",
+        "nodes": [
+          {
+            "title": "Personal Finance",
+            "node_id": "0106",
+            "source_file": "logBook-history-theme-01-finance_investing.md"
+          },
+          {
+            "title": "Quant Trading",
+            "node_id": "0107",
+            "source_file": "logBook-history-theme-01-finance_investing.md"
+          },
+          {
+            "title": "Macro & Policy",
+            "node_id": "0108",
+            "source_file": "logBook-history-theme-01-finance_investing.md"
+          },
+          {
+            "title": "Crypto & Open Ledger",
+            "node_id": "0109",
+            "source_file": "logBook-history-theme-01-finance_investing.md"
+          }
+        ]
+      },
+      {
+        "title": "Granular Subtopics",
+        "node_id": "0110",
+        "source_file": "logBook-history-theme-01-finance_investing.md",
+        "nodes": [
+          {
+            "title": "Execution & Costs",
+            "node_id": "0111",
+            "source_file": "logBook-history-theme-01-finance_investing.md"
+          },
+          {
+            "title": "Portfolio Rules & Behavior",
+            "node_id": "0112",
+            "source_file": "logBook-history-theme-01-finance_investing.md"
+          },
+          {
+            "title": "Risk & Leverage",
+            "node_id": "0113",
+            "source_file": "logBook-history-theme-01-finance_investing.md"
+          },
+          {
+            "title": "Housing & ISAs",
+            "node_id": "0114",
+            "source_file": "logBook-history-theme-01-finance_investing.md"
+          },
+          {
+            "title": "Markets & Feedback Loops",
+            "node_id": "0115",
+            "source_file": "logBook-history-theme-01-finance_investing.md"
+          },
+          {
+            "title": "Inflation & Policy",
+            "node_id": "0116",
+            "source_file": "logBook-history-theme-01-finance_investing.md"
+          },
+          {
+            "title": "Portfolio Construction",
+            "node_id": "0117",
+            "source_file": "logBook-history-theme-01-finance_investing.md"
+          },
+          {
+            "title": "Taxes & Accounts",
+            "node_id": "0118",
+            "source_file": "logBook-history-theme-01-finance_investing.md"
+          },
+          {
+            "title": "Autonomy & Freedom",
+            "node_id": "0119",
+            "source_file": "logBook-history-theme-01-finance_investing.md"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "title": "Theme 2: Entrepreneurship & Startups",
+    "node_id": "0120",
+    "source_file": "logBook-history-theme-02-entrepreneurship_startups.md",
+    "nodes": [
+      {
+        "title": "Executive Intro",
+        "node_id": "0121",
+        "source_file": "logBook-history-theme-02-entrepreneurship_startups.md"
+      },
+      {
+        "title": "Recent Updates (Aug–Sep 2025)",
+        "node_id": "0122",
+        "source_file": "logBook-history-theme-02-entrepreneurship_startups.md"
+      },
+      {
+        "title": "Key Quotes",
+        "node_id": "0123",
+        "source_file": "logBook-history-theme-02-entrepreneurship_startups.md"
+      },
+      {
+        "title": "Representative Points",
+        "node_id": "0124",
+        "source_file": "logBook-history-theme-02-entrepreneurship_startups.md"
+      },
+      {
+        "title": "Why It Matters",
+        "node_id": "0125",
+        "source_file": "logBook-history-theme-02-entrepreneurship_startups.md"
+      },
+      {
+        "title": "Traceability",
+        "node_id": "0126",
+        "source_file": "logBook-history-theme-02-entrepreneurship_startups.md"
+      },
+      {
+        "title": "TL;DR",
+        "node_id": "0127",
+        "source_file": "logBook-history-theme-02-entrepreneurship_startups.md",
+        "nodes": [
+          {
+            "title": "Auto Highlights",
+            "node_id": "0128",
+            "source_file": "logBook-history-theme-02-entrepreneurship_startups.md"
+          }
+        ]
+      },
+      {
+        "title": "Representative Examples",
+        "node_id": "0129",
+        "source_file": "logBook-history-theme-02-entrepreneurship_startups.md"
+      },
+      {
+        "title": "Raw Excerpts (Entrepreneurship)",
+        "node_id": "0130",
+        "source_file": "logBook-history-theme-02-entrepreneurship_startups.md"
+      }
+    ]
+  },
+  {
+    "title": "Theme 3: Technology & Future Trends (AI/ML, etc.)",
+    "node_id": "0131",
+    "source_file": "logBook-history-theme-03-technology_ai_trends.md",
+    "nodes": [
+      {
+        "title": "Executive Intro",
+        "node_id": "0132",
+        "source_file": "logBook-history-theme-03-technology_ai_trends.md"
+      },
+      {
+        "title": "Recent Updates (Aug–Sep 2025)",
+        "node_id": "0133",
+        "source_file": "logBook-history-theme-03-technology_ai_trends.md"
+      },
+      {
+        "title": "Key Quotes",
+        "node_id": "0134",
+        "source_file": "logBook-history-theme-03-technology_ai_trends.md"
+      },
+      {
+        "title": "Representative Points",
+        "node_id": "0135",
+        "source_file": "logBook-history-theme-03-technology_ai_trends.md"
+      },
+      {
+        "title": "Why It Matters",
+        "node_id": "0136",
+        "source_file": "logBook-history-theme-03-technology_ai_trends.md"
+      },
+      {
+        "title": "Traceability",
+        "node_id": "0137",
+        "source_file": "logBook-history-theme-03-technology_ai_trends.md"
+      },
+      {
+        "title": "TL;DR",
+        "node_id": "0138",
+        "source_file": "logBook-history-theme-03-technology_ai_trends.md",
+        "nodes": [
+          {
+            "title": "Auto Highlights",
+            "node_id": "0139",
+            "source_file": "logBook-history-theme-03-technology_ai_trends.md"
+          }
+        ]
+      },
+      {
+        "title": "Representative Examples",
+        "node_id": "0140",
+        "source_file": "logBook-history-theme-03-technology_ai_trends.md"
+      },
+      {
+        "title": "Raw Excerpts (Technology & AI)",
+        "node_id": "0141",
+        "source_file": "logBook-history-theme-03-technology_ai_trends.md"
+      },
+      {
+        "title": "Granular Subtopics",
+        "node_id": "0142",
+        "source_file": "logBook-history-theme-03-technology_ai_trends.md",
+        "nodes": [
+          {
+            "title": "Open Builders",
+            "node_id": "0143",
+            "source_file": "logBook-history-theme-03-technology_ai_trends.md"
+          },
+          {
+            "title": "Network Presence",
+            "node_id": "0144",
+            "source_file": "logBook-history-theme-03-technology_ai_trends.md"
+          },
+          {
+            "title": "AI Risk Framing",
+            "node_id": "0145",
+            "source_file": "logBook-history-theme-03-technology_ai_trends.md"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "title": "Theme 4: Career & Work-Life Balance",
+    "node_id": "0146",
+    "source_file": "logBook-history-theme-04-career_balance.md",
+    "nodes": [
+      {
+        "title": "Executive Intro",
+        "node_id": "0147",
+        "source_file": "logBook-history-theme-04-career_balance.md"
+      },
+      {
+        "title": "Recent Updates (Aug–Sep 2025)",
+        "node_id": "0148",
+        "source_file": "logBook-history-theme-04-career_balance.md"
+      },
+      {
+        "title": "Key Quotes",
+        "node_id": "0149",
+        "source_file": "logBook-history-theme-04-career_balance.md"
+      },
+      {
+        "title": "Representative Points",
+        "node_id": "0150",
+        "source_file": "logBook-history-theme-04-career_balance.md"
+      },
+      {
+        "title": "Why It Matters",
+        "node_id": "0151",
+        "source_file": "logBook-history-theme-04-career_balance.md"
+      },
+      {
+        "title": "Traceability",
+        "node_id": "0152",
+        "source_file": "logBook-history-theme-04-career_balance.md"
+      },
+      {
+        "title": "TL;DR",
+        "node_id": "0153",
+        "source_file": "logBook-history-theme-04-career_balance.md",
+        "nodes": [
+          {
+            "title": "Auto Highlights",
+            "node_id": "0154",
+            "source_file": "logBook-history-theme-04-career_balance.md"
+          }
+        ]
+      },
+      {
+        "title": "Representative Examples",
+        "node_id": "0155",
+        "source_file": "logBook-history-theme-04-career_balance.md"
+      },
+      {
+        "title": "Raw Excerpts (Career & Work)",
+        "node_id": "0156",
+        "source_file": "logBook-history-theme-04-career_balance.md"
+      },
+      {
+        "title": "Granular Subtopics",
+        "node_id": "0157",
+        "source_file": "logBook-history-theme-04-career_balance.md",
+        "nodes": [
+          {
+            "title": "Contractor Autonomy",
+            "node_id": "0158",
+            "source_file": "logBook-history-theme-04-career_balance.md"
+          },
+          {
+            "title": "Transition Seasons",
+            "node_id": "0159",
+            "source_file": "logBook-history-theme-04-career_balance.md"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "title": "Theme 5: Marketing & Branding",
+    "node_id": "0160",
+    "source_file": "logBook-history-theme-05-marketing_branding.md",
+    "nodes": [
+      {
+        "title": "Executive Intro",
+        "node_id": "0161",
+        "source_file": "logBook-history-theme-05-marketing_branding.md"
+      },
+      {
+        "title": "Recent Updates (Aug–Sep 2025)",
+        "node_id": "0162",
+        "source_file": "logBook-history-theme-05-marketing_branding.md"
+      },
+      {
+        "title": "Key Quotes",
+        "node_id": "0163",
+        "source_file": "logBook-history-theme-05-marketing_branding.md"
+      },
+      {
+        "title": "Representative Points",
+        "node_id": "0164",
+        "source_file": "logBook-history-theme-05-marketing_branding.md"
+      },
+      {
+        "title": "Why It Matters",
+        "node_id": "0165",
+        "source_file": "logBook-history-theme-05-marketing_branding.md"
+      },
+      {
+        "title": "Traceability",
+        "node_id": "0166",
+        "source_file": "logBook-history-theme-05-marketing_branding.md"
+      },
+      {
+        "title": "TL;DR",
+        "node_id": "0167",
+        "source_file": "logBook-history-theme-05-marketing_branding.md",
+        "nodes": [
+          {
+            "title": "Auto Highlights",
+            "node_id": "0168",
+            "source_file": "logBook-history-theme-05-marketing_branding.md"
+          }
+        ]
+      },
+      {
+        "title": "Representative Examples",
+        "node_id": "0169",
+        "source_file": "logBook-history-theme-05-marketing_branding.md"
+      },
+      {
+        "title": "Raw Excerpts (Marketing & Branding)",
+        "node_id": "0170",
+        "source_file": "logBook-history-theme-05-marketing_branding.md"
+      },
+      {
+        "title": "Granular Subtopics",
+        "node_id": "0171",
+        "source_file": "logBook-history-theme-05-marketing_branding.md",
+        "nodes": [
+          {
+            "title": "Authentic Vibes",
+            "node_id": "0172",
+            "source_file": "logBook-history-theme-05-marketing_branding.md"
+          },
+          {
+            "title": "Onboarding as Marketing",
+            "node_id": "0173",
+            "source_file": "logBook-history-theme-05-marketing_branding.md"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "title": "Theme 6: Health & Wellness (Physical & Mental)",
+    "node_id": "0174",
+    "source_file": "logBook-history-theme-06-health_wellness.md",
+    "nodes": [
+      {
+        "title": "Executive Intro",
+        "node_id": "0175",
+        "source_file": "logBook-history-theme-06-health_wellness.md"
+      },
+      {
+        "title": "Recent Updates (Aug–Sep 2025)",
+        "node_id": "0176",
+        "source_file": "logBook-history-theme-06-health_wellness.md"
+      },
+      {
+        "title": "Key Quotes",
+        "node_id": "0177",
+        "source_file": "logBook-history-theme-06-health_wellness.md"
+      },
+      {
+        "title": "Representative Points",
+        "node_id": "0178",
+        "source_file": "logBook-history-theme-06-health_wellness.md"
+      },
+      {
+        "title": "Why It Matters",
+        "node_id": "0179",
+        "source_file": "logBook-history-theme-06-health_wellness.md"
+      },
+      {
+        "title": "Traceability",
+        "node_id": "0180",
+        "source_file": "logBook-history-theme-06-health_wellness.md"
+      },
+      {
+        "title": "TL;DR",
+        "node_id": "0181",
+        "source_file": "logBook-history-theme-06-health_wellness.md",
+        "nodes": [
+          {
+            "title": "Auto Highlights",
+            "node_id": "0182",
+            "source_file": "logBook-history-theme-06-health_wellness.md"
+          }
+        ]
+      },
+      {
+        "title": "Representative Examples",
+        "node_id": "0183",
+        "source_file": "logBook-history-theme-06-health_wellness.md"
+      },
+      {
+        "title": "Raw Excerpts (Health & Wellness)",
+        "node_id": "0184",
+        "source_file": "logBook-history-theme-06-health_wellness.md"
+      },
+      {
+        "title": "Granular Subtopics",
+        "node_id": "0185",
+        "source_file": "logBook-history-theme-06-health_wellness.md",
+        "nodes": [
+          {
+            "title": "Longevity Experiments",
+            "node_id": "0186",
+            "source_file": "logBook-history-theme-06-health_wellness.md"
+          },
+          {
+            "title": "Obesity Model",
+            "node_id": "0187",
+            "source_file": "logBook-history-theme-06-health_wellness.md"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "title": "Theme 7: Education & Learning",
+    "node_id": "0188",
+    "source_file": "logBook-history-theme-07-education_learning.md",
+    "nodes": [
+      {
+        "title": "Executive Intro",
+        "node_id": "0189",
+        "source_file": "logBook-history-theme-07-education_learning.md"
+      },
+      {
+        "title": "Recent Updates (Aug–Sep 2025)",
+        "node_id": "0190",
+        "source_file": "logBook-history-theme-07-education_learning.md"
+      },
+      {
+        "title": "Key Quotes",
+        "node_id": "0191",
+        "source_file": "logBook-history-theme-07-education_learning.md"
+      },
+      {
+        "title": "Representative Points",
+        "node_id": "0192",
+        "source_file": "logBook-history-theme-07-education_learning.md"
+      },
+      {
+        "title": "Why It Matters",
+        "node_id": "0193",
+        "source_file": "logBook-history-theme-07-education_learning.md"
+      },
+      {
+        "title": "Traceability",
+        "node_id": "0194",
+        "source_file": "logBook-history-theme-07-education_learning.md"
+      },
+      {
+        "title": "TL;DR",
+        "node_id": "0195",
+        "source_file": "logBook-history-theme-07-education_learning.md",
+        "nodes": [
+          {
+            "title": "Auto Highlights",
+            "node_id": "0196",
+            "source_file": "logBook-history-theme-07-education_learning.md"
+          }
+        ]
+      },
+      {
+        "title": "Representative Examples",
+        "node_id": "0197",
+        "source_file": "logBook-history-theme-07-education_learning.md"
+      },
+      {
+        "title": "Raw Excerpts (Education & Learning)",
+        "node_id": "0198",
+        "source_file": "logBook-history-theme-07-education_learning.md"
+      },
+      {
+        "title": "Granular Subtopics",
+        "node_id": "0199",
+        "source_file": "logBook-history-theme-07-education_learning.md",
+        "nodes": [
+          {
+            "title": "AI Tutors",
+            "node_id": "0200",
+            "source_file": "logBook-history-theme-07-education_learning.md"
+          },
+          {
+            "title": "Two Modes of Thinking",
+            "node_id": "0201",
+            "source_file": "logBook-history-theme-07-education_learning.md"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "title": "Theme 8: Philosophy & Life Lessons",
+    "node_id": "0202",
+    "source_file": "logBook-history-theme-08-philosophy_life.md",
+    "nodes": [
+      {
+        "title": "Executive Intro",
+        "node_id": "0203",
+        "source_file": "logBook-history-theme-08-philosophy_life.md"
+      },
+      {
+        "title": "Recent Updates (Aug–Sep 2025)",
+        "node_id": "0204",
+        "source_file": "logBook-history-theme-08-philosophy_life.md"
+      },
+      {
+        "title": "Key Quotes",
+        "node_id": "0205",
+        "source_file": "logBook-history-theme-08-philosophy_life.md"
+      },
+      {
+        "title": "Representative Points",
+        "node_id": "0206",
+        "source_file": "logBook-history-theme-08-philosophy_life.md"
+      },
+      {
+        "title": "Why It Matters",
+        "node_id": "0207",
+        "source_file": "logBook-history-theme-08-philosophy_life.md"
+      },
+      {
+        "title": "Traceability",
+        "node_id": "0208",
+        "source_file": "logBook-history-theme-08-philosophy_life.md"
+      },
+      {
+        "title": "TL;DR",
+        "node_id": "0209",
+        "source_file": "logBook-history-theme-08-philosophy_life.md",
+        "nodes": [
+          {
+            "title": "Auto Highlights",
+            "node_id": "0210",
+            "source_file": "logBook-history-theme-08-philosophy_life.md"
+          }
+        ]
+      },
+      {
+        "title": "Representative Examples",
+        "node_id": "0211",
+        "source_file": "logBook-history-theme-08-philosophy_life.md"
+      },
+      {
+        "title": "Raw Excerpts (Philosophy & Life)",
+        "node_id": "0212",
+        "source_file": "logBook-history-theme-08-philosophy_life.md"
+      },
+      {
+        "title": "Granular Subtopics",
+        "node_id": "0213",
+        "source_file": "logBook-history-theme-08-philosophy_life.md",
+        "nodes": [
+          {
+            "title": "Memory & Identity",
+            "node_id": "0214",
+            "source_file": "logBook-history-theme-08-philosophy_life.md"
+          },
+          {
+            "title": "Group Dynamics",
+            "node_id": "0215",
+            "source_file": "logBook-history-theme-08-philosophy_life.md"
+          },
+          {
+            "title": "Laws of Stupidity",
+            "node_id": "0216",
+            "source_file": "logBook-history-theme-08-philosophy_life.md"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "title": "Theme 9: Social Commentary & Current Events",
+    "node_id": "0217",
+    "source_file": "logBook-history-theme-09-social_current_events.md",
+    "nodes": [
+      {
+        "title": "Executive Intro",
+        "node_id": "0218",
+        "source_file": "logBook-history-theme-09-social_current_events.md"
+      },
+      {
+        "title": "Recent Updates (Aug–Sep 2025)",
+        "node_id": "0219",
+        "source_file": "logBook-history-theme-09-social_current_events.md"
+      },
+      {
+        "title": "Key Quotes",
+        "node_id": "0220",
+        "source_file": "logBook-history-theme-09-social_current_events.md"
+      },
+      {
+        "title": "Representative Points",
+        "node_id": "0221",
+        "source_file": "logBook-history-theme-09-social_current_events.md"
+      },
+      {
+        "title": "Why It Matters",
+        "node_id": "0222",
+        "source_file": "logBook-history-theme-09-social_current_events.md"
+      },
+      {
+        "title": "Traceability",
+        "node_id": "0223",
+        "source_file": "logBook-history-theme-09-social_current_events.md"
+      },
+      {
+        "title": "TL;DR",
+        "node_id": "0224",
+        "source_file": "logBook-history-theme-09-social_current_events.md",
+        "nodes": [
+          {
+            "title": "Auto Highlights",
+            "node_id": "0225",
+            "source_file": "logBook-history-theme-09-social_current_events.md"
+          }
+        ]
+      },
+      {
+        "title": "Representative Examples",
+        "node_id": "0226",
+        "source_file": "logBook-history-theme-09-social_current_events.md"
+      },
+      {
+        "title": "Raw Excerpts (Social Commentary)",
+        "node_id": "0227",
+        "source_file": "logBook-history-theme-09-social_current_events.md"
+      },
+      {
+        "title": "Granular Subtopics",
+        "node_id": "0228",
+        "source_file": "logBook-history-theme-09-social_current_events.md",
+        "nodes": [
+          {
+            "title": "Deterrence Stakes",
+            "node_id": "0229",
+            "source_file": "logBook-history-theme-09-social_current_events.md"
+          },
+          {
+            "title": "Liberal Fortitude",
+            "node_id": "0230",
+            "source_file": "logBook-history-theme-09-social_current_events.md"
+          },
+          {
+            "title": "Anti-Doomers",
+            "node_id": "0231",
+            "source_file": "logBook-history-theme-09-social_current_events.md"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "title": "Theme 10: Books & Reading",
+    "node_id": "0232",
+    "source_file": "logBook-history-theme-10-books_reading.md",
+    "nodes": [
+      {
+        "title": "Executive Intro",
+        "node_id": "0233",
+        "source_file": "logBook-history-theme-10-books_reading.md"
+      },
+      {
+        "title": "Recent Updates (Aug–Sep 2025)",
+        "node_id": "0234",
+        "source_file": "logBook-history-theme-10-books_reading.md"
+      },
+      {
+        "title": "Key Quotes",
+        "node_id": "0235",
+        "source_file": "logBook-history-theme-10-books_reading.md"
+      },
+      {
+        "title": "Representative Points",
+        "node_id": "0236",
+        "source_file": "logBook-history-theme-10-books_reading.md"
+      },
+      {
+        "title": "Why It Matters",
+        "node_id": "0237",
+        "source_file": "logBook-history-theme-10-books_reading.md"
+      },
+      {
+        "title": "Traceability",
+        "node_id": "0238",
+        "source_file": "logBook-history-theme-10-books_reading.md"
+      },
+      {
+        "title": "TL;DR",
+        "node_id": "0239",
+        "source_file": "logBook-history-theme-10-books_reading.md",
+        "nodes": [
+          {
+            "title": "Auto Highlights",
+            "node_id": "0240",
+            "source_file": "logBook-history-theme-10-books_reading.md"
+          }
+        ]
+      },
+      {
+        "title": "Representative Examples",
+        "node_id": "0241",
+        "source_file": "logBook-history-theme-10-books_reading.md"
+      },
+      {
+        "title": "Raw Excerpts (Books & Reading)",
+        "node_id": "0242",
+        "source_file": "logBook-history-theme-10-books_reading.md"
+      },
+      {
+        "title": "Granular Subtopics",
+        "node_id": "0243",
+        "source_file": "logBook-history-theme-10-books_reading.md",
+        "nodes": [
+          {
+            "title": "Reading Discipline",
+            "node_id": "0244",
+            "source_file": "logBook-history-theme-10-books_reading.md"
+          },
+          {
+            "title": "Serendipity & Failure Rates",
+            "node_id": "0245",
+            "source_file": "logBook-history-theme-10-books_reading.md"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "title": "Theme 11: Writing & Communication",
+    "node_id": "0246",
+    "source_file": "logBook-history-theme-11-writing_communication.md",
+    "nodes": [
+      {
+        "title": "Executive Intro",
+        "node_id": "0247",
+        "source_file": "logBook-history-theme-11-writing_communication.md"
+      },
+      {
+        "title": "Recent Updates (Aug–Sep 2025)",
+        "node_id": "0248",
+        "source_file": "logBook-history-theme-11-writing_communication.md"
+      },
+      {
+        "title": "Key Quotes",
+        "node_id": "0249",
+        "source_file": "logBook-history-theme-11-writing_communication.md"
+      },
+      {
+        "title": "Representative Points",
+        "node_id": "0250",
+        "source_file": "logBook-history-theme-11-writing_communication.md"
+      },
+      {
+        "title": "Why It Matters",
+        "node_id": "0251",
+        "source_file": "logBook-history-theme-11-writing_communication.md"
+      },
+      {
+        "title": "Traceability",
+        "node_id": "0252",
+        "source_file": "logBook-history-theme-11-writing_communication.md"
+      },
+      {
+        "title": "TL;DR",
+        "node_id": "0253",
+        "source_file": "logBook-history-theme-11-writing_communication.md",
+        "nodes": [
+          {
+            "title": "Auto Highlights",
+            "node_id": "0254",
+            "source_file": "logBook-history-theme-11-writing_communication.md"
+          }
+        ]
+      },
+      {
+        "title": "Representative Examples",
+        "node_id": "0255",
+        "source_file": "logBook-history-theme-11-writing_communication.md"
+      },
+      {
+        "title": "Raw Excerpts (Writing & Communication)",
+        "node_id": "0256",
+        "source_file": "logBook-history-theme-11-writing_communication.md"
+      },
+      {
+        "title": "Granular Subtopics",
+        "node_id": "0257",
+        "source_file": "logBook-history-theme-11-writing_communication.md",
+        "nodes": [
+          {
+            "title": "Supportive Rewrites",
+            "node_id": "0258",
+            "source_file": "logBook-history-theme-11-writing_communication.md"
+          },
+          {
+            "title": "Open Letters",
+            "node_id": "0259",
+            "source_file": "logBook-history-theme-11-writing_communication.md"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "title": "Theme 12: Travel & Culture",
+    "node_id": "0260",
+    "source_file": "logBook-history-theme-12-travel_culture.md",
+    "nodes": [
+      {
+        "title": "Executive Intro",
+        "node_id": "0261",
+        "source_file": "logBook-history-theme-12-travel_culture.md"
+      },
+      {
+        "title": "Recent Updates (Aug–Sep 2025)",
+        "node_id": "0262",
+        "source_file": "logBook-history-theme-12-travel_culture.md"
+      },
+      {
+        "title": "Key Quotes",
+        "node_id": "0263",
+        "source_file": "logBook-history-theme-12-travel_culture.md"
+      },
+      {
+        "title": "Representative Points",
+        "node_id": "0264",
+        "source_file": "logBook-history-theme-12-travel_culture.md"
+      },
+      {
+        "title": "Why It Matters",
+        "node_id": "0265",
+        "source_file": "logBook-history-theme-12-travel_culture.md"
+      },
+      {
+        "title": "Traceability",
+        "node_id": "0266",
+        "source_file": "logBook-history-theme-12-travel_culture.md"
+      },
+      {
+        "title": "TL;DR",
+        "node_id": "0267",
+        "source_file": "logBook-history-theme-12-travel_culture.md",
+        "nodes": [
+          {
+            "title": "Auto Highlights",
+            "node_id": "0268",
+            "source_file": "logBook-history-theme-12-travel_culture.md"
+          }
+        ]
+      },
+      {
+        "title": "Representative Examples",
+        "node_id": "0269",
+        "source_file": "logBook-history-theme-12-travel_culture.md"
+      },
+      {
+        "title": "Raw Excerpts (Travel & Culture)",
+        "node_id": "0270",
+        "source_file": "logBook-history-theme-12-travel_culture.md"
+      },
+      {
+        "title": "Granular Subtopics",
+        "node_id": "0271",
+        "source_file": "logBook-history-theme-12-travel_culture.md",
+        "nodes": [
+          {
+            "title": "Places Reframed",
+            "node_id": "0272",
+            "source_file": "logBook-history-theme-12-travel_culture.md"
+          },
+          {
+            "title": "Travel Logistics",
+            "node_id": "0273",
+            "source_file": "logBook-history-theme-12-travel_culture.md"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "title": "Theme 13: Creativity & Innovation",
+    "node_id": "0274",
+    "source_file": "logBook-history-theme-13-creativity_innovation.md",
+    "nodes": [
+      {
+        "title": "Executive Intro",
+        "node_id": "0275",
+        "source_file": "logBook-history-theme-13-creativity_innovation.md"
+      },
+      {
+        "title": "Recent Updates (Aug–Sep 2025)",
+        "node_id": "0276",
+        "source_file": "logBook-history-theme-13-creativity_innovation.md"
+      },
+      {
+        "title": "Key Quotes",
+        "node_id": "0277",
+        "source_file": "logBook-history-theme-13-creativity_innovation.md"
+      },
+      {
+        "title": "Representative Points",
+        "node_id": "0278",
+        "source_file": "logBook-history-theme-13-creativity_innovation.md"
+      },
+      {
+        "title": "Why It Matters",
+        "node_id": "0279",
+        "source_file": "logBook-history-theme-13-creativity_innovation.md"
+      },
+      {
+        "title": "Traceability",
+        "node_id": "0280",
+        "source_file": "logBook-history-theme-13-creativity_innovation.md"
+      },
+      {
+        "title": "TL;DR",
+        "node_id": "0281",
+        "source_file": "logBook-history-theme-13-creativity_innovation.md",
+        "nodes": [
+          {
+            "title": "Auto Highlights",
+            "node_id": "0282",
+            "source_file": "logBook-history-theme-13-creativity_innovation.md"
+          }
+        ]
+      },
+      {
+        "title": "Representative Examples",
+        "node_id": "0283",
+        "source_file": "logBook-history-theme-13-creativity_innovation.md"
+      },
+      {
+        "title": "Raw Excerpts (Creativity & Innovation)",
+        "node_id": "0284",
+        "source_file": "logBook-history-theme-13-creativity_innovation.md"
+      },
+      {
+        "title": "Granular Subtopics",
+        "node_id": "0285",
+        "source_file": "logBook-history-theme-13-creativity_innovation.md",
+        "nodes": [
+          {
+            "title": "Research Cadence",
+            "node_id": "0286",
+            "source_file": "logBook-history-theme-13-creativity_innovation.md"
+          },
+          {
+            "title": "Compression & Insight",
+            "node_id": "0287",
+            "source_file": "logBook-history-theme-13-creativity_innovation.md"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "title": "Theme 14: History & Biography",
+    "node_id": "0288",
+    "source_file": "logBook-history-theme-14-history_biography.md",
+    "nodes": [
+      {
+        "title": "Executive Intro",
+        "node_id": "0289",
+        "source_file": "logBook-history-theme-14-history_biography.md"
+      },
+      {
+        "title": "Recent Updates (Aug–Sep 2025)",
+        "node_id": "0290",
+        "source_file": "logBook-history-theme-14-history_biography.md"
+      },
+      {
+        "title": "Key Quotes",
+        "node_id": "0291",
+        "source_file": "logBook-history-theme-14-history_biography.md"
+      },
+      {
+        "title": "Representative Points",
+        "node_id": "0292",
+        "source_file": "logBook-history-theme-14-history_biography.md"
+      },
+      {
+        "title": "Why It Matters",
+        "node_id": "0293",
+        "source_file": "logBook-history-theme-14-history_biography.md"
+      },
+      {
+        "title": "Traceability",
+        "node_id": "0294",
+        "source_file": "logBook-history-theme-14-history_biography.md"
+      },
+      {
+        "title": "TL;DR",
+        "node_id": "0295",
+        "source_file": "logBook-history-theme-14-history_biography.md",
+        "nodes": [
+          {
+            "title": "Auto Highlights",
+            "node_id": "0296",
+            "source_file": "logBook-history-theme-14-history_biography.md"
+          }
+        ]
+      },
+      {
+        "title": "Representative Examples",
+        "node_id": "0297",
+        "source_file": "logBook-history-theme-14-history_biography.md"
+      },
+      {
+        "title": "Raw Excerpts (History & Biography)",
+        "node_id": "0298",
+        "source_file": "logBook-history-theme-14-history_biography.md"
+      },
+      {
+        "title": "Granular Subtopics",
+        "node_id": "0299",
+        "source_file": "logBook-history-theme-14-history_biography.md",
+        "nodes": [
+          {
+            "title": "Burnham Cycle",
+            "node_id": "0300",
+            "source_file": "logBook-history-theme-14-history_biography.md"
+          },
+          {
+            "title": "Freedom Creed",
+            "node_id": "0301",
+            "source_file": "logBook-history-theme-14-history_biography.md"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "title": "Theme 15: Science & Nature",
+    "node_id": "0302",
+    "source_file": "logBook-history-theme-15-science_nature.md",
+    "nodes": [
+      {
+        "title": "Executive Intro",
+        "node_id": "0303",
+        "source_file": "logBook-history-theme-15-science_nature.md"
+      },
+      {
+        "title": "Recent Updates (Aug–Sep 2025)",
+        "node_id": "0304",
+        "source_file": "logBook-history-theme-15-science_nature.md"
+      },
+      {
+        "title": "Key Quotes",
+        "node_id": "0305",
+        "source_file": "logBook-history-theme-15-science_nature.md"
+      },
+      {
+        "title": "Representative Points",
+        "node_id": "0306",
+        "source_file": "logBook-history-theme-15-science_nature.md"
+      },
+      {
+        "title": "Why It Matters",
+        "node_id": "0307",
+        "source_file": "logBook-history-theme-15-science_nature.md"
+      },
+      {
+        "title": "Traceability",
+        "node_id": "0308",
+        "source_file": "logBook-history-theme-15-science_nature.md"
+      },
+      {
+        "title": "TL;DR",
+        "node_id": "0309",
+        "source_file": "logBook-history-theme-15-science_nature.md",
+        "nodes": [
+          {
+            "title": "Auto Highlights",
+            "node_id": "0310",
+            "source_file": "logBook-history-theme-15-science_nature.md"
+          }
+        ]
+      },
+      {
+        "title": "Representative Examples",
+        "node_id": "0311",
+        "source_file": "logBook-history-theme-15-science_nature.md"
+      },
+      {
+        "title": "Raw Excerpts (Science & Nature)",
+        "node_id": "0312",
+        "source_file": "logBook-history-theme-15-science_nature.md"
+      },
+      {
+        "title": "Granular Subtopics",
+        "node_id": "0313",
+        "source_file": "logBook-history-theme-15-science_nature.md",
+        "nodes": [
+          {
+            "title": "Information Flow",
+            "node_id": "0314",
+            "source_file": "logBook-history-theme-15-science_nature.md"
+          },
+          {
+            "title": "Mass & Time",
+            "node_id": "0315",
+            "source_file": "logBook-history-theme-15-science_nature.md"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "title": "Theme 16: Food & Cooking",
+    "node_id": "0316",
+    "source_file": "logBook-history-theme-16-food_cooking.md",
+    "nodes": [
+      {
+        "title": "Executive Intro",
+        "node_id": "0317",
+        "source_file": "logBook-history-theme-16-food_cooking.md"
+      },
+      {
+        "title": "Recent Updates (Aug–Sep 2025)",
+        "node_id": "0318",
+        "source_file": "logBook-history-theme-16-food_cooking.md"
+      },
+      {
+        "title": "Key Quotes",
+        "node_id": "0319",
+        "source_file": "logBook-history-theme-16-food_cooking.md"
+      },
+      {
+        "title": "Representative Points",
+        "node_id": "0320",
+        "source_file": "logBook-history-theme-16-food_cooking.md"
+      },
+      {
+        "title": "Why It Matters",
+        "node_id": "0321",
+        "source_file": "logBook-history-theme-16-food_cooking.md"
+      },
+      {
+        "title": "Traceability",
+        "node_id": "0322",
+        "source_file": "logBook-history-theme-16-food_cooking.md"
+      },
+      {
+        "title": "TL;DR",
+        "node_id": "0323",
+        "source_file": "logBook-history-theme-16-food_cooking.md",
+        "nodes": [
+          {
+            "title": "Auto Highlights",
+            "node_id": "0324",
+            "source_file": "logBook-history-theme-16-food_cooking.md"
+          }
+        ]
+      },
+      {
+        "title": "Representative Examples",
+        "node_id": "0325",
+        "source_file": "logBook-history-theme-16-food_cooking.md"
+      },
+      {
+        "title": "Raw Excerpts (Food & Cooking)",
+        "node_id": "0326",
+        "source_file": "logBook-history-theme-16-food_cooking.md"
+      },
+      {
+        "title": "Granular Subtopics",
+        "node_id": "0327",
+        "source_file": "logBook-history-theme-16-food_cooking.md",
+        "nodes": [
+          {
+            "title": "Food Distribution",
+            "node_id": "0328",
+            "source_file": "logBook-history-theme-16-food_cooking.md"
+          },
+          {
+            "title": "Metabolic Feedback",
+            "node_id": "0329",
+            "source_file": "logBook-history-theme-16-food_cooking.md"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "title": "Theme 17: Sports & Fitness",
+    "node_id": "0330",
+    "source_file": "logBook-history-theme-17-sports_fitness.md",
+    "nodes": [
+      {
+        "title": "Executive Intro",
+        "node_id": "0331",
+        "source_file": "logBook-history-theme-17-sports_fitness.md"
+      },
+      {
+        "title": "Recent Updates (Aug–Sep 2025)",
+        "node_id": "0332",
+        "source_file": "logBook-history-theme-17-sports_fitness.md"
+      },
+      {
+        "title": "Key Quotes",
+        "node_id": "0333",
+        "source_file": "logBook-history-theme-17-sports_fitness.md"
+      },
+      {
+        "title": "Representative Points",
+        "node_id": "0334",
+        "source_file": "logBook-history-theme-17-sports_fitness.md"
+      },
+      {
+        "title": "Why It Matters",
+        "node_id": "0335",
+        "source_file": "logBook-history-theme-17-sports_fitness.md"
+      },
+      {
+        "title": "Traceability",
+        "node_id": "0336",
+        "source_file": "logBook-history-theme-17-sports_fitness.md"
+      },
+      {
+        "title": "TL;DR",
+        "node_id": "0337",
+        "source_file": "logBook-history-theme-17-sports_fitness.md",
+        "nodes": [
+          {
+            "title": "Auto Highlights",
+            "node_id": "0338",
+            "source_file": "logBook-history-theme-17-sports_fitness.md"
+          }
+        ]
+      },
+      {
+        "title": "Representative Examples",
+        "node_id": "0339",
+        "source_file": "logBook-history-theme-17-sports_fitness.md"
+      },
+      {
+        "title": "Raw Excerpts (Sports & Fitness)",
+        "node_id": "0340",
+        "source_file": "logBook-history-theme-17-sports_fitness.md"
+      },
+      {
+        "title": "Granular Subtopics",
+        "node_id": "0341",
+        "source_file": "logBook-history-theme-17-sports_fitness.md",
+        "nodes": [
+          {
+            "title": "Perception Training",
+            "node_id": "0342",
+            "source_file": "logBook-history-theme-17-sports_fitness.md"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "title": "Theme 18: Music & Arts",
+    "node_id": "0343",
+    "source_file": "logBook-history-theme-18-music_arts.md",
+    "nodes": [
+      {
+        "title": "Executive Intro",
+        "node_id": "0344",
+        "source_file": "logBook-history-theme-18-music_arts.md"
+      },
+      {
+        "title": "Recent Updates (Aug–Sep 2025)",
+        "node_id": "0345",
+        "source_file": "logBook-history-theme-18-music_arts.md"
+      },
+      {
+        "title": "Key Quotes",
+        "node_id": "0346",
+        "source_file": "logBook-history-theme-18-music_arts.md"
+      },
+      {
+        "title": "Representative Points",
+        "node_id": "0347",
+        "source_file": "logBook-history-theme-18-music_arts.md"
+      },
+      {
+        "title": "Why It Matters",
+        "node_id": "0348",
+        "source_file": "logBook-history-theme-18-music_arts.md"
+      },
+      {
+        "title": "Traceability",
+        "node_id": "0349",
+        "source_file": "logBook-history-theme-18-music_arts.md"
+      },
+      {
+        "title": "TL;DR",
+        "node_id": "0350",
+        "source_file": "logBook-history-theme-18-music_arts.md",
+        "nodes": [
+          {
+            "title": "Auto Highlights",
+            "node_id": "0351",
+            "source_file": "logBook-history-theme-18-music_arts.md"
+          }
+        ]
+      },
+      {
+        "title": "Representative Examples",
+        "node_id": "0352",
+        "source_file": "logBook-history-theme-18-music_arts.md"
+      },
+      {
+        "title": "Raw Excerpts (Music & Arts)",
+        "node_id": "0353",
+        "source_file": "logBook-history-theme-18-music_arts.md"
+      },
+      {
+        "title": "Granular Subtopics",
+        "node_id": "0354",
+        "source_file": "logBook-history-theme-18-music_arts.md",
+        "nodes": [
+          {
+            "title": "Techno-Aesthetics",
+            "node_id": "0355",
+            "source_file": "logBook-history-theme-18-music_arts.md"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "title": "Theme 19: Relationships & Family",
+    "node_id": "0356",
+    "source_file": "logBook-history-theme-19-relationships_family.md",
+    "nodes": [
+      {
+        "title": "Executive Intro",
+        "node_id": "0357",
+        "source_file": "logBook-history-theme-19-relationships_family.md"
+      },
+      {
+        "title": "Recent Updates (Aug–Sep 2025)",
+        "node_id": "0358",
+        "source_file": "logBook-history-theme-19-relationships_family.md"
+      },
+      {
+        "title": "Key Quotes",
+        "node_id": "0359",
+        "source_file": "logBook-history-theme-19-relationships_family.md"
+      },
+      {
+        "title": "Representative Points",
+        "node_id": "0360",
+        "source_file": "logBook-history-theme-19-relationships_family.md"
+      },
+      {
+        "title": "Why It Matters",
+        "node_id": "0361",
+        "source_file": "logBook-history-theme-19-relationships_family.md"
+      },
+      {
+        "title": "Traceability",
+        "node_id": "0362",
+        "source_file": "logBook-history-theme-19-relationships_family.md"
+      },
+      {
+        "title": "TL;DR",
+        "node_id": "0363",
+        "source_file": "logBook-history-theme-19-relationships_family.md",
+        "nodes": [
+          {
+            "title": "Auto Highlights",
+            "node_id": "0364",
+            "source_file": "logBook-history-theme-19-relationships_family.md"
+          }
+        ]
+      },
+      {
+        "title": "Representative Examples",
+        "node_id": "0365",
+        "source_file": "logBook-history-theme-19-relationships_family.md"
+      },
+      {
+        "title": "Raw Excerpts (Relationships & Family)",
+        "node_id": "0366",
+        "source_file": "logBook-history-theme-19-relationships_family.md"
+      },
+      {
+        "title": "Granular Subtopics",
+        "node_id": "0367",
+        "source_file": "logBook-history-theme-19-relationships_family.md",
+        "nodes": [
+          {
+            "title": "Scale & Trust",
+            "node_id": "0368",
+            "source_file": "logBook-history-theme-19-relationships_family.md"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "title": "Theme 20: Humor & Satire",
+    "node_id": "0369",
+    "source_file": "logBook-history-theme-20-humor_satire.md",
+    "nodes": [
+      {
+        "title": "Executive Intro",
+        "node_id": "0370",
+        "source_file": "logBook-history-theme-20-humor_satire.md"
+      },
+      {
+        "title": "Recent Updates (Aug–Sep 2025)",
+        "node_id": "0371",
+        "source_file": "logBook-history-theme-20-humor_satire.md"
+      },
+      {
+        "title": "Key Quotes",
+        "node_id": "0372",
+        "source_file": "logBook-history-theme-20-humor_satire.md"
+      },
+      {
+        "title": "Representative Points",
+        "node_id": "0373",
+        "source_file": "logBook-history-theme-20-humor_satire.md"
+      },
+      {
+        "title": "Why It Matters",
+        "node_id": "0374",
+        "source_file": "logBook-history-theme-20-humor_satire.md"
+      },
+      {
+        "title": "Traceability",
+        "node_id": "0375",
+        "source_file": "logBook-history-theme-20-humor_satire.md"
+      },
+      {
+        "title": "TL;DR",
+        "node_id": "0376",
+        "source_file": "logBook-history-theme-20-humor_satire.md",
+        "nodes": [
+          {
+            "title": "Auto Highlights",
+            "node_id": "0377",
+            "source_file": "logBook-history-theme-20-humor_satire.md"
+          }
+        ]
+      },
+      {
+        "title": "Representative Examples",
+        "node_id": "0378",
+        "source_file": "logBook-history-theme-20-humor_satire.md"
+      },
+      {
+        "title": "Raw Excerpts (Humor & Satire)",
+        "node_id": "0379",
+        "source_file": "logBook-history-theme-20-humor_satire.md"
+      },
+      {
+        "title": "Granular Subtopics",
+        "node_id": "0380",
+        "source_file": "logBook-history-theme-20-humor_satire.md",
+        "nodes": [
+          {
+            "title": "TechBro Satire",
+            "node_id": "0381",
+            "source_file": "logBook-history-theme-20-humor_satire.md"
+          }
+        ]
+      }
+    ]
+  }
+]
