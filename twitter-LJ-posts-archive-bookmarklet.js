@@ -277,22 +277,24 @@ javascript:(async () => {
 
 	// Return true if an element is inside a quoted-tweet container.
 	// Detection: walk up from el toward the article; if we hit a div[role="link"]
-	// that contains its own User-Name div, it's a quoted-tweet card.
-	// Also check [data-testid="quoteTweet"] as a fast path.
+	// that has its own User-Name but does NOT contain the article's main <time>,
+	// it's a quoted-tweet card.  (The main tweet wrapper also has role="link" +
+	// User-Name, but it contains the <time> element used for the timestamp.)
 	const isInsideQuote = (el) => {
 		const article = el.closest('article');
 		if (!article) return false;
 		// fast path: X's official data-testid (may or may not exist)
 		const qt = el.closest('[data-testid="quoteTweet"]');
 		if (qt && article.contains(qt) && qt !== article) return true;
-		// walk-up: a div[role="link"] inside the article that has its own User-Name
-		// is a quoted-tweet card (the main tweet's User-Name sits at article level,
-		// not inside a role="link" wrapper)
+		// The article's main <time> element distinguishes the main tweet wrapper
+		// from a quoted-tweet card (which has its own separate <time> or none).
+		const mainTime = article.querySelector('time');
 		let node = el.parentElement;
 		while (node && node !== article) {
 			if (
 				node.getAttribute('role') === 'link' &&
-				node.querySelector('[data-testid="User-Name"]')
+				node.querySelector('[data-testid="User-Name"]') &&
+				(!mainTime || !node.contains(mainTime))
 			) {
 				return true;
 			}
