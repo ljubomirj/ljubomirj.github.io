@@ -142,17 +142,49 @@ javascript:(async () => {
     return socialContext ? /reposted/i.test(socialContext.innerText || '') : false;
   };
 
-  const extractText = (article) => {
-    const blocks = Array.from(article.querySelectorAll('div[data-testid="tweetText"]'));
-    if (!blocks.length) return '';
-    const parts = blocks.map((block) => {
-      const clone = block.cloneNode(true);
-      clone.querySelectorAll('a[href]').forEach((a) => {
-        if (a.href) a.textContent = a.href.split('?')[0];
-      });
-      return clone.innerText;
+  const cleanTextBlock = (block) => {
+    const clone = block.cloneNode(true);
+    clone.querySelectorAll('a[href]').forEach((a) => {
+      if (a.href) a.textContent = a.href.split('?')[0];
     });
-    let text = parts.join('\n');
+    return clone.innerText;
+  };
+
+  // Find the quoted tweet's status URL inside an article (if any)
+  const findQuotedTweetUrl = (article) => {
+    const anchors = Array.from(article.querySelectorAll('a[href*="/status/"]'));
+    for (const a of anchors) {
+      if (!isInsideQuote(a)) continue;
+      try {
+        const url = a.href.split('?')[0].replace('twitter.com', 'x.com');
+        if (/\/status\/\d+$/.test(url)) return url;
+      } catch { /* ignore */ }
+    }
+    return null;
+  };
+
+  const extractText = (article) => {
+    const allBlocks = Array.from(article.querySelectorAll('div[data-testid="tweetText"]'));
+    if (!allBlocks.length) return '';
+
+    const mainParts = [];
+    const quoteParts = [];
+    for (const block of allBlocks) {
+      const text = cleanTextBlock(block);
+      if (isInsideQuote(block)) {
+        quoteParts.push(text);
+      } else {
+        mainParts.push(text);
+      }
+    }
+
+    let text = mainParts.join('\n');
+    if (quoteParts.length) {
+      const quoteUrl = findQuotedTweetUrl(article);
+      const quotePrefix = quoteUrl ? quoteUrl + '\n' : '';
+      text += '\n' + quotePrefix + quoteParts.join('\n');
+    }
+
     text = text.replace(/\b(Show|Read|See) more\b/gi, '').trim();
     text = text.replace(/\s*\n\s*/g, '\n');
     text = text.replace(/\n{3,}/g, '\n\n');
@@ -197,6 +229,7 @@ javascript:(async () => {
       const nodes = Array.from(article.querySelectorAll(selectors.join(',')));
       for (const node of nodes) {
         if (!node || node.closest('article') !== article) continue;
+        if (isInsideQuote(node)) continue; /* don't click inside quoted tweets */
         if (!isLikelyExpander(node)) continue;
         if (requireTweetText && !isInTweetText(node)) continue;
         candidates.add(node);
@@ -242,25 +275,65 @@ javascript:(async () => {
     return false;
   };
 
-	// Accept the first status link under your handle, even if it doesn’t contain <time>
+	// Return true if an element is inside a quoted-tweet container.
+	// Detection: walk up from el toward the article; if we hit a div[role="link"]
+	// that has its own User-Name but does NOT contain the article's main <time>,
+	// it's a quoted-tweet card.  (The main tweet wrapper also has role="link" +
+	// User-Name, but it contains the <time> element used for the timestamp.)
+	const isInsideQuote = (el) => {
+		const article = el.closest('article');
+		if (!article) return false;
+		// fast path: X's official data-testid (may or may not exist)
+		const qt = el.closest('[data-testid="quoteTweet"]');
+		if (qt && article.contains(qt) && qt !== article) return true;
+		// The article's main <time> element distinguishes the main tweet wrapper
+		// from a quoted-tweet card (which has its own separate <time> or none).
+		const mainTime = article.querySelector('time');
+		let node = el.parentElement;
+		while (node && node !== article) {
+			if (
+				node.getAttribute('role') === 'link' &&
+				node.querySelector('[data-testid="User-Name"]') &&
+				(!mainTime || !node.contains(mainTime))
+			) {
+				return true;
+			}
+			node = node.parentElement;
+		}
+		return false;
+	};
+
+	// Find the main tweet's status link.  Strategy:
+	//  1. Best: the <a> that wraps the <time> element (always the main tweet's timestamp)
+	//  2. Fallback: first handle-matching status link NOT inside a quoteTweet container
 	const pickMainTimeLink = (article) => {
-		const anchors = Array.from(article.querySelectorAll('a[href*="/status/"]'));
-		for (const a of anchors) {
+		const handleLower = HANDLE.replace('@','').toLowerCase();
+
+		const isHandleStatusLink = (a) => {
 			try {
-				const u = new URL(a.href);
-				const parts = u.pathname.split('/').filter(Boolean);
-				// /<handle>/status/<id>
-				if (
-					parts.length >= 3 &&
-					parts[0].toLowerCase() === HANDLE.replace('@','').toLowerCase() &&
-					parts[1] === 'status'
-				) {
-					return a;
-				}
-			} catch {
-				/* ignore bad URL */
+				const parts = new URL(a.href).pathname.split('/').filter(Boolean);
+				return parts.length >= 3
+					&& parts[0].toLowerCase() === handleLower
+					&& parts[1] === 'status';
+			} catch { return false; }
+		};
+
+		// Strategy 1: link wrapping <time>
+		const timeEl = article.querySelector('time');
+		if (timeEl) {
+			const timeLink = timeEl.closest('a[href*="/status/"]');
+			if (timeLink && isHandleStatusLink(timeLink) && !isInsideQuote(timeLink)) {
+				return timeLink;
 			}
 		}
+
+		// Strategy 2: first non-quoted status link
+		const anchors = Array.from(article.querySelectorAll('a[href*="/status/"]'));
+		for (const a of anchors) {
+			if (isHandleStatusLink(a) && !isInsideQuote(a)) return a;
+		}
+
+		console.debug('[LJ backup] No main status link found; skipping article');
 		return null;
 	};
 
@@ -386,6 +459,7 @@ javascript:(async () => {
       tweetsById.set(parsed.id, parsed);
       collectedIdsInOrder.push(parsed.id);
 
+      console.debug(`[LJ backup] +${parsed.id} ${parsed.url} (${parsed.text.slice(0, 60)}...)`);
       await appendLive(formatBlock(parsed));
       newItemsThisPass += 1;
     }
