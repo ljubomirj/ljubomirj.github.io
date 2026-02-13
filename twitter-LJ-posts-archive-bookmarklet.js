@@ -143,7 +143,8 @@ javascript:(async () => {
   };
 
   const extractText = (article) => {
-    const blocks = Array.from(article.querySelectorAll('div[data-testid="tweetText"]'));
+    const blocks = Array.from(article.querySelectorAll('div[data-testid="tweetText"]'))
+      .filter((block) => !isInsideQuote(block));
     if (!blocks.length) return '';
     const parts = blocks.map((block) => {
       const clone = block.cloneNode(true);
@@ -242,9 +243,24 @@ javascript:(async () => {
     return false;
   };
 
-	// Accept the first status link under your handle, even if it doesn’t contain <time>
+	// Return true if an element is inside a quoted-tweet container
+	const isInsideQuote = (el) => {
+		const quoteSelectors = [
+			'[data-testid="quoteTweet"]',
+			'div[role="link"][tabindex="0"]', // quoted tweet wrapper on X
+		];
+		for (const sel of quoteSelectors) {
+			const container = el.closest(sel);
+			if (container && container !== el.closest('article')) return true;
+		}
+		return false;
+	};
+
+	// Accept the first status link under your handle that is NOT inside a quoted tweet
 	const pickMainTimeLink = (article) => {
 		const anchors = Array.from(article.querySelectorAll('a[href*="/status/"]'));
+		const handleLower = HANDLE.replace('@','').toLowerCase();
+		let fallback = null;
 		for (const a of anchors) {
 			try {
 				const u = new URL(a.href);
@@ -252,14 +268,25 @@ javascript:(async () => {
 				// /<handle>/status/<id>
 				if (
 					parts.length >= 3 &&
-					parts[0].toLowerCase() === HANDLE.replace('@','').toLowerCase() &&
+					parts[0].toLowerCase() === handleLower &&
 					parts[1] === 'status'
 				) {
+					// Skip links inside quoted tweet containers
+					if (isInsideQuote(a)) {
+						if (!fallback) fallback = a;
+						console.debug('[LJ backup] Skipping quoted-tweet link:', a.href);
+						continue;
+					}
 					return a;
 				}
 			} catch {
 				/* ignore bad URL */
 			}
+		}
+		// If ALL matching links were inside quotes, the article itself is probably
+		// a quoted tweet rendered at top level — return null to skip it entirely.
+		if (fallback) {
+			console.debug('[LJ backup] All status links were inside quotes; skipping article');
 		}
 		return null;
 	};
@@ -386,6 +413,7 @@ javascript:(async () => {
       tweetsById.set(parsed.id, parsed);
       collectedIdsInOrder.push(parsed.id);
 
+      console.debug(`[LJ backup] +${parsed.id} ${parsed.url} (${parsed.text.slice(0, 60)}...)`);
       await appendLive(formatBlock(parsed));
       newItemsThisPass += 1;
     }
