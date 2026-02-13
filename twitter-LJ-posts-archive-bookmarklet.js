@@ -198,6 +198,7 @@ javascript:(async () => {
       const nodes = Array.from(article.querySelectorAll(selectors.join(',')));
       for (const node of nodes) {
         if (!node || node.closest('article') !== article) continue;
+        if (isInsideQuote(node)) continue; /* don't click inside quoted tweets */
         if (!isLikelyExpander(node)) continue;
         if (requireTweetText && !isInTweetText(node)) continue;
         candidates.add(node);
@@ -243,51 +244,45 @@ javascript:(async () => {
     return false;
   };
 
-	// Return true if an element is inside a quoted-tweet container
+	// Return true if an element is inside a quoted-tweet container.
+	// Only use the specific data-testid; broader selectors like div[role="link"]
+	// match the tweet card itself and break everything.
 	const isInsideQuote = (el) => {
-		const quoteSelectors = [
-			'[data-testid="quoteTweet"]',
-			'div[role="link"][tabindex="0"]', // quoted tweet wrapper on X
-		];
-		for (const sel of quoteSelectors) {
-			const container = el.closest(sel);
-			if (container && container !== el.closest('article')) return true;
-		}
-		return false;
+		const qt = el.closest('[data-testid="quoteTweet"]');
+		return !!qt && qt !== el.closest('article');
 	};
 
-	// Accept the first status link under your handle that is NOT inside a quoted tweet
+	// Find the main tweet's status link.  Strategy:
+	//  1. Best: the <a> that wraps the <time> element (always the main tweet's timestamp)
+	//  2. Fallback: first handle-matching status link NOT inside a quoteTweet container
 	const pickMainTimeLink = (article) => {
-		const anchors = Array.from(article.querySelectorAll('a[href*="/status/"]'));
 		const handleLower = HANDLE.replace('@','').toLowerCase();
-		let fallback = null;
-		for (const a of anchors) {
+
+		const isHandleStatusLink = (a) => {
 			try {
-				const u = new URL(a.href);
-				const parts = u.pathname.split('/').filter(Boolean);
-				// /<handle>/status/<id>
-				if (
-					parts.length >= 3 &&
-					parts[0].toLowerCase() === handleLower &&
-					parts[1] === 'status'
-				) {
-					// Skip links inside quoted tweet containers
-					if (isInsideQuote(a)) {
-						if (!fallback) fallback = a;
-						console.debug('[LJ backup] Skipping quoted-tweet link:', a.href);
-						continue;
-					}
-					return a;
-				}
-			} catch {
-				/* ignore bad URL */
+				const parts = new URL(a.href).pathname.split('/').filter(Boolean);
+				return parts.length >= 3
+					&& parts[0].toLowerCase() === handleLower
+					&& parts[1] === 'status';
+			} catch { return false; }
+		};
+
+		// Strategy 1: link wrapping <time>
+		const timeEl = article.querySelector('time');
+		if (timeEl) {
+			const timeLink = timeEl.closest('a[href*="/status/"]');
+			if (timeLink && isHandleStatusLink(timeLink) && !isInsideQuote(timeLink)) {
+				return timeLink;
 			}
 		}
-		// If ALL matching links were inside quotes, the article itself is probably
-		// a quoted tweet rendered at top level — return null to skip it entirely.
-		if (fallback) {
-			console.debug('[LJ backup] All status links were inside quotes; skipping article');
+
+		// Strategy 2: first non-quoted status link
+		const anchors = Array.from(article.querySelectorAll('a[href*="/status/"]'));
+		for (const a of anchors) {
+			if (isHandleStatusLink(a) && !isInsideQuote(a)) return a;
 		}
+
+		console.debug('[LJ backup] No main status link found; skipping article');
 		return null;
 	};
 
