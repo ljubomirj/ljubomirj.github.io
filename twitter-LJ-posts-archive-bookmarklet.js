@@ -245,11 +245,29 @@ javascript:(async () => {
   };
 
 	// Return true if an element is inside a quoted-tweet container.
-	// Only use the specific data-testid; broader selectors like div[role="link"]
-	// match the tweet card itself and break everything.
+	// Detection: walk up from el toward the article; if we hit a div[role="link"]
+	// that contains its own User-Name div, it's a quoted-tweet card.
+	// Also check [data-testid="quoteTweet"] as a fast path.
 	const isInsideQuote = (el) => {
+		const article = el.closest('article');
+		if (!article) return false;
+		// fast path: X's official data-testid (may or may not exist)
 		const qt = el.closest('[data-testid="quoteTweet"]');
-		return !!qt && qt !== el.closest('article');
+		if (qt && article.contains(qt) && qt !== article) return true;
+		// walk-up: a div[role="link"] inside the article that has its own User-Name
+		// is a quoted-tweet card (the main tweet's User-Name sits at article level,
+		// not inside a role="link" wrapper)
+		let node = el.parentElement;
+		while (node && node !== article) {
+			if (
+				node.getAttribute('role') === 'link' &&
+				node.querySelector('[data-testid="User-Name"]')
+			) {
+				return true;
+			}
+			node = node.parentElement;
+		}
+		return false;
 	};
 
 	// Find the main tweet's status link.  Strategy:
