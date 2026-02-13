@@ -142,18 +142,49 @@ javascript:(async () => {
     return socialContext ? /reposted/i.test(socialContext.innerText || '') : false;
   };
 
-  const extractText = (article) => {
-    const blocks = Array.from(article.querySelectorAll('div[data-testid="tweetText"]'))
-      .filter((block) => !isInsideQuote(block));
-    if (!blocks.length) return '';
-    const parts = blocks.map((block) => {
-      const clone = block.cloneNode(true);
-      clone.querySelectorAll('a[href]').forEach((a) => {
-        if (a.href) a.textContent = a.href.split('?')[0];
-      });
-      return clone.innerText;
+  const cleanTextBlock = (block) => {
+    const clone = block.cloneNode(true);
+    clone.querySelectorAll('a[href]').forEach((a) => {
+      if (a.href) a.textContent = a.href.split('?')[0];
     });
-    let text = parts.join('\n');
+    return clone.innerText;
+  };
+
+  // Find the quoted tweet's status URL inside an article (if any)
+  const findQuotedTweetUrl = (article) => {
+    const anchors = Array.from(article.querySelectorAll('a[href*="/status/"]'));
+    for (const a of anchors) {
+      if (!isInsideQuote(a)) continue;
+      try {
+        const url = a.href.split('?')[0].replace('twitter.com', 'x.com');
+        if (/\/status\/\d+$/.test(url)) return url;
+      } catch { /* ignore */ }
+    }
+    return null;
+  };
+
+  const extractText = (article) => {
+    const allBlocks = Array.from(article.querySelectorAll('div[data-testid="tweetText"]'));
+    if (!allBlocks.length) return '';
+
+    const mainParts = [];
+    const quoteParts = [];
+    for (const block of allBlocks) {
+      const text = cleanTextBlock(block);
+      if (isInsideQuote(block)) {
+        quoteParts.push(text);
+      } else {
+        mainParts.push(text);
+      }
+    }
+
+    let text = mainParts.join('\n');
+    if (quoteParts.length) {
+      const quoteUrl = findQuotedTweetUrl(article);
+      const quotePrefix = quoteUrl ? quoteUrl + '\n' : '';
+      text += '\n' + quotePrefix + quoteParts.join('\n');
+    }
+
     text = text.replace(/\b(Show|Read|See) more\b/gi, '').trim();
     text = text.replace(/\s*\n\s*/g, '\n');
     text = text.replace(/\n{3,}/g, '\n\n');
