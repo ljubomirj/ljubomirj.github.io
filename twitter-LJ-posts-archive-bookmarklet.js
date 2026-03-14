@@ -142,13 +142,103 @@ javascript:(async () => {
     return socialContext ? /reposted/i.test(socialContext.innerText || '') : false;
   };
 
-  const cleanTextBlock = (block) => {
-    const clone = block.cloneNode(true);
-    clone.querySelectorAll('a[href]').forEach((a) => {
-      if (a.href) a.textContent = a.href.split('?')[0];
-    });
-    return clone.innerText;
+  const normalizeUrl = (value) => {
+    if (!value) return '';
+    const trimmed = String(value).trim();
+    const lowerTrimmed = trimmed.toLowerCase();
+    if (!lowerTrimmed.startsWith('http://') && !lowerTrimmed.startsWith('https://')) return '';
+    try {
+      const url = new URL(trimmed);
+      const normalized =
+        /^(x|twitter)\.com$/i.test(url.hostname)
+          ? `${url.origin}${url.pathname}`.replace('twitter.com', 'x.com')
+          : `${url.origin}${url.pathname}${url.search}`;
+      return normalized.replace(/\/$/, (match) => {
+        return url.pathname === '/' ? match : '';
+      });
+    } catch {
+      return trimmed;
+    }
   };
+
+  const looksLikeUrlText = (value) => {
+    if (!value) return false;
+    const trimmed = value.trim();
+    const lowerTrimmed = trimmed.toLowerCase();
+    return (
+      lowerTrimmed.startsWith('http://') ||
+      lowerTrimmed.startsWith('https://') ||
+      lowerTrimmed.startsWith('www.') ||
+      /^[a-z0-9.-]+\.[a-z]{2,}(?:\/|$)/i.test(trimmed)
+    );
+  };
+
+  const isMentionText = (value) => /^[@＠][A-Za-z0-9_]{1,15}$/.test((value || '').trim());
+
+  const pickAnchorText = (anchor) => {
+    const rawVisibleText = (anchor.textContent || '').trim();
+    const visibleText = rawVisibleText.replace(/\u2026/g, '').trim();
+    if (isMentionText(visibleText)) return visibleText;
+    if (/^(#|＃)\S+/.test(visibleText) || /^\$\w+/.test(visibleText)) return visibleText;
+
+    const candidates = [
+      anchor.getAttribute('title'),
+      anchor.getAttribute('data-expanded-url'),
+      anchor.getAttribute('data-full-url'),
+      anchor.getAttribute('data-url'),
+      anchor.getAttribute('aria-label'),
+      anchor.href,
+    ]
+      .map(normalizeUrl)
+      .filter(Boolean);
+
+    for (const candidate of candidates) {
+      try {
+        const url = new URL(candidate);
+        if (/^(x|twitter)\.com$/i.test(url.hostname) && isMentionText(visibleText)) {
+          return visibleText;
+        }
+        if (/^t\.co$/i.test(url.hostname)) continue;
+        return candidate.replace('twitter.com', 'x.com');
+      } catch {
+        /* ignore malformed candidate */
+      }
+    }
+
+    const lowerVisibleText = rawVisibleText.toLowerCase();
+    const isTcoVisibleLink =
+      lowerVisibleText.startsWith('http://t.co/') || lowerVisibleText.startsWith('https://t.co/');
+    if (looksLikeUrlText(rawVisibleText) && !isTcoVisibleLink) {
+      return rawVisibleText;
+    }
+
+    return visibleText || normalizeUrl(anchor.href);
+  };
+
+  const serializeTweetNode = (node) => {
+    if (!node) return '';
+    if (node.nodeType === Node.TEXT_NODE) return node.textContent || '';
+    if (node.nodeType !== Node.ELEMENT_NODE) return '';
+
+    const el = /** @type {HTMLElement} */ (node);
+    const tag = el.tagName;
+
+    if (el.getAttribute('aria-hidden') === 'true' && tag !== 'IMG') return '';
+    if (tag === 'BR') return '\n';
+    if (tag === 'IMG') {
+      const alt = el.getAttribute('alt') || '';
+      return alt && alt !== 'Image' ? alt : '';
+    }
+    if (tag === 'A') return pickAnchorText(/** @type {HTMLAnchorElement} */ (el));
+
+    let text = '';
+    for (const child of el.childNodes) {
+      text += serializeTweetNode(child);
+    }
+    return text;
+  };
+
+  const cleanTextBlock = (block) => serializeTweetNode(block);
 
   // Find the quoted tweet's status URL inside an article (if any)
   const findQuotedTweetUrl = (article) => {

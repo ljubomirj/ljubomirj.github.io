@@ -14,9 +14,61 @@ function minifyPreserveStrings(code) {
   let inSingle = false;
   let inDouble = false;
   let inTemplate = false;
+  let inRegex = false;
+  let inRegexCharClass = false;
   let inLineComment = false;
   let inBlockComment = false;
   let prevSpace = false;
+  let word = '';
+  let lastToken = '';
+
+  const flushWord = () => {
+    if (!word) return;
+    lastToken = word;
+    word = '';
+  };
+
+  const regexCanFollow = (token) => {
+    if (!token) return true;
+    if (
+      [
+        '(',
+        '[',
+        '{',
+        ',',
+        ';',
+        ':',
+        '!',
+        '?',
+        '=',
+        '+',
+        '-',
+        '*',
+        '%',
+        '&',
+        '|',
+        '^',
+        '~',
+        '<',
+        '>',
+      ].includes(token)
+    ) {
+      return true;
+    }
+    return new Set([
+      'return',
+      'case',
+      'throw',
+      'delete',
+      'typeof',
+      'void',
+      'instanceof',
+      'in',
+      'new',
+      'await',
+      'yield',
+    ]).has(token);
+  };
 
   while (i < code.length) {
     const ch = code[i];
@@ -44,6 +96,26 @@ function minifyPreserveStrings(code) {
       continue;
     }
 
+    if (inRegex) {
+      out += ch;
+      if (ch === '\\') {
+        if (i + 1 < code.length) {
+          out += code[i + 1];
+          i += 2;
+          continue;
+        }
+      } else if (inRegexCharClass) {
+        if (ch === ']') inRegexCharClass = false;
+      } else if (ch === '[') {
+        inRegexCharClass = true;
+      } else if (ch === '/') {
+        inRegex = false;
+        lastToken = '/';
+      }
+      i += 1;
+      continue;
+    }
+
     if (inSingle || inDouble || inTemplate) {
       out += ch;
       if (ch === '\\') {
@@ -60,6 +132,16 @@ function minifyPreserveStrings(code) {
       continue;
     }
 
+    if (/[A-Za-z0-9_$]/.test(ch)) {
+      out += ch;
+      word += ch;
+      prevSpace = false;
+      i += 1;
+      continue;
+    }
+
+    flushWord();
+
     if (ch === '/' && next === '/') {
       inLineComment = true;
       i += 2;
@@ -68,6 +150,14 @@ function minifyPreserveStrings(code) {
     if (ch === '/' && next === '*') {
       inBlockComment = true;
       i += 2;
+      continue;
+    }
+    if (ch === '/' && regexCanFollow(lastToken)) {
+      out += ch;
+      inRegex = true;
+      inRegexCharClass = false;
+      prevSpace = false;
+      i += 1;
       continue;
     }
 
@@ -85,10 +175,12 @@ function minifyPreserveStrings(code) {
     else if (ch === '`') inTemplate = true;
 
     out += ch;
+    lastToken = ch;
     prevSpace = false;
     i += 1;
   }
 
+  flushWord();
   return out.trim();
 }
 
