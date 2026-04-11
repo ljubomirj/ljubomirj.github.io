@@ -3,6 +3,8 @@ javascript:(async () => {
   const SCROLL_DELAY_MS = 1200;
   const MAX_SCROLL_LOOPS = 400;
   const MAX_IDLE_LOOPS = 40;
+  const EXPAND_SETTLE_TIMEOUT_MS = 1800;
+  const EXPAND_SETTLE_POLL_MS = 60;
   const BANNED_IDS = new Set([
     /* Known stray post to ignore (Zhihu Frontier) */
     '1987125624599970218',
@@ -283,6 +285,17 @@ javascript:(async () => {
     return text.trim();
   };
 
+  const getMainTweetTextSnapshot = (article) => {
+    const blocks = Array.from(article.querySelectorAll('div[data-testid="tweetText"]'));
+    return blocks
+      .filter((block) => !isInsideQuote(block))
+      .map((block) => ((block.innerText || '').trim() || cleanTextBlock(block).trim()))
+      .filter(Boolean)
+      .join('\n')
+      .replace(/\s+/g, ' ')
+      .trim();
+  };
+
   const expandTweetText = async (article) => {
     const isLikelyExpander = (node) => {
       const label = (
@@ -328,6 +341,7 @@ javascript:(async () => {
     };
 
     let expanded = false;
+    const beforeSnapshot = getMainTweetTextSnapshot(article);
     const strictExpanders = collectExpanders(true);
     const expanders = strictExpanders.length ? strictExpanders : collectExpanders(false);
 
@@ -340,7 +354,20 @@ javascript:(async () => {
         /* ignore */
       }
     }
-    if (expanded) await sleep(80);
+    if (expanded) {
+      const deadline = Date.now() + EXPAND_SETTLE_TIMEOUT_MS;
+      while (Date.now() < deadline) {
+        const currentSnapshot = getMainTweetTextSnapshot(article);
+        if (
+          !collectExpanders(false).length ||
+          (currentSnapshot && currentSnapshot !== beforeSnapshot)
+        ) {
+          break;
+        }
+        await sleep(EXPAND_SETTLE_POLL_MS);
+      }
+      await sleep(80);
+    }
     return expanded;
   };
 
@@ -505,6 +532,21 @@ javascript:(async () => {
     return lines.join('\n').replace(/\n{3,}/g, '\n\n').trimEnd();
   };
 
+  const shouldPreferParsedTweet = (current, candidate) => {
+    if (!current) return true;
+
+    const currentText = (current.text || '').trim();
+    const candidateText = (candidate.text || '').trim();
+
+    if (!currentText && candidateText) return true;
+    if (!candidateText || candidateText === currentText) return false;
+    if (candidateText.length > currentText.length) return true;
+    if (candidateText.includes(currentText)) return true;
+    if (!current.timeLine && candidate.timeLine) return true;
+
+    return false;
+  };
+
   const tweetsById = new Map();
   const seenIds = new Set();
   const collectedIdsInOrder = [];
@@ -532,7 +574,7 @@ javascript:(async () => {
     loops < MAX_SCROLL_LOOPS && idleLoops <= MAX_IDLE_LOOPS && !foundStop && !window[STOP_FLAG];
     loops++
   ) {
-    let newItemsThisPass = 0;
+    let progressThisPass = 0;
 
     for (const article of getArticles()) {
       if (isNestedTweet(article)) continue; /* skip quoted/embedded tweets */
@@ -543,7 +585,17 @@ javascript:(async () => {
       if (!parsed || parsed.isRepost) continue;
 
       if (parsed.isStop) foundStop = true;
-      if (seenIds.has(parsed.id)) continue;
+      if (seenIds.has(parsed.id)) {
+        const existing = tweetsById.get(parsed.id);
+        if (shouldPreferParsedTweet(existing, parsed)) {
+          tweetsById.set(parsed.id, parsed);
+          progressThisPass += 1;
+          console.debug(
+            `[LJ backup] updated ${parsed.id} ${parsed.url} (${parsed.text.slice(0, 60)}...)`
+          );
+        }
+        continue;
+      }
 
       seenIds.add(parsed.id);
       tweetsById.set(parsed.id, parsed);
@@ -551,12 +603,12 @@ javascript:(async () => {
 
       console.debug(`[LJ backup] +${parsed.id} ${parsed.url} (${parsed.text.slice(0, 60)}...)`);
       await appendLive(formatBlock(parsed));
-      newItemsThisPass += 1;
+      progressThisPass += 1;
     }
 
     if (foundStop) break;
 
-    idleLoops = newItemsThisPass === 0 ? idleLoops + 1 : 0;
+    idleLoops = progressThisPass === 0 ? idleLoops + 1 : 0;
     setStatus(
       `Scanning... loop ${loops + 1}/${MAX_SCROLL_LOOPS} | kept ${tweetsById.size} | idle ${idleLoops}`
     );
