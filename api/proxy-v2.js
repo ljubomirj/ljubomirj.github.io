@@ -43,6 +43,7 @@ function buildNodeMap(tree) {
 // --- CORS ---
 const allowedOrigins = [
     'https://ljubomirj.github.io',
+    'https://ljubomirj-github-io.vercel.app',
     'http://localhost:8000',
     'http://127.0.0.1:8000'
 ];
@@ -61,23 +62,29 @@ function handleCors(req, res) {
 }
 
 // --- LLM helper ---
-async function callLLM(messages, { temperature = 0, maxTokens = 1024 } = {}) {
-    const apiKey = process.env.OPENROUTER_API_KEY;
-    const model = process.env.OPENROUTER_MODEL || 'google/gemini-2.5-flash';
+async function callLLM(messages, { temperature = 0, maxTokens = 1024, responseFormat = null, thinking = { type: 'disabled' } } = {}) {
+    const apiKey = process.env.DEEPSEEK_API_KEY;
+    const model = process.env.DEEPSEEK_MODEL || 'deepseek-v4-pro';
+    const payload = {
+        model,
+        messages,
+        temperature,
+        max_tokens: maxTokens,
+        thinking,
+        stream: false,
+    };
 
-    const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+    if (responseFormat) {
+        payload.response_format = responseFormat;
+    }
+
+    const response = await fetch('https://api.deepseek.com/chat/completions', {
         method: 'POST',
         headers: {
             'Authorization': `Bearer ${apiKey}`,
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-            model,
-            messages,
-            temperature,
-            max_tokens: maxTokens,
-            stream: false,
-        }),
+        body: JSON.stringify(payload),
     });
 
     if (!response.ok) {
@@ -119,6 +126,7 @@ Return ONLY the JSON. No markdown fences, no other text.`;
         const data = await callLLM([{ role: 'user', content: prompt }], {
             temperature: 0,
             maxTokens: 2048,
+            responseFormat: { type: 'json_object' },
         });
 
         const raw = data.choices[0].message.content.trim();
@@ -156,8 +164,8 @@ module.exports = async (req, res) => {
     }
 
     // Validate API key
-    if (!process.env.OPENROUTER_API_KEY) {
-        console.error('OPENROUTER_API_KEY not set');
+    if (!process.env.DEEPSEEK_API_KEY) {
+        console.error('DEEPSEEK_API_KEY not set');
         return res.status(500).json({ error: 'Server configuration error.' });
     }
 

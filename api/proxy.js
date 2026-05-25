@@ -5,6 +5,7 @@ const path = require('path');
 // Define allowed origins
 const allowedOrigins = [
     'https://ljubomirj.github.io', // Your production frontend
+    'https://ljubomirj-github-io.vercel.app', // Vercel deployment
     'http://localhost:8000',       // Your local dev server (adjust port if needed)
     'http://127.0.0.1:8000'        // Another common local address
     // Add any other origins you might test from
@@ -172,6 +173,16 @@ module.exports = async (req, res) => {
             return res.status(400).json({ error: 'Invalid or missing request body for POST. Expected JSON with a non-empty messages array.' });
         }
 
+        const deepseekApiKey = process.env.DEEPSEEK_API_KEY;
+        if (!deepseekApiKey) {
+            console.error("DEEPSEEK_API_KEY is not set in environment variables.");
+            if (isOriginAllowed) {
+                res.setHeader('Access-Control-Allow-Origin', requestOrigin);
+                res.setHeader('Access-Control-Allow-Credentials', 'true');
+            }
+            return res.status(500).json({ error: 'Server configuration error: DEEPSEEK_API_KEY is missing.' });
+        }
+
         // --- Build semantic context from embeddings and augment last user message ---
         const messagesForModel = [...messages];
         const lastUserIdx = findLastUserMessageIndex(messagesForModel);
@@ -311,34 +322,25 @@ module.exports = async (req, res) => {
 //-------------------------------------------------------------------------------------------------------------
 
 //-------------------------------------------------------------------------------------------------------------
-        // 3d. Call OpenRouter API (persona-friendly model)
-        const openrouterApiKey = process.env.OPENROUTER_API_KEY;
-        if (!openrouterApiKey) {
-            console.error("OPENROUTER_API_KEY is not set in environment variables.");
-            if (isOriginAllowed) {
-                res.setHeader('Access-Control-Allow-Origin', requestOrigin);
-                res.setHeader('Access-Control-Allow-Credentials', 'true');
-            }
-            return res.status(500).json({ error: 'Server configuration error: OPENROUTER_API_KEY is missing.' });
-        }
-
-        const openrouterPayload = {
-            model: process.env.OPENROUTER_MODEL || 'google/gemini-2.5-flash',
+        // 3d. Call DeepSeek API
+        const deepseekPayload = {
+            model: process.env.DEEPSEEK_MODEL || 'deepseek-v4-pro',
             messages: messagesForModel,
             temperature: body?.temperature ?? 0.9,
             max_tokens: body?.max_tokens ?? 4096,
+            thinking: body?.thinking ?? { type: 'disabled' },
             stream: false
         };
 
-        console.log(`Forwarding request to OpenRouter (${openrouterPayload.model}) with ${messagesForModel.length} messages (semantic context applied=${lastUserIdx !== -1})...`);
+        console.log(`Forwarding request to DeepSeek (${deepseekPayload.model}) with ${messagesForModel.length} messages (semantic context applied=${lastUserIdx !== -1})...`);
 
-        const routerResponse = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+        const routerResponse = await fetch('https://api.deepseek.com/chat/completions', {
             method: 'POST',
             headers: {
-                'Authorization': `Bearer ${openrouterApiKey}`,
+                'Authorization': `Bearer ${deepseekApiKey}`,
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify(openrouterPayload),
+            body: JSON.stringify(deepseekPayload),
         });
 //-------------------------------------------------------------------------------------------------------------
 

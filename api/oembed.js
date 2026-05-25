@@ -3,6 +3,7 @@ const fetch = require('node-fetch');
 // Define allowed origins (can be the same as your other proxy)
 const allowedOrigins = [
     'https://ljubomirj.github.io',
+    'https://ljubomirj-github-io.vercel.app',
     'http://localhost:8000',
     'http://127.0.0.1:8000'
 ];
