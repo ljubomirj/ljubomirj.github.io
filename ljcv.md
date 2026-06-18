@@ -1,9 +1,7 @@
 # Ljubomir Josifovski
 
-**Email:** LjubomirJosifovski@gmail.com | **Phone:** +44-7910-850-111
-**Location:** 11 Pendennis Ct, Harpenden AL5 1SG, UK
-**Web:** https://ljubomirj.github.io | **LinkedIn:** linkedin.com/in/ljubomirjosifovski
-**GitHub:** github.com/ljubomirj
+**Location:** 11 Pendennis Ct, Harpenden AL5 1SG, UK | **Email:** LjubomirJosifovski@gmail.com | **Phone:** +44-7910-850-111
+**Web:** ljubomirj.github.io | **LinkedIn:** linkedin.com/in/ljubomirjosifovski | **GitHub:** github.com/ljubomirj
 
 ---
 
@@ -23,7 +21,7 @@ ML/AI researcher and engineer in industrial R&D, with background spanning speech
 
 **Programming:** C/C++/OpenMP, Python, SQL, duckdb, bash, awk, make, gdb/ddd, MATLAB, C#, R, Java
 
-**Agents:** Codex/Claude/Cursor/OpenCode (coding), Hermes (general), local LLM workflows llama.cpp/LMStudio
+**Agents:** Codex/Claude/Cursor/OpenCode (coding), Hermes, pi (general), finance (data), chemistry; local LLM workflows llama.cpp/mlx-lm/LMStudio
 
 **Tools:** Vim, Git, Github, tmux/screen, VSCode, CLion, Jupyter, Spyder, Bloomberg & Reuters API-s
 
@@ -35,21 +33,22 @@ ML/AI researcher and engineer in industrial R&D, with background spanning speech
 
 ### F9 Research, Director (2016–present; Harpenden, UK; remote distributed US, UK, EU)
 
-- Rekindled ML/AI interests with OSS llama.cpp, open weights local LLMs (Nemotron, GLM, Qwen, GPT-OSS), coding agents Codex, Claude, OpenCode, data agents e.g. text2sql (finance, chemistry) in an agentic loop, general agents Hermes
+- Rekindled ML/AI interests with OSS open weights local LLMs (DeepSeek-V4-Flash, Nemotron, Qwen, Gemma, GLM, GPT-OSS) served by llama.cpp, mlx-lm, ds4-server
+- Agents: coding - Codex, Claude, Cursor, OpenCode, ds4-agent; general - Hermes, pi; data - e.g. text2sql in finance, chemistry (in an agentic loop)
 - DNNs for tabular data forecasting (c.f. Hugging Face TabArena) using TabM, TabPFN for regression
 - LLM API-s for earnings calls doc2vec features extraction for modelling and forecasting
-- Quant research & development short-horizons strategies using Python, C++, cluster & cloud resources
 - Managed and traded a market-neutral systematic quant book gross ~$350M, trade ~$35M daily, EU & US markets (MATLAB, shell, sql, C/C++)
+- Quant research & development short-horizons strategies using Python, C++, cluster & cloud resources
 
 ### FutureSearch, Research Scientist (2025; remote distributed US, UK, EU)
 
-- Created then used agents to gather and organise financial data for end-user would-be products, and for internal use
+- Created then used agents to gather and organise financial data for end-user would-be products, and for internal use; embryonic data agent
 - Consulted on using the presumed 'alpha' 'generated' by the AI agent(s) for potential investment
 
 ### Marshall Wace, Senior Quantitative Researcher (2010–2016; London, UK)
 
 - Developed and scaled market-neutral portfolios from $100M to $10B+ over a period of 6 years
-- Pioneered and wrote unified R&D framework for data ingestion, signal extraction, modelling, portfolio optimization, simulation
+- Pioneered and significantly wrote unified R&D framework for data ingestion, signal extraction, modelling, portfolio optimization, simulation used by the team
 - Mentored junior researchers, implemented reproducible research workflows
 
 ### Credit Suisse, Quantitative Analyst (2007–2009; London, UK)
@@ -79,3 +78,5 @@ ML/AI researcher and engineer in industrial R&D, with background spanning speech
 - Thesis: System for text-to-speech conversion for Macedonian language
 
 **B.S. Electrical Engineering** — University Sv. Kiril i Metodij, Skopje, MK (1993)
+- Ranked 1st out of 400 on the entrance exam with a perfect 100/100 score
+
