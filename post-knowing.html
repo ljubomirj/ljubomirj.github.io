@@ -17,7 +17,7 @@
 
     <div id="content">
 
-        <h1>Knowing - what do I mean when I say I know something</h1>
+        <h1 id="knowing">Knowing - what do I mean when I say I know something</h1>
 
         <p>I was told "the joint probability density function between two variables \( X \) and \( Y \) captures everything that there is ever to be known about the relation between those \( X \) and \( Y \)" 25 years ago (¡Hola! <a href="https://faculty.ucmerced.edu/mcarreira-perpinan/">Miguel</a> :-)), and it's been a blessing and a curse. Blessing - yeah the joint pdf \( f_{X,Y}(x,y) \) really does capture everything. Curse - often I read an article and think of the author "wish someone told you too", you poor soul.</p>
 
@@ -121,7 +121,7 @@ Keeping detail so not cost free, it takes resource implementing it. So if we don
 
         <p>Conditioning Y on X is observing the \( x=a \), and then re-normalising \( f(y,x=a) \) such that it becomes a p.d.f. again to sum to 1 \( f(y|x=a) \). Observing quality X that is \( x=a \), is shrinking the dimensionality from 2D to 1D. In general from \( (N+1) \)-dim back to \( N \)-dim.</p>
 
-        <h2>Chain of Reasoning (CoR)</h2>
+        <h2 id="cor">Chain of Reasoning (CoR)</h2>
 
         <p>If p.d.f. \( f_{Y|X}(y|x=a) = P(Y|X) \) is not very informative, we can undertake <b>chain of reasoning (CoR)</b>. We can find a reasoning step \( Z \), that is \( P(Z|X) \), such that the conditional \( P(Y|Z,X) \) brings us closer to our end answer than \( P(Y|X) \) can bring us.</p>
 
@@ -143,7 +143,7 @@ Keeping detail so not cost free, it takes resource implementing it. So if we don
 
         <p>Diffusers learning gradients and autoregressors learning the density are complementary. If/when we have access to both the function and its derivatives we can approximate more operators on top of the pdf itself—think H- and L- updates that reason about how the entire distribution should morph in one step.</p>
 
-        <h2>Marginalisation is Forgetting</h2>
+        <h2 id=marginalisation">Marginalisation is Forgetting</h2>
 
         <p>When I compute \( f_X(x) = \int f_{X,Y}(x,y) dy \) margnialising out i.e. "ignoring" Y is irreversibly destroying any knowledge of how X and Y co-vary. The operation is a lossy compression; I cannot reconstruct \( f_{X,Y} \) from \( f_X \) alone. A state with joint knowledge \( f_{X,Y} \) has "working memory" of the relationship. Marginalizing to \( f_X \) is forgetting Y, freeing up parameters space removing memory so losing specifics. Choosing which variable to marginalize is an act of attention allocation. Storing a joint p.d.f. over \( (N+M) \)-dims cost drops when marginalizing down to \( N \)-dim. We trade accuracy for efficiency, effectivelly compressing, so the trick is to forget just enough but not more than that. We pay for any complexity for memory of extra weights and for using them in the compute. So there is always cost. If removing the specifics, maybe b/c conditioning on those specifics barely changes the p.d.f, if we endup with almost the joint p.d.f. even in the conditional - the we lose almost nothing by the removal and save on processing and mainteinance costs.</p> 
 
@@ -151,7 +151,7 @@ Keeping detail so not cost free, it takes resource implementing it. So if we don
 
         <h2>Appendices (other related randoms; TBD refactor when feel like)</h2>
 
-        <h3>A. Everything is a Computer in 2025 it seems <span class="sec-toggle" aria-controls="appendix-a" aria-expanded="false">+</span></h3>
+        <h3 id="computer">A. Everything is a Computer in 2025 it seems <span class="sec-toggle" aria-controls="appendix-a" aria-expanded="false">+</span></h3>
         <div id="appendix-a" hidden>
 
             <p>Everything is a computer now atm. (2025) Information theory is the most general theory we got.</p>
@@ -170,7 +170,7 @@ Keeping detail so not cost free, it takes resource implementing it. So if we don
 
         </div>
 
-        <h3>B. Missing Data Imputation <span class="sec-toggle" aria-controls="appendix-b" aria-expanded="false">+</span></h3>
+        <h3 id="missing-data">B. Missing Data Imputation <span class="sec-toggle" aria-controls="appendix-b" aria-expanded="false">+</span></h3>
         <div id="appendix-b" hidden>
 
             <p>With present data \( x \) and missing data \( y \) in \( (x,y) \), then missing data imputation is actually equivalent to forecasting regression (continuous \( y \) variable) or classification (discrete \( y \) classes). Big difference is whether \( x \) and \( y \) are contemporaneous, or not: not contemporaneous makes the signal connection \( x \rightarrow y \) much, much weaker, by orders of magnitude. Time Now is a big barrier in knowing.</p>
@@ -181,7 +181,7 @@ Keeping detail so not cost free, it takes resource implementing it. So if we don
 
         </div>
 
-        <h3>C. Now and Time, Past, Present, Future <span class="sec-toggle" aria-controls="appendix-c" aria-expanded="false">+</span></h3>
+        <h3 id="time">C. Now and Time, Past, Present, Future <span class="sec-toggle" aria-controls="appendix-c" aria-expanded="false">+</span></h3>
         <div id="appendix-c" hidden>
 
             <p><b>TBD Time.</b> Mechanistic pedestrian treatment of time (past/now/future) in the same framework where all is knowns is a p.d.f. So we have past and future separated by the now that marks the present for us. Say \( X = \) past, \( Y = \) future in our \( (X,Y) \) and we have the p.d.f. \( f_{X,Y}(x,y) \).</p>
@@ -205,7 +205,7 @@ Keeping detail so not cost free, it takes resource implementing it. So if we don
             <p>Time is the currency of life - time is what is spent in the process of living.</p>
         </div>
 
-        <h3>D. Forecasts must have error &gt; 0 for information to exist <span class="sec-toggle" aria-controls="appendix-d" aria-expanded="false">+</span></h3>
+        <h3 "error">D. Forecasts must have error &gt; 0 for information to exist <span class="sec-toggle" aria-controls="appendix-d" aria-expanded="false">+</span></h3>
         <div id="appendix-d" hidden>
 
             <p>The error is necessary for information to exist. In the limit where the error is zero, no new information is ever observed - everything is known, the uncertainty is zero.</p>
@@ -220,7 +220,7 @@ Keeping detail so not cost free, it takes resource implementing it. So if we don
 
         </div>
 
-        <h3>E. Qualities, Quantities, and Dimensions <span class="sec-toggle" aria-controls="appendix-e" aria-expanded="false">+</span></h3>
+        <h3 id="quality-quantity">E. Qualities, Quantities, and Dimensions <span class="sec-toggle" aria-controls="appendix-e" aria-expanded="false">+</span></h3>
         <div id="appendix-e" hidden>
 
             <p><b>Quality and quantity.</b> Dimensions \( (X,Y) \) are qualities, and we quantify them each too. When do we add new quality and obversely when do we lose a quality (dimension)? (<a href="https://news.ycombinator.com/item?id=38261719">LJ @ HN</a>) The second “law” of dialectical materialism by Engels—"the law of the passage of quantitative changes into qualitative changes"—captures this nicely. Enough quantity becomes a new quality.</p>
@@ -243,7 +243,7 @@ Keeping detail so not cost free, it takes resource implementing it. So if we don
 
         </div>
 
-        <h3>F. Randomness, Search, and Open-Endedness <span class="sec-toggle" aria-controls="appendix-f" aria-expanded="false">+</span></h3>
+        <h3 id="randomness">F. Randomness, Search, and Open-Endedness <span class="sec-toggle" aria-controls="appendix-f" aria-expanded="false">+</span></h3>
         <div id="appendix-f" hidden>
 
             <p>Randomness, entropy is what enables search. Random steps are a way of searching through the global space. Without randomness we hill-climb to the nearest peak and stay there forever; the derivatives decay to zero, motion stops, intelligence halts.</p>
@@ -262,7 +262,7 @@ Keeping detail so not cost free, it takes resource implementing it. So if we don
 
         </div>
 
-        <h3>G. Life, Entropy, Knowledge, Intelligence <span class="sec-toggle" aria-controls="appendix-g" aria-expanded="false">+</span></h3>
+        <h3 id="life">G. Life, Entropy, Knowledge, Intelligence <span class="sec-toggle" aria-controls="appendix-g" aria-expanded="false">+</span></h3>
         <div id="appendix-g" hidden>
 
             <p>Definions of life collected over time from various sources.</p>
@@ -285,7 +285,7 @@ Keeping detail so not cost free, it takes resource implementing it. So if we don
 
             <p>Life is a cycle of generation, degeneration, regeneration. "I" is a collection of particles that is arranged into this pattern, that will decompose and be available to nature to reorganize into another pattern. Death is part of a gift economy. You are given this enormous gift, life. You enrich it as best you can. And then you give it back. (Emily Levine, Andreas Weber). Children give you a glimpse of a second life, if not of an eternal one.</p>
 
-            <h4>Intelligence</h4>
+            <h4 id="intelligence">Intelligence</h4>
 
             <p>One definition of intelligence I've heard is: "intelligence is the computational part of achieving a goal". And what is the goal of anything that's alive? The goal is to continue staying alive. Otherwise it dies and then stays dead forever. Short term we adapat to the enviroenment, and we adapt the environment to us. Long term we im-perfectly replicate, create im-perfect partial copies of ourselves. (could say "it's the recipe for replication that replicates, our bodies are the material realisations of that machine"; dependnt of what we take to be "I") Stupid systems found in nature are never living - always dead. Can safely infer: "if alive =&gt; then not-stupid but intelligent"? Reality has that search built in apparently.</p>
 
@@ -303,7 +303,7 @@ Keeping detail so not cost free, it takes resource implementing it. So if we don
 
         </div>
 
-        <h3>H. Brains, AIs, and Efficiency <span class="sec-toggle" aria-controls="appendix-h" aria-expanded="false">+</span></h3>
+        <h3 id="intelligence">H. Brains, AIs, and Efficiency <span class="sec-toggle" aria-controls="appendix-h" aria-expanded="false">+</span></h3>
         <div id="appendix-h" hidden>
 
             <p>Digital intelligences (currently AI-s - artificial intelligences) need lots of energy. They can work "as if" perfect copies, separating software (spirit) from the hardware (substrate). They can all learn different knowledge from different experiences, but then share their knowledge back with everyone at high speed. So they can implement distributed learning at unit level. Separation s/w spirit from h/w substrate also makes them immortal.</p>
@@ -317,7 +317,7 @@ Keeping detail so not cost free, it takes resource implementing it. So if we don
 
         </div>
 
-        <h3>I. Collective Intelligence and Networks <span class="sec-toggle" aria-controls="appendix-i" aria-expanded="false">+</span></h3>
+        <h3 id="networks">I. Collective Intelligence and Networks <span class="sec-toggle" aria-controls="appendix-i" aria-expanded="false">+</span></h3>
         <div id="appendix-i" hidden>
 
             <p>All intelligence is collective intelligence. Humans are collections of organs and tissues, which themselves are collections of cells. A cell is itself a collection of molecular networks (and so on). The subunits are competent themselves. There is a scale up process in which these competent subunits give rise to an intelligent unit bigger than themselves (Michael Levin).</p>
@@ -338,7 +338,7 @@ Keeping detail so not cost free, it takes resource implementing it. So if we don
 
         </div>
 
-        <h3>J. Types of Intelligence <span class="sec-toggle" aria-controls="appendix-j" aria-expanded="false">+</span></h3>
+        <h3 id="i-typees">J. Types of Intelligence <span class="sec-toggle" aria-controls="appendix-j" aria-expanded="false">+</span></h3>
         <div id="appendix-j" hidden>
 
             <p>It's by logic that we prove, but by intuition that we discover. (Poincaré) To know how to criticize is good, to know how to create is better.(François Chollet)</p>
@@ -361,7 +361,7 @@ Keeping detail so not cost free, it takes resource implementing it. So if we don
 
         </div>
 
-        <h3>K. Knowing and knowledge, epistemology, even ideology? <span class="sec-toggle" aria-controls="appendix-k" aria-expanded="false">+</span></h3>
+        <h3 id="epistemology">K. Knowing and knowledge, epistemology, even ideology? <span class="sec-toggle" aria-controls="appendix-k" aria-expanded="false">+</span></h3>
         <div id="appendix-k" hidden>
             <p><b>Knowing and knowledge, epistemology, even ideology?</b></p>
             <ol>
@@ -374,7 +374,7 @@ Keeping detail so not cost free, it takes resource implementing it. So if we don
             <p>Knowledge, taste, wisdom: perhaps wisdom is just good taste in curating knowledge.</p>
         </div>
 
-        <h3>L. Consciousness <span class="sec-toggle" aria-controls="appendix-l" aria-expanded="false">+</span></h3>
+        <h3 id="consciousness">L. Consciousness <span class="sec-toggle" aria-controls="appendix-l" aria-expanded="false">+</span></h3>
         <div id="appendix-l" hidden>
 
             <p><b>Connection to consciousness.</b> Not a lot specifically, nothing over and above what's true of the brain as per the writing of Karl Friston (of his work I became aware recently; video <a href="https://www.youtube.com/watch?v=iPj9D9LgK2A">https://www.youtube.com/watch?v=iPj9D9LgK2A</a>, text <a href="https://archive.is/AngqY#selection-2139.0-2139.15">https://www.wired.com/story/karl-friston-free-energy-principle-artificial-intelligence/</a>; shortest summary "brain machine works by minimising the discrepancy error between model forecast and observation by better model and/or action in the world", aka "minimize free energy" principle). But had to write some recently, <a href="post-consciousness.html">so here</a>.</p>
@@ -389,7 +389,7 @@ Keeping detail so not cost free, it takes resource implementing it. So if we don
 
         </div>
 
-        <h3>M. Etc <span class="sec-toggle" aria-controls="appendix-m" aria-expanded="false">+</span></h3>
+        <h3 id="etc">M. Etc <span class="sec-toggle" aria-controls="appendix-m" aria-expanded="false">+</span></h3>
         <div id="appendix-m" hidden>
 
             <p><b>Information can reduce knowledge</b>Amusing paper illustrates how new/more information can make the entropy (uncertainty) higher, thus reducing our knowledge. Where our knowledge measure is the spikiness of the probability density function. After the additional observation (new information), the conditional p.d.f. post the observation is flatter then before =&gt; our knowledge about the world decreased.</p>
