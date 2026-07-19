@@ -245,8 +245,16 @@ javascript:(async () => {
   // Find the quoted tweet's status URL inside an article (if any)
   const findQuotedTweetUrl = (article) => {
     const anchors = Array.from(article.querySelectorAll('a[href*="/status/"]'));
+    // Find the main tweet's timestamp link to exclude it
+    const mainTimeEl = article.querySelector('time');
+    const mainTimeLink = mainTimeEl ? mainTimeEl.closest('a') : null;
     for (const a of anchors) {
-      if (!isInsideQuote(a)) continue;
+      // Skip the main tweet's own timestamp link
+      if (mainTimeLink && a === mainTimeLink) continue;
+      // Must be a tweet card (role="link" or contains tweetText)
+      const isCard = a.getAttribute('role') === 'link' ||
+                     a.querySelector('[data-testid="tweetText"]');
+      if (!isCard) continue;
       try {
         const url = a.href.split('?')[0].replace('twitter.com', 'x.com');
         if (/\/status\/\d+$/.test(url)) return url;
@@ -332,7 +340,6 @@ javascript:(async () => {
       const nodes = Array.from(article.querySelectorAll(selectors.join(',')));
       for (const node of nodes) {
         if (!node || node.closest('article') !== article) continue;
-        if (isInsideQuote(node)) continue; /* don't click inside quoted tweets */
         if (!isLikelyExpander(node)) continue;
         if (requireTweetText && !isInTweetText(node)) continue;
         candidates.add(node);
