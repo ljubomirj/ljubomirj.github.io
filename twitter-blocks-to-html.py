@@ -160,7 +160,7 @@ def main():
         print('No tweet blocks found.', file=sys.stderr)
         sys.exit(1)
 
-    for b in reversed(blocks):
+    for b in blocks:
         print(format_block(b))
         print()
 
