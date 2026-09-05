@@ -64,10 +64,8 @@ mb
 Insert the leading <div class="tweet">. Search & replace for ^https ONLY preceeded by an empty line
 
 :'a,'bg%\(^$\)\n^  \* https://%.+2s%^\s\+%%
-:'a,'bg%\(^$\)\n^  \* https://%.s%^%</div>
-%
-:'a,'bg%\(^$\)\n^  \* https://%.+1s%^  \* \(https://x.com/.*/\)\([0-9]\+\)$%<div class="tweet" id="\2">
-<a href="\1\2">\1\2</a>%
+:'a,'bg%\(^$\)\n^  \* https://%.s%^%</div>%
+:'a,'bg%\(^$\)\n^  \* https://%.+1s%^  \* \(https://x.com/.*/\)\([0-9]\+\)$%<div class="tweet" id="\2"><a href="\1\2">\1\2</a>%
 
 The will be stray </div> in the wrong place above 'a - move that </div> line at the end, above 'b.
 
@@ -82134,10 +82132,8 @@ Insert the leading <div class="substack">
 Search & replace for ^https ONLY preceeded by an empty line
 
 :'a,'bg%\(^$\)\n^  \* https://%.+2s%^\s\+%%
-:'a,'bg%\(^$\)\n^  \* https://%.s%^%</div>
-%
-:'a,'bg%\(^$\)\n^  \* https://%.+1s%^  \* \(https://.*\)$%<div class="substack">
-<a href="\1">\1</a><br>%
+:'a,'bg%\(^$\)\n^  \* https://%.s%^%</div>%
+:'a,'bg%\(^$\)\n^  \* https://%.+1s%^  \* \(https://.*\)$%<div class="substack"><a href="\1">\1</a><br>%
 
 Put breaks <br> in the middle, delete empty lines etc
 
@@ -83001,10 +82997,8 @@ prepend new at head
 
 ma
 mb
-:'a,'b g%^https://%s%^.*$%<p>
-<a href="&">&</a>%
-:'a,'b g%^.*202[0-5] at [0-9:]* \(AM\|PM\)$%+1s%^%</p>
-%
+:'a,'b g%^https://%s%^.*$%<p><a href="&">&</a>%
+:'a,'b g%^.*202[0-5] at [0-9:]* \(AM\|PM\)$%+1s%^%</p>%
 :'a,'b g/^<p>/+1,/^<\/p>/-1 s/$/<br>/
 :'a,'b s/<br><br>$/<br>/
 
