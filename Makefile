@@ -1,4 +1,4 @@
-.PHONY: install install-npm install-know knowledge embeddings feeds bookmarklet v2 all
+.PHONY: install install-npm install-know knowledge embeddings feeds bookmarklet search v2 all
 
 # Install JS dependencies (uses package-lock.json for exact versions)
 install-npm:
@@ -21,6 +21,11 @@ install-know:
 # Combined install for convenience
 install: install-npm install-know
 
+# Build the client-side search index (search-index.json + search-texts.json,
+# consumed by the footer search widget in scripts.js)
+search:
+	node scripts/build-search-index.js
+
 # Rebuild knowledge.json from local sources (requires lynx and pdftotext)
 knowledge:
 	node scripts/build-knowledge.js
@@ -42,4 +47,4 @@ v2:
 	node scripts/build-tree-index.js
 
 # Default pipeline: rebuild knowledge + embeddings + feeds
-all: embeddings feeds
+all: embeddings feeds search

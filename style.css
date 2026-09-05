@@ -340,3 +340,104 @@ button:hover {
         /* Example: make chat button full width below input */
     }
 }
+
+/* ===================== Footer search widget (scripts.js) ===================== */
+.lj-footer-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 16px;
+    margin-top: 24px;
+    position: relative;
+}
+
+.lj-search {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
+    flex-shrink: 0;
+}
+
+.lj-search input[type="text"] {
+    width: 240px;
+    padding: 4px 8px;
+    border: 1px solid #007bff;
+    border-radius: 4px;
+}
+
+.lj-search button {
+    padding: 4px 12px;
+}
+
+.lj-search label {
+    white-space: nowrap;
+    font-size: 0.9em;
+}
+
+#lj-search-results {
+    position: absolute;
+    bottom: 100%;
+    left: 0;
+    right: 0;
+    max-height: 45vh;
+    overflow-y: auto;
+    background: white;
+    border: 1px solid #007bff;
+    border-radius: 6px;
+    box-shadow: 0 -4px 14px rgba(0, 0, 0, 0.18);
+    z-index: 9999;
+}
+
+.lj-hit {
+    padding: 8px 10px;
+    border-bottom: 1px solid #eee;
+    cursor: pointer;
+}
+
+.lj-hit:last-child {
+    border-bottom: none;
+}
+
+.lj-hit.selected,
+.lj-hit:hover {
+    background: #eef4ff;
+}
+
+.lj-hit-title {
+    font-weight: bold;
+    font-size: 0.9em;
+    color: #0056b3;
+}
+
+.lj-hit-date {
+    font-weight: normal;
+    color: #777;
+}
+
+.lj-hit-snippet {
+    font-size: 0.85em;
+    color: #333;
+}
+
+.lj-hit mark,
+.lj-flash mark {
+    background: #ffe98a;
+    padding: 0 1px;
+}
+
+.lj-search-status {
+    padding: 8px 10px;
+    color: #555;
+    font-size: 0.9em;
+}
+
+.lj-flash {
+    position: absolute;
+    background: rgba(255, 233, 138, 0.55);
+    outline: 2px solid #ffb700;
+    border-radius: 3px;
+    pointer-events: none;
+    z-index: 99999;
+    transition: opacity 1.2s ease;
+}
