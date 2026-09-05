@@ -58,15 +58,18 @@ Insert the leading <div class="tweet">
 
 Search & replace for ^https ONLY preceeded by an empty line
 
-:'a,'bg%\(^$\)\n^https://%.+1s%^.*$%<div class="tweet"><a href="&">&</a>%
+:'a,'bg%\(^$\)\n^https://%.+1s%^.*$%<div class="tweet">
+<a href="&">&</a>%
 
 If that fails, drop the "ONLY preceeded by empty line", and delete the spurios '<div class="tweet' inside tweets after manually
 
-:'a,'bg%^https://%s%^.*$%<div class="tweet"><a href="&">&</a>%
+:'a,'bg%^https://%s%^.*$%<div class="tweet">
+<a href="&">&</a>%
 
 Insert the trailing </div>
 
-:'a,'bg%^[0-9:]* \(AM\|PM\) . .*2025$%+1s%^%</div>%
+:'a,'bg%^[0-9:]* \(AM\|PM\) . .*2025$%+1s%^%</div>
+%
 
 Put breaks <br> in the middle, delete empty lines etc
 
@@ -172,7 +175,7 @@ Aug 7, 2024 at 09:12<br>
         <p></p>
         <p></p>
 
-        <p><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>-- <br>LJ HPD Mon 25 Nov 01:29:11 GMT 2024</p>
+        <p><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><!-- -- LJ HPD Mon 25 Nov 01:29:11 GMT 2024 --></p>
 
     </div>
 

@@ -604,11 +604,11 @@ async function sendMessage(currentHistoryToSend, inputElement, sendButton) {
         row.appendChild(widget);
         row.appendChild(panel);
 
-        // The LJ HPD signature <p> is the right-hand half of the row.
+        // The LJ HPD signature <p> (now an HTML comment, internal accounting) anchors the row; matched via innerHTML.
         const ps = document.querySelectorAll('p');
         let footerP = null;
         for (let i = ps.length - 1; i >= 0; i--) {
-            if (/LJ HPD/.test(ps[i].textContent)) { footerP = ps[i]; break; }
+            if (/LJ HPD/.test(ps[i].innerHTML)) { footerP = ps[i]; break; }
         }
         if (footerP) {
             footerP.parentNode.insertBefore(row, footerP);
