@@ -332,7 +332,9 @@ async function sendMessage(currentHistoryToSend, inputElement, sendButton) {
                         storeFields: ['page', 'page_title', 'anchor', 'title'],
                         searchOptions: { prefix: true, fuzzy: 0.2, boost: { title: 3 } },
                     });
-                    return { ms, docs: payload.docs };
+                    // Full docs (with snippet) for enriching BM25 results:
+                    // storeFields excludes snippet to keep the index slim.
+                    return { ms, docs: payload.docs, docsById: new Map(payload.docs.map(d => [d.id, d])) };
                 });
             indexPromise.catch(() => { indexPromise = null; });
         }
@@ -394,10 +396,17 @@ async function sendMessage(currentHistoryToSend, inputElement, sendButton) {
             }
             return { hits, query: parsed };
         }
-        const { ms } = await ensureIndex();
+        const { ms, docsById } = await ensureIndex();
         const results = ms.search(parsed.query).filter(r => scope === 'site' || samePage(r));
         return {
-            hits: results.slice(0, MAX_HITS).map(r => ({ doc: r, snippet: r.snippet || '' })),
+            hits: results.slice(0, MAX_HITS).map(r => {
+                const full = docsById.get(r.id) || {};
+                // Merge snippet into the doc (BM25 results only carry
+                // storeFields; snippet doubles as locate text for non-anchored
+                // chunks). No date: tweet titles already embed the timestamp.
+                const doc = { ...r, snippet: full.snippet || '' };
+                return { doc, snippet: doc.snippet };
+            }),
             query: parsed,
         };
     }
@@ -421,33 +430,59 @@ async function sendMessage(currentHistoryToSend, inputElement, sendButton) {
     }
 
     function locateByText(needleFull) {
+        // The needle (a chunk snippet head) may straddle element boundaries
+        // (chunks join <p>/<li>/<br> runs with newlines), so search a
+        // walker-concatenated, whitespace-normalized string instead of
+        // per-node text, then map the match back to raw text-node offsets.
         const needle = needleFull.replace(/\s+/g, ' ').trim().slice(0, 30);
         if (!needle) return false;
         const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
-        const nodes = [];
+        let all = '';
+        const ranges = []; // { node, skip, start, end } — offsets in `all`
         for (let n = walker.nextNode(); n; n = walker.nextNode()) {
-            if (n.nodeValue && n.nodeValue.trim()) nodes.push(n);
+            if (!n.nodeValue || !n.nodeValue.trim()) continue;
+            const piece = n.nodeValue.replace(/\s+/g, ' ');
+            let skip = 0;
+            // Collapse a redundant leading space when the seam already has one.
+            if (piece.startsWith(' ') && (all === '' || all.endsWith(' '))) skip = 1;
+            if (skip < piece.length) {
+                if (all !== '' && !all.endsWith(' ') && !piece.startsWith(' ')) all += ' ';
+                ranges.push({ node: n, skip, start: all.length, end: all.length + piece.length - skip });
+                all += piece.slice(skip);
+            }
         }
-        for (const n of nodes) {
-            const hay = n.nodeValue.replace(/\s+/g, ' ');
-            const idx = hay.indexOf(needle);
+        // Exact needle first, then progressively shorter prefixes — the DOM
+        // text may normalize slightly differently than the indexed chunk.
+        for (const len of [needle.length, 20, 12]) {
+            const probe = needle.slice(0, len);
+            const idx = all.indexOf(probe);
             if (idx === -1) continue;
-            // Map normalized offset back to the raw node (whitespace only
-            // collapses, so lengths differ only inside runs).
-            let raw = 0, norm = 0;
-            const value = n.nodeValue;
-            while (norm < idx && raw < value.length) {
-                norm += /\s/.test(value[raw]) ? 0 : 1;
-                raw++;
+            let r = null;
+            for (const rg of ranges) {
+                if (idx >= rg.start && idx < rg.end) { r = rg; break; }
             }
+            if (!r) continue;
+            const value = r.node.nodeValue;
+            const normToRaw = (pieceOff) => {
+                // piece offset (incl. the skipped leading space) -> raw index;
+                // whitespace runs collapse to one normalized space.
+                let raw = 0, norm = 0;
+                while (norm < pieceOff && raw < value.length) {
+                    raw++;
+                    if (/\s/.test(value[raw - 1])) {
+                        while (raw < value.length && /\s/.test(value[raw])) raw++;
+                        norm++;
+                    } else norm++;
+                }
+                return raw;
+            };
+            const rawStart = normToRaw(idx - r.start + r.skip);
+            const endPiece = idx - r.start + r.skip + probe.length;
+            const rawEnd = Math.min(normToRaw(endPiece), value.length);
+            if (rawEnd <= rawStart) continue;
             const range = document.createRange();
-            range.setStart(n, raw);
-            const endNeedle = needle.length;
-            let end = raw;
-            for (let seen = 0; end < value.length && seen < endNeedle; end++) {
-                if (!/\s/.test(value[end])) seen++;
-            }
-            range.setEnd(n, Math.min(end, value.length));
+            range.setStart(r.node, rawStart);
+            range.setEnd(r.node, rawEnd);
             const rect = range.getBoundingClientRect();
             window.scrollTo({ top: window.scrollY + rect.top - window.innerHeight / 3, behavior: 'smooth' });
             flashRect(range.getBoundingClientRect());
