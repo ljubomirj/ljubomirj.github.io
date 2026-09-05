@@ -31,4 +31,18 @@
 - PRs (if used) should describe changes, note regenerated artifacts (feeds, bookmarklet, embeddings), and include screenshots for visual/layout changes.
 
 ## Content & Feeds Notes
+
 - `feed.xml` and `rss.xml` are generated outputs; regenerate after adding/removing pages or PDFs.
+
+## Agent Skills (agent-agnostic)
+
+- This repo is a subdirectory of HOME. The HOME-level agent files apply and
+  win over project-level ones: `~/AGENTS.md` and `~/agents/` (shared skills,
+  shared instructions). Project files below only add repo-specific rules.
+- `agents/` complements this file: self-contained, tool-agnostic workflows any
+  agent can follow (OMP/oh-my-pi, pi, opencode, codex, claude, Cursor, ...).
+  See `agents/README.md`.
+- Skills live in `agents/skills/<name>/SKILL.md` (YAML frontmatter + plain
+  markdown). Read the relevant skill before working on its area — e.g.
+  `agents/skills/twitter-archive-prepend/SKILL.md` for prepending new X posts
+  to `twitter-history.html`.

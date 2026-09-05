@@ -114,9 +114,18 @@ def format_block(b: dict) -> str:
         lines_out.append(esc(b['author']))
     for bl in b['body']:
         if bl.strip():
-            lines_out.append(esc(bl.strip()))
+            # Turn in-tweet http(s) URLs into hyperlinks, matching the manual
+            # vim step: s%\<http[s]://[^\s)\]},<]\+%<a href="&">&</a>%
+            # (basics only, as documented in the twitter-history.html comment;
+            # scheme-less x.com/... URLs and trailing-punctuation caveats stay).
+            bl = re.sub(r'http[s]://[^\s)\]},<]+',
+                        lambda m: f'<a href="{m.group(0)}">{m.group(0)}</a>',
+                        esc(bl.strip()))
+            lines_out.append(bl)
         else:
-            lines_out.append('')
+            # Blank body lines are dropped: the manual procedure deletes the
+            # resulting standalone '<br>' lines (g/^<br>$/d).
+            pass
     if b['ts']:
         lines_out.append(esc(b['ts']))
     lines_out.append('</div>')
