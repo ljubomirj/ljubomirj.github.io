@@ -27,6 +27,11 @@ assigns those numbers for new posts the same way (max existing data-num + 1).
 Re-running fixes placement, never numbering: divs already carrying data-num
 keep their number, and anchors found elsewhere in a block (e.g. at the
 bottom, from the first rollout) are moved to the top.
+
+With --renumber, old numbers and anchors are wiped and every post is
+restamped positionally (bottom = 1, counting up) — for repairs that change
+post positions, e.g. after unmerge-twitter-history.py splits a merged blob
+back into individual posts.
 """
 
 import re
@@ -142,7 +147,10 @@ def find_blocks(lines: list[str]) -> list[tuple[int, int]]:
 
 
 def main() -> int:
-    archive = Path(sys.argv[1]) if len(sys.argv) > 1 else DEFAULT_ARCHIVE
+    argv = sys.argv[1:]
+    force = '--renumber' in argv  # restamp every post, ignoring old numbers
+    args = [a for a in argv if a != '--renumber']
+    archive = Path(args[0]) if args else DEFAULT_ARCHIVE
     lines = archive.read_text(encoding='utf-8').splitlines()
 
     blocks = find_blocks(lines)
@@ -156,6 +164,23 @@ def main() -> int:
     for idx in range(len(blocks) - 1, -1, -1):
         num = len(blocks) - idx
         start, end = blocks[idx]
+
+        if force:
+            # wipe old number and anchors, restamp from scratch: for repairs
+            # that change post positions (e.g. unmerge-twitter-history.py)
+            stale = [k for k in range(start + 1, end) if ANCHOR_RE.match(lines[k])]
+            for k in reversed(stale):
+                del lines[k]
+            end -= len(stale)
+            div_line = re.sub(r' data-num="\d+"', '', lines[start])
+            lines[start] = re.sub(r'(<div class="tweet"[^>]*?)>',
+                                  rf'\1 data-num="{num}">', div_line, count=1)
+            slug = make_slug(lines[start + 1:end])
+            slugged += bool(slug)
+            lines.insert(start + 1, anchor_line(num, slug))
+            numbered += 1
+            continue
+
         div_line = lines[start]
         anchor_at = next((k for k in range(start + 1, end)
                           if ANCHOR_RE.match(lines[k])), None)
