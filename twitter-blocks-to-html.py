@@ -2,19 +2,30 @@
 """
 Convert twitter-LJ-posts-archive-block (N).txt files into the HTML format
 used in twitter-history.html, matching the manual vim procedure documented
-in the HTML comment.
+in the HTML comment at the top of that file.
 
 Usage:
   python3 twitter-blocks-to-html.py ~/Downloads/twitter-LJ-posts-archive-block*.txt
 
-Output: HTML <div class="tweet"> blocks to stdout.  Pipe to pbcopy, then
-paste into twitter-history.html after the first <div class="tweet">.
+Output: ready-to-splice <div class="tweet"> blocks on stdout.  Review them
+(see agents/skills/twitter-archive-prepend/SKILL.md), then paste into
+twitter-history.html directly after the FIRST '-->' line (newest-first).
+
+Posts are numbered automatically: the script reads twitter-history.html,
+takes the max data-num already there, and stamps each new block with
+data-num="N" plus its anchor line (bottom of page = 1 counting up, so a
+post prepended at the head takes max+1; slugs per scripts/number-twitter-history.py).
+Override the archive looked at with --archive <path>.
 """
 
+import argparse
 import fileinput
 import re
 import sys
 from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parent / 'scripts'))
+from number_twitter_history import anchor_line, make_slug  # noqa: E402
 
 
 def esc(text: str) -> str:
@@ -32,6 +43,18 @@ AUTHOR_RE = re.compile(r'^[ ]*(.+@\S+)\s*$')
 TS_RE = re.compile(
     r'\d{1,2}:\d{2}\s*(?:AM|PM)\s*·\s*[A-Z][a-z]+\s+\d{1,2},\s+\d{4}'
 )
+
+
+def max_post_num(archive: Path) -> int:
+    """Highest data-num already in the archive (0 if none/file missing)."""
+    try:
+        text = archive.read_text(encoding='utf-8')
+    except OSError as e:
+        print(f'Warning: cannot read archive {archive} ({e}); '
+              f'numbering starts at 1', file=sys.stderr)
+        return 0
+    nums = [int(n) for n in re.findall(r'data-num="(\d+)"', text)]
+    return max(nums, default=0)
 
 
 def parse_blocks(lines: list[str]) -> list[dict]:
@@ -106,9 +129,11 @@ def parse_blocks(lines: list[str]) -> list[dict]:
     return blocks
 
 
-def format_block(b: dict) -> str:
-    """Produce one <div class="tweet"> block matching the manual vim output."""
-    lines_out = [f'<div class="tweet" id="{b["id"]}">']
+def format_block(b: dict, num: int) -> str:
+    """Produce one <div class="tweet"> block matching the manual vim output,
+    plus the hard-coded post number and anchor (see the comment at the top
+    of twitter-history.html)."""
+    lines_out = [f'<div class="tweet" id="{b["id"]}" data-num="{num}">']
     lines_out.append(f'<a href="{b["url"]}">{b["url"]}</a>')
     if b['author']:
         lines_out.append(esc(b['author']))
@@ -128,13 +153,19 @@ def format_block(b: dict) -> str:
             pass
     if b['ts']:
         lines_out.append(esc(b['ts']))
+    # body/<br> lines as rendered so far feed the slug (it stops at the
+    # timestamp, so only lines preceding it are scanned)
+    slug = make_slug(lines_out[1:])
     lines_out.append('</div>')
 
     # Add <br> to every content line inside the tweet (matching the vim
-    # step that does :'a,'bs/$/<br>/)
+    # step that does :'a,'bs/$/<br>/); the post-number anchor line goes in
+    # bare, identical to what scripts/number-twitter-history.py emits.
     result = []
     for line in lines_out:
         if line.startswith('<div') or line == '</div>':
+            if line == '</div>':
+                result.append(anchor_line(num, slug))
             result.append(line)
         else:
             result.append(line + '<br>')
@@ -143,13 +174,22 @@ def format_block(b: dict) -> str:
 
 
 def main():
-    files = sys.argv[1:] if len(sys.argv) > 1 else []
-    if not files:
-        print("Usage: python3 twitter-blocks-to-html.py <input.txt> [...]", file=sys.stderr)
+    parser = argparse.ArgumentParser(
+        description='Convert bookmarklet capture files to numbered archive blocks.')
+    parser.add_argument('inputs', nargs='*',
+                        help='capture file(s), newest-first within each file')
+    parser.add_argument('--archive', type=Path, default=None,
+                        help='twitter-history.html to read the max post number from '
+                             '(default: twitter-history.html next to this script)')
+    args = parser.parse_args()
+
+    if not args.inputs:
+        parser.print_usage(sys.stderr)
         sys.exit(1)
 
+    archive = args.archive or (Path(__file__).resolve().parent / 'twitter-history.html')
     expanded = []
-    for arg in files:
+    for arg in args.inputs:
         p = Path(arg).expanduser()
         if p.exists():
             expanded.append(str(p))
@@ -169,9 +209,16 @@ def main():
         print('No tweet blocks found.', file=sys.stderr)
         sys.exit(1)
 
-    for b in blocks:
-        print(format_block(b))
+    max_num = max_post_num(archive)
+    # capture order is newest-first; numbering counts up the page, so the
+    # first block (topmost after the prepend) takes the highest number
+    for i, b in enumerate(blocks):
+        num = max_num + len(blocks) - i
+        print(format_block(b, num))
         print()
+    print(f'# {len(blocks)} block(s), post numbers '
+          f'{max_num + 1}..{max_num + len(blocks)} (archive max was {max_num})',
+          file=sys.stderr)
 
 
 if __name__ == '__main__':

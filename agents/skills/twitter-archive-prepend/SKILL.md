@@ -17,11 +17,22 @@ python3 twitter-blocks-to-html.py <capture-file(s)> > /tmp/blocks.html
 
 The script (repo root) parses bookmarklet capture blocks — each block is
 `  * https://x.com/ljupc0/status/<id>`, author line, body lines, timestamp —
-and emits `<div class="tweet" id="<id>">` blocks with HTML escaping
-(`&apos;` style), `<br>` on content lines, in-tweet `http[s]://` URLs turned
-into hyperlinks, and blank body lines dropped. It implements the vim
+and emits `<div class="tweet" id="<id>" data-num="<N>">` blocks with HTML
+escaping (`&apos;` style), `<br>` on content lines, in-tweet `http[s]://` URLs
+turned into hyperlinks, and blank body lines dropped. It implements the vim
 procedure documented in the HTML comment at the top of
 `twitter-history.html`; that comment is the source of truth for the format.
+
+It also numbers the posts (bottom of page = 1, counting up): it reads
+`twitter-history.html`, takes the max `data-num` there, and stamps the
+emitted blocks `max+1 .. max+N` (newest capture block gets the highest
+number, since it ends up topmost after the prepend). Each block also gets
+its per-post anchor line before `</div>`, so posts are addressable as
+`twitter-history.html#N` and `twitter-history.html#N-<slug>` (slug = first
+three body words, only for posts long enough to warrant one; the bare `#N`
+always works). The shared slug/anchor logic lives in
+`scripts/number_twitter_history.py`, which can also number/audit the whole
+archive in one pass (it leaves already-numbered posts alone).
 
 ## 2. Manual review of generated blocks (mandatory)
 
@@ -52,10 +63,14 @@ block for:
 ```bash
 grep -c '^<div class="tweet" id="[0-9]*">' twitter-history.html   # +N vs before
 grep -c '^</div>$' in the inserted range                          # must equal N
+grep -o 'data-num="[0-9]*"' twitter-history.html | sort -u        # new maxima
 ```
 
 - **Duplicates**: for each new id, confirm it does not already exist in the
-  archive before splicing.
+  archive before splicing. Post numbers (`data-num`) must also stay unique —
+  the converter assigns them from the archive max, so splice blocks produced
+  in the same run together and re-run the converter (not paste stale output)
+  if the archive moved on in between.
 - **Boundary**: lines around the splice must read `-->`, first new `<div ...>`,
   …, last new `</div>`, blank line, previous newest `<div ...>`.
 - **Render smoke test**: `python3 -m http.server 8000`, open
