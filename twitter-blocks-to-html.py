@@ -25,7 +25,7 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent / 'scripts'))
-from number_twitter_history import anchor_line, make_slug  # noqa: E402
+from number_twitter_history import ANCHOR_RE, anchor_line, make_slug  # noqa: E402
 
 
 def esc(text: str) -> str:
@@ -156,16 +156,17 @@ def format_block(b: dict, num: int) -> str:
     # body/<br> lines as rendered so far feed the slug (it stops at the
     # timestamp, so only lines preceding it are scanned)
     slug = make_slug(lines_out[1:])
+    # post-number anchor goes right after the opening div line, so a shared
+    # #N link lands on the post's first line
+    lines_out.insert(1, anchor_line(num, slug))
     lines_out.append('</div>')
 
     # Add <br> to every content line inside the tweet (matching the vim
-    # step that does :'a,'bs/$/<br>/); the post-number anchor line goes in
-    # bare, identical to what scripts/number-twitter-history.py emits.
+    # step that does :'a,'bs/$/<br>/); the div, the anchor line and </div>
+    # stay bare, identical to what scripts/number_twitter_history.py emits.
     result = []
     for line in lines_out:
-        if line.startswith('<div') or line == '</div>':
-            if line == '</div>':
-                result.append(anchor_line(num, slug))
+        if line.startswith('<div') or line == '</div>' or ANCHOR_RE.match(line):
             result.append(line)
         else:
             result.append(line + '<br>')

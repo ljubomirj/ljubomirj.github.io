@@ -27,12 +27,14 @@ It also numbers the posts (bottom of page = 1, counting up): it reads
 `twitter-history.html`, takes the max `data-num` there, and stamps the
 emitted blocks `max+1 .. max+N` (newest capture block gets the highest
 number, since it ends up topmost after the prepend). Each block also gets
-its per-post anchor line before `</div>`, so posts are addressable as
-`twitter-history.html#N` and `twitter-history.html#N-<slug>` (slug = first
-three body words, only for posts long enough to warrant one; the bare `#N`
-always works). The shared slug/anchor logic lives in
-`scripts/number_twitter_history.py`, which can also number/audit the whole
-archive in one pass (it leaves already-numbered posts alone).
+its per-post anchor line right after the opening `<div ...>` line — at the
+TOP of the post, so a shared link lands on the post's first line — making
+posts addressable as `twitter-history.html#N` and
+`twitter-history.html#N-<slug>` (slug = first three body words, only for
+posts long enough to warrant one; the bare `#N` always works). The shared
+slug/anchor logic lives in `scripts/number_twitter_history.py`, which can
+also number/relocate anchors for the whole archive in one pass (it leaves
+already-numbered posts' numbers alone).
 
 ## 2. Manual review of generated blocks (mandatory)
 

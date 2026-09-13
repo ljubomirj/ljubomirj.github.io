@@ -1,20 +1,22 @@
 #!/usr/bin/env python3
 """
-One-shot numbering of the posts in twitter-history.html (re-runnable).
+Numbering and anchor placement for the posts in twitter-history.html
+(re-runnable).
 
 Every <div class="tweet"> gets a hard-coded ordinal:
 
   - data-num="N" attribute on the div itself
-  - a per-post anchor line before the closing </div>, so any post is
-    addressable via URL:
+  - a per-post anchor line right after the opening <div> line (top of the
+    post, so a shared ...#N link lands on the post's first line):
 
       .../twitter-history.html#N        (always)
       .../twitter-history.html#N-slug   (posts long enough to warrant a slug;
                                          slug = first three words of the body)
 
   e.g.  <div class="tweet" id="2096..." data-num="8506">
-        ...
         <a id="8506"></a><a class="post-num" id="8506-hermes-goldmine" href="#8506-hermes-goldmine">#8506</a>
+        <a href="https://x.com/ljupc0/status/2096...">...</a><br>
+        ...
         </div>
 
 Numbering starts at 1 at the BOTTOM of the page (the last/oldest post) and
@@ -22,8 +24,9 @@ counts +1 going up, so newly prepended posts at the top simply take the next
 free numbers and existing numbers never change.  twitter-blocks-to-html.py
 assigns those numbers for new posts the same way (max existing data-num + 1).
 
-Divs already carrying data-num are left untouched: re-running never
-renumbers anything.
+Re-running fixes placement, never numbering: divs already carrying data-num
+keep their number, and anchors found elsewhere in a block (e.g. at the
+bottom, from the first rollout) are moved to the top.
 """
 
 import re
@@ -34,6 +37,11 @@ DEFAULT_ARCHIVE = Path(__file__).resolve().parent.parent / 'twitter-history.html
 
 DIV_RE = re.compile(r'^<div class="tweet"[ >]')
 CLOSE_RE = re.compile(r'^</div>$')
+COMMENT_TOKEN_RE = re.compile(r'<!--|-->')
+ANCHOR_RE = re.compile(
+    r'^(?:<a id="\d+"></a>)?<a class="post-num" id="\d+(?:-[a-z0-9-]+)?" '
+    r'href="#\d+(?:-[a-z0-9-]+)?">#\d+</a>$'
+)
 TS_RES = [
     re.compile(r'\d{1,2}:\d{2}\s*(?:AM|PM)\s*·'),        # X: 7:51 AM · Sep 5, 2026
     re.compile(r'\w{3} \d{1,2}, \d{4} at \d{2}:\d{2}'),  # Bsky: Aug 7, 2024 at 09:12
@@ -85,7 +93,7 @@ def make_slug(block_lines: list[str]) -> str:
 
 
 def anchor_line(num: int, slug: str) -> str:
-    """The per-post anchor line inserted before the block's </div>.
+    """The per-post anchor line, placed right after the opening <div> line.
 
     The empty <a id="N"> keeps the bare-number URL working when a slug
     exists, so both ...#N and ...#N-slug address the same post.
@@ -94,10 +102,6 @@ def anchor_line(num: int, slug: str) -> str:
         return (f'<a id="{num}"></a>'
                 f'<a class="post-num" id="{num}-{slug}" href="#{num}-{slug}">#{num}</a>')
     return f'<a class="post-num" id="{num}" href="#{num}">#{num}</a>'
-
-
-COMMENT_TOKEN_RE = re.compile(r'<!--|-->')
-
 
 
 def find_blocks(lines: list[str]) -> list[tuple[int, int]]:
@@ -148,25 +152,42 @@ def main() -> int:
 
     # bottom-most block on the page is #1, counting +1 upward; walk bottom-up
     # so the line insertions don't shift the indices of pending blocks
-    numbered = slugged = skipped = 0
+    numbered = relocated = in_place = slugged = 0
     for idx in range(len(blocks) - 1, -1, -1):
         num = len(blocks) - idx
         start, end = blocks[idx]
         div_line = lines[start]
+        anchor_at = next((k for k in range(start + 1, end)
+                          if ANCHOR_RE.match(lines[k])), None)
+
         if 'data-num=' in div_line:
-            skipped += 1
+            # numbered already: keep the number, just fix anchor placement
+            if anchor_at == start + 1:
+                in_place += 1
+                continue
+            if anchor_at is not None:
+                lines.insert(start + 1, lines.pop(anchor_at))
+                relocated += 1
+                continue
+            num = int(re.search(r'data-num="(\d+)"', div_line).group(1))
+            slug = make_slug(lines[start + 1:end])
+            slugged += bool(slug)
+            lines.insert(start + 1, anchor_line(num, slug))
+            numbered += 1
             continue
+
+        # fresh post: stamp the number and insert its anchor at the top
         lines[start] = re.sub(r'(<div class="tweet"[^>]*?)>',
                               rf'\1 data-num="{num}">', div_line, count=1)
         slug = make_slug(lines[start + 1:end])
-        if slug:
-            slugged += 1
-        lines.insert(end, anchor_line(num, slug))
+        slugged += bool(slug)
+        lines.insert(start + 1, anchor_line(num, slug))
         numbered += 1
 
     archive.write_text('\n'.join(lines) + '\n', encoding='utf-8')
-    print(f'{archive}: {len(blocks)} blocks, {numbered} numbered, '
-          f'{slugged} with slug, {skipped} already numbered (left alone)')
+    print(f'{archive}: {len(blocks)} blocks, {numbered} numbered '
+          f'({slugged} with slug), {relocated} anchors moved to top, '
+          f'{in_place} already in place')
     return 0
 
 
