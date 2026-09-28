@@ -67,7 +67,7 @@ async function main() {
 
     if (opts.json) { console.log(JSON.stringify({ diag, ranked }, null, 1)); return; }
 
-    const { index, texts, docs } = loadCorpus(rootDir, 'twitter-history.html');
+    const { index, texts, docs } = await loadCorpus(rootDir, 'twitter-history.html');
     const byId = new Map(docs.map(d => [d.id, d]));
     const bm25 = bm25Ranking(index, docs, opts.query);
 

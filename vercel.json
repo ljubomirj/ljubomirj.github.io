@@ -7,7 +7,8 @@
       "maxDuration": 45
     },
     "api/semantic.js": {
-      "maxDuration": 60
+      "maxDuration": 60,
+      "includeFiles": "{search-index.json,search-texts.json}"
     }
   }
 }

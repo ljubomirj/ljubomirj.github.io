@@ -88,6 +88,15 @@ click → scroll + flash + `lj-focus` highlight range inside the correct tweet
    `all.endsWith()` per node re-flattens the rope: **40.7 s** on this page. Now array +
    join with a tracked seam: **0.68 s**, byte-identical output and offsets (checked
    against the old algorithm on 3,000 nodes).
+3. **Deployed function had no index** — the first Vercel deploy answered
+   `ENOENT: /var/task/search-index.json`: Vercel's function bundler only traces *static*
+   file reads, and the index path was assembled at runtime (`path.join(rootDir, …)` with
+   `rootDir` passed in from the handler), so nothing was bundled. Fixed twice over:
+   `"includeFiles": "{search-index.json,search-texts.json}"` on `api/semantic.js`, and a
+   runtime fallback in `readCorpusFile()` that fetches the files from the site when they
+   are not bundled (cached for the life of the instance). Verified by simulating the exact
+   deployed failure (`rootDir='/var/task/definitely-missing'`): it fetched both files from
+   GitHub Pages and returned the right hits (4.0 s including the 20 MB download).
 
 ## 6. Remaining work
 

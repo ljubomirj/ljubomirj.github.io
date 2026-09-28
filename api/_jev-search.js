@@ -21,7 +21,10 @@ const PRICE_PER_M = 0.042; // USD per 1M input tokens
 const DEFAULT_BASE_URL = 'https://api.typesafe.ai';
 const DEFAULT_MODEL = 'jev-latest';
 const DEFAULT_TOKENS = 24000; // estimated Jev tokens per request window
+const DEFAULT_SITE_BASE = 'https://ljubomirj.github.io';
 const segmenter = new Intl.Segmenter('en', { granularity: 'sentence' });
+
+const corpusCache = new Map(); // file name -> parsed JSON, survives warm invocations
 
 function sentenceSpans(text) {
     return [...segmenter.segment(text)]
@@ -37,9 +40,30 @@ function estimateTokens(text) {
     return text.length / 3.3 + 25;
 }
 
-function loadCorpus(rootDir, page) {
-    const index = JSON.parse(fs.readFileSync(path.join(rootDir, 'search-index.json'), 'utf8'));
-    const texts = JSON.parse(fs.readFileSync(path.join(rootDir, 'search-texts.json'), 'utf8'));
+// The index files are build artifacts: on Vercel they are bundled via
+// vercel.json includeFiles, and if that ever misses them (or a deploy ships
+// without them) the files are still public on the site, so fall back to
+// fetching them. Both paths cache for the life of the instance.
+async function readCorpusFile(rootDir, name) {
+    if (corpusCache.has(name)) return corpusCache.get(name);
+    let raw = null;
+    try {
+        raw = fs.readFileSync(path.join(rootDir, name), 'utf8');
+    } catch (error) {
+        if (error.code !== 'ENOENT') throw error;
+        const base = (process.env.SITE_BASE_URL || DEFAULT_SITE_BASE).replace(/\/+$/, '');
+        const response = await fetch(`${base}/${name}`, { signal: AbortSignal.timeout(60000) });
+        if (!response.ok) throw new Error(`Cannot read ${name}: not bundled (${error.code}) and ${base} answered HTTP ${response.status}`);
+        raw = await response.text();
+    }
+    const parsed = JSON.parse(raw);
+    corpusCache.set(name, parsed);
+    return parsed;
+}
+
+async function loadCorpus(rootDir, page) {
+    const index = await readCorpusFile(rootDir, 'search-index.json');
+    const texts = await readCorpusFile(rootDir, 'search-texts.json');
     return { index, texts, docs: index.docs.filter(d => d.page === page) };
 }
 
@@ -150,7 +174,7 @@ function buildWindows(candidateIds, texts, tokenBudget) {
 //       | 'needle' (one noul per passage — needle's shape, kept for comparison)
 async function search({ rootDir, page, query, mode = 'bm25', k = 40, tokenBudget = DEFAULT_TOKENS, pool = 3, concurrency = 12, key, baseUrl = DEFAULT_BASE_URL, model = DEFAULT_MODEL }) {
     const started = Date.now();
-    const { index, texts, docs } = loadCorpus(rootDir, page);
+    const { index, texts, docs } = await loadCorpus(rootDir, page);
     const byId = new Map(docs.map(d => [d.id, d]));
     const bm25 = bm25Ranking(index, docs, query);
     const bm25Rank = new Map(bm25.map((id, i) => [id, i + 1]));
@@ -261,4 +285,4 @@ async function search({ rootDir, page, query, mode = 'bm25', k = 40, tokenBudget
     };
 }
 
-module.exports = { search, loadCorpus, bm25Ranking, sentenceSpans, estimateTokens, PRICE_PER_M, DEFAULT_TOKENS, DEFAULT_MODEL, DEFAULT_BASE_URL };
+module.exports = { search, loadCorpus, readCorpusFile, bm25Ranking, sentenceSpans, estimateTokens, PRICE_PER_M, DEFAULT_TOKENS, DEFAULT_MODEL, DEFAULT_BASE_URL };
