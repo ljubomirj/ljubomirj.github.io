@@ -1,6 +1,8 @@
 # Meaning search for twitter-history.html (needle-style, Jev) — research + plan
 
-Status: **built and verified locally; not deployed.** Date: 2026-09-28. Author: OMP session.
+Status: **built, deployed and working** (live on ljubomirj.github.io since 2026-09-28).
+Date: 2026-09-28. Author: OMP session. Companion report — how Jev works, the API calls,
+every question we ask it, and the query→results storyboard: `jev-meaning-search.md`.
 Goal: a **second** search box, on `twitter-history.html` only, that finds posts by
 *meaning* (Jev / TypeSafe System One: typed questions + probabilities, no generated
 text), next to the existing BM25 box, so the two can be compared on one page.
@@ -62,6 +64,7 @@ browser talks to a local backend with an optional app token.
 | fast (`bm25`, K=40) | 2–3 | 18k–30k | **$0.0007–0.0013** | **1.2–1.4 s** | BM25 shortlist, then Jev ranks it; `exists` gate; focus sentence for the top 3 |
 | whole page (`exhaustive`) | 82 | 1.94M | **$0.0815** | **6.6–9.0 s** | every one of the 10,290 chunks, 81 token-budgeted windows + pooled re-rank |
 | needle shape (`needle`) | 1 | ~24k | $0.001 | ~0.5 s | one `noul` per passage; kept in the CLI for comparison only |
+| fast, **live on Vercel** | 2 | 20k–25k | $0.0009–0.0011 | 2.8–4.6 s | ~1 s of it is Jev; the rest is function invocation + parsing the 20 MB corpus on a non-reused instance |
 
 Query "why do I distrust vitamin D studies":
 * BM25 top-1 was a generic "things don't work out" post; Jev (both modes) put the actual
