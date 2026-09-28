@@ -2,10 +2,12 @@
 // Build search-index.json + search-texts.json for the client-side site search
 // widget (see scripts.js).
 //
-// Chunks every public page: twitter-history.html becomes one chunk per
-// <div class="tweet" id="..."> (anchor = tweet id, so results deep-link to the
-// tweet); other pages are chunked per heading section, grouped into ~1200-char
-// chunks. Lexical index is a prebuilt MiniSearch BM25 index (search-index.json
+// Chunks every public page: twitter-history.html is an archive of social posts
+// (<div class="tweet"> for X/Twitter and Bluesky, <div class="substack"> for
+// Substack), one chunk per post, split at line/paragraph boundaries only when a
+// post exceeds MAX_TEXT_CHARS; anchor = div id, else the in-post <a id="N">, else
+// data-num, so every chunk deep-links. Other pages are chunked per heading
+// section, grouped into ~1200-char chunks. Lexical index is a prebuilt MiniSearch BM25 index (search-index.json
 // "ms" field) so the browser never tokenizes the corpus. Full chunk texts live
 // in search-texts.json, loaded lazily by the widget only for regex search and
 // in-page locating; snippets travel in search-index.json "docs".
@@ -61,31 +63,102 @@ function pageTitle(html) {
     return m ? decodeEntities(m[1]).trim() : '';
 }
 
-function chunkPage(file, html) {
+// Social archive blocks: X/Twitter and Bluesky posts are <div class="tweet">
+// (identity is the status id on newer blocks, only data-num + an <a id="N">
+// post anchor on older/imported ones and on Bluesky), Substack posts are
+// <div class="substack">. Comments hold vim procedure notes with example block
+// markup, so they are stripped before scanning.
+const SOCIAL_BLOCK_RE = /<div class="(tweet|substack)"([^>]*)>/g;
+
+function socialAnchor(attrs, inner) {
+    const id = (attrs.match(/\bid="([^"]+)"/) || [])[1];
+    if (id) return id;
+    const inBlock = (inner.match(/<a id="([^"]+)"/) || [])[1];
+    if (inBlock) return inBlock;
+    return (attrs.match(/\bdata-num="([^"]+)"/) || [])[1] || '';
+}
+
+function socialPlatform(kind, inner) {
+    const host = (inner.match(/href="https?:\/\/([^\/"]+)/) || [])[1] || '';
+    if (/bsky\.app/.test(host)) return 'Bsky';
+    if (/substack\.com/.test(host) || kind === 'substack') return 'Substack';
+    return 'X';
+}
+
+// Split an oversized post on its own natural boundaries (blank line, then line
+// break, then sentence end) so long-form posts are not cut mid-sentence and no
+// content is dropped.
+function splitLongText(text, cap) {
+    const parts = [];
+    let rest = text;
+    while (rest.length > cap) {
+        const window = rest.slice(0, cap);
+        const cuts = [];
+        for (const sep of ['\n\n', '\n', '. ']) {
+            const at = window.lastIndexOf(sep);
+            if (at >= 0) cuts.push({ at: at + sep.length, soft: sep !== '. ' });
+        }
+        const para = cuts.filter(c => c.at > cap * 0.6).sort((a, b) => b.at - a.at)[0];
+        const best = cuts.filter(c => c.at > cap * 0.5).sort((a, b) => b.at - a.at)[0];
+        const cut = (para || best || { at: cap }).at;
+        parts.push(rest.slice(0, cut).trim());
+        rest = rest.slice(cut).trim();
+    }
+    if (rest) parts.push(rest);
+    return parts.filter(Boolean);
+}
+
+function chunkSocialArchive(html) {
+    // Comments and <style>/<script> bodies hold procedure notes and CSS that
+    // quote example block markup; they are not posts.
+    const source = html
+        .replace(/<script[\s\S]*?<\/script>/gi, ' ')
+        .replace(/<style[\s\S]*?<\/style>/gi, ' ')
+        .replace(/<!--[\s\S]*?-->/g, ' ');
     const chunks = [];
-    if (file === 'twitter-history.html') {
-        // One chunk per tweet div; the div id is the anchor.
-        const re = /<div class="tweet" id="(\d+)">([\s\S]*?)\n<\/div>/g;
-        let m;
-        while ((m = re.exec(html)) !== null) {
-            let text = stripHtml(m[2]);
-            if (!text) continue;
-            // Drop the status URL + author line repeated on every tweet:
-            // pure index bloat (id/page are stored separately anyway).
+    const blocks = [];
+    SOCIAL_BLOCK_RE.lastIndex = 0;
+    let m;
+    while ((m = SOCIAL_BLOCK_RE.exec(source)) !== null) {
+        blocks.push({ kind: m[1], attrs: m[2], start: m.index, from: m.index + m[0].length });
+    }
+    blocks.forEach((block, i) => {
+        const nextStart = i + 1 < blocks.length ? blocks[i + 1].start : source.length;
+        let end = source.indexOf('\n</div>', block.from);
+        if (end === -1 || end > nextStart) end = nextStart;
+        const inner = source.slice(block.from, end);
+        let text = stripHtml(inner);
+        if (block.kind === 'tweet') {
+            // Drop the status URL + author line repeated on every post: pure
+            // index bloat (identity/page are stored separately anyway).
             text = text
-                .replace(new RegExp('https://x\\.com/ljupc0/status/' + m[1] + '\\s*\\n?'), '')
+                .replace(/https:\/\/(?:www\.)?(?:x|twitter)\.com\/ljupc0\/status\/\d+\s*\n?/, '')
                 .replace(/Ljubomir Josifovski @ljupc0\s*\n?/, '')
+                .replace(/Ljubomir Josifovski @ljupco\.bsky\.social\s*\n?/, '')
                 .trim();
-            const tsm = text.match(/\d{1,2}:\d{2} (?:AM|PM) · [A-Za-z]+ \d{1,2}, \d{4}/);
+        }
+        if (!text) return;
+        const anchor = socialAnchor(block.attrs, inner);
+        const platform = socialPlatform(block.kind, inner);
+        const tsm =
+            text.match(/\d{1,2}:\d{2} (?:AM|PM) · [A-Za-z]+ \d{1,2}, \d{4}/) ||
+            text.match(/\d{1,2} [A-Z][a-z]+ \d{4}/) ||
+            text.match(/[A-Z][a-z]{2} \d{1,2}, \d{4}/);
+        for (const part of splitLongText(text, MAX_TEXT_CHARS)) {
             chunks.push({
-                anchor: m[1],
-                title: tsm ? 'X post · ' + tsm[0] : 'X post',
-                date: tsm ? tsm[0] : '',
-                text,
+                anchor,
+                title: `${platform} post${tsm ? ' · ' + tsm[0].trim() : ''}`,
+                date: tsm ? tsm[0].trim() : '',
+                text: part,
             });
         }
-        return chunks;
-    }
+    });
+    return chunks;
+}
+
+function chunkPage(file, html) {
+    const chunks = [];
+    if (file === 'twitter-history.html') return chunkSocialArchive(html);
 
     // Generic page: sections at headings, paragraphs grouped into chunks.
     const title = pageTitle(html);

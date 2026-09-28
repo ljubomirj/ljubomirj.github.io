@@ -5,6 +5,9 @@
     },
     "api/proxy-v2.js": {
       "maxDuration": 45
+    },
+    "api/semantic.js": {
+      "maxDuration": 60
     }
   }
 }

@@ -441,3 +441,45 @@ button:hover {
     z-index: 99999;
     transition: opacity 1.2s ease;
 }
+
+/* Meaning search (Jev) — second widget on twitter-history.html, see scripts.js */
+.lj-semantic-row {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 6px;
+    position: relative;
+    margin-top: 10px;
+    width: 100%;
+}
+
+#lj-semantic {
+    justify-content: flex-end;
+}
+
+#lj-semantic input[type="text"] {
+    width: 300px;
+    padding: 4px 8px;
+    border: 1px solid #2f7a4f;
+    border-radius: 4px;
+}
+
+#lj-semantic-results {
+    position: absolute;
+    bottom: 100%;
+    right: 0;
+    width: min(720px, 92vw);
+    max-height: 45vh;
+    overflow-y: auto;
+    background: white;
+    border: 1px solid #2f7a4f;
+    border-radius: 6px;
+    box-shadow: 0 -4px 14px rgba(0, 0, 0, 0.18);
+    z-index: 9999;
+}
+
+.lj-semantic-hint {
+    padding: 8px 10px;
+    font-size: 0.85em;
+    color: #555;
+}

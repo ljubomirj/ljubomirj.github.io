@@ -437,20 +437,31 @@ async function sendMessage(currentHistoryToSend, inputElement, sendButton) {
         const needle = needleFull.replace(/\s+/g, ' ').trim().slice(0, 30);
         if (!needle) return false;
         const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
-        let all = '';
-        const ranges = []; // { node, skip, start, end } — offsets in `all`
+        // Build the joined string once: appending to one growing string while
+        // testing all.endsWith()/startsWith() per node re-flattens the rope
+        // each step (O(n²) — ~40 s on the 6 MB archive page). Collect pieces
+        // with a running length instead, then join.
+        const pieces = [];
+        const ranges = []; // { node, skip, start, end } — offsets in the joined text
+        let length = 0;
+        let lastSpace = true; // seam state: '' counts as ending in a space
         for (let n = walker.nextNode(); n; n = walker.nextNode()) {
             if (!n.nodeValue || !n.nodeValue.trim()) continue;
             const piece = n.nodeValue.replace(/\s+/g, ' ');
             let skip = 0;
             // Collapse a redundant leading space when the seam already has one.
-            if (piece.startsWith(' ') && (all === '' || all.endsWith(' '))) skip = 1;
-            if (skip < piece.length) {
-                if (all !== '' && !all.endsWith(' ') && !piece.startsWith(' ')) all += ' ';
-                ranges.push({ node: n, skip, start: all.length, end: all.length + piece.length - skip });
-                all += piece.slice(skip);
+            if (piece.startsWith(' ') && lastSpace) skip = 1;
+            if (skip >= piece.length) continue;
+            if (!lastSpace && !piece.startsWith(' ')) {
+                pieces.push(' ');
+                length += 1;
             }
+            ranges.push({ node: n, skip, start: length, end: length + piece.length - skip });
+            pieces.push(piece.slice(skip));
+            length += piece.length - skip;
+            lastSpace = piece.endsWith(' ');
         }
+        const all = pieces.join('');
         // Exact needle first, then progressively shorter prefixes — the DOM
         // text may normalize slightly differently than the indexed chunk.
         for (const len of [needle.length, 20, 12]) {
@@ -486,9 +497,9 @@ async function sendMessage(currentHistoryToSend, inputElement, sendButton) {
             const rect = range.getBoundingClientRect();
             window.scrollTo({ top: window.scrollY + rect.top - window.innerHeight / 3, behavior: 'smooth' });
             flashRect(range.getBoundingClientRect());
-            return true;
+            return range;
         }
-        return false;
+        return null;
     }
 
     async function locateInPage(doc, textHead) {
@@ -496,8 +507,7 @@ async function sendMessage(currentHistoryToSend, inputElement, sendButton) {
             const el = document.getElementById(doc.anchor);
             if (el) { flashElement(el); return true; }
         }
-        if (textHead && locateByText(textHead)) return true;
-        return false;
+        return !!(textHead && locateByText(textHead));
     }
 
     function pendingKey() { return 'ljSearchPending'; }
@@ -573,6 +583,7 @@ async function sendMessage(currentHistoryToSend, inputElement, sendButton) {
         const q = input.value.trim();
         if (!q) return;
         const scope = document.querySelector('input[name="lj-search-scope"]:checked').value;
+        closeSemanticResults();
         panel.innerHTML = '<div class="lj-search-status">Searching…</div>';
         panel.hidden = false;
         try {
@@ -583,6 +594,159 @@ async function sendMessage(currentHistoryToSend, inputElement, sendButton) {
             panel.innerHTML = '<div class="lj-search-status">Search failed: ' + escapeHtml(String(err.message || err)) + '</div>';
             panel.hidden = false;
         }
+    }
+
+    // ---- meaning search (Jev, this page only) ----
+    // The page's own posts are scored by Jev (TypeSafe System One) through the
+    // site's Vercel endpoint (api/semantic.js) — the API key stays server-side.
+    // "fast" ranks a BM25 shortlist (~1 s, ~$0.001/search); "whole page" scores
+    // every post on the page (~8 s, ~$0.08/search, rate limited server-side).
+    // Both return a probability per post plus the sentence that answers the
+    // query, which is what gets highlighted in the page.
+    const SEMANTIC_PAGE = 'twitter-history.html';
+    const SEMANTIC_ENDPOINT = ((location.hostname === 'localhost' || location.hostname === '127.0.0.1')
+        ? location.origin
+        : 'https://ljubomirj-github-io.vercel.app') + '/api/semantic';
+    const MAX_SEMANTIC_HITS = 25;
+    let semanticWidget = null, semanticPanel = null, semanticInput = null;
+    let semanticHits = [], semanticSelected = -1;
+
+    function ensureFocusHighlightStyle() {
+        if (document.getElementById('lj-focus-style')) return;
+        const style = document.createElement('style');
+        style.id = 'lj-focus-style';
+        style.textContent = '::highlight(lj-focus){background:#d1ed98;color:#2c4228}';
+        document.head.appendChild(style);
+    }
+
+    function clearFocusHighlight() {
+        if (globalThis.CSS && CSS.highlights) CSS.highlights.delete('lj-focus');
+    }
+
+    function setFocusHighlight(range) {
+        if (!globalThis.CSS || !CSS.highlights || !globalThis.Highlight || !range) return;
+        ensureFocusHighlightStyle();
+        clearFocusHighlight();
+        CSS.highlights.set('lj-focus', new Highlight(range));
+    }
+
+    function closeSemanticResults() {
+        if (semanticPanel) { semanticPanel.hidden = true; semanticPanel.innerHTML = ''; }
+        semanticHits = []; semanticSelected = -1;
+        clearFocusHighlight();
+    }
+
+    function renderSemantic(data) {
+        const d = data.diag || {};
+        const exists = typeof d.exists === 'number' ? ' · answers: ' + Math.round(d.exists * 100) + '%' : '';
+        semanticPanel.innerHTML =
+            '<div class="lj-search-status">' + escapeHtml(d.mode || '') + ' · ' + (d.requests || 0) + ' requests · ' +
+            (d.inputTokens || 0).toLocaleString() + ' tokens · $' + (d.costUsd || 0) + ' · ' + (d.wallMs || 0) + 'ms' + exists + '</div>';
+        const list = (data.ranked || []).slice(0, MAX_SEMANTIC_HITS);
+        semanticHits = list;
+        if (!list.length) {
+            semanticPanel.innerHTML += '<div class="lj-search-status">Nothing found.</div>';
+            semanticPanel.hidden = false;
+            return;
+        }
+        list.forEach((hit, i) => {
+            const el = document.createElement('div');
+            el.className = 'lj-hit';
+            const focus = hit.focus && hit.focus.text ? hit.focus.text : (hit.snippet || '');
+            el.innerHTML =
+                '<div class="lj-hit-title">' + hit.probability.toFixed(2) + ' · ' + escapeHtml(hit.title || '') +
+                (hit.bm25Rank ? ' <span class="lj-hit-date">bm25 #' + hit.bm25Rank + '</span>' : '') + '</div>' +
+                '<div class="lj-hit-snippet">' + escapeHtml(focus) + '</div>';
+            el.addEventListener('click', () => openSemanticHit(hit));
+            semanticPanel.appendChild(el);
+        });
+        semanticPanel.hidden = false;
+        semanticSelected = 0;
+        [...semanticPanel.querySelectorAll('.lj-hit')].forEach((el, j) => el.classList.toggle('selected', j === 0));
+    }
+
+    async function openSemanticHit(hit) {
+        const focusText = (hit.focus && hit.focus.text) || '';
+        let range = focusText ? locateByText(focusText) : null;
+        if (!range && hit.snippet) range = locateByText(hit.snippet);
+        if (!range && hit.anchor) {
+            const el = document.getElementById(hit.anchor);
+            if (el) flashElement(el);
+        }
+        // Close first: closeSemanticResults() clears the highlight, so the new
+        // focus range must be registered after it.
+        closeSemanticResults();
+        if (range) setFocusHighlight(range);
+    }
+
+    async function semanticSearch() {
+        const query = semanticInput.value.trim();
+        if (!query) return;
+        const mode = document.querySelector('input[name="lj-semantic-mode"]:checked').value;
+        closeResults();
+        semanticPanel.innerHTML = '<div class="lj-search-status">Searching' +
+            (mode === 'exhaustive' ? ' every post on the page (slow, ~10s)…' : '…') + '</div>';
+        semanticPanel.hidden = false;
+        semanticInput.disabled = true;
+        try {
+            const response = await fetch(SEMANTIC_ENDPOINT, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ query, mode }),
+            });
+            const data = await response.json().catch(() => ({}));
+            if (!response.ok) throw new Error(data.error || ('HTTP ' + response.status));
+            renderSemantic(data);
+        } catch (err) {
+            semanticPanel.innerHTML = '<div class="lj-search-status">Meaning search failed: ' + escapeHtml(String(err.message || err)) + '</div>';
+            semanticPanel.hidden = false;
+        } finally {
+            semanticInput.disabled = false;
+            semanticInput.focus();
+        }
+    }
+
+    function injectSemanticWidget(row) {
+        if (currentPage() !== SEMANTIC_PAGE) return;
+        semanticWidget = document.createElement('div');
+        semanticWidget.id = 'lj-semantic';
+        semanticWidget.className = 'lj-search';
+        semanticWidget.innerHTML =
+            '<button id="lj-semantic-btn" type="button">Meaning search</button>' +
+            '<input id="lj-semantic-input" type="text" placeholder="describe what you mean…" aria-label="Meaning search">' +
+            '<label><input type="radio" name="lj-semantic-mode" value="bm25" checked> fast</label>' +
+            '<label><input type="radio" name="lj-semantic-mode" value="exhaustive"> whole page (~10s)</label>';
+
+        semanticPanel = document.createElement('div');
+        semanticPanel.id = 'lj-semantic-results';
+        semanticPanel.hidden = true;
+
+        const wrapper = document.createElement('div');
+        wrapper.className = 'lj-semantic-row';
+        wrapper.appendChild(semanticWidget);
+        wrapper.appendChild(semanticPanel);
+        row.appendChild(wrapper);
+
+        semanticInput = semanticWidget.querySelector('#lj-semantic-input');
+        semanticWidget.querySelector('#lj-semantic-btn').addEventListener('click', semanticSearch);
+        semanticInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') semanticSearch();
+            else if (e.key === 'Escape') { closeSemanticResults(); semanticInput.blur(); }
+        });
+        semanticPanel.addEventListener('keydown', (e) => {
+            if (!semanticHits.length) return;
+            if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+                e.preventDefault();
+                semanticSelected = (semanticSelected + (e.key === 'ArrowDown' ? 1 : -1) + semanticHits.length) % semanticHits.length;
+                [...semanticPanel.querySelectorAll('.lj-hit')].forEach((el, j) => el.classList.toggle('selected', j === semanticSelected));
+            } else if (e.key === 'Enter' && semanticSelected >= 0) {
+                e.preventDefault();
+                openSemanticHit(semanticHits[semanticSelected]);
+            }
+        });
+        document.addEventListener('click', (e) => {
+            if (!semanticPanel.hidden && !semanticPanel.contains(e.target) && !semanticWidget.contains(e.target)) closeSemanticResults();
+        });
     }
 
     function injectWidget() {
@@ -635,6 +799,8 @@ async function sendMessage(currentHistoryToSend, inputElement, sendButton) {
         document.addEventListener('click', (e) => {
             if (!panel.hidden && !panel.contains(e.target) && !widget.contains(e.target)) closeResults();
         });
+
+        injectSemanticWidget(row);
     }
 
     function init() {
