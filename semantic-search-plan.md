@@ -111,13 +111,23 @@ click → scroll + flash + `lj-focus` highlight range inside the correct tweet
 
 ### P3 — deploy (LJ's steps)
 - [ ] Add `TYPESAFE_API_KEY` to the Vercel project (Production) — dashboard or
-      `vercel env add TYPESAFE_API_KEY production`.
+      `vercel env add TYPESAFE_API_KEY production`. Without it the endpoint answers 503.
 - [ ] Commit + push (LJ commits): the rebuilt `search-index.json` / `search-texts.json`
-      must ship for GitHub Pages, and `api/*` for Vercel.
+      must ship for GitHub Pages, and `api/*` for Vercel. Checked 2026-09-28: the commit
+      exists locally but `main` is 1 ahead of `github/main`, so nothing was deployed and
+      `…/api/semantic` still answers 404.
 - [ ] Smoke the live endpoint (`curl -s …/api/semantic -d '{"query":"…"}'`) and then the
       live page; check the diagnostics line and that whole-page mode returns < 60 s.
 - [ ] Confirm the free-tier/credit balance on the TypeSafe account ($5 ≈ 60 whole-page
       searches, or ~4,000 fast ones).
+
+**Local servers.** `python3 -m http.server 8000` cannot proxy the API: it has no POST
+handler and no CORS headers, so the widget's POST dies with 501/"Failed to fetch". The
+widget now tries, in order: a `localStorage.ljSemanticEndpoint` override → the current
+origin when on localhost → the deployed Vercel endpoint. So:
+* full local stack: `node scripts/dev-server.js --port=8001` (serves the site *and* `api/`)
+  → `http://localhost:8001/twitter-history.html`;
+* `localhost:8000` works once the endpoint is deployed, via the automatic fallback.
 
 ### P4 — evaluate properly (the "is it worth it" step)
 - [ ] Collect 15–20 real queries with a known good post; record BM25 rank vs Jev rank per

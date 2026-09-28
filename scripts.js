@@ -604,9 +604,19 @@ async function sendMessage(currentHistoryToSend, inputElement, sendButton) {
     // Both return a probability per post plus the sentence that answers the
     // query, which is what gets highlighted in the page.
     const SEMANTIC_PAGE = 'twitter-history.html';
-    const SEMANTIC_ENDPOINT = ((location.hostname === 'localhost' || location.hostname === '127.0.0.1')
-        ? location.origin
-        : 'https://ljubomirj-github-io.vercel.app') + '/api/semantic';
+    const SEMANTIC_DEPLOYED = 'https://ljubomirj-github-io.vercel.app/api/semantic';
+    // Where to POST: a localStorage override wins (handy to point the page at any
+    // backend), then the current origin when served locally (scripts/dev-server.js
+    // serves both the site and api/), then the deployed Vercel endpoint. Plain
+    // python http.server has no POST handler and answers 501, so the fallback is
+    // what makes localhost:8000 work once the endpoint is deployed.
+    function semanticEndpoints() {
+        let override = null;
+        try { override = localStorage.getItem('ljSemanticEndpoint'); } catch (e) { /* private mode */ }
+        if (override) return [override];
+        const local = /^(localhost|127\.0\.0\.1)$/.test(location.hostname);
+        return local ? [location.origin + '/api/semantic', SEMANTIC_DEPLOYED] : [SEMANTIC_DEPLOYED];
+    }
     const MAX_SEMANTIC_HITS = 25;
     let semanticWidget = null, semanticPanel = null, semanticInput = null;
     let semanticHits = [], semanticSelected = -1;
@@ -689,16 +699,41 @@ async function sendMessage(currentHistoryToSend, inputElement, sendButton) {
         semanticPanel.hidden = false;
         semanticInput.disabled = true;
         try {
-            const response = await fetch(SEMANTIC_ENDPOINT, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ query, mode }),
-            });
-            const data = await response.json().catch(() => ({}));
+            const endpoints = semanticEndpoints();
+            let response = null;
+            let data = null;
+            let lastError = null;
+            for (let i = 0; i < endpoints.length; i++) {
+                try {
+                    const attempt = await fetch(endpoints[i], {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ query, mode }),
+                    });
+                    const payload = await attempt.json().catch(() => ({}));
+                    // 404/405/501 mean "this host has no API" (e.g. python
+                    // http.server): fall through to the next endpoint. Anything
+                    // else is a real answer, including errors worth showing.
+                    if ([404, 405, 501].includes(attempt.status) && i + 1 < endpoints.length) {
+                        lastError = new Error('no API at ' + endpoints[i] + ' (HTTP ' + attempt.status + ')');
+                        continue;
+                    }
+                    response = attempt;
+                    data = payload;
+                    break;
+                } catch (err) {
+                    lastError = err;
+                }
+            }
+            if (!response) throw lastError || new Error('no endpoint reachable');
             if (!response.ok) throw new Error(data.error || ('HTTP ' + response.status));
             renderSemantic(data);
         } catch (err) {
-            semanticPanel.innerHTML = '<div class="lj-search-status">Meaning search failed: ' + escapeHtml(String(err.message || err)) + '</div>';
+            const message = String(err.message || err);
+            const hint = /501|no API at|Failed to fetch|NetworkError/.test(message)
+                ? ' — a plain python http.server cannot proxy this: run "node scripts/dev-server.js --port=8001" or deploy api/semantic.js'
+                : '';
+            semanticPanel.innerHTML = '<div class="lj-search-status">Meaning search failed: ' + escapeHtml(message + hint) + '</div>';
             semanticPanel.hidden = false;
         } finally {
             semanticInput.disabled = false;
