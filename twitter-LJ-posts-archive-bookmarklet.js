@@ -139,9 +139,36 @@ javascript:(async () => {
     return `${timePart} · ${datePart}`;
   };
 
+  /* X search now interleaves reposts in from: results. The repost banner
+     ("You reposted") often lives in the cell wrapper ABOVE the article, not
+     inside it — so scan the article plus its enclosing cell (up to
+     cellInnerDiv). Do not scan past scopes that hold a second top-level
+     article: a neighbouring cell's banner must not flag this tweet. */
   const isRepost = (article) => {
-    const socialContext = article.querySelector('[data-testid="socialContext"]');
-    return socialContext ? /reposted/i.test(socialContext.innerText || '') : false;
+    const REPOST_TEXT_RE = /repost|retweet/i;
+    const articlesInside = article.querySelectorAll('article').length;
+    const scopes = [article];
+    let node = article.parentElement;
+    for (let hops = 0; node && hops < 5; hops++) {
+      if (node.querySelectorAll('article').length > articlesInside + 1) break;
+      scopes.push(node);
+      if (node.getAttribute && node.getAttribute('data-testid') === 'cellInnerDiv') break;
+      node = node.parentElement;
+    }
+    for (const scope of scopes) {
+      const contexts = Array.from(scope.querySelectorAll('[data-testid="socialContext"]'));
+      for (const ctx of contexts) {
+        const text = [
+          ctx.getAttribute('aria-label'),
+          ctx.getAttribute('title'),
+          ctx.innerText || ctx.textContent || '',
+        ]
+          .filter(Boolean)
+          .join(' ');
+        if (REPOST_TEXT_RE.test(text)) return true;
+      }
+    }
+    return false;
   };
 
   const normalizeUrl = (value) => {
@@ -486,8 +513,13 @@ javascript:(async () => {
 			}
 		} catch {}
 
-		// extract display name and handle text
-		const userNameContainer = article.querySelector('div[data-testid="User-Name"]');
+		// extract display name and handle text (first header OUTSIDE any quote)
+		const userNameContainers = Array.from(
+			article.querySelectorAll('div[data-testid="User-Name"]')
+		);
+		const userNameContainer =
+			userNameContainers.find((container) => !isInsideQuote(container)) ||
+			userNameContainers[0];
 		let displayName = '';
 		let handleFromSpans = '';
 		if (userNameContainer) {
@@ -501,6 +533,17 @@ javascript:(async () => {
 		const handle = ensureAt(handleFromUrl || handleFromSpans);
 		if (!handle || handle.toLowerCase() !== HANDLE.toLowerCase()) {
 			return null; // skip if not your tweet
+		}
+
+		// Veto: card visibly attributed to a different author = reposted content.
+		// X renders repost rows with the original author's header even when the
+		// permalink points at your own repost share URL.
+		if (
+			handleFromSpans &&
+			ensureAt(handleFromSpans).toLowerCase() !== HANDLE.toLowerCase()
+		) {
+			console.debug('Skipped article (forward/repost by another author)', article);
+			return null;
 		}
 
 		// pull the timestamp from the first <time> in the article
@@ -713,20 +756,6 @@ javascript:(async () => {
   setTimeout(() => statusEl.remove(), 6000);
 })();
 
-/* CREATE_BOOKMARKLET_COPY
-
-node - <<'NODE'
-const fs = require('fs');
-const src = fs.readFileSync('twitter-LJ-posts-archive-bookmarklet.js','utf8');
-const beforeComment = src.split('/* CREATE_BOOKMARKLET_COPY')[0]; /* ignore instructions */
-const body = beforeComment.replace(/^javascript:\s*/i, '').trim();
-const min = body.replace(/\/\*[\s\S]*?\*\//g, '').replace(/\s+/g, ' ');
-const one = 'javascript:' + min;
-fs.writeFileSync('twitter-LJ-posts-archive-bookmarklet.txt', one);
-require('child_process').spawnSync('pbcopy', { input: one }); /* use xclip if preferred */
-console.log('Copied to clipboard and saved to twitter-LJ-posts-archive-bookmarklet.txt');
-console.log('Length:', one.length);
-console.log('Preview:', one.slice(0, 120) + ' ... ' + one.slice(-40));
-NODE
-
-*/
+/* CREATE_BOOKMARKLET_COPY: the minified .txt (plus clipboard copy) is built by
+   scripts/build-bookmarklet.js via `make twitter-LJ-posts-archive-bookmarklet.txt`.
+   Keep this marker verbatim — the build splits the source at it. */
