@@ -10,7 +10,7 @@
 
 ML/AI researcher and engineer in industrial R&D, with background spanning speech recognition, quantitative research, trading and machine learning systems. Experience building research platforms and production systems across forecasting, optimisation, and large-scale data-driven modelling.
 
-**Now:** train & test -time reasoning in LLMs, applying ideas from ASR lattice decoding structured search hypothesis management. Agentic workflows, programmatic optimisation, auto- harness research & development, DSPy, meta-computational systems, automating the invention loop, agentic R&D as socratic dialogue for execution specification, inference as compute, context as memory, judging loops for evolving environments and synthetic data generation.
+**Now:** train & test -time reasoning in LLMs, applying ideas from ASR lattice decoding structured search hypothesis management. Agentic workflows, programmatic optimisation, auto- harness research & development, DSPy, meta-computational systems, automating the invention loop, agentic R&D as socratic dialogue for execution specification, judging loops for evolving environments, synthetic data generation.
 
 **Prior:** quantitative researcher, trader and portfolio manager developing systematic equity and FX models including low SNR Signal extraction, fitting, forecasting, portfolio optimisation, trading & risk management.
 
@@ -22,7 +22,7 @@ ML/AI researcher and engineer in industrial R&D, with background spanning speech
 
 **Programming:** C/C++/OpenMP, Python, SQL, duckdb, bash, awk, make, gdb/ddd, MATLAB, C#, R, Java.
 
-**Agents:** omp/prime-agent/Hermes/pi/dsh/Codex/Claude; local LLM llama.cpp/strata/mlx-serve/hipfire.
+**Agents:** dsh/pi/prime-agent/Hermes/Codex/Claude; local LLM llama.cpp/strata/mlx-serve/hipfire.
 
 **Tools:** Vim, shell, Git, Github, tmux, VSCode, CLion, Jupyter, Spyder, Bloomberg & Reuters API-s.
 
@@ -83,3 +83,9 @@ ML/AI researcher and engineer in industrial R&D, with background spanning speech
 **Thesis:** System for text-to-speech conversion for Macedonian language
 
 ### B.S. Electrical Engineering — University Sv. Kiril i Metodij, Skopje, MK (1993)
+
+---
+
+## Languages
+
+English (fluent; UK naturalised citizen), Macedonian (native), Serbian (fluent), Croatian
