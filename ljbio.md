@@ -1,6 +1,8 @@
 # Ljubomir JOSIFOVSKI
 
-[LjubomirJosifovski@gmail.com](mailto:LjubomirJosifovski@gmail.com) | 44 7910 850 111 | 11 Pendennis Court, Harpenden AL5 1SG, UK | [ljubomirj.github.io](http://ljubomirj.github.io)
+[LjubomirJosifovski@gmail.com](mailto:LjubomirJosifovski@gmail.com) | 44 7910 850111 | 11 Pendennis Ct, Harpenden AL5 1SG, UK
+
+[ljubomirj.github.io](http://ljubomirj.github.io/) | [github.com/ljubomirj](https://github.com/ljubomirj) | [linkedin.com/in/ljubomirjosifovski](https://linkedin.com/in/ljubomirjosifovski)
 
 ---
 
@@ -8,7 +10,7 @@
 
 ML/AI researcher and engineer in industrial R&D, with background spanning speech recognition, quantitative research, trading and machine learning systems. Experience building research platforms and production systems across forecasting, optimisation, and large-scale data-driven modelling.
 
-**Now:** working on train-time and test-time reasoning in LLM systems, applying ideas from structured search and hypothesis management developed in ASR lattice decoding. Interested in agentic workflows, programmatic prompting (DSPy), and building higher-level computational systems where socratic dialogue becomes an executable specification, treating RLM inference as compute and context as working memory, with explicit mechanisms for branching, verification, stopping, state management incl open endedness.
+**Now:** designing closed-loop LLM and agentic systems in which tools gather or act on evidence, independent evaluators inspect outputs, and structured traces, regression corpora and outcome ledgers make improvement measurable rather than anecdotal. Applying ideas from structured search and hypothesis management developed in ASR lattice decoding to train-time and test-time reasoning; interested in programmatic prompting (DSPy) and conservative, evidence-backed improvement of agent harnesses.
 
 **Prior:** quantitative researcher, trader and portfolio manager developing systematic equity and FX models including low-SNR signal extraction, fitting, forecasting, portfolio optimisation, and risk management.
 
@@ -20,26 +22,43 @@ ML/AI researcher and engineer in industrial R&D, with background spanning speech
 
 C/C++/OpenMP, MATLAB, bash, vim, awk, SQL, duckdb, PostgreSQL, MS SQL Server, c/make, gcc, gdb, ddd, shell tools, ssh, rsync, screen, VSCode, python, jupyter, Spyder, git, mercurial, cvs, MS Teams, github, R, Java, C#, Visual Studio, Slurm, Condor, Compute Cloud, Bloomberg terminal/API, Reuters Kobra, assembly.
 
-Agents: Claude Code (cli, web), Codex (cli, addon), Cursor, Gemini-cli, Cline with Codex and local LLM-s served (LMStudio, llama-server), for python, javascript, CSS/html, debugging C++.
+Agents and evaluation: pi, Hermes, Codex, OpenCode, OMP, Cursor, Claude Code, Cline and local LLMs served through llama-server / hipfire / LM Studio; multi-model generation, tool execution, judge feedback, structured-output verification, regression evaluation, DSPy and GEPA.
 
 ---
 
 ## Platforms
 
-Linux (X/Ubuntu, CentOS), MacOS, MS-Windows (from DOS to v11), Cloud/cluster, Unix (HP-UX, AIX).
+Linux (X/Ubuntu, CentOS), MacOS, MS-Windows (from DOS to v11), Cloud/cluster, Unix
+
+---
+
+## Recent ML/AI systems and agents OSS work
+
+- [**LoveWork**](https://github.com/ljubomirj/lovework-public) — personal life work-discovery agent; thesis 1-most people underachieve relative to potential b/c chasing work/projects/interest leads is time-costly, and 2-would benefit from personal agent/guide through, democratizing human agents (now available only to movie&literary stars); LLM-guided crawling across sources of leads, candidate-aware scoring and lifecycle tracking, dashboard/MCP access, append-only decisions and outcome ledgers. Building a historic dataset with conservative reflection and evaluation harness, that proposes evidence-backed, regression-tested improvements when changing policy, backed by a probabilistic model of the process.
+- [**ChEMBLdb-query**](https://github.com/ljubomirj/ChEMBLdb-query) — LLM-assisted SQL over ChEMBL, including local-model endpoint meshes. Version 5 uses specialised generation and judge roles in bounded SQL → execution → feedback → revision loops, backed by a reproducible 1,010-case evaluation corpus and synthetic-data work; both data set curation and synthetic data generation are designed into the forward-backward passes.
+- **[Hermes Agent /advisor](https://github.com/ljubomirj/hermes-agent/tree/feat/advisor-plugin)** — in-review persistent second-model review plugin: a separate model reviews the main agent's work each turn, preserves unresolved concerns by session, and returns structured inline advice without blocking the primary agent. Iterated in response to upstream PR feedback.
+- **Local/open-weight inference and reasoning:** extended the C/Metal [ds4 REAP compact-support branch](https://github.com/ljubomirj/ds4/tree/reap-compact-support) to run compact DeepSeek V4 Flash REAP GGUFs on Apple Silicon; [hipfire](https://github.com/ljubomirj/hipfire/tree/feature/gbnf-and-reasoning-budget) branch work adds grammar-constrained generation, loop guards and separate reasoning budgets; ported experimental [llama.cpp](https://github.com/ljubomirj/llama.cpp/tree/LJ-Ling-2.6-flash-r2) Metal support for [Ling-2.6-Flash](https://huggingface.co/ljupco/Ling-2.6-flash-GGUF).
+- **Model portability and reproducible systems:** [Nemotron 3 Elastic MLX conversion tools](https://github.com/ljubomirj/nemotron-3-elastic-mlx), [ROCm/local-LLM benchmarking](https://github.com/ljubomirj/testing123-asi-rocm-local-llamas), [Telegram voice + text customer-support](https://github.com/ljubomirj/Telegram-voice-text-chat).
 
 ---
 
 ## Work Experience
 
-### F9 Research, Harpenden, UK; remote distributed (US, UK, EU)
+### F9 Research, Harpenden, UK
 *May 2016 – Now*
 
 **Position: Director**
 
 Quant research, development and trading. Portfolio manager, run a small market neutral book ~350M USD gross, trading ~35M USD daily in the EU markets (and a small R&D US book). Consulting for quant R&D for a client, working on higher frequencies and short horizons (seconds and minutes) in C/C++, OMP, python, Matlab, PostgreSQL, cloud boxes and Slurm cluster. Input into varying aspects of the R&D pipeline – from informing and assessing latest technologies (including ML) to interviewing new teams members.
 
-Re-engaged with ML/AI via llama.cpp, open source open weights local models, coding agents Gemini/Codex/Claude-cli and LLM API-s, local agents with local models (qwen3, gpt-oss) for python, javascript, CSS/html, debugging C++. Modelled transcripts data with doc2vec. Applied new ML methods in forecasting tabular data (c.f. Hugging Face TabArena). F9 owns the IP to all R&D.
+Re-engaged with ML/AI via llama.cpp, open-weight local models, coding agents and LLM APIs; built local-agent workflows for Python, JavaScript, CSS/HTML and C++ debugging. Modelled transcript data with doc2vec and applied newer ML methods to tabular-data forecasting (cf. Hugging Face TabArena). Separately, the public work above develops agent evaluation/refinement loops, local inference and research tooling. F9 owns the IP to all F9 R&D.
+
+### TalkMachine, remote distributed (UK, EU, Dubai)
+*September 2026 – November 2026*
+
+**Position: Research Engineer**
+
+LLM-s adaptations for a multilingual voice agent. LoRA to Qwen3-Omni and Nvidia-Nemotron-3.5-Transcribe. Curated and used Switchboard, AMI, ICSI corpora, created novel data using Qwen3.8-27B.
 
 ---
 
@@ -48,7 +67,7 @@ Re-engaged with ML/AI via llama.cpp, open source open weights local models, codi
 
 **Position: Research Scientist**
 
-Startup working on AI agentic tools. Created then used agents to gather and organise financial data for end-user would-be products, and for internal use. Consulted on using the presumed 'alpha' 'generated' by the AI agent(s) for potential investment.
+Startup working on AI agentic tools. Built and used agents that assess a research need, write code, gather and organise financial data, and iterate with internal curation and quality control for end-user product concepts and internal workflows. Consulted on evaluation of agent-generated data and signals for potential investment.
 
 ---
 
@@ -191,7 +210,7 @@ Mathematics and Computer Science High School, achieved GPA 5.00 on a 2 to 5 scal
 
 **Nationality:** UK (acquired by choice), Macedonian (got by birth). Born 1968.
 
-**Languages:** English, Macedonian (native), Croatian, Serbian.
+**Languages:** English (fluent), Macedonian (native), Croatian, Serbian.
 
 **Honours & Awards:**
 - Scholarships: merit research & science 1988-93, talented student 1983-87. Best student 1989, '90.
