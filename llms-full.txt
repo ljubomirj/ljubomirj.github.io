@@ -1,0 +1,1498 @@
+# Ljubomir Josifovski's site - full text
+
+> Every page of https://ljubomirj.github.io in full, except the large social archive (see https://ljubomirj.github.io/twitter-history.html.md).
+
+---
+
+# Home Page of Ljubomir Josifovski
+
+Source: https://ljubomirj.github.io/post-ljubomirj.html
+
+## Welcome to the Home Page of Ljubomir Josifovski
+
+Current - Machine Learning (ML) / Artificial Intelligence (AI) - again.
+
+Prior - systematic trading, research and development.
+
+Past - automatic speech recognition (ASR) in noise, spoken documents indexing and retreival with spoken queries (https://patents.google.com/patent/GB2404040A/en), speech synthesis, machine learning (ML).
+
+### Online coordinates
+
+Linkedin ljubomirjosifovski https://www.linkedin.com/in/ljubomirjosifovski
+
+GitHub ljubomirj https://github.com/ljubomirj
+
+Hugging Face ljupco https://huggingface.co/ljupco
+
+X @ljupc0 https://x.com/ljupc0, highlights https://x.com/ljupc0/highlights, posts search, local arhive
+
+Hacker News ljosifov https://news.ycombinator.com/user?id=ljosifov (favourites)
+
+Substack @ljubomirjosifovski https://substack.com/@ljubomirjosifovski
+
+Bsky @ljupco.bsky.social https://bsky.app/profile/ljupco.bsky.social, posts search (click Latest)
+
+Mastodon @ljupco https://mstdn.io/@ljupco
+
+Email LjubomirJosifovski at gmail dot com
+
+### Recent projects
+
+Recent repos I want to have them easy to find, especially work that lives on a branch rather than on a tidy GH profile pin:
+
+- LoveWork - Work that you love, so you never work a day in your life. LoveWork is a work-discovery agent, personal guide to achieving your life's work. Movie stars and successful creatives have human agents who look continuously for interesting projects, people, and opportunities. LoveWork makes that kind of representation available to everyone. (WIP)
+- ChEMBLdb-query - LLM-assisted SQL over the ChEMBL database, including local-model endpoint meshes. Latest v5 allows not only multiple rounds with judges, but allows for synthetic data generation.
+- ds4: REAP compact support - running compact DeepSeek V4 Flash REAP GGUFs on Apple Silicon. (this REAP25 on HF)
+- hipfire: feature/gbnf-and-reasoning-budget branch - Adds llama.cpp-like GBNF, grammar-aware loop-guard handling, max thinking token budget separate from the total max token budget, a server-side reasoning-budget interruption message, and greedy temperature-zero DFlash verification under an active grammar.
+- Hermes agent: /advisor plugin in the Plugin Catalog (Automation · by ljubomirj · added Oct 20, 2026) A persistent second-model review plugin for Hermes Agent. A second model that reviews the main agent's work each turn, and delivers structured advice inline. On a branch off recent Hermes HEAD.
+- llama.cpp: Ling-2.6-Flash branch - Metal support and experiments for Ling-2.6-Flash. Runs this HuggingFace gguf on Apple Silicon metal. The same gguf is to be run in ds4 -agent and -server on Apple metal with this branch of ds4 too.
+- Telegram Voice & Text Chat - Automated Customer Support Prototype. WIP make it into customer advocate agent.
+- ASI and ROCm local LLM tests - benchmarks from an M2 Max 96 GB MacBook Pro and a Radeon 7900 XTX 24 GB desktop.
+- nemotron-3-elastic-mlx - conversion tools for Nemotron 3 Elastic inference with MLX on Apple Silicon. The models are as gguf on HuggingFace.
+- dotfiles - the machine-specific configuration that keeps all of this reproducible, or at least recoverable.
+
+### Offline coordinates
+
+In Harpenden UK, from Skopje MK.
+
+My happy place - sharing with PK (book), VJ, KJ.
+
+"all watched over by machines of loving grace"
+
+---
+
+# Knowing
+
+Source: https://ljubomirj.github.io/post-knowing.html
+
+## Knowing - what do I mean when I say I know something
+
+I was told "the joint probability density function between two variables \( X \) and \( Y \) captures everything that there is ever to be known about the relation between those \( X \) and \( Y \)" 25 years ago (¡Hola! Miguel :-)), and it's been a blessing and a curse. Blessing - yeah the joint pdf \( f_{X,Y}(x,y) \) really does capture everything. Curse - often I read an article and think of the author "wish someone told you too", you poor soul.
+
+So for me knowing something about \( X \) means knowing the distribution, the pdf \( f_X(x) \). Most of the time our knowledge is more than 1-dimensional, we have at least two qualities that we want to quantify the relationship of. So knowing something about \( (X,Y) \) jointly, for me means knowing the joint pdf \( f_{X,Y}(x,y) \).
+
+Knowledge is knowing the joint probability function - either density p.d.f. or cumulative c.d.f. (using p.d.f. mostly to illustrate). Density p.d.f. or cumulative c.d.f. is an implementation detail. Depends on the mechanics of the contraption, can be both in the same device, is up to the implementation.
+
+So knowledge is - joint density, is co-counts, counting number of times things of interest co-occur, happen together - in the 1st approximation. But also the 1st approximation is that we can be most sure of, given it's direct most surface level - that what we observe. Without hypothesizing imagining in our heads any causality mechanisms that may result in our observations. The mechanism that's forever hidden from us, never completely revealed. More accurate would be to say - knowledge is absence of ignorance, and our ignorance is what we measure by the joint density, the co-counts. Our ignorance is never zero and consquently our knowledge is never complete
+
+Probability is the measure of the residual uncertainty. Like length measures distance, probability measures uncertainty. Randomness is what gives us probability distributions that are not Dirac impulses, and thus gives us information content to work with.
+
+NB the single letters \( X \) and \( Y \) are multi-dimensional, \( N \)-dimensional and \( M \)-dimensional vectors. The domain of the pdf is \( (N + M + 1) \)-dimensional in general, with \( N \)-input \( X \), \( M \)-output \( Y \), 1-extra dimension where counting or quantity of probability density or mass happens.
++(The one extra dimension where counting happens is time. Time is somewhat special TBD will concern with it latter. For now: without time there is no discrete events or observations and no counting either, so no joint density, so no knowledge either. Time is necessary - but not sufficient - condition for us to get to know the world around us.)
+
+Time in space-time \( (x,y,z,t) \) plays the same role as the \( p \) axis in a joint probability \( p=f(x,y) \): it is the special dimension that lets us count, accumulate, and order events. No time, no counting; no counting, no density. Conversely probabilities are always positive while time only flows forward—both axes are bounded and one-way.
+
+The split \( (X,Y) \) is arbitrary as decided by us. Usually - \( X \) is what we observe easily but we don't care much about, \( Y \) is what we don't observe directly but care about would like to know which one. So by relating \( X \) to \( Y \), we want to deduce something about \( Y \), while observing \( X \).
+
+These things of interest are "qualities". Quality is one dimension out of N in an N-dim vector space. Within one 'quality' that's 'what', we will measure counts those will be 'quantity' or 'how much' or 'how many'.
++(TBD consider latter, but: while and to the extent the dimension N can't be forecast with 0 error from the other (N-1) dimensions, it exists as a separate dimension. Once it can be forecast with 0 error from the rest - it collapses and stops existing afa we are concerned.)
+
+Space itself can be phrased this way: what is truly “nearby” has a non-trivial joint distribution \( p(\text{here},\text{nearby}) \neq p(\text{here})p(\text{nearby}) \). What is far apart factors and therefore forgets about each other. Closeness is simply dependence.
+
+In the simplest case of a single quality, single dimension X in 1D, knowledge of X is the p.d.f. of X \( f_X(x) \). Everything that there is to be known about X is described by the re-normalised histogram of X where we count which ones of X, and then how many of which one.
+
+The first non trivial case of knowledge is where we have two qualities, two dimensions X and Y, \( (X,Y) \) in 2D, knowledge is the joint p.d.f. of X and Y that is \( f_{X,Y}(x,y) \).
+
+Everything that can be known about the relationship between two qualities X and Y is captured and described about their joint p.d.f. \( f_{X,Y}(x,y) \).
+
+If we know the joint p.d.f. \( f_{X,Y}(x,y) \), we can derive the prior distributions both for X that is \( f_X(x) \), and for Y that is \( f_Y(y) \), by marginalisation. Marginal p.d.f.s are \( f_X(x) = \int_y f_{X,Y}(x,y) dy \) and \( f_Y(y) = \int_x f_{X,Y}(x,y) dx \). Marginalisation is "adding up" the probability mass in the dimension(s) we don't care about, the one(s) we marginalise out. Marginalisation maybe thought as "forgetting" - the detail is lost, but we achieve efficiency (less parameter), and robustness - we are not dependent anymore on the variable that was marginalised out (we are independent of it now - at least in our p.d.f.),
++Keeping detail so not cost free, it takes resource implementing it. So if we don't need a particular dimension particular quality for whatever our goals are - it's better to forget about it.
+
+Once we observe one of the qualities that are \( (X,Y) \), e.g. X, that shrinks the domain from 2D to 1D, and now everything that can be known about Y is described by conditional p.d.f. \( f_{Y|X}(y|x=a) \) that is computed by plugging \( x=a \) into the joint p.d.f. \( f_{X,Y}(x=a,y) \), then dividing re-normalising that function by the prior p.d.f. of X \( f_X(x) \) at \( x=a \) giving rise to new conditional p.d.f. \( f_{Y|X}(y) \) for Y that is defined as \( f_{Y|X}(y) = \frac{f_{X,Y}(a,y)}{f_X(a)} \).
+
+Below I illustrate this point on the example of a joint pdf \( p = f_{X,Y}(x,y) \) that is a mix of two Gaussians in 2D space \( (x,y) \). We observe the variable \( X \), and that observations is \( x=1 \). The question is - what do we now know about the variable \( Y \), having observed the variable \( X \) (to be \( x=1 \)).
+
+The observation \( x=1 \) is equivalent to the joint pdf being cut by the plane \( x=1 \). The intersection of the joint pdf \( f_{X,Y}(x,y) \) and the plane \( x=1 \) is \( f_{X,Y}(x=1,y) \). This curve is the best description of what we now know about the distribution of the unobserved variable \( Y \).
+
+The starting model that was \( f_{X,Y}(x,y) \) is affected by the observation \( x=1 \). The effect is the intersection \( f_{X,Y}(x=1,y) \), and is outlined below. It is a function of \( y \), that is a scaled conditional \( f_Y(y|x=1) = \frac{f_{X,Y}(x=1,y)}{f_X(x=1)} \). The conditional pdf is \( f_Y(y|x) \).
+
+The scaler \( f_X(x=1) \) is the marginal pdf \( f_X(x) \) of \( X \) at point \( x=1 \). The marginal pdf \( f_X(x) \) is computed from the joint pdf \( f_{X,Y}(x,y) \) by marginalization, by integrating out \( Y \) as \( f_X(x) = \int f_{X,Y}(x,y)\,dy \) and then plugging in \( x=1 \).
+
+Everything that can be known about about anything can be construed as a relation between two things. (at the baseest level - myself and the world, the I and not-I.) Call them X and Y. So all knowledge about \( (X,Y) \) (what X tells us about Y, what Y tells us about X) - is in that X-Y relationship.
+
+Everything that can be known about X-Y relationship is captured and described about their joint p.d.f. \( p=f_{X,Y}(x,y) \) or just \( p=f(x,y) \) the density; or c.d.f. \( p=g_{X,Y}(x,y) \) then it's just \( P=g(x,y) \) the cumulative. And that's it. The probability distribution captures all that can ever be known about the \( (X,Y) \) relationship.
+
+Once X \( x=a \) is observed, then everything that is known about Y is described by the conditional p.d.f. \( p=f_{Y|X}(y|x=a) \) or just \( p=f(y|x) \) at \( x=a \).
+
+The 3D function \( p=f(x,y) \) is cut with a plane \( x=a \). The cross section is \( f(x=a,y) \). It's not a p.d.f. as it does not sum to 1. The area of the cross section \( \{f(x,y),x=a\} \) that is a scalar is the area under \( f(x,y) \) at \( x=a \). This is also the value of the marginal p.d.f. \( f_X(x) = \int f(x,y) dy \) at \( x=a \), i.e. \( p=f_X(x=a) \). To convert \( f(x=a,y) \) into conditional p.d.f. \( f(y|x=a) \) we divide joint p.d.f. \( f(x=a,y) \) with the scalar (constant) that is marginal p.d.f. \( f_X(x=a) \): \( f(y|x=a)=f(x=a,y)/f_X(x=a) \).
+
+Joint marginal conditional pdf 1 of 3. (click to zoom)
+
+Conditional pdf is ratio of joint (at point) and marginal 2 of 3. (click to zoom)
+
+Marginal pdf is derived from the joint pdf 3 of 3. (click to zoom)
+
+Coming back to "joint pdf captures everything there is in the relationship \(X,Y\)". Putting it in a wider context.
+
+When reading about knowledge, I have come across the following so collected here for future reference.
+
+We can have 2 types of knowledge about the outcome of (repeated) experiment(s):
+
+1. We know what will happen and when it will happen in each experiment. This is non-probabilistic, deterministic knowledge. NB it is a special case of both (b) cases below with the pdf being a Dirac impulse function.
+2. We know the possible outcomes, we know how many of each will happen if we do 100 experiments, but for each 1 experiment, we can't tell the outcome. This is probabilistic knowledge where we know the pdf (=probability density function) of the experiment outcome. It is the aleatoric kind of uncertainty (see below) - we know the statistics, the counts, but not what one outcome is going to be in every one experiment.
+
+Uncertainty - obverse to knowing, to knowledge, lacking (perfect, deterministic) knowledge, we can think of types:
+
+1. Aleatoric uncertainty means not being certain what the random sample drawn (from the probability distribution) will be: the p.d.f. is known, only point samples will be variable (but from that p.d.f.). We can actually reliably count the expected number of times an event will happen.
+2. Epistemic uncertainty is not being certain what the relevant probability distribution is: it is the p.d.f. that is unknown. We can't even reliably count the expected number of times an event will happen.
+
+The probabilistic knowledge of type (b) above and aleatoric uncertainty of type (b) are one and the same.
+
+The 2D \( (X,Y) \) example is also useful to illustrate a further point. Once we observe \( X \), and work out the conditional pdf \( f_Y(y|x) \), the question arises - what next? What do we do with it?
+
+If \( Y \) is discrete, we have a problem of classification. If \( Y \) is continuous, we have a problem of regression.
+
+We have the entire curve to work with - and that's the best. But often, we approximate the entire curve, with a representative value, and soldier on. Then the question becomes: well how do we chose one representative value from that curve?
+
+The "\( X \) observed \( Y \) not observed" is arbitrary - it could be the other way around. We can generalize this by introducing a 2D binary mask \( M \), to indicate what parts of the vector \( (X,Y) \) are present (observed), and what parts are missing (and thus of some interest, e.g. we want to predict or forecast them).
+
+With present data \( X \) and missing data \( Y \) in \( (X,Y) \), then missing data imputation is actually equivalent to forecasting regression or classification. The same logic works even if the mask is in time, but the signal gets much weaker when the observed parts are in the past and the unknown parts live in the future—time Now inserts another dimension that has to be overcome.
+
+Simplest case - X is 1-dim, Y is 1-dim, then knowledge of a \( (X,Y) \) relationship is the joint p.d.f. \( f_{X,Y}(x,y) \) that's a 3-D shape. Observation is cutting that 3-D shape with a 2-D plane \( x=a \). Intelligence is using the 2-D outline \( f_{X,Y}(x=a,y) \) that's the intersection between the 3-D joint shape and the 2-D \( x=a \) plane, to decide on the action to be taken. Now we have this new(er) knowledge (that normalised to 1 is conditional p.d.f. \( f_{Y|X}(y|x=a) \)), while still aiming for the same desired end as before.
+
+Knowledge of relation \( (X,Y) \) is the joint p.d.f. \( f_{X,Y}(x,y) \). Observation is cutting that 3-D shape with a 2-D plane \( x=a \). Intelligence is deciding on the next action—now we have 2-D shape \( f_{X,Y}(x=a,y) \), incorporating this newest knowledge about X (normalised to sum 1 is the conditional p.d.f. \( f_{Y|X}(y|x=a) \)). All the while still aiming towards the same desired goal as before. (the goals themselves are outside of this, are not considered)
+
+Conditioning Y on X is observing the \( x=a \), and then re-normalising \( f(y,x=a) \) such that it becomes a p.d.f. again to sum to 1 \( f(y|x=a) \). Observing quality X that is \( x=a \), is shrinking the dimensionality from 2D to 1D. In general from \( (N+1) \)-dim back to \( N \)-dim.
+
+### Chain of Reasoning (CoR)
+
+If p.d.f. \( f_{Y|X}(y|x=a) = P(Y|X) \) is not very informative, we can undertake chain of reasoning (CoR). We can find a reasoning step \( Z \), that is \( P(Z|X) \), such that the conditional \( P(Y|Z,X) \) brings us closer to our end answer than \( P(Y|X) \) can bring us.
+
+This is how hierarchies are made. Already \( P(Y|X) \) is a hierarchical relationship. Now conditioning on \( Z \) too, \( P(Y|Z,X) \), is another brick in the wall of a hierarchical relationship. Conditioning on X takes general N-dim \( P(X,Y) \), and reduces it down to at most \( (N-1) \)-dim space of \( P(Y|X) \). Conditioning even more on Z to \( P(Y|Z,X) \) does another slicing down, to at most \( (N-2) \)-space. From widest most detailed N-dim \( P(X,Y) \), to more general less specific \( P(Y|Z,X) \) at most \( (N-2) \)-dim.
+
+One can undertake motivated slicing via \( Z \). For slicing by \( x=a \) the \( P(X,Y)=f_{X,Y}(x,y) \) to get \( f_{X,Y}(x=a,y) \) (then renormalised by marginal \( P(X)=f_X(x) \) at \( x=a \) into \( f_{X,Y}(x=a,y)/f_X(x=a) = f_{Y|X}(y|x=a) \) call it conditional \( P(Y|X) \)) - we undertake that b/c we hope \( P(Y|X) \) is going to be sharper, more informative than a presumed wide un-informative \( P(Y) \). So we could be selecting such \( Z \), that \( P(Y|Z,X) \) is even sharper. And we have the \( P(Z|X) \) to judge how justified we are to undertake our motivated reasoning \( Z \) step.
+
+There are infinite number of \( Z \)-s we can slice-condition on. The trick is choosing "the right ones" for \( Z \). They can't be too divorced from \( X \), as then \( P(Z|X) \) will be very flat. The \( Z \) chosen also can't be too divorced from \( Y \) - then it will not add anything over and above \( X \), which is already too far from \( Y \) for any useful guide, \( P(Y|Z,X) \) will be as good (bad) as \( P(Y|X) \). (even if \( P(Z|X) \) may show relation to X) Looks like the size of the step when moving X→Y can be max ~20% in interestingness, but not more, to keep it true.
+
+Chain of Thought (CoT), Chain of reasoning (CoR)
+
+Extension to Type 2 intelligence: guided search through discrete space where reward is unknown in time and only becomes known after the last step in the sequence. Next step from Type 1 intelligence: pattern recognition single 1:1 input:output, reward known at every step.
+
+CoR now often has to invent its own \( Z \)-s (or \( R \)-s for "reasons"), rather than simply conditioning on an observed variable. DSPy-style systems optimise not only the answerer \( P(Y|X) \) but the question-poser that proposes \( Z \) so \( P(Y|Z,X) \) becomes sharp. Both the query and the answer become learnable objects.
+
+Non-reasoning autoregressive LLM-s: compute \( P(Y|X) \), then they sample from that distribution. Hence parameters like temp-erature, top_K, min_p, top_p.
+
+Diffusion models image denoisers: learn the first derivative of \( \log(P(Y|X)) \), use that to get from the current sample, to a better sample, and they iterate. They add noise to in every step, and that serves to sample the whole distribution, rather than pick and converge to a single one point.
+
+Afaics the reasoning models add only one step extra. Assume there is no good choice \( Y \) for the \( X \) - say \( P(Y|X) \) is flat uninformative, there is no good guess for Y. So let's figure out intermediate step Z. Then instead of \( P(Y|X) \), go after \( P(Y|Z,X)P(Z|X) \). NB summing over Z will recover exactly \( P(Y|X) \). The step \( Z \) is such that \( P(Y|Z,X) \) is informative, where \( P(Y|X) \) was not. So \( P(Y|Z,X) \) brings us closer to a better guess for \( Y \), in a way that \( P(Y|X) \) does not. Of course, what functions, and how they are fit, and how to chose bazillion of \( Z \)-s, and how to aggregate while searching - makes a world of difference.
+
+Diffusers learning gradients and autoregressors learning the density are complementary. If/when we have access to both the function and its derivatives we can approximate more operators on top of the pdf itself—think H- and L- updates that reason about how the entire distribution should morph in one step.
+
+### Marginalisation is Forgetting
+
+When I compute \( f_X(x) = \int f_{X,Y}(x,y) dy \) margnialising out i.e. "ignoring" Y is irreversibly destroying any knowledge of how X and Y co-vary. The operation is a lossy compression; I cannot reconstruct \( f_{X,Y} \) from \( f_X \) alone. A state with joint knowledge \( f_{X,Y} \) has "working memory" of the relationship. Marginalizing to \( f_X \) is forgetting Y, freeing up parameters space removing memory so losing specifics. Choosing which variable to marginalize is an act of attention allocation. Storing a joint p.d.f. over \( (N+M) \)-dims cost drops when marginalizing down to \( N \)-dim. We trade accuracy for efficiency, effectivelly compressing, so the trick is to forget just enough but not more than that. We pay for any complexity for memory of extra weights and for using them in the compute. So there is always cost. If removing the specifics, maybe b/c conditioning on those specifics barely changes the p.d.f, if we endup with almost the joint p.d.f. even in the conditional - the we lose almost nothing by the removal and save on processing and mainteinance costs.
+
+Conversely each new variable introduced in the join p.d.f, that can be latter used for conditioning, enables for learning the particulars with more precision, enables drilling down. This extra extra dimension atm with our one-off learning will only latter be used for conditioning and nothing else. But we can imagine a case of continuous learning, like CoR, that seeks to find the right conditioning variables. Only in CoR this is just find some among the existing variables, while in continuous learning we will be creating a new axis of variance to be added to the joint p.d.f. and the joint p.d.f.will be modified. It doesn't have to be zero-one, on-off. It can be continuous and even naturally occuring. With passage of time, a conditioning variable is ever more blurred, it decays, the conditional p.d.f. conditioned on that variable is ever flatter, ever less informative. At some point we just delete that extra variable and nothign changes in the p.d.f, as by that point the conditional p.d.f. was so flat observing the variable made almost not difference to the joint p.d.f. We can imagine the opposite process too, in continuous learning. As we star with sharpish informative conditional p.d.f., we keep discovering ever more examples related to the variable we are conditioning on. Maybe each new conditioning step is a re-memoization (loosely reminiscent of DRAM, or the Hebbs rule) preventing forgetting by keeping another dimension intact. But we pay in costs - the cost of memoisation, and the cost of compute when used latter. So we better gain some from the extra varaible too.
+
+### Appendices (other related randoms; TBD refactor when feel like)
+
+#### A. Everything is a Computer in 2025 it seems +
+
+Everything is a computer now atm. (2025) Information theory is the most general theory we got.
+
+Knowledge is a p.d.f. Learning is acquiring a p.d.f. where we previously lacked one. Acquiring p.d.f. is figuring out what-s, and how many-s of those what-s.
+
+Computing is taking our knowledge, the learned p.d.f.s we got, then manipulating those p.d.f.s, by either marginalisation, or conditioning, to create new p.d.f.s.
+
+These new p.d.f.s then tell us something about what we care about but we can't observe, having observed things that are easy for us to observe, but we don't care about.
+
+The general model of computation is one of discrete states. Every state is characterised by a different p.d.f. function. Transitions between states occur too. Those are also characterised by their own p.d.f.s. Markov assumption is that transitions depend on the current state, but don't depend on the path we took to get to the current state. So the future states are independent of the past states, only on the present state.
+
+Computation is to information p.d.f. \( p=f(x,y,...) \) what physics is to space-time \( (x,y,z,t) \). Both have a “special” dimension: probability mass \( p \) that always stays \( \ge 0 \), and time \( t \) that only flows forward. Transformations manipulate the rectangular coordinates while respecting that privileged axis.
+
+Information and knowledge move against entropy by copying and spreading. When information spreads from A to B, B gains knowledge, but A does not lose it—the operation is copy, not move. What costs energy is the physical act of copying.
+
+#### B. Missing Data Imputation +
+
+With present data \( x \) and missing data \( y \) in \( (x,y) \), then missing data imputation is actually equivalent to forecasting regression (continuous \( y \) variable) or classification (discrete \( y \) classes). Big difference is whether \( x \) and \( y \) are contemporaneous, or not: not contemporaneous makes the signal connection \( x \rightarrow y \) much, much weaker, by orders of magnitude. Time Now is a big barrier in knowing.
+
+The mask view \( M \) above is the operational view of imputation. Once the mask is defined, we simply treat the missing cells as \( Y \) and the present ones as \( X \), and the whole machinery of conditional pdfs applies.
+
+Once we have any curve \( f_Z(z) \) whichever way we got it (marginal, conditional), we can do derived statistics to it, in order to convert the curve into one (point forecast) or two (forecast and it's variation) points or however many we fancy (quartiles, quintiles, etc) to characterise the entire curve/area/volume/Nvolume (1D/2D/3D/Ndim) with, and reduce to characterise the whole continuous mathematical object with few discrete numbers.
+
+#### C. Now and Time, Past, Present, Future +
+
+TBD Time. Mechanistic pedestrian treatment of time (past/now/future) in the same framework where all is knowns is a p.d.f. So we have past and future separated by the now that marks the present for us. Say \( X = \) past, \( Y = \) future in our \( (X,Y) \) and we have the p.d.f. \( f_{X,Y}(x,y) \).
+
+The past has already happened, there is only one of it, it's certain and deterministic. Translated in p.d.f. language that means the \( f_X(x) \) or \( f_{X|Y}(x|y) \) distribution *must* be a Dirac delta impulse. The \( f_X(x) \) can not be any other function shape than a Dirac delta.
+
+The future has not happened yet. We know there two or more options for the future, it is never a single one. Translated in p.d.f. language that means the \( f_Y(y) \) or \( f_{Y|X}(y|x) \) distribution *can NOT* be a Dirac delta impulse. The \( f_Y(y) \) can be any other function shape than a Dirac delta. But not a Dirac delta.
+
+Now is a moving boundary between the all-Dirac past, and never-Dirac future. Living is the future out-running the past, the past failing to catch up the future. Death is the point at which the past finally catches up with the future. At that point all uncertainty ends, seemingly never to return back. Death collapses the future functions (p.d.f.s) from general forms with uncertainty (anything but Dirac Delta-s), into a Dirac Delta impulse. The uncertainty ends, the Past finally catches up with the Future, erasing the Now time boundary in the process. For self anyways. I detach from not-I completely irreversibly, the final separation.
+
+Time is the special dimension on which everything we can imagine—real or counterfactual—happens. Time gives rise to the idea of infinity and, symmetrically, conceiving infinity gives rise to time: we imagine \( N \), then \( N+1 \), and so on, never ending. That mental sequence is how we make the jump from discrete to continuous.
+
+Time as sequence of events is the counter that labels the observations; it is not itself modelled by a joint conditional p.d.f. Time must be discrete for counting to occur. A perfectly continuous time would defeat counting (what does “next” mean?). Discreteness hints the underlying latent space is very high-dimensional.
+
+Time makes the jump from discrete to continuous space possible. When we imagine bisecting an interval for the \( N \)-th time, we also imagine the \( (N+1) \)-st time. Memory of \( (N-1,N,N+1) \) suffices, yet without that memory the limit process would fall apart.
+
+Time is short-circuit-ed - as if deleted - when forecasting accuracy of the future is 100%, when there is zero error in the forecast. Then, the forecasting time horizon disapperas, the length of time of that time horizon becomes 0. The future happens now, in the moment we produced and forecast, and learned the future. (given 100% accuracy)
+
+Both time and space implement memory. Patterns live in time; they require the medium of time to exist. Those patterns can be converted 1:1 into spatial states that memorize the same information. The existence of a discrete entity can be in time (patterns) or in space (states).
+
+Markovian blanket = in the present, memorising everything from the past, that is to be used to forecast the future. Everything that can be determined about the future, from the past, is written onto the present.
+
+Time is the currency of life - time is what is spent in the process of living.
+
+#### D. Forecasts must have error > 0 for information to exist +
+
+The error is necessary for information to exist. In the limit where the error is zero, no new information is ever observed - everything is known, the uncertainty is zero.
+
+Life exists only with uncertainty. Where/when the error is zero, everything is predictable. This is the state before a living thing is born, and after a living thing dies.
+
+Life exists in that goldilocks region where there is limited uncertainty. If the uncertainty is zero, then we are not-born yet, or dead. If the uncertainty is too high, things are chaotic, too random, there isn't enough order and structure for life to exist.
+
+Every living thing introduces another dimension, another axis, of non-zero uncertainty, into existence. When it dies, the uncertainty disappears, that axis of variance is no more.
+
+In physics disorder (entropy) is something we measure at macro level as temperature. It is typically increased by adding energy. So - energy increases temperature increases entropy increases disorder increases error decreases predictability.
+
+#### E. Qualities, Quantities, and Dimensions +
+
+Quality and quantity. Dimensions \( (X,Y) \) are qualities, and we quantify them each too. When do we add new quality and obversely when do we lose a quality (dimension)? (LJ @ HN) The second “law” of dialectical materialism by Engels—"the law of the passage of quantitative changes into qualitative changes"—captures this nicely. Enough quantity becomes a new quality.
+
+Suppose I have a 5-dimensional observation and I'm wondering if it's really only 4 dimensions there. One way I check is - do a PCA, then look at the size of the remaining variance along the axis that is the smallest component (the one at the tail end, when sorting the PCA components by size). If the remaining variance is 0 - that's easy, I can say: well, it was only ever a 4-dimensional observation that I had after all. However, in the real world it's never going to be exactly 0. What if it is 1e-10? 1e-2? 0.1? At what size does the variance along that smallest PCA axis count as an additional dimension in my data? The thresholds are domain dependent - I can for sure say that enough quantity in the extra dimension gives a rise to that new dimension, adds a new quality. Obversely - diminishing the (variance) quantity in the extra dimension removes that dimension eventually (and with total certainty at the limit of 0). I can extend the logic from this simplest case of linear dependency (where PCA suffices) all the way to to the most general case where I have a general program (instead of PCA) and the criterion is predicting the values in the extra dimension (with the associated error having the role of the variance in the PCA case). At some error quantity \( \gt 0 \) I have to admit I have a new dimension (quality).
+
+Emergence, phase transition and similar: 1) where quantity is large enough (this condition is necessary but not sufficient) and becomes new quality 2) thus this new quality becomes a new dimension in the phenomenon investigated, so my observations data from N-dim vectors become (N+1)-dim. "More is Different" is a succinct summary of "enough quantity becomes a new quality".
+
+An image is worth 16×16 words, but a program is worth \( 2^4 \) images. Kolmogorov complexity says a learning system finds the shortest program that explains the data. Compression is learning. A forecasting error of quantity \( >0 \) is the extra dimension—new quality—waiting to be captured. When the program makes perfectly accurate predictions, that dimension disappears or was never there.
+
+TBD Ndim Space. Ratio of Ncube/Nball. Does our intuition fail us about the representative values of a distribution when we go from low \( N \) \( (N = 2) \) to high(er) \( N \) \( (N \gt 10) \)? For large N, Nspace in Ndim: (a) moves into the edges (b) every observation is an outlier (in some dimension). Does that mean the space becomes discrete, it discretizes?
+
+TBD Sparse representation, moving to symbolics and rules. Once the Ndim vector becomes sparse, we move from continuous representations to discrete symbolic rules. That’s when we start writing down the rules explicitly.
+
+Deciding on whether to create/introduce a new conditioner/dimension/variable/quality in the joint p.d.f. - yes or no, considerations
+
+Laplace’s rule of succession. From Tom Davidson at https://www.lesswrong.com/posts/Tg5pQCjpefFiqaKjw/limitations-of-laplace-s-rule-of-succession. The general pattern is that if some trend has been going for N years, Laplace’s rule says there’s a 1/(N+2) probability the trend is broken next year and a 50% chance the trend continues for another N+1 years or more. Or if some event hasn’t happened for N years, Laplace’s rule says there’s a 1/(N+2) probability the event happening next year and a 50% chance the event doesn’t happen another N+1 years or more. Limitation: for N=0 the probability is 1/2 and that maybe a big overstatement. It typically overestimates the chance of unprecedented events occurring. In general, the problem is that Laplace’s rule excludes evidence we already have at the start time about how likely something is to occur.
+
+Lindy effect. (deciding to create new conditioner/dimension/variable/quality-2) From John D. Cook at https://www.johndcook.com/blog/2012/12/17/the-lindy-effect/. Lifetimes of intellectual artifacts follow power law distribution. Assume survival time is a random variable X with a Pareto distribution with p.d.f \( f(t) = c / t^{c+1} \) for \( t≥1, c>0 \). A power law because in that p.d.f. the probability (density) is proportional to power of t. If \( c > 1 \), then expected \( X \) is \( E\{X\} = c / (c-1) \). Conditional expectation of \( X \) given \( X \) survived time \( k \) to now is \( E\{ X | X>k \} = ck/(c-1) \). So expected additional life for \( X \) is \( ck/(c-1) – k = k/(c-1) \) and is proportional to the amount of life \( k \) seen so far. If \( c = 2 \), the expected additional life equals the life seen so far.
+
+#### F. Randomness, Search, and Open-Endedness +
+
+Randomness, entropy is what enables search. Random steps are a way of searching through the global space. Without randomness we hill-climb to the nearest peak and stay there forever; the derivatives decay to zero, motion stops, intelligence halts.
+
+There is no AI/ML without randomness: (1) Autoregressive LLM sampling—temperature, top_k, etc.— prevent robotic outputs. (2) SGD uses noisy mini-batches; warnings about local minima never materialized because the noise keeps us moving. (3) Diffusion models follow the log conditional probability gradient but also add noise so they don't collapse to a single sample.
+
+That what works will keep being done, and finally will be overdone. Then things need to change in order for them to stay the same. It's the dose that makes the poison: noise too small and we stagnate, too large and the structure dissolves.
+
+Randomness is the source of uncertainty and therefore information. Random steps implement global search instead of local greedy search. Trial and error equals variation and selection: trial == variation, error == selection.
+
+Open endedness in that way is reminiscent of the diffusion sampling, and the role the noise term plays. If we add too much noise, the denoising fails. Too little noise, and the steps are tiny, nothing new is learned. The step needs to be just right—not too small, not too large. Kelly-criterion thinking says we should keep \( \mu/\sigma \lesssim 0.2 \) for comfortable compounding (halve the leverage when uncertain). That heuristics rhymes with how CoR steps are ideally “only” 20% more interesting than the previous step.
+
+Kelly criterion leverage: \( f = \mu / \sigma^2 \). Assume errors in \( (\mu,\sigma) \) estimates => deploy half-kelly leverage \( f=\mu/\sigma^2/2 \). Market neutral fund leverage 3 origin: assume average \( \mu=2\% \) \( \sigma=4\% \) p.a. on gross book, so half-kelly leverage \( f=0.02/0.04^2/2=6.25 \), so with capital \( C=1 \), aim for \( (\text{Long}=3,\text{Short}=-3) (\text{Gross}=6,\text{Net}=0) \) book.
+
+Sufficiently high frequency feels smooth. Once the frequency is high enough, the alternation peak-trough merge into a constant line. Infinite frequency == zero period == DC no alternation.
+
+#### G. Life, Entropy, Knowledge, Intelligence +
+
+Definions of life collected over time from various sources.
+
+Life as Thermodynamic Evidence of Algorithmic Structure in Nature (2012) (mdpi.com). Organisms encode information about their environment in order to survive. The encoding costs energy and generates entropy. Organisms use that encoded information to gain or not lose energy. Only where the information cycle is net positive can life exist. Since life exists, nature cannot be “too unpredictable”.
+
+Living things decrease entropy; non-alive things increase entropy. ("What is Life?" by Erwin Schrodinger http://www.whatislife.ie/downloads/What-is-Life.pdf) Life is that what decreases entropy. (is this only taking into account the living thing only, within the boundary of it? b/c outside - the disorder may as well increase?)
+
+Life is in a goldlocks region between max uncertainty (random, entropy) and min uncertainty (Dirac delta): not too random, not too certain, just right random/certain as to be interesting.
+
+In order to achieve entropy decrease, life needs to exercise 1) control, and 2) adaptation. Control starts with enclosure. A piece of space is enclosed using a membrane, a barrier, a border. The inside of the barrier needs to gain enough negative entropy, so to sustain itself and the wall. Adaptation is achieved with intelligence.
+
+All living things are part of the tree of life. They are all related. So the life-o-sphere is expanding. One can think of life-o-sphere as a whole as a giant organism that is living.
+
+Atoms are only ever created and destroyed in rare nuclear reactions. Most of the time they are just reconfigured like Lego blocks. The atoms that make our bodies were lent to us. Atoms themselves are mostly empty space with smaller vibrating sub-particles. The relations between particles matter more than the particles themselves—like letters versus words.
+
+Life is self‐reproduction with variation. Life is ability to make decisions about the future and take action, and thus influence and change your own future. Intelligent life in biological sense is the ability to achieve the same goal via differing paths, different means.
+
+Life is recurring pattern. Joscha Bach "We Are All Software". We recognise the same person even if all molecules churned many times. The pattern repeats over time even if the details differ.
+
+Life is a cycle of generation, degeneration, regeneration. "I" is a collection of particles that is arranged into this pattern, that will decompose and be available to nature to reorganize into another pattern. Death is part of a gift economy. You are given this enormous gift, life. You enrich it as best you can. And then you give it back. (Emily Levine, Andreas Weber). Children give you a glimpse of a second life, if not of an eternal one.
+
+##### Intelligence
+
+One definition of intelligence I've heard is: "intelligence is the computational part of achieving a goal". And what is the goal of anything that's alive? The goal is to continue staying alive. Otherwise it dies and then stays dead forever. Short term we adapat to the enviroenment, and we adapt the environment to us. Long term we im-perfectly replicate, create im-perfect partial copies of ourselves. (could say "it's the recipe for replication that replicates, our bodies are the material realisations of that machine"; dependnt of what we take to be "I") Stupid systems found in nature are never living - always dead. Can safely infer: "if alive => then not-stupid but intelligent"? Reality has that search built in apparently.
+
+Intelligence definitions over/heard or read over time, short enough to be collected:
+
+- Behaving like a person. (Turing test)
+- The ability to acquire and apply knowledge and skills. (dictionary)
+- Attaining consistent ends by variable means. (William James, psychology)
+- The computational part of the ability to achieve goals. (John McCarthy, AI)
+- Ability to acquire capability - efficiently. (Challet)
+- Doing more with less. (David Krakauer)
+- Intelligence is not what you know. It is what you do when you don't know. (Jean Piaget)
+
+Looks to me the way we adapt to the environment, and the way we adapt the environment, we achieve that by having a model of the environment, and a model of ourselves - in our heads. Then we forecast into the future, make a prediction. Then the future happens, and we get the ground truth from the reality around us. Then we compute the difference, the error, and try to reduce it: both by changing the model in our head to be a better predictor of the future, and by activelly changing the future by changing our environment too. Afaik this is what Fristons theories are about. Last I heard it on this Joscha Bach interview ("Building an AGI to Play the Longest Games"; Worthy Successor, Episode 6. The Trajectory with Dan Faggella) Makes total sense to me.
+
+#### H. Brains, AIs, and Efficiency +
+
+Digital intelligences (currently AI-s - artificial intelligences) need lots of energy. They can work "as if" perfect copies, separating software (spirit) from the hardware (substrate). They can all learn different knowledge from different experiences, but then share their knowledge back with everyone at high speed. So they can implement distributed learning at unit level. Separation s/w spirit from h/w substrate also makes them immortal.
+
+Analogue intelligences (currently HI - human intelligences; but all animales and plants, all life really) can not work "as if" perfect copies, they are all one of a kind and unique. Their spirit s/w and their substrate h/w are entangled. They can't share their experiences easily. They are mortal, their spirit s/w stops existing when their substrate h/w dies. However, they have one big advantage: they use much less energy, orders of magnitude less energy than digital intelligences.
+
+Energy lots of it is used to create the insulation of s/w spirit separate from h/w substrate. So digital intelligence being high energy, can't bootstrap itself 0->1 into being on its own. For that, only low energy is possible. And low energy implies analogue intelligence. So the bootstrapping of intelligence goes none -> analogue (low energy) -> digital (high energy).
+
+Assume learning for 30 yrs ~ \(10^9\) sec, visual processing sampling at 10 fps, that equals \(10^{10}\) images as training samples. Assuming training a human brain with \(10^{13}\) "parameters" (100B neurons × 100 connections). That makes 1 image per \(10^3\) parameters. Meanwhile our best ANN-s train with way more images per parameter—they trade computation and data for smaller models, while biological brains sacrifice parsimony in weights to gain speed and low power.
+
+Energy and intelligence travel together. Intelligence figures out what to do; energy is what gets it done in the physical world.
+
+#### I. Collective Intelligence and Networks +
+
+All intelligence is collective intelligence. Humans are collections of organs and tissues, which themselves are collections of cells. A cell is itself a collection of molecular networks (and so on). The subunits are competent themselves. There is a scale up process in which these competent subunits give rise to an intelligent unit bigger than themselves (Michael Levin).
+
+The value—and even the reality itself!—is in the connections, not the nodes. People move from villages to cities because density breeds civilization. Empires built trading outposts to create connections. Roman logistics favoured water routes because the connections mattered more than the raw distance. Value of a network scales with \( N^2 \) not \( N \): the value is in the connections.
+
+Mode of operation online vs offline diverges. Online geeks tend to cooperate in good-good positive sum interactions. Offline scarcity sometimes locks people into bad-good zero-sum trades. The larger, looser internet neighborhoods proved fertile for altruistic building of the web, Wikipedia, blogs, AI. Knowledge sharing thrives where connections are abundant.
+
+Neural Networks architecture (N nodes of about the same power, with connections arcs between them scaling \( N^2 \)) implementing Parallel Distributed Processing implementing intelligence - should be a grander lesson. Having a single node that is much more powerful than the rest is how cancer behaves. Intelligent systems survive by distributing power.
+
+NB that any graph of N nodes can be described by a matrix \( [N \times N] \). The graph operations are matrix operations—matrix multiplication implies a linear model at the base.
+
+NB the standard deviation and risk as measured by it only goes down with \( \sqrt{N} \) the number of samples. So having the collective intelligence go up with \( N^2 \) the number of nodes counter-acts that. An individual node may sharpen its pdf with \( \sqrt{n} \) data (and suffers curse of dimensionality). The system as a whole fights that by increasing \( N \) and the intelligence with \( N^2 \).
+
+N^2 mechanism that makes the network powerful is sharing of knowledge, that all N see what 1 sees. So it's enough for every one of the N to see \( 1/N \) of the data in \( 1/N \) of the time, and to then share it with N others. So then all N get to see and learn whole data N. So the total knowledge is N, and is shared N times (redundancy), and that happens \( 1/N \) of the time—if the transfer of knowing between the N nodes is fast.
+
+The real world can't be sped up. So the only way to speed up is to divide the work, get them to do the work in \( 1/N \) of the time, and then share the knowing between themselves.
+
+#### J. Types of Intelligence +
+
+It's by logic that we prove, but by intuition that we discover. (Poincaré) To know how to criticize is good, to know how to create is better.(François Chollet)
+
+Broadly three categories of problem solving patterns -- recitation, intuition, and reasoning. Recitation: you simply recognize a known problem and apply the steps you've learned. Like playing a chess opening. Recitation is a database lookup. Intuition: in the face of a novel situation, you pattern-match it to what you've encountered before and you "just know" what to do. Like a very experienced chess player seeing the best move in <1s. Reasoning: you consciously and deliberately analyze a novel situation, using a combination of abstract principles and step-by-step simulation. Like analyzing a chess position and simulating in your mind possible future trajectories.
+
+Types of intelligence-s, (T-s): Type-1 pattern recognition, idea generation, guessing a not insane guess. Type-2 logical thinking, guided search through discrete space. Type-3 open endedness, directed but almost random hypothesis generation (active learning). Type-4 collective intelligence—AI-s coordinating (sometimes cooperating, sometimes competing) in AI society—where individual irrational behaviour aggregates into rational group-level feelings.
+
+We share the meta-learning and meta-knowledge machinery with every other living thing: we're leaves on the same tree of life. We are made of collective intelligences (cells, made of molecules...) and simultaneously build a collective intelligence (society). Human intelligence—and its stupidity—is collective too.
+
+We live Type-3 intelligence whenever we seek novelty and interestingness. Having children brings that home: watching them learn to move, to speak, to press a button and discover a song. At first the joint p.d.f. \( p(\text{press button}, \text{song plays}) \) is flat. The first time, surprise! High residual error. So the kid repeats it four or five times until the distribution bumps up, the error shrinks toward zero, and knowing solidifies.
+
+Type-4 intelligence is synchronizing with others—cooperation and competition at maybe 4:1—to build collective intelligence. Here emotions appear. They are mostly about other people, not much about self; introspection exists, but it is a small slice. Daniel Kahneman’s “Thinking Fast and Slow” fits: Type-1 pattern recognition, Type-2 reasoning, plus these social Types 3 &iamp; 4 layered above.
+
+Chains-of-Reasoning (CoR) is Type-2 reasoning layered on top of Type-1 N-gram guessing. Type-3 will graft naturally on Type-2: active learning with just-right steps (again that \( \mu/\sigma \le 0.2 \) intuition). Type-4 collective intelligence pulls in social dynamics; we will want AI-s to have warm feelings toward humans and other carbon-based life forms.
+
+Motivations behind "possibly \( \mu/\sigma \lt 0.2 \)": (a) Kelly betting gives tolerable approximation errors when \( \mu/\sigma \) is small, hence the comfort zone above. (b) Distilling a smaller network from a bigger one typically lets us shrink by ~20% once the bigger one groks the pattern. (c) Bolting CoR onto a base language model often nets ~20% uplift. The same ratio pops up across scaling laws.
+
+"If only I could fathom the existence of a stone or running water, that would be truly fascinating. Compared to that, the taxonomy above is just rearranging what we already half-know." (Unknown)
+
+#### K. Knowing and knowledge, epistemology, even ideology? +
+
+Knowing and knowledge, epistemology, even ideology?
+
+1. Known Knowns. Deterministic knowledge - we know exactly which one. (deterministic knowledge above)
+2. Known Unknowns. We don't know which one, but we know how many of which type; i.e. the distribution. (known pdf, aleatoric uncertainty above)
+3. Unknown Unknowns. We don't know the p.d.f. either. (epistemic uncertainty above)
+4. Unknown Knowns. Ideology. Fish swimming in water never knowing anything else but water. Possibly thus being unable to perceive the water too? (Zizek @ YT)
+
+Is wisdom the awareness of "ignorance is modelled by the p.d.f", and knowledge is "zero ignorance never to be attained by us humans"?
+
+Knowledge, taste, wisdom: perhaps wisdom is just good taste in curating knowledge.
+
+#### L. Consciousness +
+
+Connection to consciousness. Not a lot specifically, nothing over and above what's true of the brain as per the writing of Karl Friston (of his work I became aware recently; video https://www.youtube.com/watch?v=iPj9D9LgK2A, text https://www.wired.com/story/karl-friston-free-energy-principle-artificial-intelligence/; shortest summary "brain machine works by minimising the discrepancy error between model forecast and observation by better model and/or action in the world", aka "minimize free energy" principle). But had to write some recently, so here.
+
+One view that seems testable to me: consciousness is like the conductor in the orchestra, it's the router in an Mixture of Experts model. Consciousness module is the router in MoE. Experts in the MoE are the individual members of the orchestra, every one playing their own instrument. So while the router is not a very big or a very special module (in fact - it's in many ways simpler then the specialised modules) - it's a single point of failure. So once consciousness (in HI brain) / router (in IA MoE) fails - no expert can learn properly, or even if the experts learns, the knowledge can not be utilised.
+
+MoE architecture is the reason why it's so data efficient. Sparse representations, by virtue of injecting that prior knowledge in the process ("these connections for this data do not need updating"), can be data efficient. It's efficient to know in advance "this data is no use to Experts 1,3,4,5, and is to be used to reach only Expert#2". MoE maybe a reason why we have too many neurons. Our brains are less efficient than NN-s when it comes to utilising their weight. NN-s are much more efficient than us humans, when looking at efficiency in weights sizes space. Our brains trade parsimony in weights space, to gain efficiencies to gain speed and reduce power consumption - both achieved by MoE.
+
+Further: sparse representations (and MoE is a macro-scale example) may make incremental learning, which is one way to implement continuous learning, practically doable. If only a limited set of weight need to be updated, for the brain to acquire new memory or knowledge, that means it can be done without losing all other previous memory or knowledge.
+
+Another view I read recently - and *not* disjoint with the previous - also rings true to me. On everything I observe, many conditioning variables come and go, but there is one condition (that can be mapped to a variable) that is 1) consistent over time, almost unchanging; 2) present for me, but absent for everyone else - the "I". It's always, in anything I observe, that I am the observer. This is true for me 100% of the time and false for anyone not me 100% of the time. It would be to advantage Re: compression - so ultimatelly learning - to identify that, and create the "I" dimension/quality, as all else observed is conditioned on it. 100% Presence of "I"-var is the constraint that is never broken. That can be of some use, one can take advantage of that invariant. "I" to myself ("I") is like a black hole, as I can't observe "I" directly, but only through the indirect influence "I" has on everything I observes. Like a microscope can't see it's own parts - only in another (imperfect) copy of self. This a plausible mechanism of how we get to create our "I"-s - as a byproduct of efficient learning. (read the idea recently in Schmidhuber, 2009)
+
+#### M. Etc +
+
+Information can reduce knowledgeAmusing paper illustrates how new/more information can make the entropy (uncertainty) higher, thus reducing our knowledge. Where our knowledge measure is the spikiness of the probability density function. After the additional observation (new information), the conditional p.d.f. post the observation is flatter then before => our knowledge about the world decreased.
+
+Michael R DeWeese and Markus Meister (1999), "How to measure the information gained from one symbol", Network: Computation in Neural Systems, 10:4, 325-340, DOI: 10.1088/0954-898X/10/4/303
+
+The paper contains an example along the lines of: let's say I want to know if I have cancer or not right now. Let's assume that for my demographics, the chances of cancer at my age are 5%. So I can be reasonably sure that I have not got cancer (95%). Now I do a test, and the result comes back positive. Now - we know that half of the people that test positive turn out to have cancer for real, and the other half are false positives. After the test, my chances are 50:50 - I'm perfectly ignorant! Whereas before the test, I was fairly certain I have not got cancer. So the new information provided by the test, it reduced my knowledge: from almost certain, do perfectly ignorant.
+
+Incomplete theory? In betting when quant trading, we don't just take the point forecast (e.g. mean \( \mu \) ) and run with it. We take into account the 2nd moment \( \sigma \), some measure of variability around the 1st moment, as our measure of risk. We use it to counter-balance using the first moment in point forecast with e.g. \( \mu - \sigma^2/2 \), or as part of a constraint on the size of the bet we will place. This is to express that we have at least two objectives. Yes we want to make earn $$$ (#2), but in order to do that, we have to stay alive (#1). We need to live to trade another day. Going bust is a game over, once we stop trading on day \( 50 \), there is not trading on days \( 51, 52 ... 100 \) anymore. Our game is non-ergodic: a \( 1..100 \) sequence in time can not be replaced by ensamble of 100 copies of us in 1 time moment - that would imply independence. But us staying alive to trade day 100, depends on doing the same on days \( 1, 2 ... 99 \).
+
+I like the Theory of Information finally gifted to us by Shannon in the 20-th century. But sometimes I think that it's more restrictive than it needs to be. Every result has a real physical embodiment, we could run an experiment, count, and see with our eyes that our intermediate result in a long chain of derivations holds (is true). That's great, but maybe an overkill - the theory doing more than it needs to. Because often we don't care about intermediate results, it's not a must that intermediate results have physical interpretation. We really only care about the start, and the end - don't care about the middle. The theory needs to work in the middle, but the practice doesn't need to. E.g. we happily run with complex numbers, and they make things previously impossible to compute - possible. And yet - we don't stop and requite 1:1 correspndence with reality at every step. It suffices that the 1st and the last step have mapping to reality. The intermediate steps - they don't need to. E.g. using complex numbers in Fourer Transform in signal processing. Or using 1000s-dimensional vector spaces that we can't even imagine, and certanily can't see. There are concepts like 'confidence' supplementing 'forecast' probailities, that are not as straightforward to express in the current framework as one would hope. Maybe extension to complex probabilities, or even just ingenious tricks, will come to be helpful and useful? TBS
+
+Another unaddressed issue by the Theory of Information has always been - model size, how much data can support how big a model, or more general - model discovering structure in the data, HOWTO. The way we do model sizing by trial an error, and without much useful theory we can apply, always felt unsatisfactory. ('make the model smallest it can be, but not smaller' - is the extent of the help we practitioners get) It's delightful when the issue pops up even in ordinary computer use with puzzled users "why can't I zip my zip file again, and shrink it even more??" 😅 Recent interesting read From Entropy to Epiplexity: Rethinking Information for Computationally Bounded Intelligence - TBS if anything practical transpires.
+
+David Galbraith https://davidgalbraith.org blogs and articles ("A finite noise window for concentration of a shared flow") of interest that I have yet to read and grokked - pointers here and here.
+
+Large Language Models. Put $5 on Open Router. Go to the Chat tab. Add the "Flaship models" of the day (today - Kimi-K3, GPT-5.6, Gemini Pro Latest, Qwen3.8-Max, Opus-5, Fable) to the chat to be your conversationalists. Say "Think long and hard about these musings. Tell me what you think of them. Take your time, think a lot, don't rush." Paste below anything you might be interested in on the day. Have gotten useful feedback on this page there. TBD to incorporate and address here. WIP have not got the time rn.
+
+---
+
+# Conciousness
+
+Source: https://ljubomirj.github.io/post-consciousness.html
+
+## Consciousness
+
+### Q: What is your current working definition of consciousness?
+
+Everything I've heard from Joscha Bach (JB) makes every sense to me. (and Michael Levin) I have not got much to contribute on top of that. So just enumerating things heard and remembered (even if not super-faithfully) here. To have a brief in one place.
+
+The last thing that personally puzzled was: why is consciousness such a big deal? Yeah we have reasons to think "there is something there", and we can't "pin it down". But our world is filled with such wonders. Why is consciousness so special? IDK. Then recently heard JB on a podcast say "Aristotle didn't think consciousness was a big deal." - and that made me feel better. (latter I heard Pinker say that Dennett thought it "not a biggie" too) Maybe I should take consciousness more seriously. But that would be like a non-believer that realises he'd be better off, if he could make himself believe in a deity, when surrounded by theists. Now knowing I'm not the only one thinking it's not that big a deal, and knowing of other - infinitely more illustrious - names, eases the discomfort.
+
+Observables that must be true about consciousness (by JB). I agree with JB and this makes every sense to me:
+
+1. Lower level, maybe even lowest level, not "the pinnacle". E.g. baby that grows into a Nobel prize winner had consciousness before they became Nobel prize winners.
+2. Necessary for learning, bootstraps knowledge acquisition. Entities lacking consciousness can't learn, don't learn. Unfortunate kids with brain damage lacking consciousness never learn much, stay almost plants. Zombies in movies lose consciousness at the point of zombification. Their knowledge is frozen to that point, they learn nothing new from that point onwards.
+3. Has element of self reflection. We know that we know. This looks less solid than 1-2 above to me. It maybe we are just telling a story, simply doing what brains ordinarily do (construct models on the fly), just on a specific questions about the brain, when turning the brain instrument unto explaining itself, it creates a model. Completely like every other model the mind constructs, nothing special. Like LLM chain of reasoning: asking for self-reflection "why did you output this" - it simply comes back with another plausible story, completely unrelated to its inner workings. That the object being modelled is the brain itself, makes zero difference. It's like chip design software, running on x86 itself, designing an x86 chip, versus designing an ARM chip. Running on x86 designing x86, does as good a job as, running on x86 designing an ARM chip. No reason to suspect the software running on x86 will do a better job designing x86 compared to designing ARM.
+
+Putting 1 + 2 + 3 together, I'm guessing, consciousness is:
+
+1. Feature of ours and animals brains architectures that implements constraints important for learning quickly in the real world. Something that constrains the weight space, so we learn before we become food for others. It must be evolutionary selected if it appears in every living thing. Must confer some advantage. Learning quicker that the competition is an advantage.
+2. Constraints act on the internal representation, on the weights of the brains networks. A small controller module, that affects the network weights of the rest of the network. It's action is to constrain the other weights in some way, reduce the space of values the rest of the network weights can take. Like enforce consistency, some kind of averaging in time.
+3. Maybe enforcing something meta- about the weights, like regularisation - "prefer smaller weights", or maybe sparsity - "prefer fewer non-zero weights". (yeah regularisation and sparseness are in tension with each other) These maybe means-to-an end: ways to end up with the trillion dimensional weight space avoid some pathological cases.
+4. Or maybe it's one-off, developmental, like choosing architecture, layers (what neurons never connect). So once the brain develops almost fully past childhood + teenagehood, it becomes less relevant.
+5. The puzzle that biology HI use less data than AI, is more data efficient - maybe consciousness is a factor there? If knowledge is represented as acquired (joint) probability function, just placing a bump quickly in it at the (leaves rustling,tiger)-point rather than waiting for it to occur 10 times offers survival advantage. To my mind everything that can be known about the relationship between X and Y is expressed by their joint p.d.f. \( f_{X,Y}(x,y) \). Knowing that function is knowing. Intelligence is querying it with an \( X \) observation \( x = a \), and coming back with knowledge about the goal \( Y \) from the conditional \( f_{Y|X}(y|x=a) \) that has better error profile than the unconditional marginal \( f_Y(y) \). (both conditional and marginal functions are derivable from the joint) "Better profile" is minimizing future expected surprisal. ("expected" there implies knowledge, the joint pdf; only having knowledge gives rise to expectation.) "Surprisal" is the residual part we fail to forecast. Aside: Chain-of-Reasoning is when we come up with R, which is not observed but created as an idea in our mind. R can be a possible factual like X (possible in the world). But also R can be a counter-factual, impossible to appear as observation X. Either way, this has to be such R, that P(Y|R,X) brings us closer to a "good" Y than P(Y|X) does. (NB from the joint we also have P(R|X) at our disposal too.) These CoR discrete jumps via R, (possibly across local saddle points?) aiding searches via R, can't be steps too far. They have to be close (~20%?) to the current state, for us not to get lost. (if too far the chance of being of use drops a lot; like stepping over stones crossing a river)
+
+### Q: How would you test for machine consciousness?
+
+General: pursue it assuming very low SNR to any evidence brought in. Via commonality - wherever I observe some consciousness effect 1-3 above, I then seek evidence to support finding 4-8 above. Via contrasting - wherever I observe consciousness effect 1-3 above, where I found 4-8 above, now I look to remove 4-8, and see if the effect 1-3 disappears. So compare and contrast both. Need to gather both positive pro- and negative anti- evidence, as in the case of consciousness, both the Q-uestion, and the A-nswer, are unknown. There are too many moving parts for much comfort. Maybe that's the "hard problem" referenced??
+
+Concrete steps:
+
+1. Given it's shared by all living brains, assume it's shared by all AI brains. Take a bunch of LLM-s. Then look - along the lines of the work of Evelina Fedorenko seeking commonality in common language space - look find common things between them, that can be fit in the 1-3 observations above.
+2. Look at work of the likes like Chris Olah, try divine features that are structural. And than look again for that commonality in all of them, with an eye to 1-3.
+3. Assuming all current LLM-s are conscious to non-zero degree, would think of ways how to zombify them. Whatever I think I found in {9,10} above, try to destroy undo that. Do the networks become less conscious now? In terms of 4-8?
+
+### Addendum on the consciousness experiments designs. (aug2025)
+
+(even if I think it a nothing burger as learned from your Bach Re: Aristotle, Dennett)
+
+Look at known but still unresolved why/how-s differences between analogue HI (all life really, and at all levels of org hierarchy) and digital AI-s:
+
+1. Perpetual learning without end. Digital/AI systems collapse. (so we stop training before) Whereas analogue/HI systems (all live systems in general) don't crash and burn, learning without end doesn't undermine them. (except in psychiatric/mind illnesses maybe?)
+2. Truly online learning. Analogue/HI has no batches, no memory except for Now, no buffers no replays, (except maybe memory consolidation while at sleep states?) is at permanent epoch 1. Whereas digital/HI have mini-batches so we need buffers, and epochs >1 so we need "true" (computer) memory. That learning regime is not even that well justified by the maths of it. (more like "motivated" by somewhat hand-wavy control theories)
+3. Counter arguments to 12 and or 13 above, why not do them. Maybe the above 12/13 are not connected strictly to consciousness, but connected to: HI is good with many more parameters than observations, while (current) AI is good with many more observations than parameters. (but this can be folded in the experiments to test too?)
+
+### Addendum after listening to the Tegmark ToE interview. (sep2025)
+
+I liked everything Max Tegmark said on that. And especially liked him say "enough with the aww-shucks what impenetrable mystery could-be-this could-be-that impossible for us mere mortals to tell; let's design experiments, and measure, and yes it's not easiest to measure but not impossible too - physicists measure far more nuanced things all the time, and lets start ruling out some guesses."
+
+"How Physics Absorbed Artificial Intelligence & (Soon) Consciousness" https://www.youtube.com/watch?v=-gekVfUAS7c, Theories of Everything with Curt Jaimungal, Sep-2025
+
+Consciousness view: it is like the conductor in the orchestra. It is the router in an Mixture of Experts model. Consciousness module is the router in MoE. Experts in the MoE are the individual members of the orchestra, every one playing their own instrument. So while the router is not a very big or a very special module (in fact - it's in many ways simpler then the specialised modules) - it's a single point of failure. So once consciousness (in HI brain) / router (in IA MoE) fails - no expert can learn properly, or even if the experts learns, the knowledge can not be utilised.
+
+MoE architecture is the reason why it's so data efficient. Sparse representations, by virtue of injecting that prior knowledge in the process ("these connections for this data do not need updating"), can be data efficient. It's efficient to know in advance "this data is no use to Experts 1,3,4,5, and is to be used to reach only Expert#2". MoE is a reason why we have too many neurons. Our brains are less efficient than NN-s when it comes to utilising their weight. NN-s are much more efficient than us humans, when looking at efficiency in weights sizes space. Our brains trade parsimony in weights space, to gain efficiencies to gain speed and reduce power consumption - both achieved by MoE.
+
+Sparse representatios (and MoE is a macro-scale example) may make incremental learning, which is one way to implement continuous learning, practically doable. If only a limited set of weight need to be updated, for the brain to acquire new memory or knowledge, that means it can be done without losing all other previous memory or knowledge.
+
+---
+
+# Why Write
+
+Source: https://ljubomirj.github.io/post-why-write.html
+
+## Why Write
+
+Q: Why write in public when you can write in private?
+
+A: Yes I have a plain text file ~/logBook for simple note taking. That just works, no fuss.
+I do minimal extra work to have it versioned in $HOME/.git, and structured in sections FIXME / TODO / DONE / DONTDO.
+
+However. I catch myself bothering people close to me, family and friends, with things I find interesting to talk about and or discuss, that they find less interesting even boring. :-)
+
+So these home pages are written is to take those themes out of my system, while not bothering any of the above mentioned. Only people to read will be online randoms that stumble on this by their own volition - so fine.
+
+Q: Why not use social media, social networks?
+
+A: Yes I do use social networks - most often X @ljupc0, sometimes Bsky @ljupco.bsky.social, rarely Mastodon @ljupco, and lately I even typed couple of "Old Man Shouts at the Sky" rants on Substack @ljubomirjosifovski to get them out of my system.
+
+There is tons of interesting stuff there, mostly on X due to its user size and "the Iron Law of public N^2 square". I post there, but it seems mostly replies and comments to what other post. Rarely I have something super interesting and urgent that I want to communicate to the world by having the algofeed stuff it into people's timelines.
+
+Then while doom scrolling I stumbled upon -
+
+https://x.com/CJHandmer/status/1839816029473779775
+Casey Handmer, PhD @CJHandmer
+This is your periodic reminder that you should write a blog. It doesn't have to be fancy, it doesn't have to be well-edited. It just has to be something you can cumulatively add to over time. It's easiest to write about stuff you like, and ignore your non-existent audience.
+12:54 AM · Sep 28, 2024
+
+My initial thoughts were sceptical still - why do it, when there are
+
+1. logBook for things private;
+2. X/Bsky/... for things public; and even
+3. ChatGPT when audience of >1 is needed, while not exactly needing to broadcast to the whole wide world.
+
+But then I've come around! I've learned to like ethese pages, my online $HOME in the cyberspace. :-) In addition to them being useful in laying ideas to rest, and moving on. Being bothered for a period of time by the same ideas makes for a boring living. Writing it down here in multiple versions and longer form that can be come back to, add to, revisit old - I like that. It's not one-off, fire-and-forget of online quick paced quanta of ideas. I can only ever hold limited number of ideas in my head at the same time, and not juggle them for long before they crash and are forgotten. This goes towards ensuring 1) they are not lost, "like tears in the the rain"; and 2) can be turned over faster, juggle different balls up there. :-)
+
+Further - it's not only "unload to writing so my head can fill up again". The act of formulating ones maybe vague thoughts and ideas, contributes to their formation. It's not like that what I say, exists inside me fully formed prior. And now I just broadcast it to the world. No - until we communicate out clearly, ideas we communicate are not fully formed. The process of communication contributes meaningfully to the process of creation, is part of it.
+
+Further, with making them public, there will be other people around, that may read, and come back to push back and even judge me! So there is an aspect of Bet-On-It, take some risk, (even if a tiny risk), or being criticised, or even ridiculed. Concentrates the mind. Motivates the self to some self-discipline. A bit of QC - Quality Control not the worst thing to expose oneself willingly. Most thoughts I have, as with most of us humans - are ofc rubbish, better forgotten.
+
+Since starting this, I came across Simon Willison’s blog -
+"You should start a blog. Having your own little corner of the internet is good for the soul!"
+...and now I think there is truth in that.
+
+Another "please do write - it's worth it to you and us too" Why write a blog at all? by Adam Singer since articulates it better than I ever could myself.
+
+---
+
+# Social Networks
+
+Source: https://ljubomirj.github.io/post-social-networks.html
+
+## Social Networks
+
+I spend a lot of time reading (and sometimes posting) on various Social Networks. I have been on the Internet from the very start of it existing and being available. Prior to Internet, I used home made Bulletin Board Systems (BBS) and computer networks like DECNET, X.25, BITNET, etc.
+
+#### X/Twitter
+
+My understanding of how a social network like X/Twitter works is as follows.
+
+Example. I follow 5000 accounts. Each account writes about 1 post a day = 5000 posts a day. Every time I login to X and check X for new posts, the X algofeed serves me 50 posts on one screenful. I check X 10 times per day, 10 times x 50 posts per a screenful = 500 posts that X will show me daily. That is 500 posts, out of the total of 5000 eligible posts that can be shown. The other 4500 eligible posts will not be shown. X must decide which 500, out of 5000 eligible, to show me. Any one post has probability 0.1 to be shown. I expect to see 1 post from 1 account once in 10 days. X algo is non-random and tilts towards factors like accounts interaction (e.g. bio check), engagement with posts {Like,Forward,Quote,Reply}, time of posting. With the timeliness of all these factors is decayed by some half-life (from the event time to now). I presume the most important meta-data is (a) connection (follow/s/er); and (b) timeliness, time of viewing minus time of posting (that decays quickly).
+
+#### Algofeed
+
+The Algofeed has no idea about the meaning (let alone the truthfulness) of any content in the post. So afaik the Algofeed has meta-data only to go on, when deciding which post to push onto millions of user screens. I thought by now with all the LLM-s (and DNN-s before) posts and accounts would have been judged by the content much much more, even if with a single word2vec type vector. And that the Algofeed would take that into account. But I have not seen anything to indicate that there is any content processing.
+
+Algofeed using meta-data mostly strikes me as being "judged on the color of your skin" phase of the Social Network-s, and would be good to transition to "judged on the content of the character", of each and every one of the posts. (and downstream - users)
+
+There's is no censorship involved - I can go to every one of those 4500 accounts home pages, and read every one of those 4500 posts.
+There's no moderation - those 4500 posts are perfectly fine.
+They are not even totally suppressed - another user may have his 500 shown posts come from the 4500 not shown to me. (the algofeed will on average prefer some over the others though)
+The algofeed simply has to make a selection, as it's not physically possible to fit 5000 posts on my screen. As simple as.
+
+Not having an algofeed is impossible. Not only X but all social media - FB, IG, TikTok, TG, etc. This is how it works. The Algofeed moderates every user experience every second. There is not a moment that we the users don't get the algofeed doing something for us. I read people write "I don't want no algorithmic feed. Just give me the posts of users I follow in reverse time order". Well - you just described a specific algorithmic feed. (aside: I do want that feed too, sometimes. There is no reason why us users can't have the choice of 1000s of Feeds. To some extent that happens on Bsky; that is afaics the only remotely plausible X/Twitter competitor atm).
+
+#### Publisher 9/10-ths, carrier 1/10-th
+
+I heard this metaphor / abstraction by Yuval Harari recently. The algofeed deciding which 500 posts I see today out of smaller selection of 5000 (out of total of 1B possible per day) is an editor (even if automated), and X is a publisher (even if automated). The users are readers are also writers creating content without commission or pay. I don't see how X (and FB, TikTok etc) are not media companies (as opposed to - a point to point carrier of signals). They are even selling and living off adverts! :-) (mostly; X not so much nowadays) This idea is unlikely to be accepted easily. I also like to have the freedom to find all manner of crazy insane untrue stuff online. I defo see though how there is tension between freedom, disagreement, competition and order, working in unison, cooperation. Good @harari_yuval on @seanilling's "The Gray Area | Yuval Noah Harari on the AI revolution" https://www.youtube.com/watch?v=uhx1sdX2bow on this.
+
+We have implicit abstraction in our heads that X/Twitter is a kind of public square, with many-to-many N-to-N, ultimately all-to-all communication. It ain't so. That N-to-N does not scale to N=100M users, it breaks down after N=10 or so.
+When a user posts something, that post is simply recorded on a computer (disk). Nothing more. Yes - it's the user that presses the post button. No - that doesn't push the post into millions of timelines. It's the algofeed that takes that post, and shoves it into millions of screens.
+I am inclined to agree with Harari on that. Social media are Media, X is a publisher, and their algorithms are their editors. It's fair to judge the algofeed should by the same criteria as the editor of any old media. It's new kind of media, but it's still Media. All elements are here, with small differences in operation or business model, and plenty of automation in top.
+
+#### Other, wishlist
+
+Advertising. In non-social one-to-many media the adverts are broadcast to all. So if there is a falsehood or slander in an advert - everyone can see it, then provide feedback and critique. In social media (e.g. FB) one-to-one advertising is completely private. Every one use may be shown a (a) separate and different advert, and (b) completely untruthful, and there will be no way for anyone else to know. The advert is 1:1 between the user and the platform, completely secret. Platforms should be required to provide access to the adverts they serve to a third party. Ideally - adverts should be available for inspection by all users at all times, and in an online archive too with the historic adverts there too.
+
+Community Notes. I got enrolled at some point (not sure why - I vaguely remember X offered, and I agreed) in the Community Notes programme on X. I get to vote on Community Notes others have written. And also to add notes for others to vote on - but have not done that yet.
+Someone explained that the logic/istics behind is: find sufficient group of people that disagree on other issues, but agree on the note, for the note to be published. That strikes me as valuable insight. I'm surprised how well it works. Have to look up again the maths, the linear algebra of it - there was some SVD involved.
+It's good, but it's wholly insufficient for a network flooded with falsehoods on an industrial scale. While the notes are being submitted and voted on, the Algofeed pushes the Post onto millions of screens. Then after a week, a Note is ready and published. From now on, it will be shown together with the original post - good. If I clicked Like or Repost, I will get a Notification that a Note appeared - good. However - millions of people that merely viewed the original post when the algofeed pushed it onto their screen - they will never see the Note.
+It's the Social Network equivalent to an old style Newspaper correction. A false story is splashed on the front page for millions to read. Then a week latter, Correction appears deep on page 23, that few read. Good that it happens - but insufficient.
+
+As with other things, in social networks too: incentives -> results. Engagement is maximized when 1/2 of users are at the throats of the other 1/2, and that's exactly the result we got. Took time but we are reaching that destination.
+I want to get 1000 Feeds on X, incl some user defined, instead of the medieval choice of 2 - "For you" and "Following". X went wide did Communities, some way towards conference style (current leader in that is Reddit), instead of deep improving the quality of their core product.
+Another thing I want to see is RealHuman flag, and I'd pay small one off fee for that. And then to be able to filter on that flag (or not). That's unlikely to happen too it seems.
+
+#### Replicate your social graph Follows-Followers
+
+Starting a new platform is so hard as to be impossible, because it's a collective action problem *and* needs to happen at the same time in a short time window. Only external event can force that, c.f. Brazil ban.
+Best one can do in the mean time is replicate their Social Graph, find their Follows and Followers, on alternative platforms. There will be insufficient traffic there. The "public Square N^2 iron law of network value" ensures the biggest network wins every time. NB the posts have rarely have permanent relevance. They are more like flowing water, are quickly re-created. Most are time-events-sensitive anyway, the content is non transplantable in time. It's not the posts that keep users locked in the social network.
+
+The "social graph" that is Followers-Follows is what keeps users locked in a social network. I saw the "portable social graph" 1st on Mastodon. So having your Social Graph at the ready on an alternative place is half the job done. It's also prudent - anything may happen to X/Bsky/FB etc, incl being banned by a misfiring algorithm (there is rarely any human support). Given alternatives are free - I see no reason to not reserve your favourite user nickname on Bsky or Mastodon or similar.
+
+Periodically there is discussion on X/Twitter if users need or want to switch to some other network. I don't think people will switch any time soon, unless forced to do. I keep accounts on multiple platforms anyway. Imo the largest single public square N^2 wins every time - that's the iron law of social anything.
+It's expected and explained in (computer) networks: the number of connections ~N^2 grows with the square of the number of nodes ~N. And the value to us, users, lies in the interactions facilitated by those connections. And those connections accrue with the square of the user base. Between a larger (2N) and a smaller (N) public square, the larger one will provide as much value in a ~day as the smaller one in a ~week. Users will switch smaller->larger, increasing the difference, in a +ve feedback loop. Until approx only 1 remains standing. Ultimately it's a winner takes all.
+Switching to another network is a very specific collective action problem. Social media natural monopoly network effect can only be circumvented by synchronization, moving *at the same time* by millions of users. The timeliness makes all the difference - must be all at the same time. So Brazil user base may switch b/c the ban forces them to move at the same time. UK user base is unlikely to switch as there is no ban.
+
+#### TINA, but use tools available too
+
+There are no reason to not create a Bsky account. It's easy and free. Comparing X:Bsky=100:10 millions of real users (assuming much bigger X bot ratio), ratio 10, squared makes it 100. Do I see as much interesting stuff on X in 1 day, as I see in Bsky in 3 months? Possibly. For me maybe the ratio of value is lower, but ~2 months seems plausible to me.
+
+Personally, I find my Twitter experience positive overall. I read about negative encounters, but I rarely see ugliness on my TL. I believe it the 1st time when people show me who/what they are or stand for: I am quick to block and mute, not into giving 2nd chances (online; IRL I'm not like that). There are another 8 Billion people that we can interact with online! No need to easily avoidable aggravation. I rely on Lists - Sci-ence, Tech-nology, Comp-uting, Bio-logy, Che-mistry... - to curate my feeds beyond just "For You" and "Followers". Lists help shape the timeline, maintain focus and have ok SNR. Additionally, I tie individual Lists to separate Decks on XPro, effectively creating personalized thematic websites. XPro decks setup for X Lists. (click to zoom)
+
+I find Bsky ok, just fine. The Feeds feature is much better than on X! Users are not constrained to the 2 feeds ("For You" and "Followers") that X deigned to supply. I count Mutuals, FollowersLike, OnlyPosts, Folowing, LatestFromFollows, BestOfFollows, Discover, PopularWithFriends, QuietPosters, WhatsHotClassic, CatchUp, TheGram... And there many more to choose from. Seems both users and developers can create both simpler and more complex feeds, with dozen baselines provided by Bsky. Pleasantly surprised to find deck.blue bsky decks too. Transferring user lists is a chore though, finding the same people is hard. "Sky Follower Bridge" works well as described in https://www.wikihow.com/Import-Twitter-to-Bluesky, but it's still weekends of manual work. Ofc, even if you find the same people, most post on X much more than on Bsky. Going back to short/original length posts and having to chain long post as 1/ 2/ 3/ etc parts is annoying tbh.
+The deck.blue decks setup for Bsky Lists. (click to zoom; I see "Quiet Posters" were quiet for real or the feed was down)
+
+#### Algofeed and S230?
+
+Doubt that anyone is coming after the Algofeed - but maybe someone should. S230 I am happy to (effectively) protect me, and other humans, and also X from me. However, S230 should not protect the X Algofeed, as it's not a human, from shoving insane dross onto 100M screens daily. Engagement is maximized when 1/2 is at the throats of the other 1/2, and that's exactly the result we got. Years passed, yet there's been minimal improvement in my Algofeed experience. Only change I remember was "For you" and "Following" separation as top-line option (it used to be in Settings or some such half-hidden place before Musk). I hate it that things stagnate, nothing changes for ages, hundreds of suggestions posted on "X bugs & features" Community are ignored. I guess this is what Social Network monopoly looks? No idea how to incentivise X to give me better choice there - I want a choice of 1000s of Feeds. X are asleep at the wheel. Maybe a kick in the backside, some stick is needed to shake things a bit in that space?
+
+I read an explainer on the state of the play, the history, the dilemmas, the legal issues, and including the most recent US court rulings that maybe relevant (or not) for the future by @matthewstoller at https://thebignewsletter.com/p/judges-rule-big-techs-free-ride-on.
+
+Thinking back at the time in the 90s the context in which S230 arose. This was time of ISPs like Prodigy, AOL, Compuserve, some of which were standalone non-Internet connected platforms to start with (and connecting to the free Internet afterwards, some trying and failing in creating own private walled gardens). As Internet as is now didn't exist! So they were kind of similar to a telephone company in that we used a telephone to access them. Like an add-on service to my phone service. Then with Internet ISP-s started adding services - connectivity to it, Internet email, maybe small personal web pages space, etc. In that context ISP-s got protection from liability arising from carrying user-generated content, in e.g. email lists, personal web pages and similar.
+
+It strikes me that modern Social networks now are nothing like that. Now it's an entirely different world, completely unrecognizable to how things were in 1990-s when these laws were put in place. My ISP that is broadband provider has no relation to X. Not sure what's to be done. This is US and Law - two areas I'm no expert in.
+
+#### Medium, message
+
+The medium shapes the message applied to current social media - examples.
+
+1. Reddit. Thematic conferences where a new message is longer post on some topic in that conference. Replies discuss that topic in great detail. Audience: like minded randoms around the globe that will not be met IRL, interested in the same topics. By the tail end can be extreme niche subjects.
+2. Facebook. Personal stuff, short messages and photos, documenting IRL what's happening to me in my life, along the times axis. Audience: close family, close friends.
+3. Instagram. Pictures and videos for looks, feelings. The most superficial or aspirational version of myself. Pure form, no function. Audience: everyone that would envy me, friends, distant relatives.
+4. Twitter. Text mainly, short text messages. Text - content is the king not the presentation. Short - quantas of ideas, no place for long or subtle discussion. Shit posting and meming, esp on X. Audience: random unknown strangers, some under IRL names but lots of anon- and pseudo-anons, and bots.
+5. Substack. Text mainly, personal web sites for writers. Longer text form, but also nice pictures and designs. Real people, and almost all under their real life names too. Highest SNR but takes effort. Audience: public intellectuals.
+
+"The medium is the message" is a catchy way to say the medium that carries the message affects the message itself, its content. The medium makes some kinds of messages easy to transmit (so they spread more), and other kinds of messages hard to transmit (so they don't spread). Given that messaging in turn in/forms our ideas, and ideas in/form our stories, and we humans are influenced greatly by the stories in our heads, and then we influence and change the real world around us, it follows: the change of medium of communication is going to change our lives our behaviours. The Gutenberg press did that and there was huge change, then with the radio and latter TV too, and now in our lifetimes initially the Internet and latest social media are doing it too.
+
+---
+
+# Twitter
+
+Source: https://ljubomirj.github.io/post-twitter.html
+
+## Twitter surviving - personal considerations, tips, practices
+
+This is a write down of how I (think I) use X (formerly Twitter). This is not - how to be popular, or how to be an influencer, or how to get a flock of followers. Even to the contrary - these are probably anti-patterns if your are aiming for fame & fortune.
+
+These are written down what I think are my personal tips, previously unwritten guidelines, my own practices, of how I use X. I have gotten a lot out of X! There are many people that complain about all manner of things - but many many more that don't. The number of interesting things, links, discussions out there - is mind boggling. By SNR - it's way way better than the forums of old. I think - I put a only a little more effort than the minimal (about zero), to gain a whole lot more out of X. Same goes for Bsky. By default - both are pretty bland. But - put some effort in aggressively shaping your Follows-Followers, blocking and muting the worst offenders accounts (to whatever your taste is), muting words (esp related to some event - politics elections, football tournaments, etc), adding accounts to thematic personal List-s, and you may see disproportionate returns. There are interesting things out there - but they are like small fish in a humongous ocean. A very low probability finds. So like a gambler tilting the odds of fortuna ever so slightly to his advantage at every opportunity - do try to shift the otherwise unfavourable odds, make them be little less so.
+
+Lately I notice similar usage patterns developing in my Bsky usage. Given there is only X and Bsky, and what was Twitter is now X, I will use the term the "Twitter" as a generic term to refer to both of them. Think possibly Mastodon is similar enough that it can be encompassed too. In the future - hopefully other networks too. The format seems general enough to be own genre. A social media network, primary text-based read/write, with short public posts as default, where posts can be considered minimal units of messaging, "quantas of ideas".
+
+X - tips, guidelines, my practices.
+
+1. On mobile use browser https://x.com/home or X app, https://bsky.app/ or Bsky app. A browser tab is better than an App insofar one can open many tabs, with many views, while the App is only ever a single view. Further, better to use open web standards, and avoid using closed walled garden App-s where possible. What's used lives and develops, what's not used dies off.
+2. On desktop use XPro https://pro.x.com Tweetdeck and deck.blue https://deck.blue/ decks. Default to LISTS deck, check Personal, and only dive into individual lists when time to spare.
+3. Search own history - on X https://x.com/search?q=(from%3Aljupc0)%20-filter%3Anativeretweets&src=typed_query (the -filter:nativeretweets drops forwards/reposts; X started mixing them into from: results), on Bsky https://bsky.app/search?q=from%3Aljupco.bsky.social (click on Latest).
+4. Search own history in date range [2024-03-03,2024-05-13] on X https://x.com/search?q=(from%3Aljupc0)%20until%3A2024-05-13%20since%3A2024-03-03%20-filter%3Anativeretweets&src=typed_query&f=live then click on Latest to reverse sort by time.
+5. More X search tips at https://help.x.com/en/using-twitter/twitter-advanced-search.
+6. Filter own X TL feed with "filter:follows -filter:replies include:nativeretweets" so https://x.com/search?q=filter%3Afollows%20-filter%3Areplies%20include%3Anativeretweets&src=typed_query&f=live or shorter https://x.com/search?q=(from%3Aljupc0)&src=typed_query&f=live.
+
+TL curating, dual aim: maximize SNR, maximize interaction. Assume value comes from connections between nodes.
+
+Expected hit rate ~1% for minimal interaction (Like) that carries zero risk cost to the reader when reading a post user wrote.
+
+Rules of thumb - break them with a reason, but not without any.
+
+1. Accounts to follow: any that seem interesting, notable, authors of books, videos, blog posts, podcasts etc you have already read, heard, watched. If recognize the name or the face => follow. Those that are mutuals - select +Notify on them to be reminded of their existing. X-algo mostly cares about 'Follow'-ing, but not about 'Mutual'-s where we both follow each other. Notifications were broken for most of X existing, but work lately. So use them for Mutuals. Mutual is a much stonger signal, N^2 instead of mere N. X is stupid/malevolent here - so use Notifications as a reminder for (Mutual,Now) post. Notifications should only be shown for Mutual-s. Where they are not a Mutual - turn off the Notification check mark.
+2. Follow back everyone that follows you as a default to start with. Take a chance on the possibility of interaction. (even if it's a small one.) Exceptions obvious spam accounts: elonmuskXXX, phishingXXX, celebrityXXX, influencerXXX, cryptoXXX, tradeXXX, casinoXXX, girlXXX, motivationalXXX. Don't follow obvious trolls, fakes, pseudoanons that are high volume general posters unless thematic (technology, science) that is of personal interest.
+3. When deciding should I follow or not, the question asked is: will I like to see this user posts in the future? Have your best guess - yes or no? Look holistically at the combined total of info available, forecast a) is the user a real human? b) will I want to read posts from them? Info: 1-pic 2-namesurname 3-bluecheck \ / Scan for "thick" pic/name/bio, "thin" is a "unfollow" signal as default; 4-@nick 5-followsyou +---+ look at follows/followers>5 ratio, last post/reply months or years ago; 6-bio personal intro presentation hashtags / \ look of the number of posts or replies on their page, is it >100? Up/Down: 1-pic presence/absence, girlpic no/yes; 2-namesurname human like yes/no; 3-bluecheck yes/no; 4-@nick {girly12345,crypto,trading,engagement} bad; weight 5-followsyou yes/no; 6-bio missing or bad words - motivational, spammy, political, slogans, tags, politician/name, current/campaign morass. Filtering: red flags - no pic, bad name namesurname12345, bad nick girl12345 (except where name and nick match), bad bio missing; bad words - "travel love crypto animals countries flags trading politics god christ orphan", acc ratio follows/followers>5; net evidence good/bad flags/words - look for collaborating up/down yes/no decide if to Un/follow. If spending more time than a split second to decide: Grok "Summarise Profile", check profile Pinned post, 1st page of Posts, Replies, Highlights.
+4. Prominent accounts of interest add to Lists. (independent of following/follow status.) Doesn't have to be 1 single list, but don't overdo it: don't want too many lists to look same like the personal @acc. Create new lists, split existing lists at will. Lists: Tech-nology, ML-Machine Learning, QT-Quant Trading, Comp-uting, Data, Sci-ence, Chem-istry, Bio-logy, Phi-losophy, Edu-cation, Fin-ance, Econ-omy, Hist-ory, Cul-ture, Med-ia, Law, Pol-itics, Urb-anism, HPD-Harpenden, MKD-Macedonia, CEEu-Central Eastern Europe, Int-elligence. Assign account to list relative to the significance/meaning of that account to yourself - be very subjective. Depending of how special/general/distinct v.s. other feeds, do/don't set at list level "Don't show these posts in For You". Accounts followed that are high volume so there is 0 interaction - use Lists, add to list then Unfollow. Use "Not interested in this post" and "Show fewer posts from" in the "For you" to shape the feed.
+5. Accounts prolific posters, but boring, silly, propagandists, low SNR, low quality, crazies etc that X algos pushes - add to sink /dev/null list NIL. Then tick "Do not show these posts in For You" for that list in the individual list settings. Block is now uni-directional - use it more. Avoid Mute - it's another chore list to go through in future un-Mute scans.
+6. If something is worth forwarding, then follow the account. Give it a chance, find out. If after a time turns out no synergy - unfollow latter. Exceptions—big accounts with HUGE following: like mass-media of old 1:N boradcasting, zero interaction—don't follow. New follow account—add to a list. Look their bio, keywords matching a list - e.g. Tech-nology, Sci-ence - honour & add to that list.
+7. Unfollowing. Read the "Following" feed, find a posts you dislike, check @acc, if not a mutual - then Unfollow. General rule-favour doers. Don't follow acc known for being known, non-human, #SLOGAN-s, nick123, marketeers, crypto, girlface, neuro/disorder, flags, bolded. Take a look at acc photo-name-nick-bio, ask yourself: do I recognize, can I recall of anything about this acc? If NO => then Unfollow. If you recognize the acc profile, then: do I recall their posts, will I want to read again tomorrow? If NO => then Unfollow. Don't be petty. If you like someone's posts - keep following. There is still >0 value in one sided interaction. Don't spend time checking list membership, assume already checked and added. Accounts following your lists - follow too, look for synergy.
+8. Manual "Activity Feed". When @acc appers in Notifications, use the opportunity to check their posts. Go throught the top pages of their Posts, Replies, Highlights. Read posts, like and re-post, reply to any of interest. Keep in mind un/follow decision is a low-regret one. Be proactive, un-follow if Algofeed is too pushy, re-follow to check back after a time. Don't bother with numbers, don't spend time on QC checking lists, give up on manual curration. Just keep adding users to the lists. When the ratio Follows/Followers is too high, X will not allow you to add to Follow. Then go through the Followers list, just looking at the list Un-follow ones that a) can't recall reading from b) don't follow you c) lack BT d) lack pic e) lack bio f) lack IRL name.
+9. Your own posts. Like your own posts on posting - or not! Use AI to spruce them up - or not! Reasons for liking your own: To remind self that you should really like what you post, to never be ashamed of it. If you don't like what you post—how is anyone else to? Keeps you honest on your toes. Don't get sloppy. Don't hide behind irony, allusions and other plausible-deniability cowardess. Reddit and Hacker News automatically credit one uptick to a post to start with, just for posting. Even if a post turns rubbish: for the chance taken & effort put in writing/doing, in preference to not writing/keeping quiet, a small reward is deserved. Symbolic poetic give it small good luck push. As if a departing boat. A reminder—once posted, post starts a life, a journey, of their own. So they show in the Liked tab, in context with all the other things read at the time and assumed like for making an impression enough to post. Reasons against liking your own: It's a bit pathetic, looks needy. Use ChatGPT to massage and make more palatable longer posts. Try indicate to a knowing user that ChatGPT was used without being explicit: Use **bold** and *italic* formatting as is ChatGPT default, both for that but also b/c longer posts will warant some markup. Don't explicitly disclaim: wastes space, is inelegant, gives credence to the "naturalistic" fallacy. (we don't ack keyboard/computer either)
+10. Mutuals - accounts where we mutually follow each other. Even if no significant interaction, persist. No interaction is probably to X never putting your posts in the their feed and vice versa. Chances of someone checking anyones personal page is ~0. Only ever unfollow if suspect reading theirs reduce your knowledge. E.g. suspected Gell-Mann Amnesia. Don't worry about the numbers, give up on manual curration. The aim is bi-directional interaction of high SNR b/c that's *multiplicative*: 100 good connections outweigh 1000 poor connections. For that to happen—more likely if mutuals, than not.
+11. Accounts that blocked you - block back too no exceptions. While it's emotionally satifying (+1) and tit-for-tat is (paradoxically) fine strategy for better coordination (+2), the final decider (+Inf) is: obviously they found the interaction unsatisfactory. So now: don't insist, that would be both stupid and semi-violent. Block them so to minimise any temptation for any future interaction that X may tempt you into. There are another 8B humans to potentially interact with. Give people a chance. Otherwise prefer (a) NIL sink list shunting; or (b) temporary turn off reposts X is too keen on. Avoid Mute - keep the Mute list empty, it's too much hassle to be maintaining manually both a Mute and a Block list. From time to time semi annually go through the blocked list and unblock every account (ragardless if still blocked). It's manual and 50 accounts/pop before getting throttled by X - but still persever and clear the list. Then start a new cycle from ground zero.
+12. Increase the chance of interaction. Keep active - post, quote, reply, repost, like. Heed X "Who to follow" - follow accounts, unfollow if no traction. Add interesting posts on Highlights. Periodically scan, find topical or interesting post, repost if still relevance not expired with the time passing. There are 8e9 humans, 1e8 on X. Chance to match interests 1:1 is low 1e-16. Keep looking for high SNR interactions. Keep trying to improve the 1% hit rate. Do not attempt manual curation or moderation of the lists, follows, followers etc. Until platform constraint is hit - keep appending to the lists.
+
+X algofeed is moderated every second of the time. Stats as follows. You follow 5000 accounts. Each one writes 1 post a day = 5000 posts a day. You login to X, X algofeed
+serves 50 posts on one screen full. Check X 10 times per day = 500 posts X will show you daily. That is 500 out of possible 5000 to be shown, and 4500 to not be shown.
+X must decide which 500, out of 5000 possible, to show you. Any one post has probability 0.1 to be shown. You will see 1 post from 1 account once in 10 days.
+X algo is non-random, tilts towards factors like accounts interaction, engagement via {Like,Forward,Quote,Reply} of posts, bio check. Prob decayed by time with half-life.
+
+XPro tweetdeck (TLDR: for every list in Lists, add Deck==list; add Deck==list-of-Lists; add Deck==Personal, add Deck==Communities):
+
+1. Have List==Deck, add important frequent prominent posters from a List into the Deck.
+2. Where account belongs to multiple List-s, chose one List only and add it to that one list Deck only.
+3. Have a separate deck LISTS for all lists, and add all your X Lists in it.
+4. Have a separate deck for Personal feeds: Search from:ljupc0, @ljupc0 Notifications, Home For you, Home Following, @ljupc0 Grok, Profile My Profile, @ljupc0 My Bookmarks, @ljupc0 Messages, @ljupc0 Explore.
+5. Have a separate deck for Communities you have joined - add deck Communities and add a selection of joined communities in it.
+
+Archive of my posts is linked here. It's a text dump without much organisation. TBD TODO
+
+---
+
+# Data Debugging
+
+Source: https://ljubomirj.github.io/post-data-debugging.html
+
+## Data Debugging
+
+While reading Spinellis https://www.computer.org/csdl/magazine/so/2024/04/10547621/1XvqtG0iCoE, I was inspired and reminded to write down some data-debugging related practices so that I don't forget about them (may come handy in the future), and also may help someone else. If you have more - please share.
+
+1. Piping is useful for running things in parallel, especially with the multi-core machines we all use nowadays. Pipes provide the simplest dependency graph, and they have automatic IPC synchronization courtesy of the pipes FIFO-s flowing from one process to the next. That allows for individual processes in the pipeline to be run independently on different cores with the data flowing between allowing them to keep busy and not stall waiting.
+2. Drawback of data flowing through the pipelines is that data flow is invisible to us and no record remains of the data available for inspection and debugging. Replacing a pipe "|" with "| tee tempfile |" allows for subsequent inspection of the "tempfile" to see what the data looked like. Example - debug: $ for a in {1..10}; do echo $a; done | wc -l as $ for a in {1..10}; do echo $a; done | tee tempfile | wc -l $ cat tempfile
+3. Vectorised processing via numpy or in languages like matlab or array languages where the default data type is not a scalar (but an array or Ndim array in general) makes peeking into the individual values being aggregated or processed hard and needing extra effort. Use hardware support for NaN to your advantage to prevent accidentally using missing data. Convert missing data on input into NaN in memory where possible (data is float or double). Any operation with a NaN will result in a NaN, so it will be detected in the end. In contrast, stand in values for missing data like 0 can be used undetected. If possible structure processing in the form of apply(function,array) so to use a kernel function that data will flow through. Then insert logging inside it to inspect data flowing through, turn it on/off where insight/speed is needed.
+4. Use any data invariants to your advantage. Add asserts liberally to catch data breaking invariants as early as possible. If possible designate not-a-value for other types (analogous to NaN for floats) where possible, even if the hardware support is lacking: 0 for indices (assuming 1-based), INT_MIN as INT_NAN for integers, nullprt for pointers.
+5. This book has been useful to me for coding, but lessons apply to data too - "Writing Solid Code" by Steve Maguire.
+6. Data is used to run experiments, and experiments must be reproducible (b/c - science!). So: Any external data source used (and thus outside our control) must be cached. It must be possible to run the whole experiment without touching any external data source, only using cached data - so any run is reproducible. Often it's possible to leverage binary native de/serialization capabilities with a bit of care and prologue/epilogue code blocks. Example - python: name = cache_name() try: with open(name, 'rb') as f: st = pickle.load(f) except IOError: st = fetch_from_external_source() ... (maybe initial preprocessing, cleaning) ... with open(name, 'wb') as f: pickle.dump(st, f) Example - matlab: name = cache_name(); st = load_struct_from_mat(name); if isempty(st) st = fetch_from_external_source(); ... (maybe initial preprocessing, cleaning) ... save_struct_to_mat(name, st); end
+7. Version data: where possible/space allowing, and often where the data is ASCII (e.g. .csv or .tsv files) - add it straight to a git repository.
+8. Version data: where not possible b/c too much space - version the binary blobs outside a repository using the filesystem.
+9. Keep ASCII files (.csv, .tsv) on disk compressed in a streaming-friendly format, not only to (a) save space, but also to ensure (b) integrity via checksuming, and possibly even to (c) speed up reading.
+10. Use formats like .zstd and .gz that are append and rsync friendly, e.g. where if $ zstd -c file1 >file.zst; zstd -c file2 >>file.zst, then $ diff <(zstd -dc file.zst) <(cat file{1,2}) produces no diffs. Use --rsyncable in gzip and zstd (NB bzip2 lacks that) to create rsync-friendly compressed files.
+11. If keeping ASCII data compressed (e.g. .csv.zst) in git can enable comfortable diffing - in .gitattributes add: *.csv.zst diff=csv.zst while in .gitconfig add: [diff "csv.zst"] textconv = zstdcat
+
+---
+
+# ML LLM Dev
+
+Source: https://ljubomirj.github.io/post-ml-llm-dev.html
+
+## ML LLM Dev Links and Notes of resources of interest
+
+### Dev, LLM code writing, Agents - coding agents
+
+It turned out coding agents are the 2nd big LLM killer-app. A wide application area with huge unserved demand. The moment people started mass copy-pasta code to-fro chat-gpt, was the moment we all realised: ah-haa! Why do people go through all the trouble, jump through hoops, inconveniences etc, to do that? Because they found it useful! I did it too, I too found it better than the alternatives: 1) coding for myself, solo, me-myself-and-I alone wiht my-code (now), and 2) pestering colleagues to read, them being grumpy the same way I'm grumpy when my attentiion is dragged from writing what interests me, into reading something else someone else wrote what interests them. Thrashing my context inthe process. :-)
+
+The agents have been tremendous success and seen tremendous progress. I'm amazed. I got $250 free CC-web credits when subscribing to a new Anthropic $20/mo sub, and proceed to run Cluade Code - Web for 2 weeks now on-and-off. This was CC running on a virtual box somewhere in the cloud, and communicating via github push/pull and web gui. All the while running Curson for my day job - with the RL trained internal model that's both fast and good, it's a breeze to use. Then there are random CC session on demand in the terminal.
+
+At the start of Oct-2025 codex became so good, that every time I have an idea, I just open a terminal in a directory, and run codex: I command the codex, codex commands the command line. 😆 For me AGI arrived with codex-5-high. I'm loving that socratic dialogue became the new programming. 🥰 In a dialogue between myself and codex, a set of actions emerges materialises somehow, and the job is done. 🤯 In this New-as-old world, we got Chat-as-programming, Dialogue-as-code, LLM-as-cpu, Context-as-ram. Once the QA session exhausts what was on my mind, I pause Ctrl-Z codex into background. On the next session, I continue summon codex back in the foreground with $ fg, and continue from where we stopped last time.
+
+In VSCode I got Cline using OpenAI API on localhost:1234 served by LMStudio. Recently got plessantly surprised to find out both got streaming support for MiniMax-M2 xml based use of tools. Did not expect that! And before that got Claude Code in terminal to use local LLM served by LMStudio. Vai e local litellm proxy running in docker and translating between Antropic API CC wants, and the OpenAI API LMStudio provides.
+
+### Coding agents - local in terminal without sweat, opencode + MiniMax-M2.1 ftw (Jan-2026)
+
+Current best local coder on my againig mbp (m2, 96gb ram) is OSS agent opencode with OSS weights MoE model MiniMax-M2.1 by MiniMax AI. The model quants are by Unsloth MiniMax-M2.1-GGUF served from HuggingFace - a single 55GB file MiniMax-M2.1-UD-TQ1_0.gguf.
+
+The agent, the model, the end point, the interleaved thinking and the tools use - it *just runs*! 🤯 Unbelieveable. I get 10-20 tok/s on average, the longer the context the closer to 10 tok/s. The config is simply:
+
+```
+$ cat ~/.config/opencode/opencode.json
+{
+    "$schema": "https://opencode.ai/config.json",
+    "provider": {
+        "LMStudio": {
+            "npm": "@ai-sdk/openai-compatible",
+            "name": "LMStudio",
+            "options": {
+                "baseURL": "http://127.0.0.1:1234/v1"
+            },
+            "models": {
+                "limi-air": {
+                    "name": "limi-air"
+                },
+                "tongyi-deepresearch-30b-3b": {
+                    "name": "tongyi-deepresearch-30b-3b"
+                },
+                "minimax-m2.1": {
+                    "name": "minimax-m2.1"
+                }
+            }
+        }
+    },
+    "model": "LMStudio/minimax-m2.1"
+}
+```
+
+No special gymnastics or incantations needed - all runs out of the box. LMStudio provides the end point the agent talks to on http://127.0.0.1:1234. Looking at the chat traffic agent-LLM is fun. 😊
+
+```
+2026-01-04 14:47:18 [DEBUG]
+ Received request: POST to /v1/chat/completions with body  {
+  "model": "minimax-m2.1",
+  "max_tokens": 32000,
+  "top_p": 0.95,
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are opencode, an interactive CLI tool that hel...  ... via the configuration files in the project root.\n"
+    },
+    {
+      "role": "user",
+      "content": "Explain the content of this directory"
+    }
+  ],
+  "tools": [
+...
+```
+
+Flash Attention is on, K- and V- caches types both use Q8_0 in the llama.cpp back-end.
+
+### Coding agents - local in terminal, factory.ai-s droid (Nov-2025)
+
+Heh - turns out eavesdropping on @FactoryAI droid talk to @lmstudio is not only useful but tremendous fun! Who knew?? 😂 The model/agent interaction is oft - 'were you raised by wolves, you two, per chance??' 😄 Really? You thought '$ mkdir /Project' will work, that's the way to go? fr! ffs
+Seems droid does not realise it was started in the 'current project directory' to make things easier for it. Do people usually launch their agent on Mars, while wanting it to edit files on Earth??
+
+All these xml-like conversations remind me - the language spoken (the protocol) needs to be human readable. And even better if reading well than poorly. Internet - in addition to being free - IETF very early on cottoned on the fact "no human readable -> no human will get interested -> no one to make it work -> stays cr*p and dies for lack of use". So one could follow SMTP, POP3 and be not only readable, but read oh-key at leasat in not excellent.
+Formalisation of these things into some xml monstrosity is good when teaching principles to students. It's bad if used in actual practice. Much better to in practice make use of every nook and cranny to your advantage, use any accidental twist and turn, to make things more efficient, easier etc. UTF-8 backward compatible variable length encoding comes to mind.
+
+The setup is as straightforward as it gets. For Droid I used
+
+```
+$ cat ~/.factory/config.json
+{
+  "custom_models": [
+    {
+      "model_display_name": "LMStudio/qwen3-30b-a3b-yoyo-v5",
+      "model": "qwen3-30b-a3b-yoyo-v5-qx86-hi-mlx",
+      "base_url": "http://localhost:1234/v1",
+      "api_key": "sk",
+      "provider": "generic-chat-completion-api",
+      "max_tokens": 262144
+    }
+  ]
+}
+```
+
+then once in $ droid, select with /model.
+
+Once you confirm LM Studio is running and serving on port 1234, this should work!
+
+So the model is https://huggingface.co/nightmedia/Qwen3-30B-A3B-YOYO-V5-qx86-hi-mlx, a quantisation of https://huggingface.co/YOYO-AI/Qwen3-30B-A3B-YOYO-V5, derived from joining of 3 Qwen3 models:
+
+```
+Model tree for YOYO-AI/Qwen3-30B-A3B-YOYO-V5:
+Qwen/Qwen3-30B-A3B-Instruct-2507
+Qwen/Qwen3-30B-A3B-Thinking-2507 (a reasoning model)
+Qwen/Qwen3-Coder-30B-A3B-InstructModel 
+Highlights:
+* merge method: yoyo_fusion
+* precision: dtype: bfloat16
+* Context length: 262,144 & 1010000
+Parameter Settings: Temperature=0.7, TopP=0.8, TopK=20, MinP=0.
+```
+
+### Coding agents - fully local in VSCode Cline (Nov-2025)
+
+LMStudio serving MiniMax-M2 that was shrunk so it fits in my mid-memory laptop. And LMStudio supports tools with thinking interleaved and streaming that MiniMax uses - no need to lobotomise the protocol. Then - Cline knows how to make use of that too! No litellm proxy needed. A model minimax-m2-thrift-i1/MiniMax-M2-THRIFT.i1-IQ2_XXS.gguf that fits my VRAM and nothig else is needed - perfect! Not very fast though, and uses all of my 25 Watts on my years old MBP M2. :-) Still - pretty good. All local VSCode - Cline - LMStudio - MiniMax-M2-THRIFT.
+
+### Coding agents - fully local in terminal, Claude Code via litellm proxy (Nov-2025)
+
+Make Claude Code CLI use LMStudio served LocalLLM API to run LLM inference localhost. This worked for me on 8-Nov-2025. I followed Setting Up Claude Code Locally with a Powerful Open-Source Model: A Step-by-Step Guide for Mac with minor changes.
+
+The current working setup is described below. The model is Qwen3-30B-A3B-YOYO-V3-qx86-hi-mlx by nightmedia on Hugging Face https://huggingface.co/nightmedia/Qwen3-30B-A3B-YOYO-V3-qx86-hi-mlx.
+
+##### 1. In the ~/litellm directory create 4 these files
+
+```
+ljubomir@macbook2(:):~/litellm$ for a in claude.env config.yaml docker-compose.yaml .env; do echo -------  $a; cat $a; done
+
+------ claude.env
+export ANTHROPIC_AUTH_TOKEN="sk-1234" # Matches your LiteLLM key
+export ANTHROPIC_BASE_URL="[http://localhost:4000](http://localhost:4000/)"
+export ANTHROPIC_MODEL="openai/qwen3-30b-a3b-coderthinking-yoyo-linear"
+export ANTHROPIC_SMALL_FAST_MODEL="openai/limi-air-qx83s-mlx"
+export CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC=1 # Optional: No telemetry
+
+------ config.yaml
+model_list:
+- model_name: "anthropic/*" # Maps all Anthropic models to your local one
+litellm_params:
+model: "openai/qwen3-30b-a3b-coderthinking-yoyo-linear" # Custom name for your model
+api_base: "http://host.docker.internal:1234/v1" # Points to LM Studio
+api_key: "lm-studio" # Dummy key (not actually needed)
+max_tokens: 65536
+repetition_penalty: 1.1
+temperature: 0.6
+top_k: 100
+top_p: 0.95
+
+-------  docker-compose.yaml
+services:
+  litellm:
+    image: ghcr.io/berriai/litellm:main-stable
+    command: ["--config=/app/config.yaml"]
+    container_name: litellm
+    restart: unless-stopped
+    volumes:
+      - ./config.yaml:/app/config.yaml
+    ports:
+      - "4000:4000"
+    env_file:
+      - .env
+    depends_on:
+      - db
+    healthcheck:
+      test: ["CMD-SHELL", "wget --no-verbose --tries=1 http://localhost:4000/health/liveliness || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+  db:
+    image: postgres:16
+    restart: always
+    container_name: litellm_db
+    environment:
+      POSTGRES_DB: litellm
+      POSTGRES_USER: llmproxy
+      POSTGRES_PASSWORD: dbpassword9090
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -d litellm -U llmproxy"]
+      interval: 1s
+      timeout: 5s
+      retries: 10
+      
+ volumes:
+  postgres_data:
+    name: litellm_postgres_data
+
+-------  .env
+LITELLM_MASTER_KEY="sk-1234"
+```
+
+##### 2. Ensure LMStudio is started, model loaded and running, and LMStudio is serving the default endpoint localhost:1234
+
+##### 3. Ensure the endpoint is reachable
+
+```
+ljubomir@macbook2(::main):~$ curl http://localhost:1234/v1/models
+{
+  "data": [
+    {
+      "id": "qwen3-30b-a3b-yoyo-v3-qx86-hi-mlx",
+      "object": "model",
+      "owned_by": "organization_owner"
+    },
+    .......
+```
+
+…and the fake key is “working” ok
+
+```
+ljubomir@macbook2(::main):~$ curl -H "Authorization: Bearer sk-1234" http://localhost:4000/health
+{"healthy_endpoints":[{"api_base":"http://host.docker.internal:1234/v1","use_in_pass_through":false,"use_litellm_proxy":false,"merge_reasoning_content_in_choices":false,"model":"openai/qwen3-30b-a3b-coderthinking-yoyo-linear","max_tokens":65536,"repetition_penalty":1.1,"temperature":0.6,"top_k":100,"top_p":0.95,"litellm_metadata":{"tags":["litellm-internal-health-check"],"user_api_key_hash":"litellm-internal-health-check","user_api_key_alias":"litellm-internal-health-check","user_api_key_spend":0.0,"user_api_key_max_budget":null,"user_api_key_team_id":"litellm-internal-health-check","user_api_key_user_id":null,"user_api_key_org_id":null,"user_api_key_team_alias":"litellm-internal-health-check","user_api_key_end_user_id":null,"user_api_key_user_email":null,"user_api_key_request_route":null,"user_api_key_budget_reset_at":null,"user_api_key_auth_metadata":null,"user_api_key":"litellm-internal-health-check","user_api_end_user_max_budget":null},"cache":{"no-cache":true}}],"unhealthy_endpoints":[],"healthy_count":1,"unhealthy_count":0}
+```
+
+##### 4. Start docker while being in the right dir
+
+```
+ljubomir@macbook2(::):~/litellm$ docker compose up -d
+```
+
+and verify docker is running file - check some logs
+
+```
+ljubomir@macbook2(::):~/litellm$ docker compose logs -f litellm
+```
+
+5. Setup the right env vars for Claude code, and start Claude Code cli (CC-cli)
+
+```
+ljubomir@macbook2(::):~/litellm$ source claude.env
+
+ljubomir@macbook2(::):~/litellm$ claude
+
+ ▐▛███▜▌   Claude Code v2.0.36
+▝▜█████▛▘  openai/qwen3-30b-a3b-coderthinking-yoyo-linear · API Usage Billing
+  ▘▘ ▝▝    /Users/ljubomir/litellm
+
+> /model
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+ Select model
+ Switch between Claude models. Applies to this session and future Claude Code sessions. For other/previous model names, specify with --model.
+
+   1. Default (recommended)                            Use the default model (currently Sonnet 4.5) · $3/$15 per Mtok
+   2. Opus                                             Legacy: Opus 4.1 for complex tasks · $15/$75 per Mtok
+   3. Haiku                                            Haiku 4.5 for simple tasks · $1/$5 per Mtok
+ ❯ 4. openai/qwen3-30b-a3b-coderthinking-yoyo-linear   Custom model ✔
+ 
+  Enter to confirm · Esc to exit
+```
+
+6. That’s - it should just work
+
+### Coding agentss - in terminal
+
+Current workflow is:
+
+```
+# An Architect model is asked to describe how to solve the coding problem. Thinking/reasoning models often work well in this role.
+# An Editor model is given the Architect’s solution and asked to produce specific code editing instructions to apply those changes to existing source files.
+# https://aider.chat/2025/01/24/r1-sonnet.html
+aider-openrouter-best() {
+  local -; set -x; env AIDER_START="$(date)";
+  aider --architect --model openrouter/deepseek/deepseek-r1 --editor-model openrouter/anthropic/claude-3.5-sonnet;
+}
+```
+
+Atm waiting on a glitch to resolve -
+
+```
+architect> litellm.APIError: APIError: OpenrouterException - 
+Retrying in 0.2 seconds...
+litellm.APIError: APIError: OpenrouterException -
+```
+
+...and so I'm realising now I more often then not now I have it write code for me.
+
+It's not even that much faster atm tbh! By the time I have thought through, explained in detail in INSTRUCTIONS.md — I could have read up the sources, the docs, and done it myself.
+
+The only explanation I have to offer, that I only now—waiting on the OR api to come back—have, is: it's **much more fun**!! 😍
+
+It's much more fun to have someone else write the code, and even if need be talk them into "no no—not that way, change this, change that", than to do everything myself solo and in silence!! 😆
+
+Ok—this I did not expect. 😛 That the most entertaining—wins. 🙃
+
+Is vibing the way code wring will scale x10, x100 next??
+
+#### LLMs for coding - pre-history, chatgpt copy-pasta
+
+1. Start with ChatGPT copy&pasta - works but limited & manual, little time saved.
+2. Onto Cursor - nice but not much gained, not even wrong.
+3. Over to aider cmd line - some result there, even if cr*p result... but looks like it could be improved?
+4. Current VSCode gui + Cline addon + OpenRouter payg credits + Claude model. Well hello!! Finally produced something not obviously wrong.
+
+Until today the best I got was: in ChatGPT-o4/o1- etc, copy & paste code snippet(s), ask a Question, then incorporate the Answer in the soluton. So this was a replacement for 1) googling and reading web pages 2) search through Stackoverflow Q&A.
+
+This is the 1st time I got code inserted in 3 files. That required AI to 1) read through 5-6 files 2) compare and contrast, reason by analogy 3) take my requirement Q in considerion 4) edit 3 files, delete some code, insert some other code.
+
+I have my main codebase, about 200K LoC in an array/matrix language mostly, with some C/C++/bash/awk/sql too.
+
+I'm agnostic Re: tools. Fallback always available is bash/vim/Makefile/gcc/g++/gdb/ddd/shell/... tools. But if IDE like VSCode/Spyder/CLion/Matlab/DBeaver is available - I'm happy to use. As long as it's not exlcusive, and one can edit/setup outside the IDE too. And esp important version contol - git now, prev hg, cvs, Teams. If that works - then all is good.
+
+I tried Cursor. That looked hopeful, but did not get me results. I didn't like not being able to use existing API subscriptions in it. Also them using some kind of LLM in-house undocumented bodge. (I maybe wrong/maybe possible - didn't try too hard)
+
+I then tried aider, a command line tool. That managed mutiple edits, but to not too good results. Waste of time wrt results, but: it was a good learning curve for me. I PAYG subscribed OpenAI -> DeepSeek -> OpenRouter.
+
+OpenRouter leader board led me to Cline VSCode addon. Latest-greatest setup atm 1) VSCode 2) with Cline Addon 3) OpenRouter API key (payg credits) 4) select Claude 3.5 via openrouter/anthropic/claude-3.5-sonnet.
+
+The dev task was as follows. Functionality A/B/C needs implementong. Look at existing wrapper X implementing A/B/C, while using Y external library for A/B. Create new wrapper U, to use external library W, in the same way X is using Y, to do the similar A/B. (C is done in X and U respectivelly) E.g. - see how the data is passed X-to-Y, then do it the same way U-to-W. Look at examples code in the W library, figure how to do A/B.
+
+This to avoid doing the reading abt W and figuring A/B myself. I can do it myself, have done it half a dozen times already, for U/W equivalents, but: bit boring, and wanted to find out if I can make AI do it for me.
+
+Have yet to finish the full loop, the code does not run yet. But - before it was laughably obviously bad and wrong. Now - the 1st time where the code looks plausable. Need to do a harness to test finally. To be continued.
+
+### Models - open source, open weights, open thoughts, code, documentation
+
+llama.cpp
+Inference of Meta's LLaMA model (and others) in pure C/C++
+https://github.com/ggerganov/llama.cpp
+
+DeepSeek R1
+Unsloth dynamic
+HuggingFace quants, incl distillations
+
+Meta Llama models https://www.llama.com/
+Meta Llama-3.3-70B-Instruct Hugging Face https://huggingface.co/meta-llama/Llama-3.3-70B-Instruct
+
+Ollama
+Get up and running with large language models.
+https://ollama.com/
+
+llm.c
+LLMs in simple, pure C/CUDA with no need for 245MB of PyTorch or 107MB of cPython. Current focus is on pretraining, in particular reproducing the GPT-2 and GPT-3 miniseries, along with a parallel PyTorch reference implementation in train_gpt2.py.
+https://github.com/karpathy/llm.c
+
+LLM
+A CLI utility and Python library for interacting with Large Language Models, both via remote APIs and models that can be installed and run on your own machine.
+https://llm.datasette.io/en/stable/
+
+Hugging Face Models
+https://huggingface.co/models
+
+Mistral AI https://mistral.ai/, Hugging Face https://huggingface.co/mistralai
+
+QwQ-32B-Preview blog https://qwenlm.github.io/blog/qwq-32b-preview/, Hugging Face https://huggingface.co/Qwen/QwQ-32B-Preview, github Qwen2.5 https://github.com/QwenLM/Qwen2.5
+
+QVQ-72B-Preview Hugging Face https://huggingface.co/Qwen/QVQ-72B-Preview
+
+DeepSeek-V3 github https://github.com/deepseek-ai/DeepSeek-V3, Hugging Face https://huggingface.co/deepseek-ai/DeepSeek-V3
+
+Reddit LocalLLaMA
+https://www.reddit.com/r/LocalLLaMA/
+
+llama.cpp guide - Running LLMs locally, on any hardware, from scratch https://blog.steelph0enix.dev/posts/llama-cpp-guide/
+
+ModernBERT
+This is the repository where you can find ModernBERT, our experiments to bring BERT into modernity via both architecture changes and scaling.
+https://github.com/AnswerDotAI/ModernBERT
+
+WordLlama https://github.com/dleemiller/WordLlama
+
+Microsoft AI - AI Platform Bloghttps://techcommunity.microsoft.com/category/ai/blog/aiplatformblog, Introducing Phi-4
+
+Chatbot Arena (formerly LMSYS): Free AI Chat to Compare & Test Best AI Chatbots https://lmarena.ai/
+
+Scaling Test Time Compute with Open Models https://huggingface.co/spaces/HuggingFaceH4/blogpost-scaling-test-time-compute
+
+The Complexity Dynamics of Grokking https://brantondemoss.com/research/grokking/
+
+---
+
+# My computer $HOME
+
+Source: https://ljubomirj.github.io/post-my-HOME.html
+
+## My computer $HOME
+
+I spend most of my time typing into a computer, reading on the computer screen, watching videos or listening to audio playing on a computer, talking and seeing other people through a computer screen. I mostly live in the text world of a terminal emulator, bash command line and the vim editor, with Firefox and Chrome windows into the world.
+
+Nowadays I use Xubuntu LTS, on the desktop and on my laptops. I update every 3-4 years to the new version, but other than that - it's completely uneventful. The Xfce GUI changes only slowly if ever - and that's how I like it.
+
+On the computers used by rest of the family I put Ubuntu as it's better looking. They also use Windows desktops and Macbooks for laptops. The Macbooks with the M1-M4 ARM CPU-s have spectacular battery life in addition to great screens. I am looking forward to the day when I add an ARM Thinkpad to my daily use. Have couple of Thinkpads for the RAM I need. Initially I had 32GB, but now that has grown to 64GB. Can't imagine to have less and would like to move to 128GB on the laptop. Have had that much on the desktop for 10 years now. That's my first need: get as much RAM as I can. And the 2nd - get as fast an SSD and better NVME as I can. My daily job involves lots of data, and keeping all data needed in memory is the best UI for me. And when not in memory - then on ssd drives and preferably nvme ones.
+
+With the advent of local LLM-s caught the bug with LocalLLama-s. So I finally got myself a 2nd hand (thaks Hoxton Macs!) M2 mbp wth 96gb (V)RAM. And it's glorious! :-) Love it - the battery life, the screen, but most of all - running local models has been a blast. With brew - everything on the command line "just works". I get to run tons of local models, mostly GGUF-s off HuggingFace, used with llama.cpp and LMStuidio. In addition, have been gorging on arxiv ML/AI papers and github code for a year now - and I'm still smiling. 😊 This is the best of computers and computing! 🥰
+
+Daily I live in bash and vim mostly inside screen (the multiplexer) inside terminator (the terminal emulator). I use the shell tools, incl awk (that I like) and the rest of the gnu shell tools (grep, sed), git, gcc and g++, make, ssh, rsync, rcopy, Spyder, python, VSCode with Cline and Roo AI-s, Firefox, Thunderbird, Chrome, Edge, Double commander, Evince, VLC player. I like them all - my life would be worse if these free software tools didn't exist. Thank you GNU software, thank you Linux, thank you FSF.
+
+Lately I've been having codex and gemini CLI-s to write lots of code for me, mostly my python, javascript and style-sheets html. They are very good at it! In fact $ codex -m gpt-5 -c model_reasoning_effort="high" is excellent in achieving anything complicated involving the command line: I command codex-gpt-5-high, and it commands the shell. As far as l'm concerned - my AGI has arrived. 🤯 This is the ghost in the machine - manifest!
+
+In my daily job I used to write quant trading systems and frameworks. But nowadays I'm all-in back to ML/AI, catching up with everything going on. I use a mix of C/C++, Matlab in the past now octave and python with numpy (and pandas), scripting in bash, awk, plotting in gnuplot, data fetching in sql, kdb.
+
+Everything that I do more then few times on the command line, I "can" it into a bash alias or function, and put in my .bashrc. In part to document and not forget. I love that command search works, I can type $ xyz then press (TAB) and bash will seek to complete for commands starting with xyz. And bash will keep cycling through the completions for as long as I keep pressing the (TAB) key.
+
+I keep my dot rc files under git and that's worked without fuss. Looks like this:
+
+```
+
+# Keep dot files and other config in git (https://news.ycombinator.com/item?id=11070797).
+# Step 1: $ git init --bare $HOME/.githome.
+# Step 2: make function (rather than alias to allow for composition like $ GIT=githome gilg; change dir so paths work independent of the current dir):
+githome() { (cd "$HOME" && git --git-dir="$HOME"/.githome/ --work-tree="$HOME" "$@";) }
+# Step 3: disregard files by default, only track explicitly added files: $ githome config status.showUntrackedFiles no.
+# Now use the usual git commands prefixed by githome: $ githome status; githome add .vimrc; githome commit -m "Add vimrc".
+# Issue 1: Can not commit links. For host specific dirs, woraround: 1) move dir to dir-host; 2) link dir to dir-host; 3) add dir-host to git. Example with ~/.config dir:
+#   ljubomir@hostA:~$ l -d .config*
+#   lrwxrwxrwx  1 ljubomir ljubomir   14 Mar 24 14:26 .config -> .config-hostA/
+#   drwx------ 34 ljubomir ljubomir 4.0K Mar 29 12:24 .config-hostA/
+#   drwx------  3 ljubomir ljubomir 4.0K Mar 24 14:52 .config-hostB/
+# Issue 2: To pull from host with temporary IP edit $ vi .githome/config, change the IP below:
+#   [remote "hostC"]
+#   url = ljubomir@192.168.1.117:.githome
+#   fetch = +refs/heads/*:refs/remotes/hostC/*
+```
+
+```
+
+# List all files under management and pretty print if run without args, githome otherwise. (https://mitxela.com/projects/dotfiles_management)
+giho-ls() {
+  (cd /
+  githome ls-files | while read i; do
+    echo -n "$(githome -c color.status=always status "$i" -s | sed "s#$i##")"
+    echo -e "¬/$i¬\e[0;33m$(githome -c color.ui=always log -1 --format="%s" -- "$i")\e[0m"
+  done
+  ) | column -t -s¬
+}
+# Have "local -" to make option "set -x" local to the function only
+giho()                  { local -; set -x; githome "$@"; }
+giho-fetch-hostA()      { local -; set -x; githome fetch "$@" hostA master:hostA; }
+giho-merge-hostA()      { local -; set -x; githome merge "$@" hostA; }
+giho-push-hostA()       { local -; set -x; githome push --follow-tags "$@" hostA master:$(hostname -s); }
+```
+
+Other canned common git commands look like:
+
+```
+
+# Git shortcuts. Take the "git" command from the environment via GIT var to allow for goodies:
+#   - use with githome: $ GIT=githome gist
+#   - color terminal (off by default): $ GIT="git -c color.status=always" gist |m
+gi() { ${GIT:-git} "$@"; }
+gist() { ${GIT:-git} status "$@"; }
+gidf() { ${GIT:-git} diff "$@"; }
+gilg() { ${GIT:-git} log -C --name-status --pretty="%h %ae %ai : %s" "$@"; }
+gilgt() { ${GIT:-git} log -C --oneline --stat --decorate "$@"; }
+gi-fetch-hostA() { local GIM=${GIM:-master}; local -; set -x; ${GIT:-git} fetch "$@" hostA ${GIM}:hostA/${GIM}; }
+gi-merge-hostA() { local GIM=${GIM:-master}; local -; set -x; ${GIT:-git} merge "$@" refs/heads/hostA/${GIM}; }
+gi-push-hostA() { local GIM=${GIM:-master}; local -; set -x; ${GIT:-git} push --follow-tags "$@" hostA ${GIM}:"$(hostname -s)"/${GIM}; }
+```
+
+I like and use .bashrc search-previous-command all the time via .inputrc:
+
+```
+
+$if Bash
+  # Filename completion/expansion
+  set completion-ignore-case on
+  set show-all-if-ambiguous on
+  # Append "/" to all dirnames
+  set mark-directories on
+  set mark-symlinked-directories on
+  # Match all files
+  set match-hidden-files on
+$endif
+
+# Ctrl-Left
+"\e[1;5D": backward-word
+# Ctrl-Right
+"\e[1;5C": forward-word
+# Up
+"\e[A": history-search-backward
+# Down
+"\e[B": history-search-forward
+```
+
+Usually I don't customize anything much. I spend most of the time on the command line or in vim anyways, the GUI is mostly vanilla whatever Xfce decides. I notice now my PS1 etc have grown over time:
+
+```
+
+PS1='${debian_chroot:+($debian_chroot)}\[\033[01;34m\]\u@\h\[\033[00m\](${STY}:${WINDOW}):\[\033[01;34m\]\w\[\033[00m\]\$ '
+PROMPT_COMMAND='echo -ne "\033]0;${XUSER} (${STY:-$$}) ${VIRTUAL_ENV_PROMPT} ${USER}@${HOSTNAME}:${PWD}\007"'
+```
+
+A researcher, an explorer - usually they need a log book. At work as a researcher I always kept a log book, usually using 2 facing pages per 1 week.
+
+At $HOME have settled for a ~/logBook that's plain ASCII text file under git. Love git for versioning so I don't worry that I will delete destroy something by mistake. Also great for synchronisation and replication to various boxes - done with $ git fetch/merge/push. I have FIXME TODO DONE DONTDO sections. They are ^searchable in vim, e.g. /^TODO(enter). The entries are short-ish, sentence or 2 or 5, separated by empty line. I start entries with "- " so to search easily with /^-(space)(enter) in vim. Entries move wholesale between sections, the idea is to move them around without further editing. Entry that spends enough time in TODO without moving to DONE is moved to DONTDO after some time. No new entry is added to TODO while the FIXME section is non-empty. If need to, move the blocker from FIXME into TODO. These are housekeeping rules rules of thumb—can be broken with a reason, try not break them without a reason.
+
+I have spent most of my adult life with and around computers. The 1st home computer I saw was ZX-Spectrum 16K that my school friend got before me in the last year in elementary school probably 1982-83. Remember the prices still: ZX-Spectrum 16K was £100, 48K model was £130. Commodore C64 was £200. Latter I managed to persuade my parents to buy me a C64 probably around 1985. I learned Basic and 6502 assembler on it, mostly from the Racunari u vasoj kuci (Computers in Your Home) magazine (recent 40 years anniversary reprint; click to zoom; the sounds of the time - yeah, "it's more fun to compute"—it always has been).
+
+By 1987 I finished High school and enrolled BSc undergraduate studies in Electrical Engineering, that turned into Computer Science from year 3 onwards. (all together 4.5yrs+diploma work; the sounds of my home town/country I grew up in, by the incomparable VS) Did 1yr National service in-between High School and University, and there I programmed pocket computers HP-71B, Sharp PC-1500 (with the tiny printer), Apple II clone with a Z80 CP/M board and a hard disk (!! remember that CP/M had partitions, but no directories?). Once back home and at Uni from 1988, I finally got my 1st PC (don't recall the year exactly) - AT with Intel 80286 CPU, 1MB RAM, Hercules graphics card, 20MB HDD, that probably run MS-DOS 5 or similar. I squeezed a 2400bps modem in the budget too (without MNP5 error correction or compression). The modem proved an excellent decision as it got me into the online world of BBS (e.g. Sezam) and latter Internet. All that financed paid for by my ever kind and generous parents - thank you mum and dad!
+
+Since - I've never been too far from a computer for any significant time. Nowadays it's mostly Linux (Xubuntu, CentOS, Ubuntu), for a long time earlier it was MS-DOS/Windows (3.1-95-XP-10, cygwin), various Unix too (Solaris, HP-UX, Ultrix, AIX), as well as VAX VMS. And of course - we all carry a magical shiny slabs in our pockets that are super-computers of the old. Mostly various Android for me, but it's looking like I'll be switching over to iPhone for the AI NPU (Neural nets Processing Units) hardware.
+
+These days I 'm mostly at my desk, in a garden office (at end of the work day). Sometimes I get a visitor or two or three. (click to zoom)
+
+(rehosting an excellent advanced vi - not vim! - and ex tutorial, by Walter Alan Zintz, originally published in UnixWorld Online, but no longer online here)
+
+---
+
+# Links to Blogs, Substacks, Youtubes, Podcasts, Magazines etc
+
+Source: https://ljubomirj.github.io/post-links-to.html
+
+## Links to Blogs, Substacks, Youtubes, Podcasts, Magazines etc
+
+Over the years online, I benefited immensely from the Internet users that write and put up stuff online for other users to read. For the love of it - nothing else. There is no purer form of creativity than that. "Here!! I like this, maybe you will like it too. On an off chance, infinitesimally small, I make this extra step extra effort to put it out there on the Internet. Free, free like beer and freedom too, for all to see".
+
+Initially and for a long time things were kept and curated in Bookmarks. Then Google spoiled me when it became possible to "Google it" anything - there was no great need for Bookmarks. Then Internet expanded and some things are Social media posts, others are Substacks, still others are old style personal blogs, then there is Youtube podcasts and videos, then Spotify, then podcasts on other platforms etc etc. So I thought this is a good place - yet another place; but redundancy is the mother of resilience - to add links to content I liked and consume online. References and links put in no particular order, as my memory blurts them out. It's good to have them on one page and check from time to time.
+
+Nowadays with every author being online, one gets to imbibe their ideas anyway on the 80/20 principle, via the "quanta of ideas" that are memes, spread esp via X/Twitter/Bsky where the medium specifically encourages that. So when I finally get to a book or a movie of the author, I already have heard or seen 80% of what they are saying, know of the ideas, so often I don't get to finish the book or the movie! I'm not complaining though - but bragging about it! Because there is something else already worthy of attention! We are so so lucky now. Some of my memories of my childhood (in the 1980-s late socialism of Yugoslavia) are of mind bending boredom. There was little to do, life was very boring at times (not all the time - other times it was fun and exciting), that reading a mildly interesting book, watching an interesting movie on TV (1.5 channels) or in the cinema (not that many of those), or playing - or more often watching others play - random games in the local arcades tent, was a treat. Home computers changed that somewhat, and then Personal Computers and latter the online world and Internet changed that a lot! And for the better.
+
+Scott Alexander's Astral Codex Tenhttps://www.astralcodexten.com/ (previous Slate Star Codex https://slatestarcodex.com/)
+
+J. Sanilac https://www.jsanilac.com/
+
+FSF Free Software Foundation https://www.fsf.org/, GNU operating system https://www.gnu.org/, software https://www.gnu.org/software/software.html, philosophy https://www.gnu.org/philosophy/
+
+RMS Richard Stallman's Personal Site https://stallman.org/, archive https://stallman.org/archive.html
+
+ESR Eric S. Raymond's Home Page http://www.catb.org/~esr/ weblog http://esr.ibiblio.org/ FAQs http://www.catb.org/~esr/faqs/
+
+Bryan Caplan's Bet On It https://www.betonit.ai/
+
+Nate Silver's Silver Bulletin https://www.natesilver.net/
+
+Shtetl-Optimized The Blog of Scott Aaronson https://scottaaronson.blog/ (PHYS771 Lecture 9: Quantum http://www.scottaaronson.com/democritus/lec9.html)
+
+The Intrinsic Perspective By Erik Hoel https://www.theintrinsicperspective.com/
+
+Yuval Harari https://www.ynharari.com/, https://www.youtube.com/user/YuvalNoahHarari
+
+Civilution for Universal WellBeing https://www.civilution.org/
+
+Rutger Bregman https://linktr.ee/rutgerbregman
+
+Chris Dillow's Stumbling and Mumbling https://stumblingandmumbling.typepad.com/
+
+Dominic Cummings substack https://dominiccummings.substack.com/
+
+Dwarkesh Patel https://www.youtube.com/DwarkeshPatel https://www.dwarkeshpatel.com/
+
+Apply Liberally by Matthew Downhour https://applyliberally.substack.com/
+
+Francis Fukuyama https://fukuyama.stanford.edu/
+
+Pluralistic: Daily links from Cory Doctorow https://pluralistic.net/
+
+Human Progress https://humanprogress.org/
+
+James Bloodworth https://www.forthedeskdrawer.com/
+
+Odds and Ends of History By James O'Malley https://takes.jamesomalley.co.uk/
+
+Sabine Hossenfelder https://www.youtube.com/c/SabineHossenfelder
+
+Jason Crawford https://jasoncrawford.org/archive
+
+Ole Peters Ergodicity economics https://ergodicityeconomics.com/
+
+Scientific Discovery By Saloni Dattani https://www.scientificdiscovery.dev/
+
+Blair Fix Economics from the Top Down https://economicsfromthetopdown.com/
+
+John D. Cook blog https://www.johndcook.com/blog/
+
+Lex Fridman https://lexfridman.com/ https://www.youtube.com/lexfridman
+
+Information Processing - Steve Hsu https://stevehsu.substack.com/
+
+Richard McElreath http://xcelab.net/rm/ https://www.youtube.com/@rmcelreath
+
+Slime Mold Time Mold https://slimemoldtimemold.com/
+
+Works in Progress https://worksinprogress.co/
+
+Warren Mosler's Mosler Economics / Modern Monetary Theory https://moslereconomics.com/
+
+Naked Capitalism https://www.nakedcapitalism.com/
+
+Steve Keen substack https://profstevekeen.substack.com/ (Minsky Home https://sourceforge.net/p/minsky/home/Home/)
+
+Derek Lowe’s In The Pipeline https://www.science.org/blogs/pipeline
+
+Arts & Letters Daily http://www.aldaily.com/
+
+Antiwar https://www.antiwar.com/
+
+Matthew Downhour's substack Apply Liberally https://applyliberally.substack.com/
+
+Liberal Currents https://www.liberalcurrents.com/
+
+Reason Magazinehttp://reason.com/
+
+Triggernometry podcast YouTubehttps://www.youtube.com/@triggerpod
+
+The Critic magazine https://thecritic.co.uk/
+
+Compact magazine https://www.compactmag.com/
+
+Hacker News https://news.ycombinator.com/news
+
+Stack Overflow http://stackoverflow.com/
+
+Super User http://superuser.com/
+
+Server Fault http://serverfault.com/
+
+Unix & Linux Stack Exchange http://unix.stackexchange.com/
+
+SLIME MOLD TIME MOLD – Mad Science Blogging https://slimemoldtimemold.com/
+
+Richard Stallman https://www.stallman.org/ RMS archives https://www.stallman.org/archives/
+
+Free Software Foundation FSF https://www.fsf.org/
+
+Arabesque - Systems, Tools, and Terminal Science https://blog.sanctum.geek.nz/, a blog by Tom Ryder
+
+Gurwinder blog https://www.gurwinder.blog/
+
+Our World in Data (OWID) https://ourworldindata.org/
+
+Max Rocer at OWID https://ourworldindata.org/team/max-roser
+
+Tom Forth blog https://tomforth.co.uk/
+
+Mark Litwintschik blog https://tech.marksblogg.com/
+
+3Blue1Brown YouTube https://www.youtube.com/@3blue1brown FAQ https://www.3blue1brown.com/faq
+
+Yann Lecun https://yann.lecun.com/
+
+Andrej Karpathy https://karpathy.ai/
+
+Christopher Olah colah's blog http://colah.github.io/
+
+Tim Dettmers blog https://timdettmers.com/
+
+Brandur articles https://brandur.org/articles
+
+Walter Bright http://www.walterbright.com/
+
+Diomidis Spinellis home page https://www.spinellis.gr/index.html.var
+
+Bartosz Milewski https://bartoszmilewski.com/
+
+Georgi Gerganov https://github.com/ggerganov
+
+Jeff Atwood Coding Horror https://blog.codinghorror.com/
+
+Marc Andreessen Substack https://pmarca.substack.com/
+
+Paul Graham https://paulgraham.com/
+
+Patrick Collison https://patrickcollison.com/
+
+DAVID HEINEMEIER HANSSON https://dhh.dk/
+
+Nomad list https://nomads.com/
+
+JWZ blog https://www.jwz.org/blog/
+
+Ian Dunt substack https://iandunt.substack.com/
+
+Sam Bowman substack https://www.sambowman.co/
+
+Dominic Cummings substack https://dominiccummings.substack.com/
+
+Information Processing - Steve Hsu substack https://stevehsu.substack.com/, Manifold podcast https://www.manifold1.com/episodes
+
+Brett Scott blog Altered States of Monetary Consciousnes https://alteredstatesof.money/
+
+Blog by Matt Ridley http://www.rationaloptimist.com/blog/
+
+Idle Words - Maciej Cegłowski https://idlewords.com/
+
+Crooked Timber https://crookedtimber.org/
+
+Pluralistic: Daily links from Cory Doctorow https://pluralistic.net/
+
+LessWrong https://www.lesswrong.com/
+
+The Nutshell Times https://thenutshelltimes.com/
+
+Deirdre McCloskey http://www.deirdremccloskey.org/
+
+EPchan blog Quantitative Trading http://epchan.blogspot.com/
+
+Locklin on science http://scottlocklin.wordpress.com/
+
+Rob Carvers This Blog is Systematic https://qoppac.blogspot.com/
+
+Robert J Frey Keplerian Finance http://keplerianfinance.com/
+
+Michael Tan's Blog https://michaeltanphd.com/
+
+Ole Peters Ergodicity Economics https://ergodicityeconomics.com/about/, For to withhold is to perish https://ergodicityeconomics.com/2023/08/29/for-to-withhold-is-to-perish/, Textbook https://ergodicityeconomics.com/publications/
+
+Win Vector LLC https://win-vector.com/
+
+Diomidis Spinellis home page https://www.spinellis.gr/index.html.var
+
+Tim Dettmers https://timdettmers.com/
+
+Bert Hubert https://berthub.eu/
+
+Sam Altman https://blog.samaltman.com/
+
+Alfredo Canziani blog https://atcold.github.io/blog.html
+
+Giuseppe Paleologo https://linktr.ee/paleologo
+
+Leo Breiman https://www.stat.berkeley.edu/~breiman/
+
+Andreas Weigend http://www.weigend.com/
+
+Spyros Makridakis, The M Forecasting Competitions https://www.unic.ac.cy/iff/research/forecasting/m-competitions/
+
+Uncharted territories by Tomas Pueyo https://unchartedterritories.tomaspueyo.com/
+
+Matt Lakeman "Notes on ..." travels blog https://mattlakeman.org/
+
+DYNOMIGHT INTERNET WEBSITE https://dynomight.net/
+
+Julia Evans https://jvns.ca/
+
+Gwern Branwen website on AI, psychology, & statistics https://gwern.net/
+
+Simon Willison blog https://simonwillison.net/, link blog https://simonwillison.net/search/?type=blogmark, blogmarks why and how https://simonwillison.net/2024/Dec/22/link-blog/, github https://github.com/simonw
+
+Maxwell Tabarrok substack Maximum Progress blog https://substack.com/@maximumprogress (Four Futures For Cognitive Labor)
+
+David Shapiro’s Substack https://daveshap.substack.com/ (e.g. Deny, Defend, Depose: We are already living in a Cyberpunk Hell (and how we can fix it), What do I mean when I say "Post-Labor Economics" anyways?)
+
+Geoffrey E. Hinton home page https://www.cs.toronto.edu/~hinton
+
+Hugging Face Blog https://huggingface.co/blog (e.g. Scaling Test Time Compute with Open Models), Models https://huggingface.co/models
+
+Richard Hanania's Substack https://substack.com/@richardhanania, Newsletter https://www.richardhanania.com/ (e.g. Understanding the Tech Right https://www.richardhanania.com/p/understanding-the-tech-right)
+
+Derek Sivers blog https://sive.rs/. E.g. "How to Get Rich", "How to Be Useful to Others", and other "Do this. Directives — part 1"
+
+Sam McRoberts blog https://thegrandredesign.substack.com/, e.g. The Grand Redesign “Change the Stories, Change the World“
+
+Dynomight blog https://dynomight.net/. E.g. DumPy: NumPy except it's OK if you're dum, I don't like NumPy, How much information is in DNA?. On the About page, this strikes me as good advice as any:
+
+Wondering what to do with your life? Here’s what I suggest:
+
+After that you can do whatever. The game you’re playing doesn’t have any rules and there’s no way to win.
+
+Yevgeniy Brikman blog https://www.ybrikman.com/, e.g. Don't learn to code. Learn to think.
+
+Joscha Bach http://bach.ai/
+
+DR. MICHAEL LEVIN https://thoughtforms.life/
+
+---
+
+# Taste is all you need / Always has been
+
+Source: https://ljubomirj.github.io/taste-is-all-you-need-always-has-been.html
+
+## Developer Relations Engineer
+
+"At the critical intersection of Product, Engineering, Research, and the developer community. Trusted voice of the developer inside our organization and the expert technical voice of our organization to the world."
+
+You should hire me because after reading your posts, I realised I have already been doing 50% of that in the past year, where I found myself spending most of my time gorging on github code, arxiv ML/AI papers, and running HuggingFace GGUF models on llama.cpp. This:
+
+1. + Interesting arxiv paper collected, mostly in the past year but some earlier
+2. + A LogBoook of my llama.cpp showcasing the history of all things I have tried and run, out of curiosity
+3. + Sample from my .bashrc documenting and setting up various ML/AI setups
+4. + List of youtube videos that are dear to me enough to data hoard them
+5. + Highlights off my X/Twitter feed, ML/AI related, showcasing interests and opinions - warts and all
+
+And last but not least - your very own Omar Sanseviero, a most excellent commenter and all round clever cookie, thought I had at least one fantastic idea in the past ;-) (thank you Omar!)
+
+1. + A person of impeccable taste has spoken.
+
+Freebie consult: Hassabis and DeepMind jive well, but the rest of the ML/AI Google vibe is tad-too-mid-, it pains me to say. California corps - more daring more to the edge pretty please, will only endear your stellar work to us the great unwashed public; ignore the corporate drones if you possibly can; atm it's all tad cringe in a `Microsoft have no taste' Jobs jibe jab.
+
+For real you should hire me because you need my good taste in matters of technology and science:
+
+"taste is all you need"
+"it always has been"
+
+---
+
+# DeepWiki Crawl
+
+Source: https://ljubomirj.github.io/post-deepwiki.html
+
+## DeepWiki Crawl of This Repository
+
+I asked DeepWiki to do a crawl of this repository. The result is on the link below.
+
+Deepwiki crowl of this repo

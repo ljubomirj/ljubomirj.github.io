@@ -1,0 +1,69 @@
+# Ljubomir Josifovski's site
+
+> Notes and essays by Ljubomir Josifovski on machine learning, LLM inference, probability and knowledge, plus curated reading/watching lists and a complete X/Twitter archive. Every page here has a markdown twin at the same URL with `.md` appended.
+
+The site is a flat collection of hand-written HTML pages served by GitHub Pages; there is no
+framework and no server-side rendering. Pages marked in the lists below link to their markdown twin,
+which is the cleaner form for reading or quoting.
+
+Two search paths exist over the text of the whole site, and they are usually a better starting point
+than fetching pages one by one:
+
+- Lexical (BM25) search runs entirely in the browser over `search-index.json`, built by
+  `scripts/build-search-index.js`. The index covers every page except a small excluded set.
+- Meaning ("semantic") search posts to `/api/semantic` with `{ query, mode, page }` and returns
+  ranked passages with the sentence that answers the query. `mode` is `"bm25"` (fast, ranks a
+  shortlist) or `"exhaustive"` (slow, scores the whole page, rate limited).
+
+Both are driven by the two footer widgets on each page. A page that is absent from the index still
+renders the widgets but returns no hits; that is deliberate, not a bug.
+
+## About
+
+- [Home Page of Ljubomir Josifovski](https://ljubomirj.github.io/post-ljubomirj.html.md): Who I am: machine learning / AI now, systematic trading and research before that, speech recognition before that, plus online coordinates (LinkedIn, GitHub, Hugging Face, X).
+
+## Essays
+
+- [Knowing](https://ljubomirj.github.io/post-knowing.html.md): What I mean when I say I know something: knowledge as the probability distribution over a quantity, and why that reading is a blessing and a curse.
+- [Conciousness](https://ljubomirj.github.io/post-consciousness.html.md): A working definition of consciousness, written as a question-and-answer with myself.
+- [Why Write](https://ljubomirj.github.io/post-why-write.html.md): Why write in public when you could write in private.
+- [Social Networks](https://ljubomirj.github.io/post-social-networks.html.md): How I read and post on social networks, and what makes an account worth following.
+- [Twitter](https://ljubomirj.github.io/post-twitter.html.md): Personal practices and tips for surviving X/Twitter as a reader rather than a performer.
+- [Data Debugging](https://ljubomirj.github.io/post-data-debugging.html.md): Debugging data rather than code: checking the inputs before trusting the model.
+- [ML LLM Dev](https://ljubomirj.github.io/post-ml-llm-dev.html.md): Notes and links on ML/LLM development: coding agents, inference, tooling and local models.
+- [My computer $HOME](https://ljubomirj.github.io/post-my-HOME.html.md): How my computer $HOME is organised, and why the important things live in visible named directories.
+- [Links to Blogs, Substacks, Youtubes, Podcasts, Magazines etc](https://ljubomirj.github.io/post-links-to.html.md): Blogs, Substacks, YouTube channels, podcasts and magazines I keep coming back to.
+- [Taste is all you need / Always has been](https://ljubomirj.github.io/taste-is-all-you-need-always-has-been.html.md): A short argument that taste, not capability, is the scarce input in developer-facing work.
+- [DeepWiki Crawl](https://ljubomirj.github.io/post-deepwiki.html.md): A DeepWiki crawl of this repository, and what it produced.
+
+## Curated lists
+
+- [arXiv papers I read](https://ljubomirj.github.io/arxiv-tasters.html.md): arXiv papers I read, newest first, each with its abstract link.
+- [YouTube talks](https://ljubomirj.github.io/youtube-tasters.html.md): Talks and videos worth the time: Hinton, Karpathy, Aaronson, Veritasium and others.
+- [X posts worth keeping](https://ljubomirj.github.io/twitter-tasters.html.md): X posts I found notable enough to keep, with their links.
+- [llama.cpp logbook](https://ljubomirj.github.io/llamacpp-logbook.html.md): My llama.cpp build-and-run logbook: model downloads, build recipes and benchmark commands.
+- [ML shell setup](https://ljubomirj.github.io/bashrc-ml-setup.html.md): The shell setup I use for ML work: conda, compilers, environment handling.
+- [Memes pics](https://ljubomirj.github.io/post-picmem.html.md): Memes and random pictures worth replicating, in no particular order.
+
+## Social archive
+
+- [Twitter posts history](https://ljubomirj.github.io/twitter-history.html.md): The full archive: every X post since 2021 plus the Substack and Bluesky archives, roughly ten thousand posts. Large - prefer the search endpoints below over fetching it whole.
+
+## Interactive
+
+- [Chat with Virtual LJ](https://ljubomirj.github.io/post-chat-LJ.html.md): A chat page that answers as a virtual LJ, grounded in this site.
+- [Chat with Virtual LJ (v2)](https://ljubomirj.github.io/post-chat-LJ-v2.html.md): Second iteration of the virtual-LJ chat page.
+
+## Machine-readable
+
+- [llms-full.txt](https://ljubomirj.github.io/llms-full.txt): every page above in full text, except the large social archive
+- [search-index.json](https://ljubomirj.github.io/search-index.json): the BM25 index the in-page search loads (chunks of every indexed page)
+- [RSS feed](https://ljubomirj.github.io/rss.xml): new posts, RSS 2.0
+- [Atom feed](https://ljubomirj.github.io/feed.xml): the same posts, Atom
+- [Meaning-search endpoint](https://ljubomirj.github.io/api/semantic): POST-only, `{ query, mode, page }`, returns ranked passages. Costs money per call; the site's own widget is the intended client.
+
+## Optional
+
+- [A person of good taste spoke](https://ljubomirj.github.io/a-person-of-good-taste-spoke.html.md): A single quoted post about taste, kept for reference.
+- [Twitter posts history](https://ljubomirj.github.io/twitter-history-sample.html.md): A small slice of the social archive, used for testing.
+- [Twitter posts history with oEmbed Preview](https://ljubomirj.github.io/twitter-history-sample2.html.md): A small slice of the social archive with link previews, used for testing.

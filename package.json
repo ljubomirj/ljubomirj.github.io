@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build:embeddings": "node scripts/build-embeddings.js"
+    "build:embeddings": "node scripts/build-embeddings.js",
+    "build:llms": "node scripts/build-llms-txt.js",
+    "check:llms": "node scripts/build-llms-txt.js --check"
   },
   "keywords": [],
   "author": "Ljubomir Josifovski",
