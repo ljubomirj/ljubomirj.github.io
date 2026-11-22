@@ -82,10 +82,12 @@ function main() {
 
     let allChunks = [];
 
+    const skipped = new Set();
+
     for (const file of allFiles) {
         // Skip the output file itself if it happens to match (unlikely with current patterns but good practice)
         // Also skip the chat interface itself to avoid recursion if it were indexed
-        if (file === 'post-chat-LJ.html') continue;
+        if (file === 'post-chat-LJ.html') { skipped.add(file); continue; }
         if (file.startsWith('twitter-history')) {
             // Special handling for large twitter history if needed, or just let it process
             // The user's prompt command used `head -1000 twitter-history.html`, maybe we should respect that?
@@ -113,6 +115,23 @@ function main() {
             allChunks = allChunks.concat(chunks);
             console.log(`  -> Generated ${chunks.length} chunks.`);
         }
+    }
+
+    // A broken extractor (missing lynx/pdftotext, a dyld failure, a bad option) makes
+    // extractText() return '' for every file, and the old code wrote a 21-chunk
+    // knowledge.json over a 6.4k-chunk one without complaint. Refuse to write a
+    // truncated corpus: any source with real bytes that produced no text is an error.
+    const empty = allFiles.filter(file => {
+        if (skipped.has(file)) return false;
+        const produced = allChunks.some(c => c.source === file);
+        if (produced) return false;
+        try { return fs.statSync(file).size > 200; } catch { return false; }
+    });
+    if (empty.length) {
+        console.error(`Aborting: ${empty.length} file(s) produced no text, so the extractor is broken:`);
+        for (const f of empty.slice(0, 10)) console.error(`  ${f}`);
+        console.error('knowledge.json was NOT written. Check lynx/pdftotext (see macos-dev-toolchain §1 for the dyld case).');
+        process.exit(1);
     }
 
     const output = {
