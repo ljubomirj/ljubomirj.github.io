@@ -352,11 +352,22 @@ button:hover {
 }
 
 .lj-search {
-    display: flex;
+    /* button + input on the first row, the scope/mode radios on a second row
+       left-aligned with the input (grid column 2) — see .lj-search-options */
+    display: grid;
+    grid-template-columns: auto auto;
     align-items: center;
-    gap: 6px;
-    flex-wrap: wrap;
+    gap: 6px 8px;
+    justify-content: start;
     flex-shrink: 0;
+}
+
+.lj-search-options {
+    grid-column: 2;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 4px 12px;
 }
 
 .lj-search input[type="text"] {
@@ -368,6 +379,8 @@ button:hover {
 
 .lj-search button {
     padding: 4px 12px;
+    /* the grid's first column can shrink to the widest word; keep labels on one line */
+    white-space: nowrap;
 }
 
 .lj-search label {
@@ -442,7 +455,7 @@ button:hover {
     transition: opacity 1.2s ease;
 }
 
-/* Meaning search (Jev) — second widget on twitter-history.html, see scripts.js */
+/* Meaning search (Jev) — second widget, injected on every page by scripts.js */
 .lj-semantic-row {
     display: flex;
     flex-direction: column;
@@ -454,7 +467,9 @@ button:hover {
 }
 
 #lj-semantic {
-    justify-content: flex-end;
+    /* placement inside the row comes from .lj-semantic-row; the widget itself is
+       the same stacked grid as the lexical search, radios under the input */
+    justify-content: start;
 }
 
 #lj-semantic input[type="text"] {

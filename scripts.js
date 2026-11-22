@@ -596,14 +596,14 @@ async function sendMessage(currentHistoryToSend, inputElement, sendButton) {
         }
     }
 
-    // ---- meaning search (Jev, this page only) ----
-    // The page's own posts are scored by Jev (TypeSafe System One) through the
-    // site's Vercel endpoint (api/semantic.js) — the API key stays server-side.
+    // ---- meaning search (Jev, any page) ----
+    // The current page's own chunks are scored by Jev (TypeSafe System One) through
+    // the site's Vercel endpoint (api/semantic.js) — the API key stays server-side.
     // "fast" ranks a BM25 shortlist (~1 s, ~$0.001/search); "whole page" scores
     // every post on the page (~8 s, ~$0.08/search, rate limited server-side).
     // Both return a probability per post plus the sentence that answers the
-    // query, which is what gets highlighted in the page.
-    const SEMANTIC_PAGE = 'twitter-history.html';
+    // query, which is what gets highlighted in the page. The page name travels
+    // with the request; a page with no chunks in search-index.json returns nothing.
     const SEMANTIC_DEPLOYED = 'https://ljubomirj-github-io.vercel.app/api/semantic';
     // Where to POST: a localStorage override wins (handy to point the page at any
     // backend), then the current origin when served locally (scripts/dev-server.js
@@ -708,7 +708,7 @@ async function sendMessage(currentHistoryToSend, inputElement, sendButton) {
                     const attempt = await fetch(endpoints[i], {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ query, mode }),
+                        body: JSON.stringify({ query, mode, page: currentPage() }),
                     });
                     const payload = await attempt.json().catch(() => ({}));
                     // 404/405/501 mean "this host has no API" (e.g. python
@@ -742,15 +742,16 @@ async function sendMessage(currentHistoryToSend, inputElement, sendButton) {
     }
 
     function injectSemanticWidget(row) {
-        if (currentPage() !== SEMANTIC_PAGE) return;
         semanticWidget = document.createElement('div');
         semanticWidget.id = 'lj-semantic';
         semanticWidget.className = 'lj-search';
         semanticWidget.innerHTML =
             '<button id="lj-semantic-btn" type="button">Meaning search</button>' +
             '<input id="lj-semantic-input" type="text" placeholder="describe what you mean…" aria-label="Meaning search">' +
+            '<div class="lj-search-options">' +
             '<label><input type="radio" name="lj-semantic-mode" value="bm25" checked> fast</label>' +
-            '<label><input type="radio" name="lj-semantic-mode" value="exhaustive"> whole page (~10s)</label>';
+            '<label><input type="radio" name="lj-semantic-mode" value="exhaustive"> whole page (~10s)</label>' +
+            '</div>';
 
         semanticPanel = document.createElement('div');
         semanticPanel.id = 'lj-semantic-results';
@@ -791,8 +792,10 @@ async function sendMessage(currentHistoryToSend, inputElement, sendButton) {
         widget.innerHTML =
             '<button id="lj-search-btn" type="button">Search</button>' +
             '<input id="lj-search-input" type="text" placeholder="search…  /regex/ for exact" aria-label="Search">' +
+            '<div class="lj-search-options">' +
             '<label><input type="radio" name="lj-search-scope" value="page"> this page</label>' +
-            '<label><input type="radio" name="lj-search-scope" value="site" checked> site</label>';
+            '<label><input type="radio" name="lj-search-scope" value="site" checked> site</label>' +
+            '</div>';
 
         panel = document.createElement('div');
         panel.id = 'lj-search-results';

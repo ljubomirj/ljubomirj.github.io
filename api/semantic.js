@@ -11,7 +11,15 @@
 // burning the credit balance.
 
 const path = require('path');
+const fs = require('fs');
 const { search, PRICE_PER_M } = require('./_jev-search');
+
+// Pages the browser may ask about: every .html at the site root. The widget sends
+// the page it is on; anything not in this set falls back to the archive, so a
+// crafted request cannot make the server read an arbitrary path.
+const SITE_ROOT = path.join(__dirname, '..');
+const PAGES = new Set(fs.readdirSync(SITE_ROOT).filter(f => f.endsWith('.html')));
+const DEFAULT_PAGE = 'twitter-history.html';
 
 const allowedOrigins = [
     'https://ljubomirj.github.io',
@@ -54,6 +62,7 @@ module.exports = async (req, res) => {
     if (!query) return res.status(400).json({ error: 'Enter something you want to find.' });
     if (query.length > 400) return res.status(400).json({ error: 'Keep your search under 400 characters.' });
     const mode = body.mode === 'exhaustive' ? 'exhaustive' : 'bm25';
+    const page = typeof body.page === 'string' && PAGES.has(body.page) ? body.page : DEFAULT_PAGE;
     const k = Math.min(Math.max(Number(body.k) || 40, 5), 160);
 
     const ip = (req.headers['x-forwarded-for'] || '').split(',')[0].trim() || req.socket?.remoteAddress || 'unknown';
@@ -64,8 +73,8 @@ module.exports = async (req, res) => {
     try {
         const started = Date.now();
         const result = await search({
-            rootDir: path.join(__dirname, '..'),
-            page: 'twitter-history.html',
+            rootDir: SITE_ROOT,
+            page,
             query,
             mode,
             k,
@@ -73,7 +82,7 @@ module.exports = async (req, res) => {
             baseUrl: process.env.TYPESAFE_BASE_URL,
             model: process.env.TYPESAFE_MODEL,
         });
-        console.log(`semantic ${mode} "${query}" -> ${result.ranked.length} ranked, ${result.diag.requests} requests, ${result.diag.inputTokens} tokens, $${result.diag.costUsd}, ${result.diag.wallMs}ms`);
+        console.log(`semantic ${mode} "${query}" on ${page} -> ${result.ranked.length} ranked, ${result.diag.requests} requests, ${result.diag.inputTokens} tokens, $${result.diag.costUsd}, ${result.diag.wallMs}ms`);
         return res.status(200).json({
             model: result.diag.model,
             mode,
